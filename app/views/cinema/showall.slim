@@ -1,0 +1,17 @@
+doctype html
+html
+	head
+		title Subscity 
+		meta name="keywords" content="template language"
+		meta name="author" content="Me Myself"
+
+	body
+    	h1 Список кинотеатров
+
+    	table
+          - for cinema in @cinemas do
+            tr
+              td.name = cinema.name
+              td.city = cinema.city.name
+              td.address = cinema.address
+              td.metro = cinema.metro

@@ -1,0 +1,79 @@
+- error = @movie.errors.include?(:movie_id)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :movie_id, :class => 'control-label'
+  div class='controls'
+    = f.text_field :movie_id, :class => 'form-control input-large input-with-feedback', :autofocus => true
+    span class='help-inline' = error ? f.error_message_on(:movie_id, :class => 'text-error') : pat(:example)
+- error = @movie.errors.include?(:name)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :name, :class => 'control-label'
+  div class='controls'
+    = f.text_field :name, :class => 'form-control input-large input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:name, :class => 'text-error') : pat(:example)
+- error = @movie.errors.include?(:age_restriction)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :age_restriction, :class => 'control-label'
+  div class='controls'
+    = f.text_field :age_restriction, :class => 'form-control input-large input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:age_restriction, :class => 'text-error') : pat(:example)
+- error = @movie.errors.include?(:country)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :country, :class => 'control-label'
+  div class='controls'
+    = f.text_field :country, :class => 'form-control input-large input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:country, :class => 'text-error') : pat(:example)
+- error = @movie.errors.include?(:year)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :year, :class => 'control-label'
+  div class='controls'
+    = f.text_field :year, :class => 'form-control input-large input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:year, :class => 'text-error') : pat(:example)
+- error = @movie.errors.include?(:genres)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :genres, :class => 'control-label'
+  div class='controls'
+    = f.text_field :genres, :class => 'form-control input-large input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:genres, :class => 'text-error') : pat(:example)
+- error = @movie.errors.include?(:thumbnail)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :thumbnail, :class => 'control-label'
+  div class='controls'
+    = f.text_area :thumbnail, :class => 'form-control input-large input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:thumbnail, :class => 'text-error') : pat(:example)
+- error = @movie.errors.include?(:active)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :active, :class => 'control-label'
+  div class='controls'
+    = f.check_box :active, :class => 'form-control input-large input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:active, :class => 'text-error') : pat(:example)
+- error = @movie.errors.include?(:duration)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :duration, :class => 'control-label'
+  div class='controls'
+    = f.text_field :duration, :class => 'form-control input-large input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:duration, :class => 'text-error') : pat(:example)
+- error = @movie.errors.include?(:kinopoisk_id)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :kinopoisk_id, :class => 'control-label'
+  div class='controls'
+    = f.text_field :kinopoisk_id, :class => 'form-control input-large input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:kinopoisk_id, :class => 'text-error') : pat(:example)
+- error = @movie.errors.include?(:imdb_id)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :imdb_id, :class => 'control-label'
+  div class='controls'
+    = f.text_field :imdb_id, :class => 'form-control input-large input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:imdb_id, :class => 'text-error') : pat(:example)
+- error = @movie.errors.include?(:cinemate_id)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :cinemate_id, :class => 'control-label'
+  div class='controls'
+    = f.text_field :cinemate_id, :class => 'form-control input-large input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:cinemate_id, :class => 'text-error') : pat(:example)
+
+div class="form-actions"
+  = f.submit pat(:save), :class => 'btn btn-primary'
+  |&nbsp;
+  = f.submit pat(:save_and_continue), :class => 'btn btn-info', :name => 'save_and_continue'
+  |&nbsp;
+  = link_to pat(:cancel), url(:movies, :index), :class => 'btn btn-default'

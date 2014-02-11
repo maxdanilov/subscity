@@ -1,0 +1,997 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">  
+<head>
+	<title>Большой Лебовски (The Big Lebowski, 1998)
+. Отзывы и рецензии</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="description" content="Отзывы о фильме Большой Лебовски / The Big Lebowski (1998)" />
+	<link rel="search" type="application/opensearchdescription+xml" title="Cinemate.cc" href="/opensearch/" /> 
+	<link rel="stylesheet" href="/s/css/default.css?4" type="text/css">    
+    
+	<link rel="canonical" href="/movie/601/"/>
+    
+    <link rel="alternate" type="application/atom+xml" title="Большой Лебовски (1998): отзывы" href="/feeds/comments_by_movie/601/" />
+    
+    <link rel="alternate" type="application/atom+xml" title="Большой Лебовски (1998): темы на форуме" href="/feeds/movie_topics/601/" />
+
+	<script type="text/javascript" src="/s/j.js"></script>
+	<script type="text/javascript" src="/s/u.js"></script>
+	<script type="text/javascript" src="/s/a.js"></script>
+	<script type="text/javascript" language="javascript">
+	//<![CDATA[
+	
+		$(function(){
+            // Показ полной информации блока при наведении на него мышкой
+            $('.blockover').on('mouseover', function() {
+                $(this).find('.fulltext').show();
+            }).on('mouseout', function() {
+                $(this).find('.fulltext').hide();
+            });
+            
+            // Пользовательское выпадающее меню
+            $('a.menu-arrow').click(function(e){
+                e.preventDefault();
+                e.stopPropagation();
+                $('#quick-menu').toggle($('#quick-menu').is(':not(:visible)'));
+                
+                // Дорисовывание верхней линии меню в зависимости от длины логина
+                if ($('.items').width() > ($('.entry_open').width())) {
+                    $('.items').css('border-top', '1px solid #000000').css('z-index', '800');
+                    $('.entry_open').css('border-bottom', '1px solid #FFFFFF').css('z-index', '900');
+                } else {
+                    $('.entry_open').css('border-bottom', '1px solid #000000').css('z-index', '800');
+                    $('.items').css('border-top', '1px solid #FFFFFF').css('z-index', '900');
+                }
+            });
+            
+            // Отмена сокрытия меню при клике внутри
+            $('#quick-menu').click(function(e){
+                e.stopPropagation();
+            });
+            
+            $('body').click(function() {
+                $('#quick-menu').hide();
+            });
+            
+            // Мигающая иконка непрочитанных личных сообщений
+            setInterval(function() {
+                $('.mail_blink_icon').toggleClass('mail_unread_icon');
+            }, 800);
+            
+            // Сокрытие блока новостей
+            $('#news').closeable('last_read_news', '.close');
+            
+            // Показ текста спойлера при наведении мышкой
+            $('span.spoiler').hover(
+                function(e) {
+                    $(this).css('color', '#FFFFFF');
+                },
+                function(e) {
+                    $(this).css('color', '#AAAAAA');
+                }
+            );
+		});
+	//]]>
+	</script>
+	
+	
+
+	
+		<link rel="image_src" href="http://c.cinemate.cc/media/images/poster/1998/601/1362070199.big.jpg" />
+	
+<script type="text/javascript" src="/s/js/portrait_preview.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+	var url = 'http://cinemate.cc/movie/601/';
+		
+	$(document).ready(function(){
+	    // Нажатия на чекбоксы категорий качества в меню подписки
+	    function bind_checkbox() {
+            $('form.quality_list div.subscribe_select div.item span').click(function(e){
+                var form = $('form.quality_list');
+                var url = form.attr("action");
+                var cb = $(this).parent().find('input:checkbox');
+                
+                cb.attr('checked', !cb.attr('checked'));
+                $.post(
+                    url,
+                    form.serialize(),
+                    function(data) {
+                        if (data.is_subscribed) {
+                            $('a.subscribe_button').removeClass('subscribe_off').addClass('subscribe_on');
+                        } else {
+                            $('a.subscribe_button').removeClass('subscribe_on').addClass('subscribe_off');
+                        }
+                        $('span.subscribers_count').text(data.subscribers_count);
+                        $('form.quality_list').html(data.quality_qrp_form);
+                        bind_checkbox();
+                    },
+                    "json"
+                );
+            });
+        }
+        bind_checkbox();
+	    
+	    // Обработчик нажатий на кнопки на панели фильма
+        $("a.subscribe_button, a.suspend_button, a.movie_recommend_button, a.movie_discommend_button, a.movie_seen_button").click(function(e){
+            e.preventDefault();
+            $(this).blur();
+            var url = $(this).attr("href");
+            
+            $.getJSON(url, function(data) {
+                switch(data.action) {
+                    case 'subscribe':
+                        // Подписка
+                        if (data.is_subscribed) {
+                            $('a.subscribe_button').removeClass('subscribe_off').addClass('subscribe_on');
+                        } else {
+                            $('a.subscribe_button').removeClass('subscribe_on').addClass('subscribe_off');
+                        }
+                        $('span.subscribers_count').text(data.subscribers_count);
+                        $('form.quality_list').html(data.quality_qrp_form);
+                        bind_checkbox();
+                        break;
+                    
+                    case 'suspend':
+                        // Отложить для будущего просмотра
+                        if (data.is_suspended) {
+                            $('a.suspend_button').removeClass('suspend_off').addClass('suspend_on');
+                        } else {
+                            $('a.suspend_button').removeClass('suspend_on').addClass('suspend_off');
+                        }
+                        break;
+                    
+                    case 'vote':
+                        // Голосование за фильм
+                        if (data.vote == 1) {
+                            $('a.movie_recommend_button').removeClass('recommend_off').addClass('recommend_on');
+                            $('a.movie_discommend_button').removeClass('discommend_on').addClass('discommend_off');
+                        } else if (data.vote == 0) {
+                            $('a.movie_recommend_button').removeClass('recommend_on').addClass('recommend_off');
+                            $('a.movie_discommend_button').removeClass('discommend_on').addClass('discommend_off');
+                        } else if (data.vote == -1) {
+                            $('a.movie_recommend_button').removeClass('recommend_on').addClass('recommend_off');
+                            $('a.movie_discommend_button').removeClass('discommend_off').addClass('discommend_on');
+                        }
+                        
+                        $('span.recommend_count').text(data.recommend_count);
+                        $('span.discommend_count').text(data.discommend_count);
+                        
+                        // Просмотренные фильмы
+                        if (data.is_seen) {
+                            $('a.movie_seen_button').removeClass('seen_off').addClass('seen_on');
+                        } else {
+                            $('a.movie_seen_button').removeClass('seen_on').addClass('seen_off');
+                        }
+                        $('span.seen_count').text(data.seen_count);
+                        break;
+                }
+            });
+        });
+        
+	    // Сокрытие меню подписки на качество раздач при клике вне области меню
+        $('body').click(function() {
+            $('#subscribe_quality').hide();
+        });
+        
+        // Открытие меню подписки на качество раздач
+        $('a.arrow_down').click(function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            $('#subscribe_quality').toggle($('#subscribe_quality').is(':not(:visible)'));
+        });
+        
+        // Отмена сокрытия меню при клике внутри меню подписки на качество раздач
+        $('#subscribe_quality').click(function(e){
+            e.stopPropagation();
+        });
+	});
+//]]>
+</script>
+
+<link href="/s/css/bbcode.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="/s/js/jquery.bbcodeeditor-1.0.js"></script>
+
+<script type="text/javascript" language="javascript">
+//<![CDATA[
+	$(document).ready(function(){
+		// Подсветка отзывов, блоков комментариев и отдельных комментариев
+		var hash = location.hash.substr(1); 
+		var commentHash = /(comment|discussions)\d+/
+		
+		if (commentHash.test(hash)) {
+			$("#"+hash).parent().effect("highlight", {}, 3000).scrollTo(500);
+		};
+		
+		var discussionHash = /discussion\d+/
+		if (discussionHash.test(hash)) {
+			ancors = hash.split(':');
+			for (key in ancors) {
+				$("#"+ancors[key]).parents('div.invisible').show().prev('div').hide();
+				$("#"+ancors[key]).parent().addClass('selected');
+			};
+			$("#"+ancors[0]).parents('div.discussions').scrollTo(500);
+		};
+		
+        
+		
+		// Показывает скрытые комментарии
+		$('a.show_discussions').click(function(e){
+			e.preventDefault();
+			$(this).parent('div').hide();
+			$(this).parent('div').next('div').show().effect("highlight", {}, 3000).scrollTo(500);
+		});
+        
+        // Показ подменю размещения отзыва в социальных сетях
+        $('.share').click(function(e){
+            e.preventDefault();
+            $(this).blur();
+            
+            $('.share_menu').hide();
+            $('.share_open').removeClass('share_open').addClass('share');
+            
+            $(this).prev('.share_menu').show();
+            $(this).removeClass('share').addClass('share_open');
+        });
+        
+        // Выделение текста по клику в поле прямой ссылки на отзыв 
+        $('.direct_link').click(function(){
+            $(this).select();
+        });
+        
+	    // Сокрытие меню размещения отзыва в социальных сетях при клике вне области меню
+        $('body').click(function() {
+            $('.share_menu').hide();
+            $('.share_open').removeClass('share_open').addClass('share');
+        });
+        
+        // Отмена сокрытия меню при клике внутри меню подписки на качество раздач
+        $('.share_menu, .share').click(function(e){
+            e.stopPropagation();
+        });
+	});
+//]]>
+</script>
+
+
+</head>
+<body>
+	
+    
+    
+    <div id="header">
+        <div id="header-inner">
+            <div id="header-block">
+                <div id="usermenu">
+                    
+                        <a href="/login/">Войти</a> или <a href="/registration/">зарегистрироваться</a>
+                    
+                </div>
+                
+                <div>
+                    <a href="/" title="Фильмы: что посмотреть сегодня, завтра и на выходных">
+                        <img src="/s/images/logo.png" alt="Cinemate" id="logo" border="0" />
+                    </a>
+                </div>
+            </div>
+            
+            <div id="navbar">
+                <div style="float:left">
+                    <ul class="links">
+                        <li class="first active">
+                            <a href="/movie/best/2013/" title="Лучшие фильмы 2013 года">Фильмы</a>
+                        </li>
+                        
+                        <li class="">
+                            <a href="/rating/">Рейтинги</a>
+                        </li>
+						
+                        <li class="">
+                            <a href="/community/">Сообщество</a>
+                        </li>
+						
+                        <li class="">
+                            <a href="/awards/">Премии</a>
+                        </li>
+						
+                        <li class="last ">
+                            <a href="/forum/">
+                                Форум
+                            </a>
+                        </li>
+						
+                        
+                    </ul>
+                </div>
+                
+                <div style="float: right">
+                    <form action="/search/" method="get"><div style='display:none'><input type='hidden' name='csrfmiddlewaretoken' value='PKBKrnIMFCYKITEW0jIJhY8daxmsUqOO' /></div>
+                        <input id="search" class="ac_input" type="text" name="term" value="Поиск по сайту" />
+                    </form>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    
+    <div id="content">
+        <div id="content-inner">
+        	
+			    <div class="white-box">
+			        <div class="content-header">
+			            <span>&nbsp;</span>
+			        </div>
+			        
+			        <div class="content-body">
+			            
+    <div id="toolbar">
+        <div class="rating_positions">
+            
+            
+            
+        </div>
+
+	    
+        
+        <h2>Большой Лебовски <small style="font-weight: normal">(<a href="/movie/year/1998/">1998</a>)</small></h2>
+        <small style="padding-left:2px">The Big Lebowski</small>
+        
+        <div id="shortcuts">
+            
+                <div class="first_button_delimiter">
+                    <div class="button_wrapper">
+                        <div title="Чтобы подписаться на фильм нужно зарегистрироваться на сайте" class="icon subscribe_button subscribe_on"></div>
+                    </div>
+                    
+                    <span class="subscribers_count" title="Число подписчиков">
+                        11
+                    </span>
+                </div>
+                
+                <div class="button_delimiter">
+                    <div class="button_wrapper icon recommend_on"></div>
+                    
+                    <span title="Количество положительных голосов">
+                        318
+                    </span>
+                </div>
+                
+                <div class="button_delimiter">
+                    <div class="button_wrapper icon_t seen_on"></div>
+                    
+                    <span title="Количество зрителей">
+                        471
+                    </span>
+                </div>
+                
+                <div class="button_delimiter">
+                    <div class="button_wrapper icon discommend_on"></div>
+                    
+                    <span title="Количество отрицательных голосов">
+                        39
+                    </span>
+                </div>
+            
+        </div>
+    </div>
+
+    
+        <div id="object_detail">
+            <div id="object_photo">
+                <img src="http://c.cinemate.cc/media/images/poster/1998/601/1362070199.big.jpg" width="260" height="385" style="padding: 1px; border:1px solid #777777" alt="Постер фильма Большой Лебовски (1998)" />
+            </div>
+
+            <div id="object_text">
+                
+                    <div class="row">
+                        <div class="title">
+                            <strong>Жанр:</strong>
+                        </div>
+                        <div class="content">
+                            
+                                <a href="/movie/genre/comedy/">комедия</a>,
+                            
+                                <a href="/movie/genre/crime/">криминал</a>
+                            
+                        </div>
+                    </div>
+                
+
+                
+                    <div class="row">
+                        <div class="title">
+                            <strong>Страна:</strong>
+                        </div>
+
+                        <div class="content">
+                            
+                                <a href="/movie/country/uk/">Великобритания</a>,
+                            
+                                <a href="/movie/country/usa/">США</a>
+                            
+                        </div>
+                    </div>
+                
+
+                
+                    <div class="row">
+                        <div class="title">
+                            <strong>Рейтинг IMDB:</strong>
+                        </div>
+
+                        <div class="content">
+                            <a href="http://www.imdb.com/title/tt0118715/" title="Перейти на страницу фильма на сайте imdb.com" target="_blank" class="ext_link" rel="nofollow" onclick="ga('send', 'event', 'go', 'imdb')"><span id="imdb_rating">8.2</span> из 10</a> (<span id="imdb_votes">371,475 голосов</span>);
+                                <a href="/rating/imdb/133/" title="№133 в рейтинге по оценке IMDB">
+                                    №133 в Топ 250
+                                </a>
+                            
+                        </div>
+                    </div>
+                
+
+                
+                    <div class="row">
+                        <div class="title">
+                            <strong>Рейтинг <abbr title="КиноПоиск.ru">КП</abbr>:</strong>
+                        </div>
+
+                        <div class="content">
+                            <a href="http://www.kinopoisk.ru/film/555/" title="Перейти на страницу фильма на сайте КиноПоиск.ru" target="_blank" class="ext_link" rel="nofollow" onclick="ga('send', 'event', 'go', 'kp')"><span id="kinopoisk_rating">7.9</span> из 10</a> (<span id="kinopoisk_votes">48,472 голоса</span>)
+                        </div>
+                    </div>
+                
+
+                
+	                <div class="row">
+	                    <div class="title">
+	                        <strong>Описание:</strong>
+	                    </div>
+
+	                    <div class="content">
+	                        Лос-Анджелес, 1991 год, война в Персидском заливе. Главный герой по прозвищу «Чувак» считает себя совершенно счастливым человеком. Его жизнь составляют игра в боулинг и выпивка. Но внезапно его счастье нарушается, гангстеры по ошибке принимают его за миллионера-однофамильца, требуют деньги, о которых он ничего не подозревает, и, ко всему прочему, похищают жену миллионера, будучи уверенными, что «муж» выплатит за нее любую сумму.
+	                    </div>
+	                </div>
+                
+
+                
+                    <div class="row">
+                        <div class="title">
+                            <strong>Премьера:</strong>
+                        </div>
+
+                        <div class="content">
+                            
+                                
+                                    <div style="padding-bottom:2px">15 февраля 1998 г.</div>
+                                
+                            
+
+                            
+                                <div style="padding-bottom:2px">28 марта 2013 г. (РФ)</div>
+                            
+
+                            
+                                
+                            
+                        </div>
+                    </div>
+                
+
+                
+
+                
+                    <div class="row">
+                        <div class="title">
+                            <strong>Сборы:</strong>
+                        </div>
+
+                        <div class="content">
+                            $17,451,873
+                        </div>
+                    </div>
+                
+
+                
+                    <div class="row">
+                        <div class="title">
+                            <strong>Длительность:</strong>
+                        </div>
+
+                        <div class="content">
+                            1 час. 57 мин.
+                        </div>
+                    </div>
+                
+
+                
+                    <div class="row">
+                        <div class="title">
+                            <strong>Режиссер:</strong>
+                        </div>
+
+                        <div class="content">
+                            
+                                <a href="/person/1349/" class="person" rel="http://c.cinemate.cc/media/images/photo/j/1349/1290595523.medium.jpg">Джоэл Коэн</a>,
+                            
+                                <a href="/person/1348/" class="person" rel="http://c.cinemate.cc/media/images/photo/e/1348/1295098394.medium.jpg">Итан Коэн</a>
+                            
+                        </div>
+                    </div>
+                
+
+                <div class="row">
+                    
+                        <div class="title">
+                            <strong>В ролях:</strong>
+                        </div>
+
+                        <div class="content">
+                            
+                                <a href="/person/1642/" class="person" rel="http://c.cinemate.cc/media/images/photo/s/1642/1290595515.medium.jpg" rev="Донни">Стив Бушеми</a>,
+                            
+                                <a href="/person/1680/" class="person" rel="http://c.cinemate.cc/media/images/photo/j/1680/1290595496.medium.jpg" rev="Мод Лебовски">Джулианна Мур</a>,
+                            
+                                <a href="/person/6467/" class="person" rel="http://c.cinemate.cc/media/images/photo/j/6467/1368469074.medium.jpg" rev="Джеффри «Чувак» Лебовски">Джефф Бриджес</a>,
+                            
+                                <a href="/person/65/" class="person" rel="http://c.cinemate.cc/media/images/photo/j/65/1290595515.medium.jpg" rev="Уолтер Собчак">Джон Гудман</a>,
+                            
+                                <a href="/person/2856/" class="person" rel="http://c.cinemate.cc/media/images/photo/p/2856/1290595533.medium.jpg" rev="Нигилист">Петер Стормаре</a>,
+                            
+                                <a href="/person/2314/" class="person" rel="http://c.cinemate.cc/media/images/photo/t/2314/1290595508.medium.jpg" rev="Банни Лебовски">Тара Рид</a>,
+                            
+                                <a href="/person/1768/" class="person" rel="http://c.cinemate.cc/media/images/photo/j/1768/1290595501.medium.jpg" rev="Jesus Quintana">Джон Туртурро</a>,
+                            
+                                <a href="/person/1416/" class="person" rel="http://c.cinemate.cc/media/images/photo/p/1416/1290595483.medium.jpg" rev="Брандт">Филип Сеймур Хоффман</a>,
+                            
+                                <a href="/person/7444/" class="person" rel="http://c.cinemate.cc/media/images/photo/m/7444/1290595542.medium.jpg" rev="Blond Treehorn Thug">Марк Пеллегрино</a>,
+                            
+                                <a href="/person/7447/" class="person" rel="http://c.cinemate.cc/media/p/7/4/7447/0.medium.jpg" rev="Marty">Джек Келер</a>,
+                            
+                                <a href="/person/3087/" class="person" rel="http://c.cinemate.cc/media/images/photo/d/3087/1344785161.medium.jpg" rev="Джеффри Лебовски">Дэвид Хаддлстон</a>,
+                            
+                                <a href="/person/7445/" class="person" rel="http://c.cinemate.cc/media/images/photo/f/7445/1366127697.medium.jpg" rev="Nihilist #2, Kieffer">Фли</a>,
+                            
+                                <a href="/person/145/" class="person" rel="http://c.cinemate.cc/media/p/5/4/145/0.medium.jpg" rev="Nihilist #3, Franz">Торстен Фогс</a>,
+                            
+                                <a href="/person/7443/" class="person" rel="http://c.cinemate.cc/media/images/photo/blank.medium.jpg" rev="Woo, Treehorn Thug">Филип Мун</a>,
+                            
+                                <a href="/person/7446/" class="person" rel="http://c.cinemate.cc/media/images/photo/blank.medium.jpg" rev="Smokey">Jimmie Dale Gilmore</a>
+                            
+                        </div>
+                    
+                </div>
+
+                
+                    <div class="row">
+                        <div class="title">
+                            <strong>Метки:</strong>
+                        </div>
+
+                        <div class="content">
+                            <span id="tags">
+                                <span id="tag_list">
+                                    
+                                        <a href="/movie/tag/chernaya-komediya/" title="">черная комедия</a>
+                                    
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                
+
+				
+					<div class="row">
+						<div class="content">
+						    <style>
+						    #share{
+						    	margin-top:10px;
+						    	height:28px;
+						    }
+						    </style>
+						    <table id="share">
+						    	<tr>
+						    		<td width="110px">
+										<div id="vk_like"></div>
+									</td>
+						    		<td width="130px">
+										<div id="fb-root">
+											<div class="fb-like" data-href="http://cinemate.cc/movie/601/" data-layout="button_count" data-send="false" data-show-faces="true"></div>
+										</div>
+						    		</td>
+						    		<td width="70px">
+										<div id="ok_shareWidget"></div>
+						    		</td>
+						    		<td width="90px">
+										<div class="g-plusone" data-href="http://cinemate.cc/movie/601/"></div>
+						    		</td>
+						    		<td width="110px">
+										<a href="http://twitter.com/share" rel="nofollow" class="twitter-share-button" data-lang="ru" data-url="http://cinemate.cc/movie/601/"></a>
+						    		</td>
+						    	</tr>
+						    </table>
+						</div>
+	            	</div>
+            	
+        	</div>
+        </div>
+
+
+	<div id="tabs">
+        <div class="tab-box">
+            <ul class="tabs">
+                <li class="active">
+                	<a href="/movie/601/#tabs">Трейлер и отзывы (2)</a>
+                </li>
+                
+                <li class="">
+                    <a href="/movie/601/links/#tabs">
+                        Скачать (112)
+                    </a>
+                </li>
+                
+                <li class="">
+                    <a href="/movie/601/online/#tabs">
+                        Смотреть (10)
+                    </a>
+                </li>
+                
+                <li class="">
+                    <a href="/movie/601/soundtrack/#tabs">
+                        Саундтрек (2)
+                    </a>
+                </li>
+                    
+                
+				
+                <li class="">
+                    <a href="/movie/601/similar/#tabs">
+                        Похожие фильмы
+                    </a>
+                </li>
+				
+                
+				
+                
+				
+                <li class="">
+                    <a href="/movie/601/topics/#tabs">
+                        Обсуждения (0)
+                    </a>
+                </li>
+                    
+                
+            </ul>
+        </div>
+        
+        <div class="pane">
+				
+        	
+        	
+
+	<a name="trailer"></a>
+	<div align="center" style="clear:both; margin:20px">
+	    <iframe class="youtube-player" type="text/html" width="853" height="510" src="http://www.youtube.com/embed/YHuyjYJCCOA?hl=ru_RU" frameborder="0"></iframe>
+	</div>
+
+<a name="comments"></a>
+<div style="width: 17%; float: right; padding-left: 15px">
+	
+
+</div>
+<div style="margin-right:22%">
+    
+		<div class="comment ">
+            
+                <div class="place_title best-comment">
+                    Лучший отзыв
+                </div>
+            
+            
+			<div id="comment675" class="anchor">&nbsp;</div>
+			
+			<div class="avatar">
+		        <a href="/profile/maltus/">
+		            <img src="http://c.cinemate.cc/media/images/avatars/m/maltus.small.jpg" alt="Аватар maltus" border="0" />
+		        </a>
+		    </div>
+		    
+		    <div style="margin-left:60px">
+		    	<div class="date">
+		            3 года, 8 месяцев назад
+				</div>
+				
+		        <strong>
+		        	<a href="/profile/maltus/">
+		            	maltus
+		        	</a>
+				</strong>
+				
+		        <div class="body">Как такие фильмы появляются на свет - для меня загадка. Как можно написать такой сценарий? Как выстроить такие образы? Божественное вмешательство, не иначе. <br /><br />Этот фильм - знамя моего поколения. Двигаясь вперед среди ополоумевших от бега по карьерной лестнице менеджеров, как не любить Джеффа Лебовски, который &quot;не берет в голову за всех нас, грешных&quot;?<br /><br />А еще в этом фильме есть лучший трагикомический момент 20 века. Завидую тому, кто еще не смотрел это кино. А впрочем, что завидовать? Пойду, пересмотрю.</div>
+				
+		        <div class="actions">
+					
+					
+					
+					
+					
+					
+					
+					
+                    <div style="position: relative;" class="item">
+                        <ul class="share_menu" style="display:none;">
+                            <li>
+                                <div class="title">Ссылка</div>
+                                <input type="text" size="30" class="direct_link" value="http://cinemate.cc/comment/675/" />
+                            </li>
+                            <li>
+                                <a target="_blank" class="share_icon vkontakte" href="/comment/675/share/vkontakte/" rel="nofollow">ВКонтакте</a>
+                            </li>
+                            <li>
+                                <a target="_blank" class="share_icon odnoklassniki" href="/comment/675/share/odnoklassniki/" rel="nofollow">Одноклассники</a>
+                            </li>
+                            <li>
+                                <a target="_blank" class="share_icon moimir" href="/comment/675/share/moimir/" rel="nofollow">Мой Мир</a>
+                            </li>
+                            <li>
+                                <a target="_blank" class="share_icon facebook" href="/comment/675/share/facebook/" rel="nofollow">Facebook</a>
+                            </li>
+                            <li>
+                                <a target="_blank" class="share_icon twitter" href="/comment/675/share/twitter/" rel="nofollow">Twitter</a>
+                            </li>
+                            <li>
+                                <a target="_blank" class="share_icon livejournal" href="/comment/675/share/livejournal/" rel="nofollow">Livejournal</a>
+                            </li>
+                        </ul>
+                        
+                        <a href="#" class="share">Поделиться</a>
+                    </div>
+                    
+                    <div class="voting">
+                        Полезный отзыв?
+                        <span>
+                            
+                                <span class="my_vote" title="Чтобы проголосовать за отзыв необходимо иметь 15 и более очков репутации">Да</span> 9 /
+                                <span class="my_vote" title="Чтобы проголосовать против отзыва необходимо иметь 100 и более очков репутации">Нет</span> 0
+                            
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+		
+		<div class="discussions">
+			<div id="discussions675" class="anchor">&nbsp;</div>
+			
+			
+				
+				
+				
+					<div class="discussion dotted_delimiter">
+						<div id="discussion538" class="anchor">&nbsp;</div>
+						
+						<span class="message">Я, конечно, поставлю плюсик этому фильму, в своём жанре, видимо, хорош, но если бы смотрел его однажды, посмотрел бы лучше что-нибудь другое. Видимо проблема в том, что он не оправдал мои ожидания... Расслабленная какая-то комедия очень получилась. Я думал будет больше абсурда, членовредительства и в конце какая-нибудь более нетривиальная развязка. Ну да ладно, дело вкуса, наверное.</span>
+						<span class="author">&mdash;&nbsp;&nbsp;<a href="/profile/nimda/">nimda</a></span>
+						<span class="date">2 года, 9 месяцев назад</span>
+					</div>
+					
+					
+				
+					<div class="discussion dotted_delimiter">
+						<div id="discussion576" class="anchor">&nbsp;</div>
+						
+						<span class="message">считаю лучшим фильмом марки &quot;Коэн&quot;</span>
+						<span class="author">&mdash;&nbsp;&nbsp;<a href="/profile/mishelmp/">mishelmp</a></span>
+						<span class="date">2 года, 8 месяцев назад</span>
+					</div>
+					
+					
+				
+			
+		</div>
+	
+		<div class="comment ">
+            
+                <div class="place_title great-comment">
+                    Отличный отзыв
+                </div>
+            
+            
+			<div id="comment7394" class="anchor">&nbsp;</div>
+			
+			<div class="avatar">
+		        <a href="/profile/911den/">
+		            <img src="http://c.cinemate.cc/media/images/avatars/9/911den.small.jpg" alt="Аватар 911den" border="0" />
+		        </a>
+		    </div>
+		    
+		    <div style="margin-left:60px">
+		    	<div class="date">
+		            8 месяцев, 3 недели назад
+				</div>
+				
+		        <strong>
+		        	<a href="/profile/911den/">
+		            	911den
+		        	</a>
+				</strong>
+				
+		        <div class="body">как по мне глупо читать отзывы про этот фильм .его нужно смотреть. не обычная комедия прямо скажем но очень прикольный фильм несколько убойных моментов после которых я долго смеялся (например как чувака пака он лежал на полу и слушал плеер вырубили одном ударом какието гопники а потом такая музычка смешная) -ну вобщем советую посмотреть я его глядел с переводом мужика который гоблина делает но посмотреть советую всем любителям комедии</div>
+				
+		        <div class="actions">
+					
+					
+					
+					
+					
+					
+					
+					
+                    <div style="position: relative;" class="item">
+                        <ul class="share_menu" style="display:none;">
+                            <li>
+                                <div class="title">Ссылка</div>
+                                <input type="text" size="30" class="direct_link" value="http://cinemate.cc/comment/7394/" />
+                            </li>
+                            <li>
+                                <a target="_blank" class="share_icon vkontakte" href="/comment/7394/share/vkontakte/" rel="nofollow">ВКонтакте</a>
+                            </li>
+                            <li>
+                                <a target="_blank" class="share_icon odnoklassniki" href="/comment/7394/share/odnoklassniki/" rel="nofollow">Одноклассники</a>
+                            </li>
+                            <li>
+                                <a target="_blank" class="share_icon moimir" href="/comment/7394/share/moimir/" rel="nofollow">Мой Мир</a>
+                            </li>
+                            <li>
+                                <a target="_blank" class="share_icon facebook" href="/comment/7394/share/facebook/" rel="nofollow">Facebook</a>
+                            </li>
+                            <li>
+                                <a target="_blank" class="share_icon twitter" href="/comment/7394/share/twitter/" rel="nofollow">Twitter</a>
+                            </li>
+                            <li>
+                                <a target="_blank" class="share_icon livejournal" href="/comment/7394/share/livejournal/" rel="nofollow">Livejournal</a>
+                            </li>
+                        </ul>
+                        
+                        <a href="#" class="share">Поделиться</a>
+                    </div>
+                    
+                    <div class="voting">
+                        Полезный отзыв?
+                        <span>
+                            
+                                <span class="my_vote" title="Чтобы проголосовать за отзыв необходимо иметь 15 и более очков репутации">Да</span> 2 /
+                                <span class="my_vote" title="Чтобы проголосовать против отзыва необходимо иметь 100 и более очков репутации">Нет</span> 0
+                            
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+		
+		<div class="discussions">
+			<div id="discussions7394" class="anchor">&nbsp;</div>
+			
+			
+		</div>
+	
+	
+    
+	
+	
+
+
+
+
+</div>
+
+        </div>
+	</div>
+	<script type="text/javascript" src="/s/js/social.js?2"></script>
+
+			        </div>
+			        
+			        <div class="content-footer">
+			            <span>&nbsp;</span>
+			        </div>
+			    </div>
+			
+        </div>
+    </div>
+    
+    <div id="footer">
+        <div id="footer-inner">
+            <div class="column">
+                <ul>
+                    <li class="active">
+                        <a href="/movie/">Фильмы</a>
+                    </li>
+                    
+                    
+                    
+                    <li class="">
+                        <a href="/rating/">Рейтинги</a>
+                    </li>
+                    
+                    <li class="">
+                        <a href="/community/">Сообщество</a>
+                    </li>
+                    
+                    <li class="">
+                        <a href="/awards/">Премии</a>
+                    </li>
+					
+                    <li class="">
+                        <a href="/forum/">Форум</a>
+                    </li>
+                        
+                    
+                </ul>
+            </div>
+            
+            <div class="column rss">
+                
+    <ul>
+        <li><a href="/feeds/comments_by_movie/601//">Отзывы к фильму</a></li>
+        
+        <li><a href="/feeds/movie_topics/601//">Новые темы на форуме</a></li>
+    </ul>
+
+            </div>
+            
+            <div class="column">
+                <ul>
+                    <li><a href="/extensions/" rel="nofollow">Дополнения</a></li>
+                    <li><a href="/help/api/" rel="nofollow">API 2.0</a></li>
+					<li><a href="/tos/" rel="nofollow">Соглашение</a></li>
+					<li><a href="/copyright_holders/" rel="nofollow">Правообладателям</a></li>
+					<li><a href="/contacts/" rel="nofollow">Контакты</a></li>
+                    <li><a href="http://twitter.com/CinemateCC" target="_blank" rel="nofollow">Твиттер</a></li>
+                    <li><a href="http://cinemate.reformal.ru/" target="_blank" rel="nofollow">Отзывы на Реформале</a></li>
+                    
+                </ul>
+            </div>
+
+            <div class="column">
+                <ul>
+                    <li><a href="/movie/best/2013/">Лучшие фильмы 2013 года</a></li>
+                    <li><a href="/movie/year/2013/">Новинки кино 2013 года</a></li>
+                    <li><a href="/movie/year/2014/">Премьеры 2014 года</a></li>
+<li>&nbsp;</li>                    
+<li>
+                    <!--LiveInternet counter--><script type="text/javascript"><!--
+document.write("<a href='http://www.liveinternet.ru/click' "+
+"target=_blank><img src='//counter.yadro.ru/hit?t26.1;r"+
+escape(document.referrer)+((typeof(screen)=="undefined")?"":
+";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
+screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
+";"+Math.random()+
+"' alt='' title='LiveInternet: показано число посетителей за"+
+" сегодня' "+
+"border='0' width='88' height='15'><\/a>")
+//--></script><!--/LiveInternet-->
+</li>
+                </ul>
+            </div>
+            
+            <div class="column partner">
+            </div>
+        </div>
+    </div>
+
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	  ga('create', 'UA-42655999-1');
+	  ga('set', 'dimension1', 'guest');
+	  
+	
+		ga('set', 'dimension2', 'm-comments');
+	
+
+	  ga('send', 'pageview');
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+- error = @screening.errors.include?(:movie_id)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :movie_id, :class => 'control-label'
+  div class='controls'
+    = f.text_field :movie_id, :class => 'form-control input-large input-with-feedback', :autofocus => true
+    span class='help-inline' = error ? f.error_message_on(:movie_id, :class => 'text-error') : pat(:example)
+- error = @screening.errors.include?(:cinema_id)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :cinema_id, :class => 'control-label'
+  div class='controls'
+    = f.text_field :cinema_id, :class => 'form-control input-large input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:cinema_id, :class => 'text-error') : pat(:example)
+- error = @screening.errors.include?(:date_time)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :date_time, :class => 'control-label'
+  div class='controls'
+    = f.text_field :date_time, :class => 'form-control input-large input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:date_time, :class => 'text-error') : pat(:example)
+- error = @screening.errors.include?(:price_min)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :price_min, :class => 'control-label'
+  div class='controls'
+    = f.text_field :price_min, :class => 'form-control input-large input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:price_min, :class => 'text-error') : pat(:example)
+- error = @screening.errors.include?(:price_max)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :price_max, :class => 'control-label'
+  div class='controls'
+    = f.text_field :price_max, :class => 'form-control input-large input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:price_max, :class => 'text-error') : pat(:example)
+- error = @screening.errors.include?(:screening_id)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :screening_id, :class => 'control-label'
+  div class='controls'
+    = f.text_field :screening_id, :class => 'form-control input-large input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:screening_id, :class => 'text-error') : pat(:example)
+
+div class="form-actions"
+  = f.submit pat(:save), :class => 'btn btn-primary'
+  |&nbsp;
+  = f.submit pat(:save_and_continue), :class => 'btn btn-info', :name => 'save_and_continue'
+  |&nbsp;
+  = link_to pat(:cancel), url(:screenings, :index), :class => 'btn btn-default'

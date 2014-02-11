@@ -1,0 +1,8 @@
+ul class="nav nav-tabs"
+  li = link_to tag_icon(:list, pat(:list)), url(:screenings, :index)
+  li = link_to tag_icon(:plus, pat(:new)), url(:screenings, :new)
+  li class="active" = link_to tag_icon(:edit, pat(:edit)), url(:screenings, :edit, :id => @screening.id)
+
+div class="tabs-content"
+  - form_for :screening, url(:screenings, :update, :id => @screening.id), :method => :put, :class => 'form-horizontal' do |f|
+    = partial 'screenings/form', :locals => { :f => f }

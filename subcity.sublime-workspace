@@ -1,0 +1,420 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"tem",
+				"temp_violation"
+			],
+			[
+				"device",
+				"device_service"
+			],
+			[
+				"zo",
+				"zone_types"
+			],
+			[
+				"z",
+				"zone_types"
+			],
+			[
+				"num_",
+				"num_normal_zone"
+			],
+			[
+				"se",
+				"sensor_type"
+			],
+			[
+				"res",
+				"response"
+			],
+			[
+				"re",
+				"response"
+			],
+			[
+				"th",
+				"threshold_speed"
+			],
+			[
+				"time",
+				"time_threshold_measures"
+			],
+			[
+				"start_",
+				"start_mode"
+			],
+			[
+				"start",
+				"start_delay"
+			],
+			[
+				"mem",
+				"memcpy"
+			],
+			[
+				"devi",
+				"device_service"
+			],
+			[
+				"RF_GROUP_ID_",
+				"RF_GROUP_ID_ALARM"
+			],
+			[
+				"cmbDe",
+				"tCmbDevices"
+			],
+			[
+				"Acti",
+				"ActivePage"
+			],
+			[
+				"tabS",
+				"tabSettings"
+			],
+			[
+				"page",
+				"pageMain"
+			],
+			[
+				"In",
+				"Index"
+			],
+			[
+				"Get",
+				"GetID"
+			],
+			[
+				"V",
+				"Visible"
+			],
+			[
+				"viola",
+				"violation_flag"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"selected_items":
+		[
+		],
+		"width": 392.0
+	},
+	"console":
+	{
+		"height": 160.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/Dropbox/IntelCraft Temp/!code/Tigilante-Full/SRC/state_machine.c",
+		"/C/Dropbox/IntelCraft Temp/!code/Tigilante-Full/SRC/main.c",
+		"/C/Dropbox/IntelCraft Temp/!code/Tigilante-Full/SRC/driverlib/5xx_6xx/rtc.c",
+		"/C/Dropbox/IntelCraft Temp/!code/Tigilante-Full/SRC/date.c",
+		"/C/Dropbox/IntelCraft Temp/!code/Tigilante-Full/SRC/handlers.c",
+		"/C/Dropbox/IntelCraft Temp/!code_pc/tigilante/Main.h",
+		"/C/Dropbox/IntelCraft Temp/!code_pc/tigilante/device.cpp",
+		"/C/Dropbox/IntelCraft Temp/!code_pc/tigilante/parameters.h",
+		"/C/Dropbox/IntelCraft Temp/!code_pc/tigilante/TThread_Erase_EEPROM.cpp",
+		"/C/Dropbox/IntelCraft Temp/!code_pc/tigilante/TThread_Erase_FLASH.cpp",
+		"/C/Dropbox/IntelCraft Temp/!code_pc/tigilante/device.h",
+		"/C/Dropbox/IntelCraft Temp/!code_pc/tigilante/TThread_Flash_Settings.cpp",
+		"/C/Dropbox/IntelCraft Temp/!code_pc/tigilante/deviceLister.cpp",
+		"/C/Dropbox/IntelCraft Temp/!code_pc/tigilante/controls.cpp",
+		"/C/Dropbox/IntelCraft Temp/!code_pc/tigilante/controls.h",
+		"/C/Dropbox/IntelCraft Temp/!code_pc/tigilante/TThread_Fill_Report.cpp",
+		"/C/Dropbox/IntelCraft Temp/!code_pc/tigilante/TThread_Read_EEPROM.cpp",
+		"/C/Dropbox/IntelCraft Temp/!code_pc/tigilante/hidapi/hidapi.h",
+		"/C/Dropbox/IntelCraft Temp/!code_pc/tigilante/hidapi/hid - копия.c",
+		"/C/Dropbox/IntelCraft Temp/!code_pc/tigilante/Main.cpp",
+		"/C/Dropbox/IntelCraft Temp/!code_pc/tigilante/communication.cpp",
+		"/C/Dropbox/IntelCraft Temp/!code_pc/tigilante/RFDeviceList.cpp",
+		"/C/Dropbox/IntelCraft Temp/!code_pc/tigilante/parser.cpp",
+		"/C/Dropbox/IntelCraft Temp/!code_pc/tigilante/RFDeviceList.h",
+		"/C/Dropbox/IntelCraft Temp/!code_pc/tigilante/misc.cpp",
+		"/C/Dropbox/IntelCraft Temp/!code_pc/tigilante/misc.h",
+		"/C/Dropbox/IntelCraft Temp/!code_pc/tigilante/structs.h",
+		"/C/Dropbox/IntelCraft Temp/!code_pc/tigilante/experiment.cpp",
+		"/C/Dropbox/IntelCraft Temp/!code_pc/tigilante/TThread_RF_Pings_Acquisition.cpp",
+		"/C/Dropbox/IntelCraft Temp/!code_pc/tigilante/frmExportType.cpp",
+		"/C/Dropbox/IntelCraft Temp/!code_pc/tigilante/frmLanguage.cpp",
+		"/C/Dropbox/IntelCraft Temp/!code_pc/tigilante/deviceLister.h",
+		"/C/Dropbox/IntelCraft Temp/!code_pc/tigilante/frmTZ.cpp",
+		"/C/Dropbox/IntelCraft Temp/!code_pc/tigilante/base64.cpp",
+		"/C/Dropbox/IntelCraft Temp/!code_pc/tigilante/tigilante.sublime-project",
+		"/C/Dropbox/IntelCraft Temp/!code_pc/tigilante/experiment.h"
+	],
+	"find":
+	{
+		"height": 38.0
+	},
+	"find_in_files":
+	{
+		"height": 102.0,
+		"where_history":
+		[
+			"*.c*,*.h",
+			"*.cpp,*.h",
+			"*.cpp",
+			".",
+			"*.cpp;*.h",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"p.ram.temp_violation = ",
+			");\n",
+			"p.ram.temp_violation =",
+			"p.ram.temp_violation",
+			"zone_counters",
+			"temp_violation",
+			"whetherCalendarPassed",
+			"scheduled_start_time",
+			"FSM_Transition_SCHEDULED_STOPPED",
+			"Disable_RTC_Alarm_Interrupt",
+			"schedulewakeup",
+			"Enable_RTC_Alarm_Interrupt",
+			"RTCHOLD_H",
+			"RTC_disableInterrupt",
+			"RTC_enableInterrupt",
+			"();\n",
+			"RTC_enableInterrupt",
+			"RTC_disableInterrupt",
+			"p.eeprom.start_mode",
+			"stopped",
+			"RTC_clearInterrupt",
+			"RTC_enableInterrupt(__MSP430_BASEADDRESS_RTC__, RTCAIE);",
+			"\n	",
+			"RTC_clearInterrupt(__MSP430_BASEADDRESS_RTC__, RTC_CLOCK_ALARM_INTERRUPT);",
+			"RESET_FLAG",
+			"__MSP430_BASEADDRESS_RTC__, RTCAIE",
+			"flag_Wake_Up_Timer",
+			"flag_Wake_Up_RTC",
+			"flag_Woke_Up_from_RTC",
+			"WriteParameterRetries",
+			"ResetZoneCounters",
+			"RESET_ZONE_COUNTERS",
+			"reset_counters",
+			"ChangePasswordClick",
+			"frmProcess",
+			"HandlerChangeNumberOfZones",
+			"FormStruct",
+			"setfroms",
+			"TDevice",
+			"device",
+			"setfromstruct",
+			"if",
+			"wm_de",
+			"hidMutex",
+			"devAccessMutex",
+			"Mutex",
+			"mutex",
+			"sleep",
+			"RefreshDeviceList",
+			"wndproc",
+			"WMDeviceChange",
+			"SetPassword",
+			"ResetViolationFlag",
+			"ResetZoneCounters",
+			"ReadParameterToStruct",
+			"IsEmptyEEPROM",
+			"getispro",
+			"getis",
+			"getispro",
+			"ReadHeader",
+			"read",
+			"readh",
+			"getheader(",
+			"ReadHeader(",
+			"ReadHeader",
+			"IsNullParameters",
+			"BlockDebug",
+			"FormatRemainingMemoryForFullLogger",
+			"HandlerWakeUpPeriod",
+			"parseping",
+			"isradio",
+			"GetCheckedInRFListState",
+			"ChangeCheckedInRFListState",
+			"checked_in_RF_list",
+			"device_info.device_header",
+			"GetLogLength",
+			"memory_used",
+			"device_info",
+			"isRF",
+			"isradio",
+			"isRadio",
+			"FormWorkDays",
+			"getcopyofpar",
+			"readvio",
+			"ReadViolationFlag",
+			"ReadLoggerType",
+			"getfreememoryin",
+			"getfreememoryinminutes",
+			"eepromw",
+			"eeprom",
+			"eepromreadc",
+			"readeepromwr",
+			"readeepromw",
+			"geteepro",
+			"getfreememoryper",
+			"readde",
+			"readfw",
+			"geteepro",
+			"readhe",
+			"readheader(",
+			"getheader(",
+			"getheader",
+			"readheader(",
+			"readheader",
+			"isemptyram",
+			"isempty",
+			"isgapbefore",
+			"gap",
+			"g",
+			"isgapbetween",
+			"GetWakeUpPeriodFromParameters",
+			"GetEEPROMUsedPerbyteFromParameters",
+			"readbattery",
+			"GetBatteryVoltageFromParameters",
+			"IsVoltageLevelBeneathGivenFromParameters",
+			";\n",
+			"endif",
+			"work_days",
+			"GetDefaultParameters(",
+			"GetDefaultParameters",
+			"TIME_THRESHOLD_MEASURES_MAX",
+			"resettable",
+			"zone_types",
+			"threshold_speed",
+			"IDS_193",
+			");\n",
+			"updaterf",
+			"lblRFStatus->Caption"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 30.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"project": "subcity.sublime-project",
+	"replace":
+	{
+		"height": 56.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 392.0,
+		"selected_items":
+		[
+			[
+				"fillz",
+				"FillZonesGrid"
+			]
+		],
+		"width": 392.0
+	},
+	"settings":
+	{
+	},
+	"show_minimap": false,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 204.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
