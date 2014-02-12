@@ -83,4 +83,3 @@ class KassaParser
 	public_class_method		:parse_sessions_HTML
 	public_class_method		:valid_screening?
 end
-
