@@ -1,3 +1,4 @@
+require_relative 'parser_base'
 require 'hpricot'
 require 'time'
 
@@ -70,9 +71,9 @@ class KassaParser
 		Time.parse(date.strftime("%Y-%m-%d") + " " + time)
 	end
 
-	def self.valid_screening?(data)
+	def self.screening_exists?(data)
 		doc = Hpricot(data)
-		!((doc.at("title").inner_text rescue nil) =~ /Сеанс не найден/).nil?
+		((doc.at("title").inner_text rescue nil) =~ /Сеанс не найден/).nil?
 	end
 
 	private_class_method	:parse_time
@@ -81,5 +82,5 @@ class KassaParser
 
 	public_class_method		:parse_prices
 	public_class_method		:parse_sessions_HTML
-	public_class_method		:valid_screening?
+	public_class_method		:screening_exists?
 end

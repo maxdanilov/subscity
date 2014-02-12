@@ -69,23 +69,18 @@ module Subscity
 		fetched, updated = Cinema.update_all
         "fetched #{fetched}, updated #{updated} records..."
 	end
-
+=begin
     get '/update/movies' do
         fetched, updated = Movie.update_all
         "fetched #{fetched}, updated #{updated} records..."
     end
+=end
 
     get '/cinemas' do
         @cinemas = Cinema.all(:order => 'created_at desc')
         render 'cinema/showall'
     end
-=begin	
-    get '/update/sessions' do
-        url = KassaFetcher.url_for_sessions(Movie.first.movie_id, Time.now + 86400)
-        Logger.put (url)
-        Logger.put (KassaFetcher.fetch_data_html(url))
-    end
-=end
+
     get '/update/screenings' do
         updated = 0
         (0..7).each do |day| 
@@ -95,5 +90,16 @@ module Subscity
         "Updated #{updated} records..."
     end
 
+    get '/update/screenings/validate' do
+        #9764011 - not valid
+        #9807325 - valid
+        #9811082 - valid
+        #777 - not valid
+        #9752492 - valid
+        s = [9764011, 9807325, 9811082, 777, 9752492]
+        a = s.map {|l| KassaParser.screening_exists?(KassaFetcher.fetch_session(l, 2)) }
+        a = a.inject("") {|l, s| l += " " + s.to_s}
+        "#{a}" # should be f t t f t
+    end
   end
 end

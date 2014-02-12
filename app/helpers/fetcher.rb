@@ -1,3 +1,5 @@
+require_relative 'fetcher_base'
+
 class KassaFetcher
 	extend FetcherBase
 
@@ -69,7 +71,7 @@ class KassaFetcher
 	end
 
 	def self.fetch_session(session_id, place_id = CITY_ID)
-		fetch_data_html(url_for_session(ssession_id), place_id)
+		fetch_data_html(url_for_session(session_id, place_id))
 	end
 
 	def self.fetch_movies(start, length = PAGE_SIZE, place_id = CITY_ID)

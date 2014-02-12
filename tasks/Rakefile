@@ -1,0 +1,168 @@
+desc 'load all models and require modules for ActiveRecord'
+task :init do
+	#require 'padrino'
+	gem 'activerecord', '<4'
+	require 'active_record'
+	require 'colorize'
+
+	ROOT_PATH = '../'
+	DB = ROOT_PATH + 'db/subscity_development.db'
+	DIRS = [ROOT_PATH + 'app/helpers', ROOT_PATH + 'models']
+
+	DIRS.each do |dir|
+		Dir[File.join(File.dirname(__FILE__), dir, '*.rb')].each {|file| require file rescue nil}
+	end
+
+	ActiveRecord::Base::establish_connection( :adapter => 'sqlite3', :database => DB)
+	I18n.enforce_available_locales = false
+				
+	puts "Init complete".green
+end
+
+desc 'update movies list'
+task :update_movies => :init do
+	t = Timer.new.start
+	page_size = KassaFetcher::PAGE_SIZE
+	
+	updated_count = 0
+	fetched_count = 0
+	items_count = 0
+	page_count = 0
+
+	#mark all movies in the base as inactive
+	Movie.all.each { |m| m.update_attribute(:active, false) }
+	
+	City.all.map(&:city_id).each do |city_id|
+
+		items_count = 0
+		page_count = 0
+
+		loop do 
+			parsed = KassaParser.parse_json(KassaFetcher.fetch_movies(page_count * page_size, page_size, city_id))
+			
+			items = parsed["Items"]
+			
+			items.each do |item|
+
+				c = Movie.new(	movie_id: item["objectId"], 
+								name: item["name"], 
+								age_restriction: item["ageRestriction"], 
+								country: item["country"], 
+								year: item["productionYear"], 
+								genres: item["visibleTagsString"], 
+								thumbnail: Movie.upd_thumbnail(item["thumbnail"]), 
+								active: true, 
+								duration: item["duration"] )
+
+				if c.in_db?
+					#mark as active in db
+					Movie.get_movie(c.movie_id).update_attribute(:active, true)
+				else
+					#add to db
+					if c.valid?
+						puts "Movie #{s.screening_id} was added to database:".yellow
+						print "\t"
+						p c
+
+						c.save
+						updated_count += 1
+					end
+				end
+			end
+			
+			items_count += items.size
+			fetched_count += items.size
+			total_count ||= parsed["TotalCount"]
+			
+			page_count += 1
+			
+			break if items_count >= total_count
+		end
+	end
+
+	t.stop
+	puts "#{fetched_count} movies fetched, #{updated_count} updated in the base".red
+	puts "Task took #{t.get} seconds to run".cyan
+end
+
+desc 'fill movies with info from Cinemate' 
+task :update_movies_info => :init do
+end
+
+desc 'update cinemas list' 
+task :update_cinemas => :init do
+	t = Timer.new.start
+	page_size = KassaFetcher::PAGE_SIZE
+	
+	updated_count = 0
+	fetched_count = 0
+	items_count = 0
+	page_count = 0
+	
+	City.all.map(&:city_id).each do |city_id|
+		items_count = 0
+		page_count = 0
+
+		loop do 
+			parsed = KassaParser.parse_json(KassaFetcher.fetch_cinemas(page_count * page_size, page_size, city_id))
+			items = parsed["Items"]
+			items.each do |item|
+				c = Cinema.new(cinema_id: item["PlaceID"], city_id: city_id, name: item["Name"], address: item["Address"], metro: item["Metro"])
+				if c.valid?
+					puts "Cinema #{s.cinema_id} was added to database:".yellow
+					print "\t"
+					p c
+
+					c.save
+					updated_count += 1
+				end
+			end
+			
+			items_count += items.size
+			fetched_count += items.size
+			total_count ||= parsed["TotalCount"]
+			
+			page_count += 1
+			
+			break if items_count >= total_count
+		end
+	end
+
+	t.stop
+	puts "#{fetched_count} cinemas fetched, #{updated_count} updated in the base".red
+	puts "Task took #{t.get} seconds to run".cyan
+end
+
+desc 'update screenings prices'
+task :update_screenings_prices => :init do
+
+end
+
+desc 'delete all obsolete screenings'
+task :cleanup_screenings => :init do
+	t = Timer.new.start
+
+	deleted = 0
+	puts "Starting cleanup of #{Screening.active.count} screenings...".cyan
+	Screening.active.each do |s|
+		unless s.exists?
+			puts "\tScreening #{s.screening_id} was excluded from database:".yellow
+			print "\t"
+			p s
+
+			deleted += 1
+			s.destroy
+		end
+	end
+
+	t.stop
+	puts "#{deleted} screenings were deleted from database".red
+	puts "Task took #{t.get} seconds to run".cyan
+end
+
+=begin
+s = [9764011, 9807325, 9811082, 777, 9752492]
+a = s.map {|l| KassaParser.screening_exists?(KassaFetcher.fetch_session(l, 2)) }
+a = a.inject("") {|l, s| l += " " + s.to_s}
+puts "#{a}" # should be f t t f t
+=end

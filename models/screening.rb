@@ -27,4 +27,8 @@ class Screening < ActiveRecord::Base
 		end
 		return updated
 	end
+
+	def exists?
+		KassaParser.screening_exists?(KassaFetcher.fetch_session(screening_id, cinema.city_id))
+	end
 end
