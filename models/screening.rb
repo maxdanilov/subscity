@@ -31,4 +31,14 @@ class Screening < ActiveRecord::Base
 	def exists?
 		KassaParser.screening_exists?(KassaFetcher.fetch_session(screening_id, cinema.city_id))
 	end
+
+	def to_s
+		"\tScreening: [#{screening_id}] #{id}\n" +
+		"\tMovie: [#{movie_id}] #{movie.name}\n" +
+		"\tCinema: [#{cinema_id}] #{cinema.name}\n" +
+		"\tTime: #{date_time}\n" +
+		"\tPrices: [#{price_min}, #{price_max}]\n" +
+		"\tCreated: #{created_at}\n" +
+		"\tUpdated: #{updated_at}\n"
+	end
 end

@@ -18,7 +18,7 @@ class KassaParser
 			parsed["OrderZones"].each do |order_zone|
 				order_zone["Orders"].each do |order|
 					price = order["Price"]
-					price = price / fee if order["HasFee"]
+					price = (price / fee).round(0) if order["HasFee"]
 					max_price = price if price > max_price
 					min_price = price if price < min_price
 				end

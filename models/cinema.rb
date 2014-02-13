@@ -7,8 +7,4 @@ class Cinema < ActiveRecord::Base
 	validates :name,  		presence: true
 	validates :city_id, 	presence: true
 	
-	def self.update_all
-
-	end
-	
 end

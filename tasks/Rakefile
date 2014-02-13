@@ -77,6 +77,7 @@ task :update_movies => :init do
 			page_count += 1
 			
 			break if items_count >= total_count
+			sleep 1
 		end
 	end
 
@@ -109,7 +110,7 @@ task :update_cinemas => :init do
 			items.each do |item|
 				c = Cinema.new(cinema_id: item["PlaceID"], city_id: city_id, name: item["Name"], address: item["Address"], metro: item["Metro"])
 				if c.valid?
-					puts "Cinema #{s.cinema_id} was added to database:".yellow
+					puts "\tCinema #{s.cinema_id} was added to database:".yellow
 					print "\t"
 					p c
 
@@ -125,6 +126,7 @@ task :update_cinemas => :init do
 			page_count += 1
 			
 			break if items_count >= total_count
+			sleep 1
 		end
 	end
 
@@ -135,7 +137,26 @@ end
 
 desc 'update screenings prices'
 task :update_screenings_prices => :init do
+	t = Timer.new.start
+	fetched_count = Screening.active.no_prices.count
+	updated_count = 0
+	puts "Starting updating of #{fetched_count} screenings...".cyan
+	Screening.active.no_prices.find_each do |s|
+		max_price, min_price = KassaParser.parse_prices(KassaFetcher.fetch_prices(s.screening_id))
+		if (!max_price.nil? and !min_price.nil?)
+			s.price_min, s.price_max = min_price, max_price
+			s.save
+			updated_count += 1
 
+			puts "\tScreening #{s.screening_id} was updated with prices [#{min_price}, #{max_price}]:".yellow
+			puts s
+		end
+		sleep 0.5
+	end
+
+	t.stop
+	puts "#{fetched_count} screenings processed, #{updated_count} updated in the base".red
+	puts "Task took #{t.get} seconds to run".cyan
 end
 
 desc 'delete all obsolete screenings'
@@ -160,9 +181,6 @@ task :cleanup_screenings => :init do
 	puts "Task took #{t.get} seconds to run".cyan
 end
 
-=begin
-s = [9764011, 9807325, 9811082, 777, 9752492]
-a = s.map {|l| KassaParser.screening_exists?(KassaFetcher.fetch_session(l, 2)) }
-a = a.inject("") {|l, s| l += " " + s.to_s}
-puts "#{a}" # should be f t t f t
-=end
+task :test => :init do
+	
+end

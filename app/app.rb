@@ -64,17 +64,6 @@ module Subscity
 		#source = KassaFetcher.fetch_data(KassaFetcher.url_for_cinemas(0))
 		#Logger.put( data )
 	end
-	
-	get '/update/cinemas' do
-		fetched, updated = Cinema.update_all
-        "fetched #{fetched}, updated #{updated} records..."
-	end
-=begin
-    get '/update/movies' do
-        fetched, updated = Movie.update_all
-        "fetched #{fetched}, updated #{updated} records..."
-    end
-=end
 
     get '/cinemas' do
         @cinemas = Cinema.all(:order => 'created_at desc')

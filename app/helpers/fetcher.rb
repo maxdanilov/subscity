@@ -66,7 +66,7 @@ class KassaFetcher
 	end
 
 	def self.url_for_session(session_id, place_id = CITY_ID)
-	#http://m.kassa.rambler.ru/place/hallplan?sessionid=9637961&geoPlaceID=2&widgetid=16857
+		# http://m.kassa.rambler.ru/place/hallplan?sessionid=9637961&geoPlaceID=2&widgetid=16857
 		DOMAIN + "place/hallplan?sessionid=" + session_id.to_s + "&geoPlaceID=" + place_id.to_s + "&widgetid=" + WIDGET_ID.to_s
 	end
 
