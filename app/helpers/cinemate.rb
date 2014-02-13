@@ -1,4 +1,5 @@
 require 'hpricot'
+require 'active_support/all'
 require_relative 'logger'
 require_relative 'parser_base'
 require_relative 'fetcher_base'
@@ -26,6 +27,31 @@ class Cinemate
 		fetch_data(url, HEADERS)
 	end
 	
+	def self.equal_titles?(a,b)
+		return false if a.nil? or b.nil?
+
+		diff_size = ->(a, b) do
+			similar = a.select { |el| b.include? el }
+			a -= similar
+			b -= similar
+			(a + b).size
+		end
+
+		a, b = prepare_title(a), prepare_title(b)
+		words_a, words_b = a.split(' '), b.split(' ')
+		(a == b) or (diff_size.call(words_a,words_b) <= 1 and [words_a.size, words_b.size].min >= 2 )
+	end
+
+	def self.prepare_title(title)
+		title.gsub(/3D/,'').gsub(/:/, '.').strip.mb_chars.downcase.to_s rescue title
+	end
+
+	# for special cases when Kassa fucks up titles so bad they can't be used for search...
+	def self.prepare_title_for_search(title)
+		return "Нимфоманка. Часть 1" if (title == "Нимфоманка. Часть I")
+		title
+	end
+
 	def self.get_csrf_token
 		doc = Hpricot(fetch_data_html(DOMAIN))
 		key = (doc/"form").at("input")[:value] rescue nil
@@ -115,7 +141,6 @@ class Cinemate
 		name = doc.at("h2").inner_html.gsub(/<.*>/, "").strip rescue nil # greedy stripping tags, to get rid of annoying year in the name
 		year = get_first_regex_match_integer(doc.at("h2").inner_text, /\((\d{4})\)/) rescue nil
 		original_name = doc.at("h2/../small").inner_text rescue nil
-		
 		{
 			title_russian: name,
 			title_original: original_name,

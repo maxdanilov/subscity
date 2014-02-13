@@ -35,7 +35,7 @@ class Screening < ActiveRecord::Base
 
 	def to_s
 		"\tScreening: [#{screening_id}] #{id}\n" +
-		"\tMovie: [#{movie_id}] #{movie.name}\n" +
+		"\tMovie: [#{movie_id}] #{movie.title}\n" +
 		"\tCinema: [#{cinema_id}] #{cinema.name}\n" +
 		"\tTime: #{date_time}\n" +
 		"\tPrices: [#{price_min}, #{price_max}]\n" +
