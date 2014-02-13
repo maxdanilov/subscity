@@ -31,6 +31,8 @@ div class="tabs-content"
         th class='header' = mat(:cinema, :name)
         th class='header' = mat(:cinema, :address)
         th class='header' = mat(:cinema, :metro)
+        th class='header' = mat(:cinema, :url)
+        th class='header' = mat(:cinema, :phone)
         th class='header' = mat(:cinema, :created_at)
         th class='header' = mat(:cinema, :updated_at)
         th class='header list-row-action-header'
@@ -45,6 +47,8 @@ div class="tabs-content"
           td class='list-column' = cinema.name
           td class='list-column' = cinema.address
           td class='list-column' = cinema.metro
+          td class='list-column' = cinema.url
+          td class='list-column' = cinema.phone
           td class='list-column' = time_ago_in_words cinema.created_at
           td class='list-column' = time_ago_in_words cinema.updated_at
           td class='list-column list-row-action'

@@ -16,10 +16,13 @@ module FetcherBase
 		end
 	end
 
-	def fetch_data_post(url, params)
+	def fetch_data_post(url, params, headers = nil)
 		begin
-			x = Net::HTTP.post_form(URI.parse(url), params)
-			x.body
+			domain = URI(url).host
+			path = URI(url).path
+			# convert params hash to query string
+			params = URI.encode_www_form(params)
+			Net::HTTP.new(domain, 80).post(path, params, headers).body
 		rescue Exception => e
 			nil
 		end

@@ -159,6 +159,12 @@ task :update_screenings_prices => :environment do
 	puts "Task took #{t.get} seconds to run".cyan
 end
 
+desc 'seed cities table'
+task :seed_cities => :environment do
+	City.new(:city_id => 2, :name => "Москва").save
+	#City.new(:city_id => 3, :name => "Санкт-Петербург").save
+end
+
 desc 'delete all obsolete screenings'
 task :cleanup_screenings => :environment do
 	t = Timer.new.start
@@ -185,5 +191,6 @@ task :cleanup_screenings => :environment do
 end
 
 task :testtask => :environment do
-	puts Screening.first
+	#puts Screening.first
+	puts KassaParser.parse_prices(KassaFetcher.fetch_prices(9705247))
 end

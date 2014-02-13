@@ -27,19 +27,23 @@ div class="tabs-content"
                       div class='btn btn-default btn-small cancel' = pat(:cancel)
         th class='header' = mat(:movie, :id)
         th class='header' = mat(:movie, :movie_id)
-        th class='header' = mat(:movie, :name)
+        th class='header' = mat(:movie, :active)
+        th class='header' = mat(:movie, :title)
+        th class='header' = mat(:movie, :title_original)
+        th class='header' = mat(:movie, :description)
+        th class='header' = mat(:movie, :director)
+        th class='header' = mat(:movie, :cast)
         th class='header' = mat(:movie, :age_restriction)
         th class='header' = mat(:movie, :country)
         th class='header' = mat(:movie, :year)
         th class='header' = mat(:movie, :genres)
-        th class='header' = mat(:movie, :thumbnail)
-        th class='header' = mat(:movie, :created_at)
-        th class='header' = mat(:movie, :updated_at)
-        th class='header' = mat(:movie, :active)
+        th class='header' = mat(:movie, :poster)
         th class='header' = mat(:movie, :duration)
         th class='header' = mat(:movie, :kinopoisk_id)
         th class='header' = mat(:movie, :imdb_id)
         th class='header' = mat(:movie, :cinemate_id)
+        th class='header' = mat(:movie, :created_at)
+        th class='header' = mat(:movie, :updated_at)
         th class='header list-row-action-header'
 
     tbody
@@ -48,19 +52,23 @@ div class="tabs-content"
           td class='list-column list-selectable' = check_box_tag 'movie_ids[]', :value => movie.id, :class => 'list-selectable-checkbox'
           td class='list-column' = movie.id
           td class='list-column' = movie.movie_id
-          td class='list-column' = movie.name
+          td class='list-column' = movie.active ? tag_icon(:ok) : tag_icon(:remove)
+          td class='list-column' = movie.title
+          td class='list-column' = movie.title_original
+          td class='list-column' = movie.description
+          td class='list-column' = movie.director
+          td class='list-column' = movie.cast
           td class='list-column' = movie.age_restriction
           td class='list-column' = movie.country
           td class='list-column' = movie.year
           td class='list-column' = movie.genres
-          td class='list-column' = movie.thumbnail
-          td class='list-column' = time_ago_in_words movie.created_at
-          td class='list-column' = time_ago_in_words movie.updated_at
-          td class='list-column' = movie.active ? tag_icon(:ok) : tag_icon(:remove)
+          td class='list-column' = movie.poster
           td class='list-column' = movie.duration
           td class='list-column' = movie.kinopoisk_id
           td class='list-column' = movie.imdb_id
           td class='list-column' = movie.cinemate_id
+          td class='list-column' = time_ago_in_words movie.created_at
+          td class='list-column' = time_ago_in_words movie.updated_at
           td class='list-column list-row-action'
             div class='list-row-action-wrapper'
               = link_to tag_icon(:edit), :href => url(:movies, :edit, :id => movie.id), :rel => :tooltip, :title => "#{pat(:edit)} movie", :class => 'list-row-action-wrapper-link'

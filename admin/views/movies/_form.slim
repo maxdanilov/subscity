@@ -4,12 +4,42 @@ fieldset class='control-group#{error ? ' has-error' : ''}'
   div class='controls'
     = f.text_field :movie_id, :class => 'form-control input-large input-with-feedback', :autofocus => true
     span class='help-inline' = error ? f.error_message_on(:movie_id, :class => 'text-error') : pat(:example)
-- error = @movie.errors.include?(:name)
+- error = @movie.errors.include?(:active)
 fieldset class='control-group#{error ? ' has-error' : ''}'
-  = f.label :name, :class => 'control-label'
+  = f.label :active, :class => 'control-label'
   div class='controls'
-    = f.text_field :name, :class => 'form-control input-large input-with-feedback'
-    span class='help-inline' = error ? f.error_message_on(:name, :class => 'text-error') : pat(:example)
+    = f.check_box :active, :class => 'form-control input-large input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:active, :class => 'text-error') : pat(:example)
+- error = @movie.errors.include?(:title)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :title, :class => 'control-label'
+  div class='controls'
+    = f.text_field :title, :class => 'form-control input-large input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:title, :class => 'text-error') : pat(:example)
+- error = @movie.errors.include?(:title_original)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :title_original, :class => 'control-label'
+  div class='controls'
+    = f.text_field :title_original, :class => 'form-control input-large input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:title_original, :class => 'text-error') : pat(:example)
+- error = @movie.errors.include?(:description)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :description, :class => 'control-label'
+  div class='controls'
+    = f.text_area :description, :class => 'form-control input-large input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:description, :class => 'text-error') : pat(:example)
+- error = @movie.errors.include?(:director)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :director, :class => 'control-label'
+  div class='controls'
+    = f.text_field :director, :class => 'form-control input-large input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:director, :class => 'text-error') : pat(:example)
+- error = @movie.errors.include?(:cast)
+fieldset class='control-group#{error ? ' has-error' : ''}'
+  = f.label :cast, :class => 'control-label'
+  div class='controls'
+    = f.text_area :cast, :class => 'form-control input-large input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:cast, :class => 'text-error') : pat(:example)
 - error = @movie.errors.include?(:age_restriction)
 fieldset class='control-group#{error ? ' has-error' : ''}'
   = f.label :age_restriction, :class => 'control-label'
@@ -34,18 +64,12 @@ fieldset class='control-group#{error ? ' has-error' : ''}'
   div class='controls'
     = f.text_field :genres, :class => 'form-control input-large input-with-feedback'
     span class='help-inline' = error ? f.error_message_on(:genres, :class => 'text-error') : pat(:example)
-- error = @movie.errors.include?(:thumbnail)
+- error = @movie.errors.include?(:poster)
 fieldset class='control-group#{error ? ' has-error' : ''}'
-  = f.label :thumbnail, :class => 'control-label'
+  = f.label :poster, :class => 'control-label'
   div class='controls'
-    = f.text_area :thumbnail, :class => 'form-control input-large input-with-feedback'
-    span class='help-inline' = error ? f.error_message_on(:thumbnail, :class => 'text-error') : pat(:example)
-- error = @movie.errors.include?(:active)
-fieldset class='control-group#{error ? ' has-error' : ''}'
-  = f.label :active, :class => 'control-label'
-  div class='controls'
-    = f.check_box :active, :class => 'form-control input-large input-with-feedback'
-    span class='help-inline' = error ? f.error_message_on(:active, :class => 'text-error') : pat(:example)
+    = f.text_area :poster, :class => 'form-control input-large input-with-feedback'
+    span class='help-inline' = error ? f.error_message_on(:poster, :class => 'text-error') : pat(:example)
 - error = @movie.errors.include?(:duration)
 fieldset class='control-group#{error ? ' has-error' : ''}'
   = f.label :duration, :class => 'control-label'

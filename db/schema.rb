@@ -26,9 +26,11 @@ ActiveRecord::Schema.define(:version => 7) do
   create_table "cinemas", :force => true do |t|
     t.integer  "cinema_id"
     t.integer  "city_id"
-    t.text     "name"
-    t.text     "address"
-    t.text     "metro"
+    t.string   "name"
+    t.string   "address"
+    t.string   "metro"
+    t.string   "url"
+    t.string   "phone"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -42,19 +44,23 @@ ActiveRecord::Schema.define(:version => 7) do
 
   create_table "movies", :force => true do |t|
     t.integer  "movie_id"
-    t.string   "name"
+    t.boolean  "active"
+    t.string   "title"
+    t.string   "title_original"
+    t.text     "description"
+    t.string   "director"
+    t.text     "cast"
     t.integer  "age_restriction"
     t.string   "country"
     t.integer  "year"
     t.string   "genres"
-    t.text     "thumbnail"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
-    t.boolean  "active"
+    t.text     "poster"
     t.integer  "duration"
     t.integer  "kinopoisk_id"
     t.integer  "imdb_id"
     t.integer  "cinemate_id"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
   end
 
   create_table "screenings", :force => true do |t|
@@ -63,9 +69,9 @@ ActiveRecord::Schema.define(:version => 7) do
     t.datetime "date_time"
     t.integer  "price_min"
     t.integer  "price_max"
+    t.integer  "screening_id"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
-    t.integer  "screening_id"
   end
 
 end

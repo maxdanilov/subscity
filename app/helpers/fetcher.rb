@@ -5,7 +5,7 @@ class KassaFetcher
 
 	DOMAIN = "http://m.kassa.rambler.ru/"
 	HOST = "m.kassa.rambler.ru"
-	USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.102 Safari/537.36"
+	USER_AGENT = "Opera/12.02 (Android 4.1; Linux; Opera Mobi/ADR-1111101157; U; en-US) Presto/2.9.201 Version/12.02"
 	WIDGET_ID = 16857
 	
 	PAGE_SIZE = 20
@@ -41,7 +41,7 @@ class KassaFetcher
 	end
 
 	def self.fetch_prices(screening_id)
-		fetch_data_post(URL_FOR_PRICES, params_for_prices(screening_id))
+		fetch_data_post(URL_FOR_PRICES, params_for_prices(screening_id), STANDARD_HEADERS)
 	end
 
 	def self.params_for_prices(screening_id)
