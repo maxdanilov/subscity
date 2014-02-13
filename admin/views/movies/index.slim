@@ -21,7 +21,7 @@ div class="tabs-content"
                   div class='arrow'
                   h3 class='popover-title' = pat(:delete_selected_title)
                   div class='popover-content'
-                    - form_tag url(:movies, :destroy_many), :method => :delete do
+                    = form_tag url(:movies, :destroy_many), :method => :delete do
                       = hidden_field_tag :movie_ids, :'data-delete-many-ids' => true
                       = submit_tag  pat(:delete), :class =>'list-menu-popover-delete-selected-btn btn btn-danger btn-small'
                       div class='btn btn-default btn-small cancel' = pat(:cancel)
@@ -69,6 +69,6 @@ div class="tabs-content"
                 div class='arrow'
                 h3 class='popover-title' = pat(:delete, :model => "movie")
                 div class='popover-content'
-                  - form_tag url(:movies, :destroy, :id => movie.id), :method => :delete do
+                  = form_tag url(:movies, :destroy, :id => movie.id), :method => :delete do
                     = submit_tag pat(:delete), :class =>'list-row-action-popover-delete-one-btn btn btn-danger btn-small'
                     div class='btn btn-default btn-small cancel' = pat(:cancel)

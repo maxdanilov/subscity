@@ -1,5 +1,5 @@
 desc 'load all models and require modules for ActiveRecord'
-task :init do
+task :environment do
 	#require 'padrino'
 	gem 'activerecord', '<4'
 	require 'active_record'
@@ -20,7 +20,7 @@ task :init do
 end
 
 desc 'update movies list'
-task :update_movies => :init do
+task :update_movies => :environment do
 	t = Timer.new.start
 	page_size = KassaFetcher::PAGE_SIZE
 	
@@ -87,11 +87,11 @@ task :update_movies => :init do
 end
 
 desc 'fill movies with info from Cinemate' 
-task :update_movies_info => :init do
+task :update_movies_info => :environment do
 end
 
 desc 'update cinemas list' 
-task :update_cinemas => :init do
+task :update_cinemas => :environment do
 	t = Timer.new.start
 	page_size = KassaFetcher::PAGE_SIZE
 	
@@ -136,7 +136,7 @@ task :update_cinemas => :init do
 end
 
 desc 'update screenings prices'
-task :update_screenings_prices => :init do
+task :update_screenings_prices => :environment do
 	t = Timer.new.start
 	fetched_count = Screening.active.no_prices.count
 	updated_count = 0
@@ -160,16 +160,19 @@ task :update_screenings_prices => :init do
 end
 
 desc 'delete all obsolete screenings'
-task :cleanup_screenings => :init do
+task :cleanup_screenings => :environment do
 	t = Timer.new.start
+
+	#clean old screenings
+	puts "#{Screening.before(Date.today.to_time).count} old screenings deleted".cyan
+	Screening.before(Date.today.to_time).destroy_all
 
 	deleted = 0
 	puts "Starting cleanup of #{Screening.active.count} screenings...".cyan
 	Screening.active.each do |s|
 		unless s.exists?
 			puts "\tScreening #{s.screening_id} was excluded from database:".yellow
-			print "\t"
-			p s
+			puts s
 
 			deleted += 1
 			s.destroy
@@ -181,6 +184,6 @@ task :cleanup_screenings => :init do
 	puts "Task took #{t.get} seconds to run".cyan
 end
 
-task :test => :init do
-	
+task :testtask => :environment do
+	puts Screening.first
 end

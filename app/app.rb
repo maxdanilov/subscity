@@ -60,9 +60,7 @@ module Subscity
     #
 	
 	get '/' do
-		#source = File.read("cinemas0.txt") #KassaFetcher.get_movies_list
-		#source = KassaFetcher.fetch_data(KassaFetcher.url_for_cinemas(0))
-		#Logger.put( data )
+        puts "..."
 	end
 
     get '/cinemas' do
@@ -74,21 +72,9 @@ module Subscity
         updated = 0
         (0..7).each do |day| 
             updated += Screening.update(Movie.first.movie_id, Time.now + 86400*day, 2)
-            #updated += Screening.update(54672, Time.now + 86400*day, 2)
         end
         "Updated #{updated} records..."
     end
 
-    get '/update/screenings/validate' do
-        #9764011 - not valid
-        #9807325 - valid
-        #9811082 - valid
-        #777 - not valid
-        #9752492 - valid
-        s = [9764011, 9807325, 9811082, 777, 9752492]
-        a = s.map {|l| KassaParser.screening_exists?(KassaFetcher.fetch_session(l, 2)) }
-        a = a.inject("") {|l, s| l += " " + s.to_s}
-        "#{a}" # should be f t t f t
-    end
   end
 end

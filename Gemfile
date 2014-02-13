@@ -23,7 +23,8 @@ gem 'hpricot'
 # Test requirements
 
 # Padrino Stable Gem
-gem 'padrino', '0.11.4'
+#gem 'padrino', '0.11.4'
+gem 'padrino', '0.12.0'
 
 # Or Padrino Edge
 # gem 'padrino', :github => 'padrino/padrino-framework'

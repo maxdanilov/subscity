@@ -7,6 +7,7 @@ class Screening < ActiveRecord::Base
 	validates :cinema_id, presence: true
 
 	scope :later_than, ->(date) { where('date_time > ?', date) }
+	scope :before, ->(date) { where('date_time <= ?', date) }
 	scope :today, -> { where(:date_time => time_range_on_day(Time.now) ) }
 	scope :on_date, ->(date) { where(:date_time => time_range_on_day(date)) }
 	scope :no_prices, -> { where(:price_max => nil) }

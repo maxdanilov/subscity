@@ -23,7 +23,7 @@ module Subscity
     #
 
     set :admin_model, 'Account'
-    set :login_page,  '/admin/sessions/new'
+    set :login_page,  '/sessions/new'
 
     enable  :sessions
     disable :store_location
@@ -34,11 +34,11 @@ module Subscity
     end
 
     access_control.roles_for :admin do |role|
-    role.project_module :movies, '/movies'
-    role.project_module :screenings, '/screenings'
-    role.project_module :cities, '/cities'
-    role.project_module :cinemas, '/cinemas'
-    role.project_module :accounts, '/accounts'
+      role.project_module :cities, '/cities'
+      role.project_module :cinemas, '/cinemas'
+      role.project_module :movies, '/movies'
+      role.project_module :screenings, '/screenings'
+      role.project_module :accounts, '/accounts'
     end
 
     # Custom error management 

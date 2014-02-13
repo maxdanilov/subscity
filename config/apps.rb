@@ -28,11 +28,13 @@
 Padrino.configure_apps do
   # enable :sessions
   set :session_secret, 'd9f2bda10f064673c8547c37baa50fd78d1b7754e68a629a398418fb69c4752b'
-  set :protection, true
+  #set :protection, true
+  set :protection, :except => :path_traversal # 0.12 update
   set :protect_from_csrf, true
 end
 
 # Mounts the core application for this project
-Padrino.mount('Subscity::App', :app_file => Padrino.root('app/app.rb')).to('/')
-
 Padrino.mount("Subscity::Admin", :app_file => File.expand_path('../../admin/app.rb', __FILE__)).to("/admin")
+
+Padrino.mount("Subscity::Admin", :app_file => Padrino.root('admin/app.rb')).to("/admin")
+Padrino.mount('Subscity::App', :app_file => Padrino.root('app/app.rb')).to('/')

@@ -3,5 +3,5 @@ ul class="nav nav-tabs"
   li class="active" = link_to tag_icon(:plus, pat(:new)), url(:accounts, :new)
 
 div class="tabs-content"
-  - form_for :account, url(:accounts, :create), :class => 'form-horizontal' do |f|
+  = form_for :account, url(:accounts, :create), :class => 'form-horizontal' do |f|
     = partial 'accounts/form', :locals => { :f => f }
