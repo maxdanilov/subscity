@@ -42,11 +42,12 @@ class Cinemate
 		(a == b) or (diff_size.call(words_a,words_b) <= 1 and [words_a.size, words_b.size].min >= 2 )
 	end
 
+	# sometimes Kassa/Cinemate can add 3D/2D to the title, messing eveything up
 	def self.prepare_title(title)
-		title.gsub(/3D/,'').gsub(/:/, '.').strip.mb_chars.downcase.to_s rescue title
+		title.gsub(/3D/,'').gsub(/2D/, '').gsub(/:/, '.').strip.mb_chars.downcase.to_s rescue title
 	end
 
-	# for special cases when Kassa fucks up titles so bad they can't be used for search...
+	# for special cases when Kassa fucks up titles so bad they can't be used for Cinemate search...
 	def self.prepare_title_for_search(title)
 		return "Нимфоманка. Часть 1" if (title == "Нимфоманка. Часть I")
 		title

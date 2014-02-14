@@ -4,6 +4,7 @@ task :environment do
 	gem 'activerecord', '<4'
 	require 'active_record'
 	require 'colorize'
+	require 'open-uri'
 
 	ROOT_PATH = '../'
 	DB = ROOT_PATH + 'db/subscity_development.db'
@@ -20,7 +21,7 @@ desc 'update movies list'
 task :update_movies => :environment do
 	t = Timer.new.start
 	page_size = KassaFetcher::PAGE_SIZE
-	
+	poster_filename = -> (m) { "../public/images/posters/" + m.movie_id.to_s + ".jpg" }
 	updated_count = 0
 	fetched_count = 0
 	items_count = 0
@@ -36,9 +37,7 @@ task :update_movies => :environment do
 
 		loop do 
 			parsed = KassaParser.parse_json(KassaFetcher.fetch_movies(page_count * page_size, page_size, city_id))
-			
 			items = parsed["Items"]
-			
 			items.each do |item|
 
 				c = Movie.new(	movie_id: item["objectId"], 
@@ -78,6 +77,20 @@ task :update_movies => :environment do
 								end
 							else
 								puts "\tMovie #{c.movie_id} was not found on Cinemate".red
+							end
+						end
+
+						#download poster
+						unless File.exist?(poster_filename.call(m))
+							puts "\tDownloading #{c.poster}...".yellow
+							begin
+							   	open(c.poster) do |f|
+							   	File.open(poster_filename.call(c), "wb") do |file|
+							    	file.puts f.read
+							   	end
+								end
+							rescue
+								puts "\tError occured while loading poster".red
 							end
 						end
 
@@ -193,6 +206,27 @@ task :update_cinemas => :environment do
 
 	t.stop
 	puts "#{fetched_count} cinemas fetched, #{updated_count} updated in the base".red
+	puts "Task took #{t.get} seconds to run".cyan
+end
+
+task :update_movies_posters => :environment do
+	t = Timer.new.start
+	poster_filename = -> (m) { "../public/images/posters/" + m.movie_id.to_s + ".jpg" }
+
+	puts "Starting the download of missing posters...".cyan
+	Movie.select([:movie_id, :poster]).each do |m|
+		next if File.exist?(poster_filename.call(m))
+		puts "\tDownloading #{m.poster}...".yellow
+		begin
+		   	open(m.poster) do |f|
+		   	File.open(poster_filename.call(m), "wb") do |file|
+		    	file.puts f.read
+		   	end
+			end
+		rescue
+		end
+	end
+	t.stop
 	puts "Task took #{t.get} seconds to run".cyan
 end
 

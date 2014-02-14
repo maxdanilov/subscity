@@ -54,6 +54,15 @@ class KassaParser
 		results
 	end
 
+	def self.parse_movie_dates(data)
+		doc = Hpricot(data)
+		result = []
+		(doc/"option").each do |opt|
+			opt[:href]
+		end
+		result
+	end
+
 	def self.get_session_id(link)
 		#http://m.kassa.rambler.ru/place/hallplan?sessionid=9637961&geoPlaceID=2&widgetid=16857
 		# => 9637961
