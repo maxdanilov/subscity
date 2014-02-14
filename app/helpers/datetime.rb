@@ -1,3 +1,8 @@
+def time_range_on_day(time)
+	shift = 2.hours
+	(time.strip + shift ... time.next_day.strip + shift)
+end
+
 class Fixnum
 	def seconds
 		self
@@ -21,17 +26,14 @@ class Fixnum
 	alias_method :day, :days
 end
 
-def time_strip(time)
-	time.to_date.to_time
-end
+class Time
+	def strip
+		to_date.to_time
+	end
 
-def time_next_day(time)
-	time + 1.day
-end
-
-def time_range_on_day(time)
-	shift = 2.hours
-	(time_strip(time) + shift ... time_strip(time_next_day(time)) + shift)
+	def next_day
+		self + 1.day
+	end
 end
 
 class Timer

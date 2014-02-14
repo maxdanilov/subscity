@@ -55,12 +55,9 @@ class KassaParser
 	end
 
 	def self.parse_movie_dates(data)
+		# http://m.kassa.rambler.ru/movie/53046?date=2014.02.16&geoPlaceID=2&widgetid=16857
 		doc = Hpricot(data)
-		result = []
-		(doc/"option").each do |opt|
-			opt[:href]
-		end
-		result
+		(doc/"option").map { |opt| Time.parse(get_first_regex_match(opt[:value], /date=([\d\.]+)/)) rescue Time.now.strip }
 	end
 
 	def self.get_session_id(link)

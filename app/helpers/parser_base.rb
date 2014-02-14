@@ -12,7 +12,7 @@ module ParserBase
 	end
 
 	def get_first_regex_match_integer(str, regex)
-		get_first_regex_match(str, regex).to_i rescue 0
+		get_first_regex_match(str, regex).to_i
 	end
 
 	def parse_json(data)

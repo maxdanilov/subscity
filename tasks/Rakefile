@@ -117,20 +117,6 @@ task :update_movies => :environment do
 	puts "Task took #{t.get} seconds to run".cyan
 end
 
-=begin
-task :update_movies_clean => :environment do
-	puts "Starting to clean movies list...".cyan
-	Movie.all.each do |m| 
-		unless m.valid_genre?
-			m.destroy
-			puts "Movie #{m.movie_id} was deleted from the database:".yellow
-			puts m
-		end
-	end
-	puts "Cleaning complete".cyan
-end
-=end
-
 desc 'fill movies with info from Cinemate' 
 task :update_movies_info => :environment do
 	t = Timer.new.start
@@ -151,9 +137,6 @@ task :update_movies_info => :environment do
 				puts "Movie #{c.movie_id} was changed in the database:".yellow
 				puts c
 				c.save
-			#else
-			# 	puts "Kassa: #{c.title}" 
-			#	puts "Cinemate: #{results[:title_russian]}\n"
 			end
 		else
 			puts "\tMovie #{c.movie_id} was not found on Cinemate".red
@@ -288,4 +271,7 @@ end
 task :testtask => :environment do
 	#puts Screening.first
 	#puts KassaParser.parse_prices(KassaFetcher.fetch_prices(9705247))
+	#print KassaParser.parse_movie_dates(File.read('../dumps/her.htm'))
+	#puts
+	#print KassaParser.parse_movie_dates(File.read('../dumps/wolf2.htm'))
 end
