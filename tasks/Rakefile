@@ -3,7 +3,20 @@ task :environment do
 	#require 'padrino'
 	gem 'activerecord', '<4'
 	require 'active_record'
-	require 'colorize'
+
+	# no color output if script is run by cron
+	if STDOUT.tty?
+		require 'colorize'
+	else
+		class String
+			def color
+				self
+			end
+
+			[:black, :red, :green, :yellow, :blue, :magenta, :cyan, :white, :default, :light_black, :light_red, :light_green, :light_yellow, :light_blue, :light_magenta, :light_cyan, :light_white].each{|a| alias_method a, :color}
+		end
+	end
+
 	require 'open-uri'
 
 	ROOT_PATH = '../'
@@ -15,6 +28,70 @@ task :environment do
 	ActiveRecord::Base::establish_connection( :adapter => 'sqlite3', :database => DB)
 	I18n.enforce_available_locales = false
 	puts "Init complete".green
+end
+
+def start_task(task)
+	puts '-' * 80
+	puts "[->][#{Time.now}] Starting task #{task.name}".cyan
+	t = Timer.new.start
+end
+
+def stop_task(task, t)
+	t.stop
+	puts "[<-][#{Time.now}] Task #{task.name} took #{t.get} seconds to run".cyan
+	puts '-' * 80
+	puts
+end
+
+desc 'update screenings for all movies in the DB (active ones)'
+task :update_screenings => :environment do |task, args|
+	t = start_task(task)
+	count_all = Movie.active.count
+	Movie.active.each_with_index do |m, index|
+		puts "\t[#{index + 1 } / #{count_all}] Processing movie...".yellow
+		puts
+		Rake::Task[:update_screenings_movie].invoke(m.movie_id)
+		Rake::Task[:update_screenings_movie].reenable
+		sleep rand(2..3)
+	end
+	stop_task(task, t)
+end
+
+desc 'updates screenings for given movie (by id)'
+task :update_screenings_movie, [:id] => :environment do |task, args|
+	t = start_task(task)
+	id = args[:id].to_i
+	updated = 0	
+	movie_not_in_base = Movie.where(:movie_id => id).first.nil?
+	unless id == 0 or movie_not_in_base
+		puts "Fetching screenings for movie: ".green
+		puts Movie.where(:movie_id => id).first
+		# iterate through cities
+		City.pluck(:city_id).each do |city_id|
+			# first we parse all the available dates for given movie
+			dates = KassaParser.parse_movie_dates(KassaFetcher.fetch_sessions(id, nil, city_id))
+			# then iterate through them to fetch all sessions 
+			dates.each_with_index do |date, index|
+				puts "-> [#{index + 1} / #{dates.size}] Fetching screenings for #{date}".green
+				puts
+				KassaParser.parse_sessions_HTML(KassaFetcher.fetch_sessions(id, date, city_id), date).each do |s|
+					c = Screening.new(movie_id: id, cinema_id: s[:cinema], date_time: s[:time], screening_id: s[:session])
+					if c.valid?
+						c.save
+						updated += 1
+
+						puts "\tScreening #{c.screening_id} was added to the base: ".yellow
+						puts c
+					end
+				end
+			end
+		end
+	else
+		puts "Movie with given ID (#{id}) not found.".red
+	end
+
+	puts "#{updated} screenings added to the base".red
+	stop_task(task, t)
 end
 
 desc 'update movies list'
@@ -30,7 +107,8 @@ task :update_movies => :environment do
 	#mark all movies in the base as inactive
 	Movie.all.each { |m| m.update_attribute(:active, false) }
 	
-	City.all.map(&:city_id).each do |city_id|
+	#City.all.map(&:city_id).each do |city_id|
+	City.pluck(:city_id).each do |city_id|
 
 		items_count = 0
 		page_count = 0
@@ -81,7 +159,7 @@ task :update_movies => :environment do
 						end
 
 						#download poster
-						unless File.exist?(poster_filename.call(m))
+						unless File.exist?(poster_filename.call(c))
 							puts "\tDownloading #{c.poster}...".yellow
 							begin
 							   	open(c.poster) do |f|
@@ -108,7 +186,7 @@ task :update_movies => :environment do
 			page_count += 1
 			
 			break if items_count >= total_count
-			sleep 1
+			sleep rand(1..1.5)
 		end
 	end
 
@@ -116,6 +194,8 @@ task :update_movies => :environment do
 	puts "#{fetched_count} movies fetched, #{updated_count} updated in the base".red
 	puts "Task took #{t.get} seconds to run".cyan
 end
+
+=begin
 
 desc 'fill movies with info from Cinemate' 
 task :update_movies_info => :environment do
@@ -147,6 +227,8 @@ task :update_movies_info => :environment do
 	puts "Task took #{t.get} seconds to run".cyan
 end
 
+=end
+
 desc 'update cinemas list' 
 task :update_cinemas => :environment do
 	t = Timer.new.start
@@ -167,7 +249,7 @@ task :update_cinemas => :environment do
 			items.each do |item|
 				c = Cinema.new(cinema_id: item["PlaceID"], city_id: city_id, name: item["Name"], address: item["Address"], metro: item["Metro"])
 				if c.valid?
-					puts "\tCinema #{s.cinema_id} was added to database:".yellow
+					puts "\tCinema #{c.cinema_id} was added to database:".yellow
 					print "\t"
 
 					p c
@@ -183,7 +265,7 @@ task :update_cinemas => :environment do
 			page_count += 1
 			
 			break if items_count >= total_count
-			sleep 1
+			sleep rand(1.0..2.0)
 		end
 	end
 
@@ -192,6 +274,9 @@ task :update_cinemas => :environment do
 	puts "Task took #{t.get} seconds to run".cyan
 end
 
+=begin
+
+desc 'update movies posters cache'
 task :update_movies_posters => :environment do
 	t = Timer.new.start
 	poster_filename = -> (m) { "../public/images/posters/" + m.movie_id.to_s + ".jpg" }
@@ -213,28 +298,33 @@ task :update_movies_posters => :environment do
 	puts "Task took #{t.get} seconds to run".cyan
 end
 
+=end
+
 desc 'update screenings prices'
-task :update_screenings_prices => :environment do
-	t = Timer.new.start
+task :update_screenings_prices => :environment do |task|
+	t = start_task(task)
 	fetched_count = Screening.active.no_prices.count
 	updated_count = 0
 	puts "Starting updating of #{fetched_count} screenings...".cyan
+	counter = 0
 	Screening.active.no_prices.find_each do |s|
+		counter += 1
 		max_price, min_price = KassaParser.parse_prices(KassaFetcher.fetch_prices(s.screening_id))
 		if (!max_price.nil? and !min_price.nil?)
 			s.price_min, s.price_max = min_price, max_price
 			s.save
 			updated_count += 1
 
-			puts "\tScreening #{s.screening_id} was updated with prices [#{min_price}, #{max_price}]:".yellow
-			puts s
+			puts "\t[#{counter}/#{fetched_count}] Screening #{s.screening_id} was updated with prices [#{min_price}, #{max_price}]:".yellow
+		else
+			puts "\t[#{counter}/#{fetched_count}] Screening #{s.screening_id} was not updated with prices".red
 		end
-		sleep 0.5
+			puts s
+		sleep rand(0.5..1)
 	end
 
-	t.stop
 	puts "#{fetched_count} screenings processed, #{updated_count} updated in the base".red
-	puts "Task took #{t.get} seconds to run".cyan
+	stop_task(task, t)
 end
 
 desc 'seed cities table'
@@ -245,11 +335,11 @@ end
 
 desc 'delete all obsolete screenings'
 task :cleanup_screenings => :environment do
-	t = Timer.new.start
+	t = start_task(task)
 
 	#clean old screenings
-	puts "#{Screening.before(Date.today.to_time).count} old screenings deleted".cyan
-	Screening.before(Date.today.to_time).destroy_all
+	puts "#{Screening.before(Time.now.strip).count} old screenings deleted".cyan
+	Screening.before(Time.now.strip).destroy_all
 
 	deleted = 0
 	puts "Starting cleanup of #{Screening.active.count} screenings...".cyan
@@ -263,15 +353,20 @@ task :cleanup_screenings => :environment do
 		end
 	end
 
-	t.stop
 	puts "#{deleted} screenings were deleted from database".red
-	puts "Task took #{t.get} seconds to run".cyan
+	stop_task(task, t)
 end
 
-task :testtask => :environment do
-	#puts Screening.first
-	#puts KassaParser.parse_prices(KassaFetcher.fetch_prices(9705247))
-	#print KassaParser.parse_movie_dates(File.read('../dumps/her.htm'))
-	#puts
-	#print KassaParser.parse_movie_dates(File.read('../dumps/wolf2.htm'))
+task :testtask => :environment do |task|
+	t = start_task(task)
+	puts "Output test! is TTY: #{STDOUT.tty?}".green
+	#File.open("out.txt", 'a') {|f| f.write("#{Time.now}\n") }
+	Rake::Task[:test2].invoke(10)
+	stop_task(task, t)
+end
+
+task :test2, [:id] => :environment do |task, args|
+	t = start_task(task)
+	puts "id from task2: #{args[:id]}"
+	stop_task(task, t)
 end

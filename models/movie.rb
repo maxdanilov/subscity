@@ -5,6 +5,8 @@ class Movie < ActiveRecord::Base
 	validates :title,  		presence: true
 	validates :movie_id, 	presence: true, uniqueness: true
 
+	scope :active, -> { where(:active => true) }
+
 	def valid_genre?
 		non_valid_genres = ['Опера', 'Балет', 'Фильмы-спектакли']
 		!(non_valid_genres.any? { |w| genres.include? w })

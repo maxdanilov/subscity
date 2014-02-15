@@ -14,7 +14,7 @@ class Screening < ActiveRecord::Base
 
 	scope :active, -> { where('date_time > ?', Time.now) }
 	scope :inactive, -> { where('date_time <= ?', Time.now) }
-
+=begin
 	def self.update(movie, date, city)
 		data = KassaFetcher.fetch_sessions(movie, date, city)
 		updated = 0
@@ -28,7 +28,7 @@ class Screening < ActiveRecord::Base
 		end
 		return updated
 	end
-
+=end
 	def exists?
 		KassaParser.screening_exists?(KassaFetcher.fetch_session(screening_id, cinema.city_id))
 	end

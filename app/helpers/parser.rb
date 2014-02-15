@@ -44,6 +44,8 @@ class KassaParser
 				el.parent.search("div/a").each do |a|
 					session_id = get_session_id( a[:href] )
 					session_time = parse_time( a.inner_html, date)
+					# the night screenings are technically on the next day!
+					session_time += 1.day if session_time.hour.between? 0, 5
 					#p session_id.to_s + " " + session_time.to_s + " " + session_cinema.to_s
 					results << { session: session_id , time: session_time, cinema: session_cinema }
 				end
