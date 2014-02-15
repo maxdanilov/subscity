@@ -44,10 +44,23 @@ class KassaFetcher
 		fetch_data_post(URL_FOR_PRICES, params_for_prices(screening_id), STANDARD_HEADERS)
 	end
 
+	def self.fetch_availability(screening_id)
+		fetch_data_post(url_for_availability, params_for_availability(screening_id), JSON_HEADERS)
+	end
+
+	def self.params_for_availability(screening_id)
+		{'sessionid' => screening_id.to_s}
+	end
+
 	def self.params_for_prices(screening_id)
 		{ 'sessionID' => screening_id, 'placeCount' => 1, 'widgetID' => WIDGET_ID }
 	end
 	
+	def self.url_for_availability
+		#post to http://m.kassa.rambler.ru/place/placecount?sessionid=9857931
+		DOMAIN + "place/placecount"#"?sessionid=" + screening_id.to_s
+	end
+
 	def self.url_for_cinemas(start, length = PAGE_SIZE, placeid = CITY_ID)
 		# http://m.kassa.rambler.ru/place/nearplaces/cinema?start=0&pagesize=20&geoplaceid=2&widgetid=16857
 		DOMAIN + "place/nearplaces/cinema?start=" + start.to_s + "&pagesize=" + length.to_s + "&geoplaceid=" + placeid.to_s + "&widgetid=" + WIDGET_ID.to_s
@@ -91,7 +104,9 @@ class KassaFetcher
 	private_class_method :url_for_movies
 	private_class_method :url_for_cinemas
 	private_class_method :url_for_session
+	private_class_method :url_for_availability
 	private_class_method :params_for_prices
+	private_class_method :params_for_availability
 	private_class_method :fetch_data_html
 	private_class_method :fetch_data_json
 

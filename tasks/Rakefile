@@ -309,17 +309,24 @@ task :update_screenings_prices => :environment do |task|
 	counter = 0
 	Screening.active.no_prices.find_each do |s|
 		counter += 1
-		max_price, min_price = KassaParser.parse_prices(KassaFetcher.fetch_prices(s.screening_id))
-		if (!max_price.nil? and !min_price.nil?)
-			s.price_min, s.price_max = min_price, max_price
-			s.save
-			updated_count += 1
 
-			puts "\t[#{counter}/#{fetched_count}] Screening #{s.screening_id} was updated with prices [#{min_price}, #{max_price}]:".yellow
+		if s.available?
+			
+			max_price, min_price = s.get_prices
+			if (!max_price.nil? and !min_price.nil?)
+				s.price_min, s.price_max = min_price, max_price
+				s.save
+				updated_count += 1
+
+				puts "\t[#{counter}/#{fetched_count}] Screening #{s.screening_id} was updated with prices [#{min_price}, #{max_price}]:".yellow
+			else
+				puts "\t[#{counter}/#{fetched_count}] Screening #{s.screening_id} was not updated with prices".red
+			end
+				
 		else
-			puts "\t[#{counter}/#{fetched_count}] Screening #{s.screening_id} was not updated with prices".red
+			puts "\t[#{counter}/#{fetched_count}] Screening #{s.screening_id} is not available".red
 		end
-			puts s
+		puts s
 		sleep rand(0.5..1)
 	end
 
@@ -361,7 +368,9 @@ task :testtask => :environment do |task|
 	t = start_task(task)
 	puts "Output test! is TTY: #{STDOUT.tty?}".green
 	#File.open("out.txt", 'a') {|f| f.write("#{Time.now}\n") }
-	Rake::Task[:test2].invoke(10)
+	#Rake::Task[:test2].invoke(10)
+	#puts KassaParser.parse_tickets_available?(KassaFetcher.fetch_availability(9857931))
+	#puts KassaParser.parse_tickets_available?(KassaFetcher.fetch_availability(9857508))
 	stop_task(task, t)
 end
 

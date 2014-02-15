@@ -14,23 +14,17 @@ class Screening < ActiveRecord::Base
 
 	scope :active, -> { where('date_time > ?', Time.now) }
 	scope :inactive, -> { where('date_time <= ?', Time.now) }
-=begin
-	def self.update(movie, date, city)
-		data = KassaFetcher.fetch_sessions(movie, date, city)
-		updated = 0
-		KassaParser.parse_sessions_HTML(data, date).each do |s|
-			c = Screening.new(movie_id: movie, cinema_id: s[:cinema], date_time: s[:time], screening_id: s[:session])
 
-			if c.valid?
-				c.save
-				updated += 1
-			end
-		end
-		return updated
-	end
-=end
 	def exists?
 		KassaParser.screening_exists?(KassaFetcher.fetch_session(screening_id, cinema.city_id))
+	end
+
+	def available?
+		KassaParser.parse_tickets_available?(KassaFetcher.fetch_availability(screening_id))
+	end
+
+	def get_prices
+		KassaParser.parse_prices(KassaFetcher.fetch_prices(screening_id))
 	end
 
 	def to_s

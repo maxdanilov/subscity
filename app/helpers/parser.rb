@@ -6,6 +6,7 @@ class KassaParser
 	extend ParserBase
 
 	HAS_SUBS = "субтитр"
+	NOT_FOUND_SCREENING = /Сеанс не найден/
 	
 	def self.parse_prices(data)
 		parsed = parse_json(data)
@@ -56,6 +57,15 @@ class KassaParser
 		results
 	end
 
+	def self.parse_tickets_available?(data)
+		parsed = parse_json(data) rescue nil
+		unless parsed.nil?
+			!(parsed["error"] == true or parsed["maxPlaceCount"] == 0)
+		else
+			false
+		end
+	end
+
 	def self.parse_movie_dates(data)
 		# http://m.kassa.rambler.ru/movie/53046?date=2014.02.16&geoPlaceID=2&widgetid=16857
 		doc = Hpricot(data)
@@ -81,7 +91,7 @@ class KassaParser
 
 	def self.screening_exists?(data)
 		doc = Hpricot(data)
-		((doc.at("title").inner_text rescue nil) =~ /Сеанс не найден/).nil?
+		((doc.at("title").inner_text rescue nil) =~ NOT_FOUND_SCREENING).nil?
 	end
 
 	private_class_method	:parse_time
@@ -91,4 +101,6 @@ class KassaParser
 	public_class_method		:parse_prices
 	public_class_method		:parse_sessions_HTML
 	public_class_method		:screening_exists?
+	public_class_method		:parse_tickets_available?
+	public_class_method		:parse_movie_dates
 end
