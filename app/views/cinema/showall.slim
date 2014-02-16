@@ -1,17 +1,33 @@
-doctype html
-html
-	head
-		title Subscity 
-		meta name="keywords" content="template language"
-		meta name="author" content="Me Myself"
-
-	body
-    	h1 Список кинотеатров
-
-    	table
-          - for cinema in @cinemas do
-            tr
-              td.name = cinema.name
-              td.city = cinema.city.name
-              td.address = cinema.address
-              td.metro = cinema.metro
+h1
+	a href="#"
+		| Кинотеатры
+	|  
+	span.label.label-bg.label-warning  = @cinemas.count
+div.table-responsive
+	table.table.table-striped.table-bordered.table-condensed.table-curved
+		thead
+			tr
+				th.text-center
+					| №
+				th.text-center
+					| Название
+				th.text-center
+					| Город
+				th.text-center
+					| Адрес
+				th.text-center
+					| Метро
+		tbody
+			- @cinemas.sort! { |a,b| a.name.downcase <=> b.name.downcase }
+			- @cinemas.each_with_index do |cinema, index|
+				tr
+					td.name.text-center
+						= index + 1
+					td.name.col-md-4
+						= cinema.name
+					td.city.col-md-2.text-center
+						= cinema.city.name
+					td.address.col-md-4
+						= cinema.address
+					td.metro.col-md-2
+						= cinema.metro

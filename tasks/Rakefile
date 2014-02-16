@@ -96,7 +96,7 @@ end
 
 desc 'update movies list'
 task :update_movies => :environment do
-	t = Timer.new.start
+	t = start_task(task)
 	page_size = KassaFetcher::PAGE_SIZE
 	poster_filename = -> (m) { "../public/images/posters/" + m.movie_id.to_s + ".jpg" }
 	updated_count = 0
@@ -190,9 +190,8 @@ task :update_movies => :environment do
 		end
 	end
 
-	t.stop
 	puts "#{fetched_count} movies fetched, #{updated_count} updated in the base".red
-	puts "Task took #{t.get} seconds to run".cyan
+	stop_task(task, t)
 end
 
 =begin
@@ -231,7 +230,7 @@ end
 
 desc 'update cinemas list' 
 task :update_cinemas => :environment do
-	t = Timer.new.start
+	t = start_task(task)
 	page_size = KassaFetcher::PAGE_SIZE
 	
 	updated_count = 0
@@ -269,9 +268,8 @@ task :update_cinemas => :environment do
 		end
 	end
 
-	t.stop
 	puts "#{fetched_count} cinemas fetched, #{updated_count} updated in the base".red
-	puts "Task took #{t.get} seconds to run".cyan
+	stop_task(task, t)
 end
 
 =begin
@@ -299,6 +297,31 @@ task :update_movies_posters => :environment do
 end
 
 =end
+
+desc 'update kinopoisk buttons cache'
+task :update_kinopoisk_buttons => :environment do |task|
+	t = start_task(task)
+	filename = -> (m) { "../public/images/kinopoisk/" + m.kinopoisk_id.to_s + ".png" }
+	url = -> (m) { "http://rating.kinopoisk.ru/#{m.kinopoisk_id}.gif" }
+
+	puts "Starting update of all buttons...".cyan
+	total = Movie.active.count
+	Movie.active.select([:kinopoisk_id]).each_with_index do |m, index|
+		next if m.kinopoisk_id.nil? 
+		#next if File.exist?(poster_filename.call(m))
+		puts "\t[#{index+1}/#{total}] Downloading #{m.kinopoisk_id}...".yellow
+		begin
+		   	open(url.call(m)) do |f|
+		   	File.open(filename.call(m), "wb") do |file|
+		    	file.puts f.read
+		   	end
+			end
+		rescue
+		end
+		sleep rand(1..2.0)
+	end
+	stop_task(task, t)
+end
 
 desc 'update screenings prices'
 task :update_screenings_prices => :environment do |task|

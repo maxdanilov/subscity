@@ -1,6 +1,7 @@
 module Subscity
   class App < Padrino::Application
     use ActiveRecord::ConnectionAdapters::ConnectionManagement
+    register LessInitializer
     register Padrino::Rendering
     register Padrino::Mailer
     register Padrino::Helpers
@@ -64,16 +65,15 @@ module Subscity
 	end
 
     get '/cinemas' do
-        @cinemas = Cinema.all(:order => 'created_at desc')
-        render 'cinema/showall'
+        @cinemas = Cinema.joins(:city).all(:order => 'created_at desc')
+        Slim::Engine.set_default_options :pretty => true, :sort_attrs => false
+        render 'cinema/showall', layout: :layout
     end
 
-    get '/update/screenings' do
-        updated = 0
-        (0..7).each do |day| 
-            updated += Screening.update(Movie.first.movie_id, Time.now + 86400*day, 2)
-        end
-        "Updated #{updated} records..."
+    get '/movies' do
+        @movies = Movie.joins(:screenings).merge(Screening.active).uniq
+        Slim::Engine.set_default_options :pretty => true, :sort_attrs => false
+        render 'movie/showall', layout: :layout
     end
 
   end

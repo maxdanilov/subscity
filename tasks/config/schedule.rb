@@ -23,7 +23,6 @@ job_type :my_rake, 'cd :path && rake :task :output'
 
 set :output, 'logs/cron.log'
 
-begin
 #movies
 every :day, :at => '10:05' do
 	my_rake "update_movies", :output => 'logs/cron_movies.log'
