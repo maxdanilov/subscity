@@ -1,0 +1,98 @@
+/h1.text-center
+/	= "Фильмы (#{@city.name})"
+	
+table
+	- @movies.each do |movie|
+		table.table.table-bordered.table-condensed.table-curved.table-striped style="margin-bottom:0px;margin-top:5px;"
+			tbody
+				tr.table-header
+					td.col-md-1.text-center style="width:75px; vertical-align: middle;"
+						button.btn.btn-default.btn-medium.show-button type="button"
+  							span.glyphicon.glyphicon-chevron-down
+
+					td.col.md-8
+						span.movie-title 
+							= link_to_movie(movie)
+							|  
+							- style=age_restriction_style(movie.age_restriction)
+							<span class="label label-bg #{style} age-restriction">#{movie.age_restriction}+</span>
+							- if @new_movies.include? movie
+								|  
+								span.badge.gray style="position:relative; top:-2px;"
+									| новый 
+							- if @screening_counts[movie] < 5
+								|  
+								span.badge.orange style="position:relative; top:-2px;"
+									| мало сеансов 
+						- unless movie.title_original.nil?
+							div.movie-title-original = movie.title_original
+					
+					- unless movie.kinopoisk_id.nil? and movie.imdb_id.nil?
+						td.col-md-3.text-center style="width:260px;"
+							- unless movie.imdb_id.nil?
+								span
+									a href="http://www.imdb.com/title/tt#{movie.imdb_id}/"
+										img.rating-button src = "http://tracker.0day.kiev.ua/imdb/imdb_tt#{movie.imdb_id}.gif"
+
+							- unless movie.kinopoisk_id.nil?
+								span
+									a href="http://www.kinopoisk.ru/film/#{movie.kinopoisk_id}/"
+										- if File.exist?(File.dirname(__FILE__) + "/../../../public/images/kinopoisk/#{movie.kinopoisk_id}.png")
+											img.rating-button src = image_path("kinopoisk/#{movie.kinopoisk_id}.png")  	
+										- else	
+											img.rating-button src = "http://rating.kinopoisk.ru/#{movie.kinopoisk_id}.gif" 
+
+		table.table.table-bordered.table-condensed.table-curved.table-striped style="margin-bottom:0px; display:none;"
+			tbody	
+				tr.table-body
+					td.text-center rowspan = "10"
+				
+						img src = image_path("posters/#{movie.movie_id}.jpg") width=144 height=212
+
+						span.badge.gray style="margin-top:5px;"
+							| #{format_screenings_count(@screening_counts[movie])} 
+						span.badge.gray style="margin-top:5px;"
+							| #{format_cinemas_count(@cinemas_counts[movie])} 
+
+					- unless movie.year.nil?
+						td.col-md-12 colspan="1"
+							div
+								strong Год: 
+								= movie.year.to_s
+
+				- unless movie.genres.to_s.empty?
+					tr.table-body
+						td.col-md-12 colspan="1" 
+							div
+								strong Жанр: 
+								= movie.genres
+				- unless movie.duration.nil?
+					tr.table-body
+						td.col-md-12 colspan="1" 
+							div
+								strong Продолжительность: 
+								= movie.duration
+								|  мин.
+				- unless movie.country.nil? or movie.country == '-'
+					tr.table-body
+						td.col-md-12 colspan="1" 
+							div
+								strong Страна: 
+								= movie.country
+				- unless movie.director.nil?
+					tr.table-body
+						td colspan = "1" 
+							div
+								strong Режиссер: 
+								= movie.director
+				- unless movie.cast.nil?
+					tr.table-body
+						td colspan = "1" 
+							div
+								strong В ролях: 
+								= movie.cast
+				- unless movie.description.nil?
+					tr.table-body
+						td colspan = "1" 
+							div
+								= movie.description

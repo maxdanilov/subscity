@@ -1,0 +1,101 @@
+﻿- movie = @movie
+table.table.table-bordered.table-condensed.table-curved.table-striped
+	tr
+		td.text-center rowspan = "10"
+			#a href="movies/#{movie.id}"
+			img src = image_path("posters/#{movie.movie_id}.jpg") width=144 height=212
+			- unless movie.kinopoisk_id.nil?
+				a href="http://www.kinopoisk.ru/film/#{movie.kinopoisk_id}/"
+					img.rating-button src = "http://rating.kinopoisk.ru/#{movie.kinopoisk_id}.gif"
+					/img.rating-button src = image_path("kinopoisk/#{movie.kinopoisk_id}.png")
+			- unless movie.imdb_id.nil?
+				a href="http://www.imdb.com/title/tt#{movie.imdb_id}/"
+					img.rating-button src = "http://tracker.0day.kiev.ua/imdb/imdb_tt#{movie.imdb_id}.gif"
+
+		td colspan = "2" 
+			span.movie-title 
+				=movie.title 
+				|  
+				- style=age_restriction_style(movie.age_restriction)
+				<span class="label label-bg #{style} age-restriction">#{movie.age_restriction}+</span>
+			- unless movie.title_original.nil?
+				div.movie-title-original = movie.title_original
+	- unless movie.year.nil?
+		tr
+			td.col-md-12 colspan="2" 
+				div
+					strong Год: 
+					= movie.year.to_s
+	- unless movie.genres.to_s.empty?
+		tr
+			td.col-md-12 colspan="2" 
+				div
+					strong Жанр: 
+					= movie.genres
+	- unless movie.duration.nil?
+		tr
+			td.col-md-12 colspan="2" 
+				div
+					strong Продолжительность: 
+					= movie.duration
+					|  мин.
+	- unless movie.country.nil? or movie.country == '-'
+		tr
+			td.col-md-12 colspan="2" 
+				div
+					strong Страна: 
+					= movie.country
+	- unless movie.director.nil?
+		tr
+			td colspan = "2" 
+				div
+					strong Режиссер: 
+					= movie.director
+	- unless movie.cast.nil?
+		tr
+			td colspan = "2" 
+				div
+					strong В ролях: 
+					= movie.cast
+	- unless movie.description.nil?
+		tr
+			td colspan = "2" 
+				div
+					= movie.description
+
+- if @screenings.count == 0
+	h2.text-center В ближайшее время сеансов на языке оригинала нет
+- else
+	h2.text-center Сеансы на языке оригинала<br>(с русскими субтитрами)
+
+	= render 'layouts/filters'
+
+	- @screenings.each do |day, cinemas|
+		h4.header-day.text-center
+			= link_to_date(day)
+		table.table.table-bordered.table-condensed.table-curved.table-striped
+			- cinemas.each do |cinema, screenings|
+				tr.row-entity
+					td.col-sm-4.col-xs-8
+						div.big-font
+							= link_to_cinema(cinema)
+						- unless cinema.metro.to_s.empty?
+							span.small-font.location
+								| м. 
+								= cinema.metro
+					td.col-sm-8.col-xs-4
+						table
+							tr
+								- screenings.each do |screening|
+									td.text-center.cell-screenings attr-price=screening.price_min attr-time-of-day=time_of_day(screening.date_time)
+										/http://kassa.rambler.ru/place/322?date=2014.02.18
+								 		a.btn.btn-default.navbar-btn.price-button href="http://kassa.rambler.ru/place/#{cinema.cinema_id}?date=#{day.to_time.strftime("%Y.%m.%d")}" target="_blank"
+								 			= show_time(screening.date_time)
+								 		/- unless screening.price_min.to_i == 0
+									 	br
+									 	- style=price_tag_style(screening.price_min)
+									 	- transparency = screening.price_min.to_i == 0 ? "pseudo-hidden" : ""
+									 	<span class="label label-bg #{style} price-label btn-block #{transparency}">#{format_price(screening.price_min)}</span>
+								 		
+		h3.text-center id="nothing-found" style="display:none;"					 		
+			| Ничего не найдено. Смягчите условия поиска.
