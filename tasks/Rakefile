@@ -67,7 +67,7 @@ task :update_screenings_movie, [:id] => :environment do |task, args|
 		puts "Fetching screenings for movie: ".green
 		puts Movie.where(:movie_id => id).first
 		# iterate through cities
-		City.pluck(:city_id).each do |city_id|
+		City.active.pluck(:city_id).each do |city_id|
 			# first we parse all the available dates for given movie
 			dates = KassaParser.parse_movie_dates(KassaFetcher.fetch_sessions(id, nil, city_id))
 			# then iterate through them to fetch all sessions 
@@ -107,8 +107,7 @@ task :update_movies => :environment do
 	#mark all movies in the base as inactive
 	Movie.all.each { |m| m.update_attribute(:active, false) }
 	
-	#City.all.map(&:city_id).each do |city_id|
-	City.pluck(:city_id).each do |city_id|
+	City.active.pluck(:city_id).each do |city_id|
 
 		items_count = 0
 		page_count = 0
@@ -127,6 +126,9 @@ task :update_movies => :environment do
 								poster: Movie.upd_thumbnail(item["thumbnail"]), 
 								active: true, 
 								duration: item["duration"] )
+				
+				c['country'] = nil if c['country'].to_s.strip == '-'
+				c['genres'] = nil if c['genres'].to_s.strip.empty?
 
 				if c.in_db?
 					#mark as active in db
@@ -194,40 +196,6 @@ task :update_movies => :environment do
 	stop_task(task, t)
 end
 
-=begin
-
-desc 'fill movies with info from Cinemate' 
-task :update_movies_info => :environment do
-	t = Timer.new.start
-	Movie.where("cinemate_id IS NULL AND year IS NOT NULL").each do |c|
-		key = Cinemate.get_csrf_token
-		id = Cinemate.get_movie_id(Cinemate.prepare_title(Cinemate.prepare_title_for_search(c.title)), key, c.year)
-		unless id.nil?
-			results = Cinemate.get_and_parse_movie_page(id)
-			if Cinemate.equal_titles?(results[:title_russian], Cinemate.prepare_title_for_search(c.title))
-				c.title_original = results[:title_original]
-				c.director = results[:director]
-				c.cast = results[:cast]
-				c.description = results[:description]
-				c.kinopoisk_id = results[:kinopoisk_id]
-				c.imdb_id = results[:imdb_id]
-				c.cinemate_id = id
-
-				puts "Movie #{c.movie_id} was changed in the database:".yellow
-				puts c
-				c.save
-			end
-		else
-			puts "\tMovie #{c.movie_id} was not found on Cinemate".red
-			puts c
-		end
-	end
-	t.stop
-	puts "Task took #{t.get} seconds to run".cyan
-end
-
-=end
-
 desc 'update cinemas list' 
 task :update_cinemas => :environment do
 	t = start_task(task)
@@ -238,7 +206,7 @@ task :update_cinemas => :environment do
 	items_count = 0
 	page_count = 0
 	
-	City.all.map(&:city_id).each do |city_id|
+	City.active.pluck(:city_id).each do |city_id|
 		items_count = 0
 		page_count = 0
 
@@ -272,32 +240,6 @@ task :update_cinemas => :environment do
 	stop_task(task, t)
 end
 
-=begin
-
-desc 'update movies posters cache'
-task :update_movies_posters => :environment do
-	t = Timer.new.start
-	poster_filename = -> (m) { "../public/images/posters/" + m.movie_id.to_s + ".jpg" }
-
-	puts "Starting the download of missing posters...".cyan
-	Movie.select([:movie_id, :poster]).each do |m|
-		next if File.exist?(poster_filename.call(m))
-		puts "\tDownloading #{m.poster}...".yellow
-		begin
-		   	open(m.poster) do |f|
-		   	File.open(poster_filename.call(m), "wb") do |file|
-		    	file.puts f.read
-		   	end
-			end
-		rescue
-		end
-	end
-	t.stop
-	puts "Task took #{t.get} seconds to run".cyan
-end
-
-=end
-
 desc 'update kinopoisk buttons cache'
 task :update_kinopoisk_buttons => :environment do |task|
 	t = start_task(task)
@@ -308,7 +250,6 @@ task :update_kinopoisk_buttons => :environment do |task|
 	total = Movie.active.count
 	Movie.active.select([:kinopoisk_id]).each_with_index do |m, index|
 		next if m.kinopoisk_id.nil? 
-		#next if File.exist?(poster_filename.call(m))
 		puts "\t[#{index+1}/#{total}] Downloading #{m.kinopoisk_id}...".yellow
 		begin
 		   	open(url.call(m)) do |f|
@@ -359,8 +300,9 @@ end
 
 desc 'seed cities table'
 task :seed_cities => :environment do
-	City.new(:city_id => 2, :name => "Москва").save
-	#City.new(:city_id => 3, :name => "Санкт-Петербург").save
+	#City.new(:city_id => 2, :name => "Москва").save
+	City.new(:city_id => 2, :name => "Москва", :geoip => "Moscow; 48 RU", :domain => "msk", :active => true).save
+	City.new(:city_id => 3, :name => "Санкт-Петербург", :geoip => "Saint Petersburg; 66 RU", :domain => "spb", :active => false).save
 end
 
 desc 'delete all obsolete screenings'
@@ -387,18 +329,38 @@ task :cleanup_screenings => :environment do
 	stop_task(task, t)
 end
 
+desc 'fill movies with info from Cinemate' 
+task :update_movies_info => :environment do
+	t = Timer.new.start
+	Movie.where("cinemate_id IS NULL AND year IS NOT NULL").each do |c|
+		key = Cinemate.get_csrf_token
+		id = Cinemate.get_movie_id(Cinemate.prepare_title(Cinemate.prepare_title_for_search(c.title)), key, c.year)
+		unless id.nil?
+			results = Cinemate.get_and_parse_movie_page(id)
+			if Cinemate.equal_titles?(results[:title_russian], Cinemate.prepare_title_for_search(c.title))
+				c.title_original = results[:title_original]
+				c.director = results[:director]
+				c.cast = results[:cast]
+				c.description = results[:description]
+				c.kinopoisk_id = results[:kinopoisk_id]
+				c.imdb_id = results[:imdb_id]
+				c.cinemate_id = id
+
+				puts "Movie #{c.movie_id} was changed in the database:".yellow
+				puts c
+				c.save
+			end
+		else
+			puts "\tMovie #{c.movie_id} was not found on Cinemate".red
+			puts c
+		end
+	end
+	t.stop
+	puts "Task took #{t.get} seconds to run".cyan
+end
+
 task :testtask => :environment do |task|
 	t = start_task(task)
 	puts "Output test! is TTY: #{STDOUT.tty?}".green
-	#File.open("out.txt", 'a') {|f| f.write("#{Time.now}\n") }
-	#Rake::Task[:test2].invoke(10)
-	#puts KassaParser.parse_tickets_available?(KassaFetcher.fetch_availability(9857931))
-	#puts KassaParser.parse_tickets_available?(KassaFetcher.fetch_availability(9857508))
-	stop_task(task, t)
-end
-
-task :test2, [:id] => :environment do |task, args|
-	t = start_task(task)
-	puts "id from task2: #{args[:id]}"
 	stop_task(task, t)
 end

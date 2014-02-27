@@ -38,6 +38,9 @@ ActiveRecord::Schema.define(:version => 7) do
   create_table "cities", :force => true do |t|
     t.integer  "city_id"
     t.string   "name"
+    t.string   "domain"
+    t.string   "geoip"
+    t.boolean  "active"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

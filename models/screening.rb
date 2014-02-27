@@ -1,6 +1,9 @@
+require 'date'
+
 class Screening < ActiveRecord::Base
 	belongs_to :cinema, primary_key: "cinema_id"
 	belongs_to :movie, primary_key: "movie_id"
+	has_one :city, through: :cinema, primary_key: "city_id"
 
 	validates :screening_id, presence: true, uniqueness: true
 	validates :movie_id, presence: true
@@ -9,13 +12,41 @@ class Screening < ActiveRecord::Base
 	scope :later_than, ->(date) { where('date_time > ?', date) }
 	scope :before, ->(date) { where('date_time <= ?', date) }
 	scope :today, -> { where(:date_time => time_range_on_day(Time.now) ) }
+	#scope :today_and_later, -> { where('date_time > ?', Time.now.strip) }
 	scope :on_date, ->(date) { where(:date_time => time_range_on_day(date)) }
 	scope :no_prices, -> { where(:price_max => nil) }
 
 	scope :active, -> { where('date_time > ?', Time.now) }
 	scope :inactive, -> { where('date_time <= ?', Time.now) }
 
+	scope :in_city, ->(city_id) { joins(:cinema).where("city_id = ?", city_id) }
+
+	def self.get_sorted_screenings(date, city_id)
+		screenings_all = Screening.active.on_date(date).in_city(city_id).order(:date_time)
+		cinemas_all = Cinema.all
+		movies_all = Movie.all
+		r = Hash.new
+		# format is like this: r[movie][cinema] -> array of screenings
+		screenings_all.each do |s|
+			cinema = cinemas_all.find { |c| c.cinema_id == s.cinema_id}
+			movie = movies_all.find { |c| c.movie_id == s.movie_id}
+			r[movie] ||= {} unless movie.nil?
+			unless cinema.nil? or movie.nil?
+				r[movie][cinema] ||= []
+				r[movie][cinema] << s
+			end
+		end
+
+		r.each { |k,v| r[k] = v.sort_by {|k,v| k.name}.to_h } # sort cinemas by name
+		r = Hash[r.sort_by {|k,v| k.title}] #sort movies by title
+	end
+
+	def date
+		date_for_screening(date_time).to_date
+	end
+
 	def exists?
+		#puts "Checking if exists: #{screening_id}".cyan
 		KassaParser.screening_exists?(KassaFetcher.fetch_session(screening_id, cinema.city_id))
 	end
 
@@ -24,7 +55,8 @@ class Screening < ActiveRecord::Base
 	end
 
 	def get_prices
-		KassaParser.parse_prices(KassaFetcher.fetch_prices(screening_id))
+		#KassaParser.parse_prices(KassaFetcher.fetch_prices(screening_id))
+		KassaParser.parse_prices_full(KassaFetcher.fetch_prices_full(screening_id))
 	end
 
 	def to_s

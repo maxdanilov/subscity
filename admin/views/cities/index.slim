@@ -25,6 +25,9 @@ div class="tabs-content"
                       = hidden_field_tag :city_ids, :'data-delete-many-ids' => true
                       = submit_tag  pat(:delete), :class =>'list-menu-popover-delete-selected-btn btn btn-danger btn-small'
                       div class='btn btn-default btn-small cancel' = pat(:cancel)
+        th class='header' = mat(:city, :active)
+        th class='header' = mat(:city, :geoip)
+        th class='header' = mat(:city, :domain)
         th class='header' = mat(:city, :id)
         th class='header' = mat(:city, :city_id)
         th class='header' = mat(:city, :name)
@@ -36,6 +39,9 @@ div class="tabs-content"
       -@cities.each do |city|
         tr class='list-row'
           td class='list-column list-selectable' = check_box_tag 'city_ids[]', :value => city.id, :class => 'list-selectable-checkbox'
+          td class='list-column' = city.active ? tag_icon(:ok) : tag_icon(:remove)
+          td class='list-column' = city.geoip
+          td class='list-column' = city.domain
           td class='list-column' = city.id
           td class='list-column' = city.city_id
           td class='list-column' = city.name

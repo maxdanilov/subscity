@@ -1,33 +1,42 @@
-h1
-	a href="#"
-		| Кинотеатры
-	|  
-	span.label.label-bg.label-warning  = @cinemas.count
-div.table-responsive
-	table.table.table-striped.table-bordered.table-condensed.table-curved
-		thead
-			tr
-				th.text-center
-					| №
-				th.text-center
-					| Название
-				th.text-center
-					| Город
-				th.text-center
-					| Адрес
-				th.text-center
-					| Метро
-		tbody
-			- @cinemas.sort! { |a,b| a.name.downcase <=> b.name.downcase }
-			- @cinemas.each_with_index do |cinema, index|
+/h1.text-center
+/	= "Кинотеатры (#{@city.name})"
+- if @cinemas.size == 0
+	h3.text-center id="nothing-found"				 		
+		| Кинотеатров не найдено
+- else
+	div.table-responsive
+		table.table.table-striped.table-bordered.table-condensed.table-curved
+			thead
 				tr
-					td.name.text-center
-						= index + 1
-					td.name.col-md-4
-						= cinema.name
-					td.city.col-md-2.text-center
-						= cinema.city.name
-					td.address.col-md-4
-						= cinema.address
-					td.metro.col-md-2
-						= cinema.metro
+					th.text-center
+						h4 Название
+					th.text-center
+						h4 Фильмы в прокате
+			tbody
+				- @cinemas.each do |cinema, movies|
+					tr
+						td.name.col-md-4
+							div.big-font
+								= link_to(cinema.name, "/cinemas/#{cinema.id}", :class => 'underdashed')
+								|  
+								span.badge.gray
+									| #{format_movies_count(movies.size)} 
+							- unless cinema.metro.to_s.empty?
+								span.small-font.location
+									| м. #{cinema.metro}
+						td.col-md-8
+							table.table.no-top-border.table-condensed.transparent
+								tbody
+									- movies.each do |movie, screenings_count|
+										tr
+											td
+												div
+													= link_to_movie(movie)
+													|  
+													<span class="label label-small #{age_restriction_style(movie.age_restriction)} age-restriction">#{movie.age_restriction}+</span>
+													|  
+													span.badge.gray.font-medium
+														|  #{format_screenings_count(screenings_count)} 
+													- unless movie.title_original.to_s.empty?
+														br
+														span.movie-title-original.small-font =movie.title_original

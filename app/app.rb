@@ -5,6 +5,8 @@ module Subscity
     register Padrino::Rendering
     register Padrino::Mailer
     register Padrino::Helpers
+    require 'json'
+    require 'geocoder'
 
     enable :sessions
 
@@ -59,22 +61,91 @@ module Subscity
     #     render 'errors/505'
     #   end
     #
-	
+    #before '/movies' do
+    before do
+        pre_redirect
+    end
+
 	get '/' do
-        puts "..."
+        "#{request.subdomains.join("<br/>")} #{request.ip} D: #{request.get_subdomain}"
 	end
 
     get '/cinemas' do
-        @cinemas = Cinema.joins(:city).all(:order => 'created_at desc')
         Slim::Engine.set_default_options :pretty => true, :sort_attrs => false
+        @city = City.get_by_domain(request.subdomains.first)
+        @cinemas = @city.get_sorted_cinemas
+        @nav_links_styles = {cinemas: "active"}
         render 'cinema/showall', layout: :layout
     end
 
-    get '/movies' do
-        @movies = Movie.joins(:screenings).merge(Screening.active).uniq
+    get '/dates/:date' do
         Slim::Engine.set_default_options :pretty => true, :sort_attrs => false
-        render 'movie/showall', layout: :layout
+        @date = parse_date(params[:date])
+        unless @date.nil?
+            @city = City.get_by_domain(request.subdomains.first)
+            @screenings = Screening.get_sorted_screenings(@date, @city.city_id)
+            @movie = Movie.active
+            @cinemas = Cinema.all
+            @nav_links_styles = {dates: "active"}
+            render 'date/show', layout: :layout
+        else
+            render 'errors/404', layout: :layout
+        end
     end
 
-  end
+    get '/movies' do
+        Slim::Engine.set_default_options :pretty => true, :sort_attrs => false
+        @city = City.get_by_domain(request.subdomains.first)
+        @movies = @city.get_movies
+        @movies = @movies.sort_by { |a| a.title }
+        @new_movies = @movies.select {|a| (Time.now - a.created_at) <= 8.days}
+        @screening_counts = Hash[@movies.map { |movie| {movie => movie.screenings_count(@city.city_id)}.flatten}]
+        @cinemas_counts = Hash[@movies.map { |movie| {movie => movie.cinemas_count(@city.city_id)}.flatten}]
+        @nav_links_styles = {movies: "active"}
+        render 'movie/showall', layout: :layout
+        #"#{self.class} #{request.subdomain_valid?.to_s}<br>#{request.subdomains}<br>#{request.host} #{request.path}"
+    end
+
+    get '/movies/:id' do
+        begin
+            Slim::Engine.set_default_options :pretty => true, :sort_attrs => false
+            @movie = Movie.find(params[:id])
+            @city = City.get_by_domain(request.subdomains.first)
+            @screenings = @movie.get_sorted_screenings(@city.city_id) # @movie.screenings
+            @cinemas = Cinema.all
+
+            screenings_flat = @movie.screenings.active
+            @price_min = screenings_flat.map{ |s| s.price_min}.compact.min rescue nil
+            @price_max = screenings_flat.map{ |s| s.price_max}.compact.max rescue nil
+            @nav_links_styles = {movies: "active"}
+            render 'movie/show', layout: :layout
+        rescue ActiveRecord::RecordNotFound => e
+            render 'errors/404', layout: :layout
+        end
+    end
+
+    get '/cinemas/:id' do
+        begin
+            Slim::Engine.set_default_options :pretty => true, :sort_attrs => false
+            @cinema = Cinema.find(params[:id])
+            #@city = City.where(:city_id => @cinema.city_id).first
+            @city = City.get_by_domain(request.subdomains.first)
+            @screenings = @cinema.get_sorted_screenings
+            @movies = Movie.all
+            screenings_flat = @cinema.screenings.active
+            @price_min = screenings_flat.map {|s| s.price_min}.compact.min rescue nil
+            @price_max = screenings_flat.map {|s| s.price_max}.compact.max rescue nil
+            #@nav_links_styles = {movies: "", cinemas: "active", dates: "", about: ""}
+            @nav_links_styles = {cinemas: "active"}
+            render 'cinema/show', layout: :layout
+        rescue ActiveRecord::RecordNotFound => e
+            render 'errors/404', layout: :layout
+        end
+    end
+
+    #error 404 do
+    not_found do
+        render 'errors/404', layout: :layout
+    end
+end
 end

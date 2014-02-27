@@ -5,11 +5,13 @@ class KassaFetcher
 
 	DOMAIN = "http://m.kassa.rambler.ru/"
 	HOST = "m.kassa.rambler.ru"
+	WIDGET_HOST = "widget.kassa.rambler.ru"
+	WIDGET_DOMAIN = "https://widget.kassa.rambler.ru"
 	USER_AGENT = "Opera/12.02 (Android 4.1; Linux; Opera Mobi/ADR-1111101157; U; en-US) Presto/2.9.201 Version/12.02"
 	WIDGET_ID = 16857
 	
 	PAGE_SIZE = 20
-	CITY_ID = 2
+	#CITY_ID = 2
 	URL_FOR_PRICES = 'http://m.kassa.rambler.ru/place/hallplanajax'
 
 	JSON_HEADERS =	   {	"Connection" => "keep-alive",
@@ -32,6 +34,16 @@ class KassaFetcher
 							"Accept-Language" => "ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4,de;q=0.2,fr;q=0.2" 
 						}
 
+	JSON_HEADERS_WIDGET = { "Connection" => "keep-alive",
+							"Accept" => "*/*",
+							"X-Requested-With" => "XMLHttpRequest",
+							"User-Agent" => USER_AGENT,
+							"Referer" => WIDGET_DOMAIN,
+							"Host" => WIDGET_HOST,
+							"Accept-Encoding" => "gzip,deflate,sdch",
+							"Accept-Language" => "ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4,de;q=0.2,fr;q=0.2"
+						}
+
 	def self.fetch_data_json(url)
 		fetch_data(url, JSON_HEADERS)
 	end
@@ -42,6 +54,12 @@ class KassaFetcher
 
 	def self.fetch_prices(screening_id)
 		fetch_data_post(URL_FOR_PRICES, params_for_prices(screening_id), STANDARD_HEADERS)
+	end
+
+	def self.fetch_prices_full(screening_id)
+		# https://widget.kassa.rambler.ru/place/hallplanajax/9889099?widgetid=16043&clusterradius=61
+		url = WIDGET_DOMAIN + "/place/hallplanajax/#{screening_id}?widgetid=16043&clusterradius=61"
+		fetch_data(url, JSON_HEADERS_WIDGET)
 	end
 
 	def self.fetch_availability(screening_id)
@@ -61,41 +79,41 @@ class KassaFetcher
 		DOMAIN + "place/placecount"#"?sessionid=" + screening_id.to_s
 	end
 
-	def self.url_for_cinemas(start, length = PAGE_SIZE, placeid = CITY_ID)
+	def self.url_for_cinemas(start, length = PAGE_SIZE, placeid)
 		# http://m.kassa.rambler.ru/place/nearplaces/cinema?start=0&pagesize=20&geoplaceid=2&widgetid=16857
 		DOMAIN + "place/nearplaces/cinema?start=" + start.to_s + "&pagesize=" + length.to_s + "&geoplaceid=" + placeid.to_s + "&widgetid=" + WIDGET_ID.to_s
 	end
 	
-	def self.url_for_movies(start, length = PAGE_SIZE, placeid = CITY_ID)
+	def self.url_for_movies(start, length = PAGE_SIZE, placeid)
 	    # http://m.kassa.rambler.ru/creation/topcreations/17?start=0&pagesize=20&geoplaceid=2&widgetid=16857
 		DOMAIN + "creation/topcreations/17?start=" + start.to_s + "&pagesize=" + length.to_s + "&geoplaceid=" + placeid.to_s + "&widgetid=" + WIDGET_ID.to_s
 	end
 
-	def self.url_for_sessions(movie_id, date = nil, place_id = CITY_ID)
+	def self.url_for_sessions(movie_id, date = nil, place_id)
 		# http://m.kassa.rambler.ru/movie/53046?geoplaceid=2&widgetid=16857
 		# http://m.kassa.rambler.ru/movie/53046?date=2014.02.10&geoPlaceID=2&widgetid=16857
 		date = Time.now if date.nil?
 		DOMAIN + "movie/" + movie_id.to_s + "?date=" + date.strftime("%Y.%m.%d") + "&geoplaceid=" + place_id.to_s + "&widgetid=" + WIDGET_ID.to_s
 	end
 
-	def self.url_for_session(session_id, place_id = CITY_ID)
+	def self.url_for_session(session_id, place_id)
 		# http://m.kassa.rambler.ru/place/hallplan?sessionid=9637961&geoPlaceID=2&widgetid=16857
 		DOMAIN + "place/hallplan?sessionid=" + session_id.to_s + "&geoPlaceID=" + place_id.to_s + "&widgetid=" + WIDGET_ID.to_s
 	end
 
-	def self.fetch_session(session_id, place_id = CITY_ID)
+	def self.fetch_session(session_id, place_id)
 		fetch_data_html(url_for_session(session_id, place_id))
 	end
 
-	def self.fetch_movies(start, length = PAGE_SIZE, place_id = CITY_ID)
+	def self.fetch_movies(start, length = PAGE_SIZE, place_id)
 		fetch_data_json(url_for_movies(start, length, place_id))
 	end
 	
-	def self.fetch_cinemas(start, length = PAGE_SIZE, place_id = CITY_ID)
+	def self.fetch_cinemas(start, length = PAGE_SIZE, place_id)
 		fetch_data_json(url_for_cinemas(start, length, place_id))
 	end
 
-	def self.fetch_sessions(movie_id, date = nil, place_id = CITY_ID)
+	def self.fetch_sessions(movie_id, date = nil, place_id)
 		fetch_data_html(url_for_sessions(movie_id, date, place_id))
 	end
 
@@ -115,4 +133,5 @@ class KassaFetcher
 	public_class_method :fetch_movies
 	public_class_method :fetch_session
 	public_class_method :fetch_prices
+	public_class_method :fetch_prices_full
 end

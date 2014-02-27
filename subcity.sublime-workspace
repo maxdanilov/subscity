@@ -99,6 +99,44 @@
 	},
 	"buffers":
 	[
+		{
+			"contents": "doctype 5\nhtml lang=\"en\" xmlns=\"http://www.w3.org/1999/xhtml\"\n  head\n    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->\n    <!--[if lt IE 9]>\n    <script src=\"http://html5shim.googlecode.com/svn/trunk/html5.js\"></script>\n    <![endif]-->\n    meta content='text/html; charset=utf-8' http-equiv='Content-Type'\n    meta name='viewport' content='width=device-width,initial-scale=1'\n    title = @title.present? ? \"#{@title} | Padrino Admin\" : \"#{pat('login.title')} | Padrino Admin\"\n    = favicon_tag 'favicon.ico'\n    = stylesheet_link_tag 'bootstrap', 'application'\n\n  body\n    - form_tag url(:sessions, :create), :class=>'login form-horizontal' do\n        div class=\"login-header modal-header\"\n          div class=\"login-logo\" = image_tag('logo.png', :alt => \"Padrino's logo\", :height => 250, :width => 193)\n        div class=\"login-body modal-body\"\n          = [:error, :warning, :notice].map { |type| flash_tag(type, :class => \"alert alert-#{type} fade in\", :bootstrap => true) }.join.html_safe\n\n          div class='form-group'\n            label for=\"email\" class='col-lg-2 control-label' = pat('login.email')\n            div class='col-lg-10'  = email_field_tag :email, :value => params[:email], :autofocus => true, :class => 'form-control'\n\n          div class='form-group'\n            label for=\"password\" class='col-lg-2 control-label' = pat('login.password')\n            div class='col-lg-10'  = password_field_tag :password, :value => params[:password], :class => 'form-control'\n\n          fieldset class='login-control-group-last control-group'\n            div class='login-controls controls'\n              label class=\"login-bypass-label checkbox\"\n                = check_box_tag :bypass\n                | #{pat('login.bypass')}\n\n        div class=\"login-footer modal-footer\"\n          = submit_tag(pat('login.sign_in'), :class => 'btn btn-primary pull-right')\n    = javascript_include_tag 'jquery-1.9.0.min', (Padrino.env == :production ? 'bootstrap/bootstrap.min' : %w[bootstrap/affix bootstrap/alert bootstrap/button bootstrap/carousel bootstrap/collapse bootstrap/dropdown  bootstrap/tooltip bootstrap/transition  bootstrap/modal bootstrap/popover bootstrap/scrollspy bootstrap/tab]), :application",
+			"file": "admin/views/sessions/new.slim",
+			"file_size": 2270,
+			"file_write_time": 130367754672772439,
+			"settings":
+			{
+				"buffer_size": 2222,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "config/boot.rb",
+			"settings":
+			{
+				"buffer_size": 1176,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "config/apps.rb",
+			"settings":
+			{
+				"buffer_size": 1703,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "##\n# You can use other adapters like:\n#\n#   ActiveRecord::Base.configurations[:development] = {\n#     :adapter   => 'mysql2',\n#     :encoding  => 'utf8',\n#     :reconnect => true,\n#     :database  => 'your_database',\n#     :pool      => 5,\n#     :username  => 'root',\n#     :password  => '',\n#     :host      => 'localhost',\n#     :socket    => '/tmp/mysql.sock'\n#   }\n#\nActiveRecord::Base.configurations[:development] = {\n  :adapter => 'sqlite3',\n  :database => Padrino.root('db', 'subscity_development.db')\n\n}\n\nActiveRecord::Base.configurations[:production] = {\n  :adapter => 'sqlite3',\n  :database => Padrino.root('db', 'subscity_production.db')\n\n}\n\nActiveRecord::Base.configurations[:test] = {\n  :adapter => 'sqlite3',\n  :database => Padrino.root('db', 'subscity_test.db')\n\n}\n\n# Setup our logger\nActiveRecord::Base.logger = logger\n\n# Raise exception on mass assignment protection for Active Record models.\nActiveRecord::Base.mass_assignment_sanitizer = :strict\n\n# Log the query plan for queries taking more than this (works\n# with SQLite, MySQL, and PostgreSQL).\nActiveRecord::Base.auto_explain_threshold_in_seconds = 0.5\n\n# Include Active Record class name as root for JSON serialized output.\nActiveRecord::Base.include_root_in_json = false\n\n# Store the full class name (including module namespace) in STI type column.\nActiveRecord::Base.store_full_sti_class = true\n\n# Use ISO 8601 format for JSON serialized times and dates.\nActiveSupport.use_standard_json_time_format = true\n\n# Don't escape HTML entities in JSON, leave that for the #json_escape helper\n# if you're including raw JSON in an HTML page.\nActiveSupport.escape_html_entities_in_json = false\n\n# Now we can establish connection with our db.\nActiveRecord::Base.establish_connection(ActiveRecord::Base.configurations[Padrino.env])\n",
+			"file": "config/database.rb",
+			"file_size": 1795,
+			"file_write_time": 130363538843500105,
+			"settings":
+			{
+				"buffer_size": 1795,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -127,6 +165,19 @@
 	},
 	"file_history":
 	[
+		"/X/padrino_projects/sample_blog/app/controllers/posts.rb",
+		"/X/padrino_projects/sample_blog/models/account.rb",
+		"/X/padrino_projects/subscity/app/app.rb",
+		"/X/padrino_projects/subscity/app/helpers/cinema_helper.rb",
+		"/X/padrino_projects/subscity/app/helpers/fetcher.rb",
+		"/X/padrino_projects/subscity/app/controllers/cinema.rb",
+		"/X/padrino_projects/subscity/app/views/cinema/showall.slim",
+		"/X/padrino_projects/subscity/log.txt",
+		"/X/padrino_projects/subscity/app/views/showall.slim",
+		"/X/padrino_projects/sample_blog/.components",
+		"/X/padrino_projects/sample_blog/app/app.rb",
+		"/X/padrino_projects/sample_blog/public/stylesheets/application.css",
+		"/X/padrino_projects/sample_blog/app/stylesheets/application.sass",
 		"/C/Dropbox/IntelCraft Temp/!code/Tigilante-Full/SRC/state_machine.c",
 		"/C/Dropbox/IntelCraft Temp/!code/Tigilante-Full/SRC/main.c",
 		"/C/Dropbox/IntelCraft Temp/!code/Tigilante-Full/SRC/driverlib/5xx_6xx/rtc.c",
@@ -331,8 +382,119 @@
 	"groups":
 	[
 		{
+			"selected": 3,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "admin/views/sessions/new.slim",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2222,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1255,
+								1255
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "config/boot.rb",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1176,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "config/apps.rb",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1703,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 440.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "config/database.rb",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1795,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 286.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],

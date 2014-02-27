@@ -24,6 +24,34 @@ class Movie < ActiveRecord::Base
 		url.gsub("48x72", "144x212") # too small posters in mobile version
 	end
 
+	def get_sorted_screenings(city_id)
+		screenings_all = screenings.active.in_city(city_id).order(:date_time)
+		cinemas_all = Cinema.all
+		r = Hash.new
+		# format is like this: r["2014-02-17"][cinema] -> array of screenings
+		screenings_all.each do |s|
+			r[s.date.to_s] ||= {}
+			cinema = cinemas_all.find { |c| c.cinema_id == s.cinema_id}#.name
+			unless cinema.nil?
+				r[s.date.to_s][cinema] ||= []
+				r[s.date.to_s][cinema] << s
+			end
+		end
+
+		r.each { |k,v| r[k] = v.sort_by {|k,v| k.name}.to_h } # sort cinemas by name
+		r
+	end
+
+	def cinemas_count(city_id)
+		cinemas = Array.new
+		screenings.active.in_city(city_id).each { |s| cinemas |= [s.cinema_id] }
+		cinemas.size
+	end
+
+	def screenings_count(city_id)
+		screenings.active.in_city(city_id).count
+	end
+
 	def to_s
 		"\tMovie: [#{movie_id}][#{id}] #{title} (#{title_original})\n" +
 		"\tActive: #{active}\n" +

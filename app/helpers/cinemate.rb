@@ -50,6 +50,7 @@ class Cinemate
 	# for special cases when Kassa fucks up titles so bad they can't be used for Cinemate search...
 	def self.prepare_title_for_search(title)
 		return "Нимфоманка. Часть 1" if (title == "Нимфоманка. Часть I")
+		return "Нимфоманка. Часть 2" if (title == "Нимфоманка. Часть II")
 		title
 	end
 
@@ -176,17 +177,3 @@ class Cinemate
 	public_class_method :get_and_parse_movie_page
 
 end
-
-#key =  Cinemate.get_csrf_token
-#puts Cinemate.get_movie_id("Выход через сувенирную лавку", key)
-#puts Cinemate.get_movie_id("Future Shorts. Программа «Немного о любви»", key)
-#puts Cinemate.parse_movie_page(File.read("wolf_c.htm"))
-#puts Cinemate.parse_movie_page("")
-#puts Cinemate.parse_movie_page(File.read("bleb.htm"))
-#=begin
-#puts Cinemate.get_and_parse_movie_page(601)
-#puts
-#puts Cinemate.get_and_parse_movie_page(8734)
-#puts
-#puts Cinemate.get_and_parse_movie_page(1661)
-#=end

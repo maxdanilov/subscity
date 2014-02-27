@@ -22,6 +22,8 @@ gem 'hpricot'
 gem 'therubyracer'
 gem 'rack-less'
 gem 'less'
+gem 'geocoder'
+gem 'geoip'
 
 # Test requirements
 

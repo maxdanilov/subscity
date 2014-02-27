@@ -32,6 +32,18 @@ class KassaParser
 		end
 	end
 
+	def self.parse_prices_full(data)
+		begin
+			doc = Hpricot(data)
+			max_price = min_price = nil
+			prices = (doc/"div.b-cinema-plan/div[@data]").map { |el| el[:data].split('|')[3].to_i rescue nil }
+			prices = prices.select {|x| x > 0}.compact.uniq.sort #occupied places have 0 price, kick them out before processing
+			max_price, min_price = prices.last, prices.first
+		rescue 
+			[nil, nil]
+		end
+	end
+
 	def self.parse_sessions_HTML(data, date)
 		doc = Hpricot(data)
 		results = []
@@ -90,7 +102,8 @@ class KassaParser
 	end
 
 	def self.screening_exists?(data)
-		doc = Hpricot(data)
+		doc = Hpricot(data) rescue nil
+		return false if doc.nil?
 		((doc.at("title").inner_text rescue nil) =~ NOT_FOUND_SCREENING).nil?
 	end
 
