@@ -1,5 +1,4 @@
-/h1.text-center
-/	= "Кинотеатры (#{@city.name})"
+h1.text-center.capitalize.like-navbar Кинотеатры (#{@city.name})
 - if @cinemas.size == 0
 	h3.text-center id="nothing-found"				 		
 		| Кинотеатров не найдено
@@ -8,21 +7,21 @@
 		table.table.table-striped.table-bordered.table-condensed.table-curved
 			thead
 				tr
-					th.text-center
-						h4 Название
-					th.text-center
-						h4 Фильмы в прокате
+					td.text-center
+						h3 Название
+					td.text-center
+						h3 Фильмы с субтитрами в прокате
 			tbody
 				- @cinemas.each do |cinema, movies|
 					tr
 						td.name.col-md-4
-							div.big-font
+							div.cinema-name
 								= link_to(cinema.name, "/cinemas/#{cinema.id}", :class => 'underdashed')
 								|  
-								span.badge.gray
+								span.badge
 									| #{format_movies_count(movies.size)} 
 							- unless cinema.metro.to_s.empty?
-								span.small-font.location
+								span.medium-font.location
 									| м. #{cinema.metro}
 						td.col-md-8
 							table.table.no-top-border.table-condensed.transparent
@@ -33,9 +32,9 @@
 												div
 													= link_to_movie(movie)
 													|  
-													<span class="label label-small #{age_restriction_style(movie.age_restriction)} age-restriction">#{movie.age_restriction}+</span>
+													<span class="label label-small label-default age-restriction">#{movie.age_restriction}+</span>
 													|  
-													span.badge.gray.font-medium
+													span.badge.font-medium
 														|  #{format_screenings_count(screenings_count)} 
 													- unless movie.title_original.to_s.empty?
 														br

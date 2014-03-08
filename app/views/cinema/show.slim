@@ -49,23 +49,23 @@ table.table.table-condensed.table-curved.table-striped
 			 		= format_price_range(@price_min, @price_max)
 
 - if @screenings.count == 0
-	h2.text-center В ближайшее время сеансов на языке оригинала нет
+	h2.text-center.like-navbar В ближайшее время сеансов на языке оригинала нет
 - else
-	h2.text-center Сеансы на языке оригинала<br>(с русскими субтитрами)
+	h2.text-center.like-navbar Сеансы на языке оригинала<br>(с русскими субтитрами)
 
-	= render 'layouts/filters'
+	= partial 'partials/filters'
 	
 	- @screenings.each do |day, movies|
-		h4.header-day.text-center
+		h3.header-day.text-center
 			= link_to_date(day)
 		table.table.table-bordered.table-condensed.table-curved.table-striped
 			- movies.each do |movie, screenings|
 				tr.row-entity
 					td.col-sm-5.col-xs-8
-						div.big-font							
+						div.movie-title							
 							= link_to_movie(movie)
 							|  
-							<span class="label label-small #{age_restriction_style(movie.age_restriction)} age-restriction">#{movie.age_restriction}+</span>
+							<span class="label label-small label-default age-restriction">#{movie.age_restriction}+</span>
 						- unless movie.title_original.nil?
 							div.movie-title-original.small-font = movie.title_original
 					td.col-sm-7.col-xs-4
@@ -77,10 +77,10 @@ table.table.table-condensed.table-curved.table-striped
 								 		a.btn.btn-default.navbar-btn.price-button href="http://kassa.rambler.ru/place/#{@cinema.cinema_id}?date=#{day.to_time.strftime("%Y.%m.%d")}" target="_blank"
 								 			= show_time(screening.date_time)
 								 		/- unless screening.price_min.to_i == 0
-									 	br
+									 	/br
 									 	- style=price_tag_style(screening.price_min)
 									 	- transparency = screening.price_min.to_i == 0 ? "pseudo-hidden" : ""
 									 	<span class="label label-bg #{style} price-label btn-block #{transparency}">#{format_price(screening.price_min)}</span>
 		
-		h3.text-center id="nothing-found" style="display:none;"					 		
+		h3.text-center.like-navbar id="nothing-found" style="display:none;"	
 			| Ничего не найдено. Смягчите условия поиска.

@@ -1,8 +1,9 @@
 doctype html
 html
 	head
+		link rel="icon" type="image/png" href="http://oiltube.ru/favicon.png"
 		title 
-			| Subscity
+			| SubsCity
 		meta name="keywords" content="template language"
 		meta name="author" content="Me Myself Up"
 		meta charset="utf-8"
@@ -13,60 +14,88 @@ html
 		link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"
 		/! Optional theme
 		link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css"
-		/link rel="stylesheet" href="http://bootswatch.com/slate/bootstrap.min.css"
+		/link rel="stylesheet" href="http://bootswatch.com/cerulean/bootstrap.min.css"
 		/link rel="stylesheet" href="http://bootswatch.com/ubuntu/bootstrap.min.css"
+
+		/! jquery UI CSS
+		link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css"
+		/! custom CSS
+		= stylesheet_link_tag 'design'
+		= stylesheet_link_tag 'design-dark'
 		
 	body
-		div.container-fluid
-			div.navbar.navbar-default.navbar-primary role="navigation"
-				div.container-fluid
-					div.navbar-header
-						button.navbar-toggle type="button" data-toggle="collapse" data-target=".navbar-collapse"
-							span.sr-only
-								| Toggle navigation
-							span.icon-bar
-							span.icon-bar
-							span.icon-bar
-						a.navbar-brand href="/" style="font-size: 1.8rem;"
-							| Subs City
-					div.navbar-collapse.collapse
-						ul.nav.navbar-nav
-							li.big-font 
-								a href="/movies"
-									| Фильмы
-							li.big-font 
-								a href="/cinemas"
-									| Кинотеатры
-							li.big-font 
-								a href="/dates"
-									| Сегодня в кино
-							li.big-font 
-								a href="/about"
-									| О сайте
-						ul.nav.navbar-nav.navbar-right
-							li.dropdown
-								a.dropdown-toggle href="#" data-toggle="dropdown" style=""
-									| #{@city.name rescue City.get_by_domain(request.subdomains.first).name} 
-									b.caret
-									ul.dropdown-menu
+		/div.container-fluid
+		div.navbar.navbar-inverse.navbar-primary role="navigation"
+			div.container-fluid
+				div.navbar-header
+					button.navbar-toggle type="button" data-toggle="collapse" data-target=".navbar-collapse"
+						span.sr-only
+							| Toggle navigation
+						span.icon-bar
+						span.icon-bar
+						span.icon-bar
+					/a.navbar-brand.pretty-header href="/" style="font-size: 3.8rem;"
+					span.pretty-header.site-name
+						| S
+						span.semi-transparent ubs
+						| C
+						span.semi-transparent ity.
+						| ru 
+				div.navbar-collapse.collapse
+					ul.nav.navbar-nav
+						li.big-font 
+							a href="/movies"
+								| Фильмы
+						li.big-font 
+							a href="/cinemas"
+								| Кинотеатры
+						/li.big-font 
+						/	a href="/dates/#{format_date_url(Time.now)}"
+						/		| Сегодня в кино
+
+						li.dropdown
+							a.dropdown-toggle href="#" data-toggle="dropdown" style=""
+								| По дням
+								b.caret
+								- moment_of_now = Time.now
+								- moment_of_now -= 1.day if Time.now.hour < 2
+								ul.dropdown-menu
+									li
+										a href="/dates/#{format_date_url(moment_of_now)}"
+											| Сегодня (#{show_date(moment_of_now)})
+									li
+										a href="/dates/#{format_date_url(moment_of_now + 1.day)}"
+											| Завтра (#{show_date(moment_of_now + 1.day)})
+									li.divider
+									- (2..7).each do |x|
 										li
-											a href="#{'http://msk.oiltube.ru'}"
-												| Москва
-										li
-											a href="#{'http://spb.oiltube.ru'}"
-												| Санкт-Петербург
+											a href="/dates/#{format_date_url(moment_of_now + x.day)}"
+												| #{show_date(moment_of_now + x.day)}
+						li.big-font 
+							a href="/about"
+								| О сайте
+
+					ul.nav.navbar-nav.navbar-right
+						li.dropdown
+							a.dropdown-toggle href="#" data-toggle="dropdown" style=""
+								| #{@city.name rescue City.get_by_domain(request.subdomains.first).name} 
+								b.caret
+								ul.dropdown-menu
+									li
+										a href="#{'http://msk.' + domain_name}#{request.path}"
+											| Москва
+									li
+										a href="#{'http://spb.' + domain_name}#{request.path}"
+											| Санкт-Петербург
 
 		= yield
 		/! jQuery (necessary for Bootstrap's JavaScript plugins)
 		script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"
 		/! jQuery UI
 		script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"
-		link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css"
 
 		/! Include all compiled plugins (below), or include individual files as needed
 		script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"
-		
-		/! custom CSS
-		= stylesheet_link_tag 'design'
+
 		/! custom JS
 		= javascript_include_tag 'default'

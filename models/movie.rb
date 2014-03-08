@@ -8,6 +8,7 @@ class Movie < ActiveRecord::Base
 	scope :active, -> { where(:active => true) }
 
 	def valid_genre?
+		return true if genres.nil?
 		non_valid_genres = ['Опера', 'Балет', 'Фильмы-спектакли']
 		!(non_valid_genres.any? { |w| genres.include? w })
 	end

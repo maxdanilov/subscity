@@ -1,23 +1,36 @@
 ﻿- movie = @movie
+/h1.text-center.capitalize.like-navbar 
+/	span 
+/		=movie.title 
+/		|  
+/		span.label.label-bg.label-default style="top:-3px; position:relative;"
+/			| #{movie.age_restriction}+
+/	- unless movie.title_original.nil?
+/		div.movie-title-original.big-font = movie.title_original
 table.table.table-bordered.table-condensed.table-curved.table-striped
 	tr
 		td.text-center rowspan = "10"
 			#a href="movies/#{movie.id}"
-			img src = image_path("posters/#{movie.movie_id}.jpg") width=144 height=212
+			img src = image_path("posters/#{movie.movie_id}.jpg") width=144 height=212 style="margin-bottom: 10px;"
+			- unless movie.imdb_id.nil?
+				a href="http://www.imdb.com/title/tt#{movie.imdb_id}/"
+					img.rating-button src = "http://tracker.0day.kiev.ua/imdb/imdb_tt#{movie.imdb_id}.gif"
 			- unless movie.kinopoisk_id.nil?
 				a href="http://www.kinopoisk.ru/film/#{movie.kinopoisk_id}/"
 					img.rating-button src = "http://rating.kinopoisk.ru/#{movie.kinopoisk_id}.gif"
 					/img.rating-button src = image_path("kinopoisk/#{movie.kinopoisk_id}.png")
+
 			- unless movie.imdb_id.nil?
-				a href="http://www.imdb.com/title/tt#{movie.imdb_id}/"
-					img.rating-button src = "http://tracker.0day.kiev.ua/imdb/imdb_tt#{movie.imdb_id}.gif"
+				= partial 'partials/rating_plate', :locals => { :movie => @movie, :type => :imdb, :rating => 6.98, :votes => 150000 }
+				div.divider
+			- unless movie.kinopoisk_id.nil?
+				= partial 'partials/rating_plate', :locals => { :movie => @movie, :type => :kinopoisk, :rating => 8.0, :votes => 1899 }
 
 		td colspan = "2" 
 			span.movie-title 
 				=movie.title 
 				|  
-				- style=age_restriction_style(movie.age_restriction)
-				<span class="label label-bg #{style} age-restriction">#{movie.age_restriction}+</span>
+				<span class="label label-bg label-default age-restriction">#{movie.age_restriction}+</span>
 			- unless movie.title_original.nil?
 				div.movie-title-original = movie.title_original
 	- unless movie.year.nil?
@@ -64,23 +77,23 @@ table.table.table-bordered.table-condensed.table-curved.table-striped
 					= movie.description
 
 - if @screenings.count == 0
-	h2.text-center В ближайшее время сеансов на языке оригинала нет
+	h2.text-center.like-navbar В ближайшее время сеансов на языке оригинала нет
 - else
-	h2.text-center Сеансы на языке оригинала<br>(с русскими субтитрами)
+	h2.text-center.like-navbar Сеансы на языке оригинала<br>(с русскими субтитрами)
 
-	= render 'layouts/filters'
+	= partial 'partials/filters'
 
 	- @screenings.each do |day, cinemas|
-		h4.header-day.text-center
+		h3.header-day.text-center
 			= link_to_date(day)
 		table.table.table-bordered.table-condensed.table-curved.table-striped
 			- cinemas.each do |cinema, screenings|
 				tr.row-entity
 					td.col-sm-4.col-xs-8
-						div.big-font
+						div.cinema-name
 							= link_to_cinema(cinema)
 						- unless cinema.metro.to_s.empty?
-							span.small-font.location
+							span.medium-font.location
 								| м. 
 								= cinema.metro
 					td.col-sm-8.col-xs-4
@@ -92,10 +105,10 @@ table.table.table-bordered.table-condensed.table-curved.table-striped
 								 		a.btn.btn-default.navbar-btn.price-button href="http://kassa.rambler.ru/place/#{cinema.cinema_id}?date=#{day.to_time.strftime("%Y.%m.%d")}" target="_blank"
 								 			= show_time(screening.date_time)
 								 		/- unless screening.price_min.to_i == 0
-									 	br
+									 	/br
 									 	- style=price_tag_style(screening.price_min)
 									 	- transparency = screening.price_min.to_i == 0 ? "pseudo-hidden" : ""
 									 	<span class="label label-bg #{style} price-label btn-block #{transparency}">#{format_price(screening.price_min)}</span>
 								 		
-		h3.text-center id="nothing-found" style="display:none;"					 		
+		h3.text-center.like-navbar id="nothing-found" style="display:none;"
 			| Ничего не найдено. Смягчите условия поиска.

@@ -36,13 +36,13 @@ ActiveRecord::Schema.define(:version => 7) do
   end
 
   create_table "cities", :force => true do |t|
+    t.boolean  "active"
+    t.string   "geoip"
+    t.string   "domain"
     t.integer  "city_id"
     t.string   "name"
-    t.string   "domain"
-    t.string   "geoip"
-    t.boolean  "active"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "movies", :force => true do |t|
@@ -77,4 +77,13 @@ ActiveRecord::Schema.define(:version => 7) do
     t.datetime "updated_at",   :null => false
   end
 
+  create_table "ratings", :force => true do |t|
+    t.integer  "movie_id"
+    t.real     "kinopoisk_rating"
+    t.integer  "kinopoisk_votes"
+    t.real     "imdb_rating"
+    t.integer  "imdb_votes"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
 end

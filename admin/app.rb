@@ -34,6 +34,7 @@ module Subscity
     end
 
     access_control.roles_for :admin do |role|
+      role.project_module :ratings, '/ratings'
       role.project_module :cities, '/cities'
       role.project_module :cinemas, '/cinemas'
       role.project_module :movies, '/movies'

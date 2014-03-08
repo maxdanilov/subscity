@@ -15,14 +15,14 @@
 #
 ActiveRecord::Base.configurations[:development] = {
   :adapter => 'sqlite3',
-  :database => Padrino.root('db', 'subscity_development.db')
-
+  :database => Padrino.root('db', 'subscity_development.db'),
+  :timeout => 10000
 }
 
 ActiveRecord::Base.configurations[:production] = {
   :adapter => 'sqlite3',
-  :database => Padrino.root('db', 'subscity_production.db')
-
+  :database => Padrino.root('db', 'subscity_production.db'),
+  :timeout => 10000
 }
 
 ActiveRecord::Base.configurations[:test] = {

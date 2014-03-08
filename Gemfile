@@ -24,6 +24,7 @@ gem 'rack-less'
 gem 'less'
 gem 'geocoder'
 gem 'geoip'
+gem 'thin'
 
 # Test requirements
 

@@ -24,30 +24,30 @@ job_type :my_rake, 'cd :path && rake :task :output'
 set :output, 'logs/cron.log'
 
 #movies
-every :day, :at => ['10:05', '15:00'] do
+every :day, :at => ['10:05', '14:00'] do
 	my_rake "update_movies", :output => 'logs/cron_movies.log'
 end
 
 #kinopoisk buttons
-every :day, :at => ['10:10', '15:05'] do
+every :day, :at => ['10:10', '14:05'] do
 	my_rake "update_kinopoisk_buttons", :output => 'logs/cron.log'
 end
 
 #cinemas
-every :day, :at => ['10:15', '15:15'] do
+every :day, :at => ['10:15', '14:15'] do
 	my_rake "update_cinemas", :output => 'logs/cron_cinemas.log'
 end
 
 #screenings
-every :day, :at => ['11:18', '16:41'] do
+every :day, :at => ['11:18', '14:50', '17:41', '20:41'] do
 	my_rake "update_screenings", :output => 'logs/cron_screenings.log'
 end
 
-every :day, :at => ['11:58', '13:58', '17:24'] do
+every :day, :at => ['11:58', '14:58', '18:24', '20:59'] do
 	my_rake "cleanup_screenings", :output => 'logs/cron_screenings.log'
 end
 
 # prices
-every :day, :at => ['12:31', '14:12', '18:20'] do
+every :day, :at => ['12:31', '15:12', '19:20', '21:20'] do
 	my_rake "update_screenings_prices", :output => 'logs/cron_prices.log'
 end

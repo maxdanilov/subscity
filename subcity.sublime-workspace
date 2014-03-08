@@ -100,21 +100,42 @@
 	"buffers":
 	[
 		{
-			"contents": "doctype 5\nhtml lang=\"en\" xmlns=\"http://www.w3.org/1999/xhtml\"\n  head\n    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->\n    <!--[if lt IE 9]>\n    <script src=\"http://html5shim.googlecode.com/svn/trunk/html5.js\"></script>\n    <![endif]-->\n    meta content='text/html; charset=utf-8' http-equiv='Content-Type'\n    meta name='viewport' content='width=device-width,initial-scale=1'\n    title = @title.present? ? \"#{@title} | Padrino Admin\" : \"#{pat('login.title')} | Padrino Admin\"\n    = favicon_tag 'favicon.ico'\n    = stylesheet_link_tag 'bootstrap', 'application'\n\n  body\n    - form_tag url(:sessions, :create), :class=>'login form-horizontal' do\n        div class=\"login-header modal-header\"\n          div class=\"login-logo\" = image_tag('logo.png', :alt => \"Padrino's logo\", :height => 250, :width => 193)\n        div class=\"login-body modal-body\"\n          = [:error, :warning, :notice].map { |type| flash_tag(type, :class => \"alert alert-#{type} fade in\", :bootstrap => true) }.join.html_safe\n\n          div class='form-group'\n            label for=\"email\" class='col-lg-2 control-label' = pat('login.email')\n            div class='col-lg-10'  = email_field_tag :email, :value => params[:email], :autofocus => true, :class => 'form-control'\n\n          div class='form-group'\n            label for=\"password\" class='col-lg-2 control-label' = pat('login.password')\n            div class='col-lg-10'  = password_field_tag :password, :value => params[:password], :class => 'form-control'\n\n          fieldset class='login-control-group-last control-group'\n            div class='login-controls controls'\n              label class=\"login-bypass-label checkbox\"\n                = check_box_tag :bypass\n                | #{pat('login.bypass')}\n\n        div class=\"login-footer modal-footer\"\n          = submit_tag(pat('login.sign_in'), :class => 'btn btn-primary pull-right')\n    = javascript_include_tag 'jquery-1.9.0.min', (Padrino.env == :production ? 'bootstrap/bootstrap.min' : %w[bootstrap/affix bootstrap/alert bootstrap/button bootstrap/carousel bootstrap/collapse bootstrap/dropdown  bootstrap/tooltip bootstrap/transition  bootstrap/modal bootstrap/popover bootstrap/scrollspy bootstrap/tab]), :application",
-			"file": "admin/views/sessions/new.slim",
-			"file_size": 2270,
-			"file_write_time": 130367754672772439,
-			"settings":
-			{
-				"buffer_size": 2222,
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "config/boot.rb",
 			"settings":
 			{
 				"buffer_size": 1176,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/helpers/fetcher.rb",
+			"settings":
+			{
+				"buffer_size": 5173,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "tasks/Rakefile",
+			"settings":
+			{
+				"buffer_size": 10823,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Rakefile",
+			"settings":
+			{
+				"buffer_size": 135,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Gemfile",
+			"settings":
+			{
+				"buffer_size": 779,
 				"line_ending": "Unix"
 			}
 		},
@@ -165,6 +186,7 @@
 	},
 	"file_history":
 	[
+		"/X/padrino_projects/subscity/admin/views/sessions/new.slim",
 		"/X/padrino_projects/sample_blog/app/controllers/posts.rb",
 		"/X/padrino_projects/sample_blog/models/account.rb",
 		"/X/padrino_projects/subscity/app/app.rb",
@@ -382,40 +404,11 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 4,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "admin/views/sessions/new.slim",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2222,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1255,
-								1255
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
 					"file": "config/boot.rb",
 					"semi_transient": false,
 					"settings":
@@ -442,7 +435,117 @@
 					"type": "text"
 				},
 				{
+					"buffer": 1,
+					"file": "app/helpers/fetcher.rb",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5173,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4475,
+								4475
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 176.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
 					"buffer": 2,
+					"file": "tasks/Rakefile",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 10823,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1144.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "Rakefile",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 135,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "Gemfile",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 779,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								459,
+								459
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 198.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
 					"file": "config/apps.rb",
 					"semi_transient": false,
 					"settings":
@@ -469,7 +572,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 6,
 					"file": "config/database.rb",
 					"semi_transient": false,
 					"settings":

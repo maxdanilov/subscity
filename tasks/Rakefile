@@ -116,7 +116,6 @@ task :update_movies => :environment do
 			parsed = KassaParser.parse_json(KassaFetcher.fetch_movies(page_count * page_size, page_size, city_id))
 			items = parsed["Items"]
 			items.each do |item|
-
 				c = Movie.new(	movie_id: item["objectId"], 
 								title: item["name"], 
 								age_restriction: item["ageRestriction"], 
@@ -261,6 +260,12 @@ task :update_kinopoisk_buttons => :environment do |task|
 		end
 		sleep rand(1..2.0)
 	end
+	stop_task(task, t)
+end
+
+desc 'update kinopoisk rating xml files'
+task update_kinopoisk_ratings => :environment do |task|
+	t = start_task(task)
 	stop_task(task, t)
 end
 

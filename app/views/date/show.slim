@@ -1,16 +1,16 @@
-h1.text-center.capitalize #{show_date(@date)}
+h1.text-center.capitalize.like-navbar #{show_date(@date)}
 - if @screenings.count == 0
-	h2.text-center Сеансов на языке оригинала нет
+	h2.text-center.like-navbar Сеансов на языке оригинала нет
 - else
-	h2.text-center Сеансы на языке оригинала<br>(с русскими субтитрами)
+	h2.text-center.like-navbar Сеансы на языке оригинала<br>(с русскими субтитрами)
 	
-	= render 'layouts/filters'
+	= partial 'partials/filters'
 
 	- @screenings.each do |movie, cinemas|
-		h4.header-day.text-center 
+		h3.header-day.text-center 
 			= link_to_movie(movie)
 			|  
-			<span class="label label-small #{age_restriction_style(movie.age_restriction)} age-restriction">#{movie.age_restriction}+</span>
+			<span class="label label-small label-default age-restriction">#{movie.age_restriction}+</span>
 			- unless movie.title_original.to_s.empty?
 				br
 				span.movie-title-original.text-center style="font-size:0.8em;font-weight:normal"
@@ -19,10 +19,10 @@ h1.text-center.capitalize #{show_date(@date)}
 			- cinemas.each do |cinema, screenings|
 				tr.row-entity
 					td.col-sm-4.col-xs-8
-						div.big-font
+						div.cinema-name
 							= link_to_cinema(cinema)
 						- unless cinema.metro.to_s.empty?
-							span.small-font.location
+							span.medium-font.location
 								| м. 
 								= cinema.metro
 					td.col-sm-8.col-xs-4
@@ -35,8 +35,8 @@ h1.text-center.capitalize #{show_date(@date)}
 									 			= show_time(screening.date_time)
 									 		- style=price_tag_style(screening.price_min)
 									 		- transparency = screening.price_min.to_i == 0 ? "pseudo-hidden" : ""
-									 		br
+									 		/br
 									 		<span class="label label-bg #{style} #{transparency} price-label btn-block">#{format_price(screening.price_min)}</span>
 								 		
-		h3.text-center id="nothing-found" style="display:none;"					 		
+		h3.text-center.like-navbar id="nothing-found" style="display:none;"
 			| Ничего не найдено. Смягчите условия поиска.

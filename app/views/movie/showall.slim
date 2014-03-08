@@ -1,5 +1,4 @@
-/h1.text-center
-/	= "Фильмы (#{@city.name})"
+h1.text-center.capitalize.like-navbar Фильмы с субтитрами (#{@city.name})
 	
 table
 	- @movies.each do |movie|
@@ -14,15 +13,14 @@ table
 						span.movie-title 
 							= link_to_movie(movie)
 							|  
-							- style=age_restriction_style(movie.age_restriction)
-							<span class="label label-bg #{style} age-restriction">#{movie.age_restriction}+</span>
+							<span class="label label-bg label-default age-restriction">#{movie.age_restriction}+</span>
 							- if @new_movies.include? movie
 								|  
-								span.badge.gray style="position:relative; top:-2px;"
+								span.badge.new style="position:relative; top:-2px;"
 									| новый 
 							- if @screening_counts[movie] < 5
 								|  
-								span.badge.orange style="position:relative; top:-2px;"
+								span.badge.limited style="position:relative; top:-2px;"
 									| мало сеансов 
 						- unless movie.title_original.nil?
 							div.movie-title-original = movie.title_original
@@ -42,7 +40,7 @@ table
 										- else	
 											img.rating-button src = "http://rating.kinopoisk.ru/#{movie.kinopoisk_id}.gif" 
 
-		table.table.table-bordered.table-condensed.table-curved.table-striped style="margin-bottom:0px; display:none;"
+		table.table.table-bordered.table-condensed.table-curved.table-striped.movie-description
 			tbody	
 				tr.table-body
 					td.text-center rowspan = "10"
