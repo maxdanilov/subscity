@@ -1,0 +1,221 @@
+/* General */
+/* Sizes, paddings, margins */
+/* Font Sizes */
+/* Colors */
+/* Basic Colors */
+/* Borders */
+/* Labels */
+/* Generics */
+.font-bold {
+  font-weight: bold;
+}
+.font-normal {
+  font-weight: normal;
+}
+/* Buttons */
+.button-hover {
+  background-color: #edae50;
+  border-color: #E5AA5E;
+}
+.button-basic {
+  background-image: linear-gradient(to bottom, #e8b876 0%, #eac38c 50%, #e8b876 100%);
+  background-color: rgba(238, 198, 137, 0.7);
+  border-color: #E5AA5E;
+}
+/* Sliders */
+.slider-bg {
+  background: #5d2066;
+  /* Old browsers */
+  background-image: linear-gradient(to right, #5d2066 0%, #e04831 100%);
+  /* W3C */
+}
+.slider-handle {
+  background-image: linear-gradient(to bottom, #e8b876 0%, #eac38c 50%, #e8b876 100%);
+  border-color: #E5AA5E;
+}
+body {
+  background-image: url('../images/bgs/new/topback_new.jpg');
+  color: #eec689;
+}
+*::selection {
+  background-color: rgba(220, 71, 50, 0.5);
+  color: #eec689;
+}
+*::-moz-selection {
+  background-color: rgba(220, 71, 50, 0.5);
+  color: #eec689;
+}
+/* Tables */
+.table-striped > tbody > tr:nth-child(odd) > td,
+.table-striped > tbody > tr:nth-child(odd) > th,
+.table-striped > thead > tr:nth-child(odd) > td {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.table-striped > tbody > tr:nth-child(even) > td,
+.table-striped > tbody > tr:nth-child(even) > th,
+.table-striped > thead > tr:nth-child(even) > td {
+  background-color: rgba(0, 0, 0, 0.65);
+}
+a {
+  color: #eec689;
+}
+a:hover,
+a:active {
+  color: rgba(238, 198, 137, 0.9);
+}
+a.underdashed {
+  color: #eec689;
+  border-color: #eec689;
+}
+a.underdashed:hover,
+a.underdashed:active {
+  color: rgba(238, 198, 137, 0.9);
+}
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+  border-top: 1px dashed rgba(247, 187, 97, 0.8);
+}
+.table-bordered > thead > tr > th,
+.table-bordered > tbody > tr > th,
+.table-bordered > tfoot > tr > th,
+.table-bordered > thead > tr > td,
+.table-bordered > tbody > tr > td,
+.table-bordered > tfoot > tr > td,
+.table-bordered {
+  border: 1px dashed rgba(247, 187, 97, 0.8);
+}
+table.rating {
+  border: 1px dashed #f7bb61;
+}
+/* Captions */
+.movie-title-original {
+  color: rgba(238, 198, 137, 0.65);
+}
+.location {
+  color: rgba(238, 198, 137, 0.65);
+}
+.pretty-header {
+  font-family: "Sevilla Decor";
+}
+.site-name {
+  text-shadow: 0 0 12px #f7bb61;
+}
+.semi-transparent {
+  opacity: 0.85;
+}
+/* Labels */
+.label-success {
+  background: #5c2c65;
+}
+.label-primary {
+  background: rgba(133, 44, 86, 0.8);
+}
+.label-warning {
+  background: rgba(180, 59, 67, 0.8);
+}
+.label-danger {
+  background: rgba(220, 71, 50, 0.8);
+}
+.label-default {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px dashed rgba(238, 198, 137, 0.8);
+  color: #eec689;
+}
+.label-rating {
+  background-color: #eec689;
+  color: #000000;
+}
+.label-rating:hover,
+.label-rating:active {
+  background-color: rgba(238, 198, 137, 0.9);
+}
+/* Slide Bar */
+.ui-widget-content {
+  border-color: rgba(247, 187, 97, 0.6);
+  box-shadow: 0px 0px 5px rgba(247, 187, 97, 0.5);
+  background: #5d2066;
+  /* Old browsers */
+  background-image: linear-gradient(to right, #5d2066 0%, #e04831 100%);
+  /* W3C */
+}
+.ui-slider .ui-slider-handle {
+  background-image: linear-gradient(to bottom, #e8b876 0%, #eac38c 50%, #e8b876 100%);
+  border-color: #E5AA5E;
+}
+/* Badges */
+.badge {
+  color: #eec689;
+  background-color: rgba(220, 71, 50, 0.7);
+}
+.badge.limited {
+  background-color: rgba(180, 59, 67, 0.7);
+}
+/* Buttons */
+.btn-default {
+  background-image: linear-gradient(to bottom, #e8b876 0%, #eac38c 50%, #e8b876 100%);
+  background-color: rgba(238, 198, 137, 0.7);
+  border-color: #E5AA5E;
+}
+.btn-default:active,
+.btn-default.active,
+.btn-default:hover,
+.btn-default:focus {
+  background-color: #edae50;
+  border-color: #E5AA5E;
+}
+/* Navbar */
+.navbar {
+  background-color: none;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.3) 100%);
+  color: #eec689;
+  border-bottom: 2px solid rgba(247, 187, 97, 0.8);
+  box-shadow: 0px 0px 8px rgba(247, 187, 97, 0.5);
+}
+.navbar-inverse .navbar-nav > li > a {
+  color: rgba(238, 198, 137, 0.9);
+  border-bottom: 1px dashed rgba(238, 198, 137, 0.9);
+}
+.navbar-inverse .navbar-nav > .open > a,
+.navbar-inverse .navbar-nav > .open > a:hover,
+.navbar-inverse .navbar-nav > .open > a:focus {
+  color: #eec689;
+  border-bottom: 1px dashed #eec689;
+}
+.navbar-inverse .navbar-nav > li > a:hover,
+.navbar-inverse .navbar-nav > li > a:focus {
+  color: #eec689;
+}
+.dropdown-menu {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+.dropdown-menu > li > a {
+  color: rgba(238, 198, 137, 0.8);
+}
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+  background-color: #000000;
+  color: #eec689;
+}
+.navbar-inverse .navbar-nav > .open > a,
+.navbar-inverse .navbar-nav > .open > a:hover,
+.navbar-inverse .navbar-nav > .open > a:focus {
+  background-color: rgba(0, 0, 0, 0);
+}
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+  background-image: none;
+  background-color: rgba(0, 0, 0, 0);
+}
+.like-navbar {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-top: 2px solid rgba(247, 187, 97, 0.8);
+  border-bottom: 2px solid rgba(247, 187, 97, 0.8);
+  box-shadow: 0px 0px 8px rgba(247, 187, 97, 0.5);
+}
+.dropdown-menu .divider {
+  background-color: rgba(238, 198, 137, 0.6);
+}

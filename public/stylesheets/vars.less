@@ -1,0 +1,109 @@
+/* General */
+
+@font-basic: Trebuchet MS, Arial, Sans Serif;
+@font-logo: "Sevilla Decor";
+@font-logo-url: url(../fonts/sevilla-decor.ttf) format("truetype");
+@bg-url: url('../images/bgs/new/topback_new.jpg');
+@font-size-base: 1rem;
+
+/* Sizes, paddings, margins */
+
+@body-padding: 10px;
+@dropdown-divider-margin: 6px;
+@price-width: 65px;
+@price-padding: 6px;
+
+/* Font Sizes */
+
+@font-size-normal: 1.0;
+@font-size-small: 0.9;
+@font-size-extra-small: 0.75;
+@font-size-big: 1.1;
+@font-size-caption: 1.2;
+@font-size-navbar: 1.3;
+@font-size-site-name: 4.0;
+@font-size-h3: 1.4;
+@font-size-h2: 1.6;
+@font-size-h1: 1.9;
+
+/* Colors */
+
+@basic-text-color: @gold-color-basic;
+@dark-text-color: @gold-color-dark;
+@basic-bg-color: @black-color-basic;
+@basic-bg-table-color: @black-color-basic;
+@badge-extra-color: fade(@brick-color, 70%);
+@badge-basic-color: fade(@orange-color, 70%);
+
+/* Basic Colors */
+
+@gold-color-basic: rgba(238, 198, 137, 1);
+@gold-color-dark: rgba(247, 187, 97, 1);
+@black-color-basic: rgba(0, 0, 0, 1);
+@brick-color: rgba(180, 59, 67, 1);
+@orange-color: rgba(220, 71, 50, 1);
+
+/* Borders */
+
+@border-solid-wide: 2px solid;
+@border-solid: 1px solid;
+@border-dashed: 1px dashed;
+@border-dotted: 1px dotted;
+
+/* Labels */
+
+@label-success: #5C2C65;
+@label-warning: #B43B43;
+@label-error: #DC4732;
+@label-primary: #852C56;
+
+/* Generics */
+
+.font-size(@size)
+	{
+		font-size: @font-size-base * @size;
+	}
+
+.font-bold
+	{
+		font-weight: bold;
+	}
+	
+.font-normal
+	{
+		font-weight: normal;
+	}
+
+.shadow(@color, @size: 8px)
+	{ 
+		box-shadow: 0px 0px @size @color;
+	}
+
+/* Buttons */
+	
+.button-hover
+	{
+		background-color: #edae50;
+		border-color: #E5AA5E;
+	}
+
+.button-basic
+	{
+		background-image: linear-gradient(to bottom, #e8b876 0%,#eac38c 50%,#e8b876 100%);
+		background-color: fade(@basic-text-color, 70%);
+		border-color: #E5AA5E;
+	}
+
+/* Sliders */	
+	
+.slider-bg
+	{
+		background: #5d2066; /* Old browsers */
+		background-image: linear-gradient(to right, #5d2066 0%,#e04831 100%); /* W3C */
+	}
+
+.slider-handle
+	{
+		background-image: linear-gradient(to bottom, #e8b876 0%,#eac38c 50%,#e8b876 100%);
+		border-color: #E5AA5E;
+	}
