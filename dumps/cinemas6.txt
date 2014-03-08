@@ -1,1 +1,0 @@
-{"PageSize":10,"TotalCount":63,"DataSource":"http://m.kassa.rambler.ru/place/nearplaces/cinema?geoplaceid=2\u0026widgetid=16857","Items":[],"CreationClassID":17,"ShowHowItWorks":false,"CommonParam":null}
