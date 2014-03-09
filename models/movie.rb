@@ -1,6 +1,7 @@
 class Movie < ActiveRecord::Base
 	has_many :screenings, primary_key: "movie_id"
 	has_many :cinemas, through: :screenings, primary_key: "movie_id"
+	has_one :rating, primary_key: "movie_id"
 	
 	validates :title,  		presence: true
 	validates :movie_id, 	presence: true, uniqueness: true
@@ -15,6 +16,10 @@ class Movie < ActiveRecord::Base
 
 	def in_db?
 		Movie.where("movie_id = #{movie_id}").size > 0
+	end
+
+	def self.are_equal?(a,b)
+		a.title == b.title
 	end
 
 	def self.get_movie(id)

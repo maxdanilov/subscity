@@ -1,8 +1,8 @@
-table.rating
+table.rating style="display: inline-table;"
 	tr 
 		td colspan="2"
 			- if type == :imdb
-				- url = "http://www.kinopoisk.ru/film/#{movie.kinopoisk_id}/"
+				- url = "http://www.imdb.com/title/tt#{movie.imdb_id}/"
 				- title = "IMDB"
 			- elsif type == :kinopoisk
 				- url = "http://www.kinopoisk.ru/film/#{movie.kinopoisk_id}/"
@@ -15,7 +15,7 @@ table.rating
 				span.label.label-bg.label-rating.btn-block
 					span.glyphicon.glyphicon-star.extra-small-font
 					- if rating.to_i != 0
-						| #{(rating - 0.05).round(1).to_s}
+						| #{(rating).round(1).to_s}
 					- else
 						| —
 		td.users

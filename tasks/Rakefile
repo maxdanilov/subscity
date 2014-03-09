@@ -18,14 +18,32 @@ task :environment do
 	end
 
 	require 'open-uri'
+	require './../db/.credentials'
 
 	ROOT_PATH = '../'
-	DB = ROOT_PATH + 'db/subscity_development.db'
 	DIRS = [ROOT_PATH + 'app/helpers', ROOT_PATH + 'models']
 	DIRS.each do |dir|
 		Dir[File.join(File.dirname(__FILE__), dir, '*.rb')].each {|file| require file rescue nil}
 	end
-	ActiveRecord::Base::establish_connection( :adapter => 'sqlite3', :database => DB)
+
+=begin
+	DB = ROOT_PATH + 'db/subscity_development.db'
+	TIMEOUT = 10000
+	ActiveRecord::Base::establish_connection( 	:adapter => 'sqlite3', 
+												:database => DB, 
+												:timeout => TIMEOUT)
+=end
+
+	ActiveRecord::Base::establish_connection( :adapter => 'mysql2',
+											  :encoding => 'utf8',
+											  :reconnect => true,
+											  :database => 'subscity',
+											  :pool => 50,
+											  :wait_timeout => 1,
+											  :username => DB_USER,
+											  :password => DB_PASS,
+											  :host => 'localhost' )
+
 	I18n.enforce_available_locales = false
 	puts "Init complete".green
 end
@@ -129,10 +147,16 @@ task :update_movies => :environment do
 				c['country'] = nil if c['country'].to_s.strip == '-'
 				c['genres'] = nil if c['genres'].to_s.strip.empty?
 
-				if c.in_db?
+				if c.in_db? and Movie.are_equal?(Movie.get_movie(c.movie_id), c)
 					#mark as active in db
 					Movie.get_movie(c.movie_id).update_attribute(:active, true)
 				else
+					#movie name can be just changed!
+					if c.in_db? and !Movie.are_equal?(Movie.get_movie(c.movie_id), c)
+						#drop the old one
+						Movie.get_movie(c.movie_id).destroy
+						puts "Movie #{c.movie_id} was destroyed".red
+					end
 					#add to db
 					if c.valid? and c.valid_genre?
 						puts "Movie #{c.movie_id} was added to database:".yellow
@@ -154,6 +178,34 @@ task :update_movies => :environment do
 									c.imdb_id = results[:imdb_id]
 									c.cinemate_id = id
 								end
+
+								#update ratings
+
+								unless c.kinopoisk_id.nil? 
+									puts "\tUpdating rating #{c.kinopoisk_id}...".yellow
+									result = Kinopoisk.get_ratings(c.kinopoisk_id) rescue nil
+									unless result.nil? or result[:error] == true
+										r = nil
+										if Rating.exists?(:movie_id => c.movie_id)
+											puts "\t\t Updating a record...".magenta
+											r = Rating.where(:movie_id => c.movie_id).first
+										else
+											puts "\t\t Creating a record...".magenta
+											r = Rating.new(	:movie_id => c.movie_id)
+										end
+								
+										r[:kinopoisk_rating] = result[:kinopoisk][:rating]
+										r[:kinopoisk_votes] = result[:kinopoisk][:votes]
+										r[:imdb_rating] = result[:imdb][:rating]
+										r[:imdb_votes] = result[:imdb][:votes]
+								
+										r.save
+										puts "\t\t Update result: #{result}...".green
+									else
+										puts "\t\t An error occured for #{c.kinopoisk_id}...".red
+									end
+								end
+
 							else
 								puts "\tMovie #{c.movie_id} was not found on Cinemate".red
 							end
@@ -239,6 +291,39 @@ task :update_cinemas => :environment do
 	stop_task(task, t)
 end
 
+desc 'update movies ratings from kinopoisk data'
+task :update_movie_ratings => :environment do |task|
+	t = start_task(task)
+	total = Movie.active.count
+	Movie.active.each_with_index do |m, index|
+		next if m.kinopoisk_id.nil? 
+		puts "\t[#{index+1}/#{total}] Updating rating #{m.kinopoisk_id} [#{m.movie_id}][#{m.title}]...".yellow
+		result = Kinopoisk.get_ratings(m.kinopoisk_id) rescue nil
+		unless result.nil? or result[:error] == true
+			r = nil
+			if Rating.exists?(:movie_id => m.movie_id)
+				puts "\t\t Updating a record...".magenta
+				r = Rating.where(:movie_id => m.movie_id).first
+			else
+				puts "\t\t Creating a record...".magenta
+				r = Rating.new(	:movie_id => m.movie_id)
+			end
+	
+			r[:kinopoisk_rating] = result[:kinopoisk][:rating]
+			r[:kinopoisk_votes] = result[:kinopoisk][:votes]
+			r[:imdb_rating] = result[:imdb][:rating]
+			r[:imdb_votes] = result[:imdb][:votes]
+	
+			r.save
+			puts "\t\t Update result: #{result}...".green
+		else
+			puts "\t\t An error occured for #{m.kinopoisk_id}...".red
+		end
+		sleep rand(0.5..1)
+	end
+	stop_task(task, t)
+end
+
 desc 'update kinopoisk buttons cache'
 task :update_kinopoisk_buttons => :environment do |task|
 	t = start_task(task)
@@ -258,14 +343,8 @@ task :update_kinopoisk_buttons => :environment do |task|
 			end
 		rescue
 		end
-		sleep rand(1..2.0)
+		sleep rand(0.5..1.0)
 	end
-	stop_task(task, t)
-end
-
-desc 'update kinopoisk rating xml files'
-task update_kinopoisk_ratings => :environment do |task|
-	t = start_task(task)
 	stop_task(task, t)
 end
 

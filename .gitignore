@@ -6,4 +6,12 @@ vendor/gems/*
 !vendor/gems/cache/
 .sass-cache/*
 db/*.db
+db/.credentials
+db/.credentials.rb
 .*.sw*
+public/images/kinopoisk/
+public/images/posters/
+public/images/bgs/old/
+public/stylesheets/old/
+dumps/
+*.sublime-*

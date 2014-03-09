@@ -2,6 +2,7 @@ h1.text-center.capitalize.like-navbar Фильмы с субтитрами (#{@c
 	
 table
 	- @movies.each do |movie|
+		- ratings = Rating.where(:movie_id => movie.movie_id).first rescue nil
 		table.table.table-bordered.table-condensed.table-curved.table-striped style="margin-bottom:0px;margin-top:5px;"
 			tbody
 				tr.table-header
@@ -26,19 +27,31 @@ table
 							div.movie-title-original = movie.title_original
 					
 					- unless movie.kinopoisk_id.nil? and movie.imdb_id.nil?
-						td.col-md-3.text-center style="width:260px;"
-							- unless movie.imdb_id.nil?
-								span
-									a href="http://www.imdb.com/title/tt#{movie.imdb_id}/"
-										img.rating-button src = "http://tracker.0day.kiev.ua/imdb/imdb_tt#{movie.imdb_id}.gif"
+						td.col-md-3.text-center.rating-plates
+							/- unless movie.imdb_id.nil?
+							/	span
+							/		a href="http://www.imdb.com/title/tt#{movie.imdb_id}/"
+							/			img.rating-button src = "http://tracker.0day.kiev.ua/imdb/imdb_tt#{movie.imdb_id}.gif"
 
-							- unless movie.kinopoisk_id.nil?
-								span
-									a href="http://www.kinopoisk.ru/film/#{movie.kinopoisk_id}/"
-										- if File.exist?(File.dirname(__FILE__) + "/../../../public/images/kinopoisk/#{movie.kinopoisk_id}.png")
-											img.rating-button src = image_path("kinopoisk/#{movie.kinopoisk_id}.png")  	
-										- else	
-											img.rating-button src = "http://rating.kinopoisk.ru/#{movie.kinopoisk_id}.gif" 
+							/- unless movie.kinopoisk_id.nil?
+							/	span
+							/		a href="http://www.kinopoisk.ru/film/#{movie.kinopoisk_id}/"
+							/			- if File.exist?(File.dirname(__FILE__) + "/../../../public/images/kinopoisk/#{movie.kinopoisk_id}.png")
+							/				img.rating-button src = image_path("kinopoisk/#{movie.kinopoisk_id}.png")  	
+							/			- else	
+							/				img.rating-button src = "http://rating.kinopoisk.ru/#{movie.kinopoisk_id}.gif" 
+
+							- unless movie.imdb_id.nil? or ratings.nil?
+								= partial 'partials/rating_plate', :locals => { :movie => movie, :type => :imdb, :rating => ratings.imdb_rating, :votes => ratings.imdb_votes }
+								span.rating-plate-divider
+								- if movie.kinopoisk_id.nil?
+									span.like-rating-plate								
+							- unless movie.kinopoisk_id.nil? or ratings.nil?
+								- if movie.imdb_id.nil?
+									span.like-rating-plate
+									span.rating-plate-divider
+								= partial 'partials/rating_plate', :locals => { :movie => movie, :type => :kinopoisk, :rating => ratings.kinopoisk_rating, :votes => ratings.kinopoisk_votes }
+
 
 		table.table.table-bordered.table-condensed.table-curved.table-striped.movie-description
 			tbody	
@@ -52,7 +65,7 @@ table
 						span.badge.gray style="margin-top:5px;"
 							| #{format_cinemas_count(@cinemas_counts[movie])} 
 
-					- unless movie.year.nil?
+					- unless movie.year.to_s.empty?
 						td.col-md-12 colspan="1"
 							div
 								strong Год: 
@@ -64,32 +77,32 @@ table
 							div
 								strong Жанр: 
 								= movie.genres
-				- unless movie.duration.nil?
+				- unless movie.duration.to_s.empty?
 					tr.table-body
 						td.col-md-12 colspan="1" 
 							div
 								strong Продолжительность: 
 								= movie.duration
 								|  мин.
-				- unless movie.country.nil? or movie.country == '-'
+				- unless movie.country.to_s.empty? or movie.country == '-'
 					tr.table-body
 						td.col-md-12 colspan="1" 
 							div
 								strong Страна: 
 								= movie.country
-				- unless movie.director.nil?
+				- unless movie.director.to_s.empty?
 					tr.table-body
 						td colspan = "1" 
 							div
 								strong Режиссер: 
 								= movie.director
-				- unless movie.cast.nil?
+				- unless movie.cast.to_s.empty?
 					tr.table-body
 						td colspan = "1" 
 							div
 								strong В ролях: 
 								= movie.cast
-				- unless movie.description.nil?
+				- unless movie.description.to_s.empty?
 					tr.table-body
 						td colspan = "1" 
 							div

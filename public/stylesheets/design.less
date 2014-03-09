@@ -230,8 +230,8 @@ h2.cinema-title
 	
 .pseudo-hidden
 	{
-		background-color: rgba(0,0,0,0);
-		color: rgba(0,0,0,0);
+		background-color: rgba(0,0,0,0) !important;
+		color: rgba(0,0,0,0) !important;
 	}
 	
 .transparent
@@ -297,7 +297,7 @@ table.rating
 	{
 		margin-left: auto;
 		margin-right: auto;
-		width: 102px;
+		width: @rating-plate-width;
 			
 		td.users
 			{
@@ -313,6 +313,23 @@ table.rating
 			}
 	}
 
+td.rating-plates
+	{
+		width: 2 * @rating-plate-width + 18px;
+	}	
+	
+.like-rating-plate
+	{
+		width: @rating-plate-width;
+		display: inline-block;
+	}	
+	
+.rating-plate-divider
+	{
+		width: 5px;
+		display: inline-block;
+	}
+	
 div.divider
 	{
 		height:10px;

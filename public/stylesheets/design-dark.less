@@ -64,6 +64,7 @@ a.underdashed:hover, a.underdashed:active
 table.rating
 	{
 		border: 1px dashed fade(@dark-text-color, 100%);
+		background-color: fade(@basic-bg-table-color, 40%);
 	}
 	
 /* Captions */
@@ -137,13 +138,14 @@ table.rating
 .ui-widget-content
 	{
 		border-color: fade(@dark-text-color, 60%);
-		.shadow(fade(@dark-text-color, 50%), 5px);
+		.shadow(fade(@dark-text-color, 80%), 5px);
 		.slider-bg
 	}
 	
 .ui-slider .ui-slider-handle 
 	{
-		.slider-handle
+		.slider-handle;
+		.shadow(fade(@dark-text-color, 80%), 5px);
 	}
 	
 /* Badges */
@@ -167,7 +169,8 @@ table.rating
 	
 .btn-default:active, .btn-default.active, .btn-default:hover, .btn-default:focus
 	{
-		.button-hover
+		.button-hover;
+		.shadow(@dark-text-color, 8px);
 	}
 		
 /* Navbar */

@@ -34,7 +34,7 @@
   border-color: #E5AA5E;
 }
 body {
-  background-image: url('../images/bgs/new/topback_new.jpg');
+  background-image: url('../images/bgs/background.jpg');
   color: #eec689;
 }
 *::selection {
@@ -90,6 +90,7 @@ a.underdashed:active {
 }
 table.rating {
   border: 1px dashed #f7bb61;
+  background-color: rgba(0, 0, 0, 0.4);
 }
 /* Captions */
 .movie-title-original {
@@ -136,7 +137,7 @@ table.rating {
 /* Slide Bar */
 .ui-widget-content {
   border-color: rgba(247, 187, 97, 0.6);
-  box-shadow: 0px 0px 5px rgba(247, 187, 97, 0.5);
+  box-shadow: 0px 0px 5px rgba(247, 187, 97, 0.8);
   background: #5d2066;
   /* Old browsers */
   background-image: linear-gradient(to right, #5d2066 0%, #e04831 100%);
@@ -145,6 +146,7 @@ table.rating {
 .ui-slider .ui-slider-handle {
   background-image: linear-gradient(to bottom, #e8b876 0%, #eac38c 50%, #e8b876 100%);
   border-color: #E5AA5E;
+  box-shadow: 0px 0px 5px rgba(247, 187, 97, 0.8);
 }
 /* Badges */
 .badge {
@@ -166,6 +168,7 @@ table.rating {
 .btn-default:focus {
   background-color: #edae50;
   border-color: #E5AA5E;
+  box-shadow: 0px 0px 8px #f7bb61;
 }
 /* Navbar */
 .navbar {

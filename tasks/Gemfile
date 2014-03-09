@@ -19,6 +19,7 @@ gem 'slim'
 gem 'activerecord', '>= 3.1', :require => 'active_record'
 gem 'sqlite3'
 gem 'hpricot'
+gem 'mysql2'
 
 # Test requirements
 

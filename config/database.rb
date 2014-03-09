@@ -13,16 +13,37 @@
 #     :socket    => '/tmp/mysql.sock'
 #   }
 #
+
+require Padrino.root('db', '.credentials')
+
 ActiveRecord::Base.configurations[:development] = {
-  :adapter => 'sqlite3',
-  :database => Padrino.root('db', 'subscity_development.db'),
-  :timeout => 10000
+  #:adapter => 'sqlite3',
+  #:database => Padrino.root('db', 'subscity_development.db'),
+  #:timeout => 10000
+  :adapter => 'mysql2',
+  :encoding => 'utf8',
+  :reconnect => true,
+  :database => 'subscity',
+  :pool => 50,
+  :wait_timeout => 1,
+  :username => DB_USER,
+  :password => DB_PASS,
+  :host => 'localhost'
 }
 
 ActiveRecord::Base.configurations[:production] = {
-  :adapter => 'sqlite3',
-  :database => Padrino.root('db', 'subscity_production.db'),
-  :timeout => 10000
+  #:adapter => 'sqlite3',
+  #:database => Padrino.root('db', 'subscity_development.db'),
+  #:timeout => 10000
+  :adapter => 'mysql2',
+  :encoding => 'utf8',
+  :reconnect => true,
+  :database => 'subscity',
+  :pool => 50,
+  :wait_timeout => 1,
+  :username => DB_USER,
+  :password => DB_PASS,
+  :host => 'localhost'
 }
 
 ActiveRecord::Base.configurations[:test] = {

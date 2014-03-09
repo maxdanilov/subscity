@@ -16,10 +16,10 @@ class Kinopoisk
 		error = false;
 		begin
 			doc = Hpricot(data)
-			kinopoisk_rating = (doc/"kp_rating").inner_text.to_f
-			imdb_rating = (doc/"imdb_rating").inner_text.to_f
-			kinopoisk_votes = (doc/"kp_rating").first["num_vote"].to_i
-			imdb_votes = (doc/"imdb_rating").first["num_vote"].to_i
+			kinopoisk_rating = doc.at("kp_rating").inner_text.to_f
+			kinopoisk_votes = doc.at("kp_rating")["num_vote"].to_i
+			imdb_rating = doc.at("imdb_rating").inner_text.to_f rescue nil
+			imdb_votes = doc.at("imdb_rating")["num_vote"].to_i rescue nil
 		rescue
 			kinopoisk_rating, kinopoisk_votes, imdb_rating, imdb_votes = nil
 			error = true;

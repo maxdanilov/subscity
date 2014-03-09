@@ -110,6 +110,7 @@ module Subscity
         begin
             Slim::Engine.set_default_options :pretty => true, :sort_attrs => false
             @movie = Movie.find(params[:id])
+            @ratings = Rating.where(:movie_id => @movie.movie_id).first rescue nil
             @city = City.get_by_domain(request.subdomains.first)
             @screenings = @movie.get_sorted_screenings(@city.city_id) # @movie.screenings
             @cinemas = Cinema.all

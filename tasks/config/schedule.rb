@@ -28,9 +28,10 @@ every :day, :at => ['10:05', '14:00'] do
 	my_rake "update_movies", :output => 'logs/cron_movies.log'
 end
 
-#kinopoisk buttons
+#kinopoisk ratings
 every :day, :at => ['10:10', '14:05'] do
-	my_rake "update_kinopoisk_buttons", :output => 'logs/cron.log'
+	#my_rake "update_kinopoisk_buttons", :output => 'logs/cron.log'
+	my_rake "update_movie_ratings", :output => 'logs/cron.log'
 end
 
 #cinemas

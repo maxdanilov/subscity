@@ -25,6 +25,7 @@ gem 'less'
 gem 'geocoder'
 gem 'geoip'
 gem 'thin'
+gem 'mysql2'
 
 # Test requirements
 

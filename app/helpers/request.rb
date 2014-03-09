@@ -11,6 +11,15 @@ module Sinatra
       }.call
     end
 
+    def main_domain(tld_len=1)
+        # returns domain.ru for *.domain.ru
+        @env['rack.env.main_domain'] ||= lambda {
+        return '' if (host.nil? ||
+                      /\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/.match(host))
+        host.split('.')[tld_len..-1].join('.')
+      }.call
+    end
+
     def geoip
       GeoIP.new(File.dirname(__FILE__) + '/../../db/GeoLiteCity.dat').city(ip)
     end
@@ -60,7 +69,6 @@ def domain_name
 end
 
 def redirect_globally(subdomain = nil, path = nil)
-  #domain = "oiltube.ru"
   subdomain += "." unless subdomain.nil?
   redirect('http://'+ subdomain.to_s + domain_name + path.to_s)
 end

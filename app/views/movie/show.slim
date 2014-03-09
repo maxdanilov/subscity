@@ -1,4 +1,5 @@
 ﻿- movie = @movie
+- ratings = @ratings
 /h1.text-center.capitalize.like-navbar 
 /	span 
 /		=movie.title 
@@ -12,19 +13,20 @@ table.table.table-bordered.table-condensed.table-curved.table-striped
 		td.text-center rowspan = "10"
 			#a href="movies/#{movie.id}"
 			img src = image_path("posters/#{movie.movie_id}.jpg") width=144 height=212 style="margin-bottom: 10px;"
-			- unless movie.imdb_id.nil?
-				a href="http://www.imdb.com/title/tt#{movie.imdb_id}/"
-					img.rating-button src = "http://tracker.0day.kiev.ua/imdb/imdb_tt#{movie.imdb_id}.gif"
-			- unless movie.kinopoisk_id.nil?
-				a href="http://www.kinopoisk.ru/film/#{movie.kinopoisk_id}/"
-					img.rating-button src = "http://rating.kinopoisk.ru/#{movie.kinopoisk_id}.gif"
-					/img.rating-button src = image_path("kinopoisk/#{movie.kinopoisk_id}.png")
+			/- unless movie.imdb_id.nil?
+			/	a href="http://www.imdb.com/title/tt#{movie.imdb_id}/"
+			/		img.rating-button src = "http://tracker.0day.kiev.ua/imdb/imdb_tt#{movie.imdb_id}.gif"
+			/- unless movie.kinopoisk_id.nil?
+			/	a href="http://www.kinopoisk.ru/film/#{movie.kinopoisk_id}/"
+			/		img.rating-button src = "http://rating.kinopoisk.ru/#{movie.kinopoisk_id}.gif"
+			/		/img.rating-button src = image_path("kinopoisk/#{movie.kinopoisk_id}.png")
 
-			- unless movie.imdb_id.nil?
-				= partial 'partials/rating_plate', :locals => { :movie => @movie, :type => :imdb, :rating => 6.98, :votes => 150000 }
-				div.divider
-			- unless movie.kinopoisk_id.nil?
-				= partial 'partials/rating_plate', :locals => { :movie => @movie, :type => :kinopoisk, :rating => 8.0, :votes => 1899 }
+			- unless movie.imdb_id.nil? or ratings.nil?
+				= partial 'partials/rating_plate', :locals => { :movie => @movie, :type => :imdb, :rating => ratings.imdb_rating, :votes => ratings.imdb_votes }
+				- unless movie.kinopoisk_id.nil?				
+					div.divider
+			- unless movie.kinopoisk_id.nil? or ratings.nil?
+				= partial 'partials/rating_plate', :locals => { :movie => @movie, :type => :kinopoisk, :rating => ratings.kinopoisk_rating, :votes => ratings.kinopoisk_votes }
 
 		td colspan = "2" 
 			span.movie-title 
@@ -33,7 +35,7 @@ table.table.table-bordered.table-condensed.table-curved.table-striped
 				<span class="label label-bg label-default age-restriction">#{movie.age_restriction}+</span>
 			- unless movie.title_original.nil?
 				div.movie-title-original = movie.title_original
-	- unless movie.year.nil?
+	- unless movie.year.to_s.empty?
 		tr
 			td.col-md-12 colspan="2" 
 				div
@@ -45,32 +47,32 @@ table.table.table-bordered.table-condensed.table-curved.table-striped
 				div
 					strong Жанр: 
 					= movie.genres
-	- unless movie.duration.nil?
+	- unless movie.duration.to_s.empty?
 		tr
 			td.col-md-12 colspan="2" 
 				div
 					strong Продолжительность: 
 					= movie.duration
 					|  мин.
-	- unless movie.country.nil? or movie.country == '-'
+	- unless movie.country.to_s.empty? or movie.country == '-'
 		tr
 			td.col-md-12 colspan="2" 
 				div
 					strong Страна: 
 					= movie.country
-	- unless movie.director.nil?
+	- unless movie.director.to_s.empty?
 		tr
 			td colspan = "2" 
 				div
 					strong Режиссер: 
 					= movie.director
-	- unless movie.cast.nil?
+	- unless movie.cast.to_s.empty?
 		tr
 			td colspan = "2" 
 				div
 					strong В ролях: 
 					= movie.cast
-	- unless movie.description.nil?
+	- unless movie.description.to_s.empty?
 		tr
 			td colspan = "2" 
 				div
