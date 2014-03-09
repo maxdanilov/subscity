@@ -74,7 +74,6 @@ module Subscity
         Slim::Engine.set_default_options :pretty => true, :sort_attrs => false
         @city = City.get_by_domain(request.subdomains.first)
         @cinemas = @city.get_sorted_cinemas
-        @nav_links_styles = {cinemas: "active"}
         render 'cinema/showall', layout: :layout
     end
 
@@ -86,7 +85,6 @@ module Subscity
             @screenings = Screening.get_sorted_screenings(@date, @city.city_id)
             @movie = Movie.active
             @cinemas = Cinema.all
-            @nav_links_styles = {dates: "active"}
             render 'date/show', layout: :layout
         else
             render 'errors/404', layout: :layout
@@ -101,9 +99,8 @@ module Subscity
         @new_movies = @movies.select {|a| (Time.now - a.created_at) <= 8.days}
         @screening_counts = Hash[@movies.map { |movie| {movie => movie.screenings_count(@city.city_id)}.flatten}]
         @cinemas_counts = Hash[@movies.map { |movie| {movie => movie.cinemas_count(@city.city_id)}.flatten}]
-        @nav_links_styles = {movies: "active"}
+        @ratings = Rating.all
         render 'movie/showall', layout: :layout
-        #"#{self.class} #{request.subdomain_valid?.to_s}<br>#{request.subdomains}<br>#{request.host} #{request.path}"
     end
 
     get '/movies/:id' do
@@ -118,7 +115,6 @@ module Subscity
             screenings_flat = @movie.screenings.active
             @price_min = screenings_flat.map{ |s| s.price_min}.compact.min rescue nil
             @price_max = screenings_flat.map{ |s| s.price_max}.compact.max rescue nil
-            @nav_links_styles = {movies: "active"}
             render 'movie/show', layout: :layout
         rescue ActiveRecord::RecordNotFound => e
             render 'errors/404', layout: :layout
@@ -136,8 +132,6 @@ module Subscity
             screenings_flat = @cinema.screenings.active
             @price_min = screenings_flat.map {|s| s.price_min}.compact.min rescue nil
             @price_max = screenings_flat.map {|s| s.price_max}.compact.max rescue nil
-            #@nav_links_styles = {movies: "", cinemas: "active", dates: "", about: ""}
-            @nav_links_styles = {cinemas: "active"}
             render 'cinema/show', layout: :layout
         rescue ActiveRecord::RecordNotFound => e
             render 'errors/404', layout: :layout

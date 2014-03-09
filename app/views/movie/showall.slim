@@ -2,7 +2,8 @@ h1.text-center.capitalize.like-navbar Фильмы с субтитрами (#{@c
 	
 table
 	- @movies.each do |movie|
-		- ratings = Rating.where(:movie_id => movie.movie_id).first rescue nil
+		/- ratings = Rating.where(:movie_id => movie.movie_id).first rescue nil
+		- ratings = @ratings.detect { |r| r.movie_id == movie.movie_id}
 		table.table.table-bordered.table-condensed.table-curved.table-striped style="margin-bottom:0px;margin-top:5px;"
 			tbody
 				tr.table-header
