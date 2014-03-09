@@ -36,6 +36,9 @@ Bundler.require(:default, RACK_ENV)
 # Add your before (RE)load hooks here
 #
 Padrino.before_load do
+	require_relative '../app/helpers/cache'
+	puts "clearing cache..."
+    FileCache.expire
 end
 
 ##

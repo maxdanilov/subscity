@@ -13,8 +13,12 @@ module Subscity
     ##
     # Caching support.
     #
-    # register Padrino::Cache
-    # enable :caching
+    register Padrino::Cache
+    enable :caching
+    CACHE_TTL = 3600 # in seconds
+    #Padrino.cache = Padrino::Cache.new(:File, :dir => Padrino.root('tmp', app_name.to_s, 'cache'))
+    Padrino.cache = Padrino::Cache.new(:File, :dir => FileCache.dir)
+
     #
     # You can customize caching store engines:
     #
@@ -61,9 +65,10 @@ module Subscity
     #     render 'errors/505'
     #   end
     #
-    #before '/movies' do
+
     before do
         pre_redirect
+        Slim::Engine.set_default_options :pretty => false, :sort_attrs => false
     end
 
 	get '/' do
@@ -71,51 +76,55 @@ module Subscity
 	end
 
     get '/cinemas' do
-        Slim::Engine.set_default_options :pretty => true, :sort_attrs => false
-        @city = City.get_by_domain(request.subdomains.first)
-        @cinemas = @city.get_sorted_cinemas
-        render 'cinema/showall', layout: :layout
-    end
-
-    get '/dates/:date' do
-        Slim::Engine.set_default_options :pretty => true, :sort_attrs => false
-        @date = parse_date(params[:date])
-        unless @date.nil?
+        cache(request.cache_key, :expires => CACHE_TTL) do
             @city = City.get_by_domain(request.subdomains.first)
-            @screenings = Screening.get_sorted_screenings(@date, @city.city_id)
-            @movie = Movie.active
-            @cinemas = Cinema.all
-            render 'date/show', layout: :layout
-        else
-            render 'errors/404', layout: :layout
+            @cinemas = @city.get_sorted_cinemas
+            render 'cinema/showall', layout: :layout
         end
     end
 
+    get '/dates/:date' do
+        @date = parse_date(params[:date])
+            unless (params[:date] =~ /\A\d{4}-\d{2}-\d{2}\z/).nil? or @date.nil?
+                cache(request.cache_key, :expires => CACHE_TTL) do
+                    @city = City.get_by_domain(request.subdomains.first)
+                    @screenings = Screening.get_sorted_screenings(@date, @city.city_id)
+                    @movie = Movie.active
+                    @cinemas = Cinema.all
+                    render 'date/show', layout: :layout
+                end
+            else
+                render 'errors/404', layout: :layout
+            end
+    end
+
     get '/movies' do
-        Slim::Engine.set_default_options :pretty => true, :sort_attrs => false
-        @city = City.get_by_domain(request.subdomains.first)
-        @movies = @city.get_movies
-        @movies = @movies.sort_by { |a| a.title }
-        @new_movies = @movies.select {|a| (Time.now - a.created_at) <= 8.days}
-        @screening_counts = Hash[@movies.map { |movie| {movie => movie.screenings_count(@city.city_id)}.flatten}]
-        @cinemas_counts = Hash[@movies.map { |movie| {movie => movie.cinemas_count(@city.city_id)}.flatten}]
-        @ratings = Rating.all
-        render 'movie/showall', layout: :layout
+        cache(request.cache_key, :expires => CACHE_TTL) do
+            @city = City.get_by_domain(request.subdomains.first)
+            @movies = @city.get_movies
+            @movies = @movies.sort_by { |a| a.title }
+            @new_movies = @movies.select {|a| (Time.now - a.created_at) <= 8.days}
+            @screening_counts = Hash[@movies.map { |movie| {movie => movie.screenings_count(@city.city_id)}.flatten}]
+            @cinemas_counts = Hash[@movies.map { |movie| {movie => movie.cinemas_count(@city.city_id)}.flatten}]
+            @ratings = Rating.all
+            render 'movie/showall', layout: :layout
+        end
     end
 
     get '/movies/:id' do
         begin
-            Slim::Engine.set_default_options :pretty => true, :sort_attrs => false
-            @movie = Movie.find(params[:id])
-            @ratings = Rating.where(:movie_id => @movie.movie_id).first rescue nil
-            @city = City.get_by_domain(request.subdomains.first)
-            @screenings = @movie.get_sorted_screenings(@city.city_id) # @movie.screenings
-            @cinemas = Cinema.all
+            cache(request.cache_key, :expires => CACHE_TTL) do
+                @movie = Movie.find(params[:id])
+                @ratings = Rating.where(:movie_id => @movie.movie_id).first rescue nil
+                @city = City.get_by_domain(request.subdomains.first)
+                @screenings = @movie.get_sorted_screenings(@city.city_id) # @movie.screenings
+                @cinemas = Cinema.all
 
-            screenings_flat = @movie.screenings.active
-            @price_min = screenings_flat.map{ |s| s.price_min}.compact.min rescue nil
-            @price_max = screenings_flat.map{ |s| s.price_max}.compact.max rescue nil
-            render 'movie/show', layout: :layout
+                screenings_flat = @movie.screenings.active
+                @price_min = screenings_flat.map{ |s| s.price_min}.compact.min rescue nil
+                @price_max = screenings_flat.map{ |s| s.price_max}.compact.max rescue nil
+                render 'movie/show', layout: :layout
+            end
         rescue ActiveRecord::RecordNotFound => e
             render 'errors/404', layout: :layout
         end
@@ -123,16 +132,16 @@ module Subscity
 
     get '/cinemas/:id' do
         begin
-            Slim::Engine.set_default_options :pretty => true, :sort_attrs => false
-            @cinema = Cinema.find(params[:id])
-            #@city = City.where(:city_id => @cinema.city_id).first
-            @city = City.get_by_domain(request.subdomains.first)
-            @screenings = @cinema.get_sorted_screenings
-            @movies = Movie.all
-            screenings_flat = @cinema.screenings.active
-            @price_min = screenings_flat.map {|s| s.price_min}.compact.min rescue nil
-            @price_max = screenings_flat.map {|s| s.price_max}.compact.max rescue nil
-            render 'cinema/show', layout: :layout
+            cache(request.cache_key, :expires => CACHE_TTL) do
+                @cinema = Cinema.find(params[:id])
+                @city = City.get_by_domain(request.subdomains.first)
+                @screenings = @cinema.get_sorted_screenings
+                @movies = Movie.all
+                screenings_flat = @cinema.screenings.active
+                @price_min = screenings_flat.map {|s| s.price_min}.compact.min rescue nil
+                @price_max = screenings_flat.map {|s| s.price_max}.compact.max rescue nil
+                render 'cinema/show', layout: :layout
+            end
         rescue ActiveRecord::RecordNotFound => e
             render 'errors/404', layout: :layout
         end

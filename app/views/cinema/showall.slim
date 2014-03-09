@@ -29,7 +29,7 @@ h1.text-center.capitalize.like-navbar Кинотеатры (#{@city.name})
 									- movies.each do |movie, screenings_count|
 										tr
 											td
-												div
+												div.big-font
 													= link_to_movie(movie)
 													|  
 													<span class="label label-small label-default age-restriction">#{movie.age_restriction}+</span>

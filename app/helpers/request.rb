@@ -20,6 +20,10 @@ module Sinatra
       }.call
     end
 
+    def cache_key
+        subdomains.join(".") + path_info
+    end
+
     def geoip
       GeoIP.new(File.dirname(__FILE__) + '/../../db/GeoLiteCity.dat').city(ip)
     end
