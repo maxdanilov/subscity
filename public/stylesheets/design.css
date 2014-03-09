@@ -47,6 +47,11 @@ body {
 div {
   font-size: 1rem;
 }
+img.poster {
+  width: 144px;
+  height: 212px;
+  margin-bottom: 10px;
+}
 /* Captions */
 .site-name {
   font-size: 4rem;

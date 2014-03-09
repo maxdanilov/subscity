@@ -12,7 +12,7 @@ table.table.table-bordered.table-condensed.table-curved.table-striped
 	tr
 		td.text-center rowspan = "10"
 			#a href="movies/#{movie.id}"
-			img src = image_path("posters/#{movie.movie_id}.jpg") width=144 height=212 style="margin-bottom: 10px;"
+			img.poster src = image_path("posters/#{movie.movie_id}.jpg")
 			/- unless movie.imdb_id.nil?
 			/	a href="http://www.imdb.com/title/tt#{movie.imdb_id}/"
 			/		img.rating-button src = "http://tracker.0day.kiev.ua/imdb/imdb_tt#{movie.imdb_id}.gif"

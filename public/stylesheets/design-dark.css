@@ -45,6 +45,9 @@ body {
   background-color: rgba(220, 71, 50, 0.5);
   color: #eec689;
 }
+img.poster {
+  border: 2px solid #eec689;
+}
 /* Tables */
 .table-striped > tbody > tr:nth-child(odd) > td,
 .table-striped > tbody > tr:nth-child(odd) > th,
