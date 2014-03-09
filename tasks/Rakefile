@@ -72,6 +72,10 @@ task :update_screenings => :environment do |task, args|
 		Rake::Task[:update_screenings_movie].reenable
 		sleep rand(2..3)
 	end
+
+	Rake::Task[:clear_cache].reenable
+	Rake::Task[:clear_cache].invoke
+
 	stop_task(task, t)
 end
 
@@ -113,7 +117,7 @@ task :update_screenings_movie, [:id] => :environment do |task, args|
 end
 
 desc 'update movies list'
-task :update_movies => :environment do
+task :update_movies => :environment do |task|
 	t = start_task(task)
 	page_size = KassaFetcher::PAGE_SIZE
 	poster_filename = -> (m) { "../public/images/posters/" + m.movie_id.to_s + ".jpg" }
@@ -248,7 +252,7 @@ task :update_movies => :environment do
 end
 
 desc 'update cinemas list' 
-task :update_cinemas => :environment do
+task :update_cinemas => :environment do |task|
 	t = start_task(task)
 	page_size = KassaFetcher::PAGE_SIZE
 	
@@ -321,6 +325,10 @@ task :update_movie_ratings => :environment do |task|
 		end
 		sleep rand(0.5..1)
 	end
+
+	Rake::Task[:clear_cache].reenable
+	Rake::Task[:clear_cache].invoke
+
 	stop_task(task, t)
 end
 
@@ -378,19 +386,22 @@ task :update_screenings_prices => :environment do |task|
 		sleep rand(0.5..1)
 	end
 
+	Rake::Task[:clear_cache].reenable
+	Rake::Task[:clear_cache].invoke
+
 	puts "#{fetched_count} screenings processed, #{updated_count} updated in the base".red
 	stop_task(task, t)
 end
 
 desc 'seed cities table'
-task :seed_cities => :environment do
+task :seed_cities => :environment do |task|
 	#City.new(:city_id => 2, :name => "Москва").save
 	City.new(:city_id => 2, :name => "Москва", :geoip => "Moscow; 48 RU", :domain => "msk", :active => true).save
 	City.new(:city_id => 3, :name => "Санкт-Петербург", :geoip => "Saint Petersburg; 66 RU", :domain => "spb", :active => false).save
 end
 
 desc 'delete all obsolete screenings'
-task :cleanup_screenings => :environment do
+task :cleanup_screenings => :environment do |task|
 	t = start_task(task)
 
 	#clean old screenings
@@ -409,12 +420,15 @@ task :cleanup_screenings => :environment do
 		end
 	end
 
+	Rake::Task[:clear_cache].reenable
+	Rake::Task[:clear_cache].invoke
+
 	puts "#{deleted} screenings were deleted from database".red
 	stop_task(task, t)
 end
 
 desc 'fill movies with info from Cinemate' 
-task :update_movies_info => :environment do
+task :update_movies_info => :environment do |task|
 	t = Timer.new.start
 	Movie.where("cinemate_id IS NULL AND year IS NOT NULL").each do |c|
 		key = Cinemate.get_csrf_token
@@ -441,6 +455,31 @@ task :update_movies_info => :environment do
 	end
 	t.stop
 	puts "Task took #{t.get} seconds to run".cyan
+end
+
+desc 'clear file cache'
+task :clear_cache => :environment do |task|
+	t = start_task(task)
+    FileCache.expire
+    Rake::Task[:fill_cache].reenable
+    Rake::Task[:fill_cache].invoke
+    stop_task(task, t)
+end
+
+desc 'fill file cache'
+task :fill_cache => :environment do |task|
+	t = start_task(task)
+    pages = ["cinemas", "movies", ""]
+    domains = City.active.pluck(:domain)
+
+    domains.each do |d|
+    	pages.each do |p|
+    		url = "http://" + d + "." + domain_name + "/" + p
+    		puts "Fetching #{url} ...".yellow
+    		open(url).read
+    	end
+    end
+    stop_task(task, t)
 end
 
 task :testtask => :environment do |task|

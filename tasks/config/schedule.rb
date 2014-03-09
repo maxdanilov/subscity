@@ -52,3 +52,8 @@ end
 every :day, :at => ['12:31', '15:12', '19:20', '21:20'] do
 	my_rake "update_screenings_prices", :output => 'logs/cron_prices.log'
 end
+
+# clear cache
+every :day, :at => ['02:00'] do
+	my_rake "clear_cache", :output => 'logs/cron.log'
+end

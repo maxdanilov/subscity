@@ -15,7 +15,7 @@ module Subscity
     #
     register Padrino::Cache
     enable :caching
-    CACHE_TTL = 3600 # in seconds
+    CACHE_TTL = 36000 # in seconds
     #Padrino.cache = Padrino::Cache.new(:File, :dir => Padrino.root('tmp', app_name.to_s, 'cache'))
     Padrino.cache = Padrino::Cache.new(:File, :dir => FileCache.dir)
 
