@@ -1,5 +1,7 @@
 /* General */
+/*1rem;*/
 /* Sizes, paddings, margins */
+/*6.375rem; */
 /* Font Sizes */
 /* Colors */
 /* Basic Colors */
@@ -38,31 +40,33 @@
   src: url(../fonts/sevilla-decor.ttf) format("truetype");
 }
 html {
-  font-size: 1rem;
+  font-size: 16px;
 }
 body {
   padding: 10px;
   font-family: Trebuchet MS, Arial, Sans Serif;
+  font-size: 14.4px;
 }
 div {
-  font-size: 1rem;
+  font-size: 16px;
 }
 img.poster {
   width: 144px;
   height: 212px;
   margin-bottom: 10px;
+  border-radius: 8px;
 }
 /* Captions */
 .site-name {
-  font-size: 4rem;
+  font-size: 64px;
   padding-right: 20px;
 }
 .movie-title {
-  font-size: 1.2rem;
+  font-size: 19.2px;
   font-weight: bold;
 }
 .cinema-name {
-  font-size: 1.2rem;
+  font-size: 19.2px;
   font-weight: bold;
 }
 a.movie-title:hover {
@@ -83,7 +87,7 @@ a.movie-title:hover {
 .age-restriction {
   position: relative;
   top: -2px;
-  font-size: 0.9rem;
+  font-size: 14.4px;
 }
 .rating-button {
   margin: 10px;
@@ -92,7 +96,7 @@ a.movie-title:hover {
 }
 .price-button {
   font-weight: bold;
-  font-size: 1rem;
+  font-size: 16px;
   width: 65px;
   padding-left: 6px;
   padding-right: 6px;
@@ -102,7 +106,7 @@ a.movie-title:hover {
 .price-label {
   position: relative;
   top: -2px;
-  font-size: 0.9rem;
+  font-size: 14.4px;
   width: 65px;
   padding-left: 6px;
   padding-right: 6px;
@@ -113,7 +117,7 @@ a.movie-title:hover {
   padding-right: 5px;
   padding-top: 0px;
   padding-bottom: 0px;
-  font-size: 1rem;
+  font-size: 16px;
 }
 .cell-screenings {
   padding-right: 6px;
@@ -125,18 +129,18 @@ h4 {
   font-weight: bold;
 }
 h1 {
-  font-size: 1.9rem;
+  font-size: 30.4px;
   margin-bottom: 15px;
   margin: 10px;
 }
 h2 {
-  font-size: 1.6rem;
+  font-size: 25.6px;
 }
 h3 {
-  font-size: 1.4rem;
+  font-size: 22.4px;
 }
 h4 {
-  font-size: 1.2rem;
+  font-size: 19.2px;
 }
 a,
 a:hover {
@@ -146,6 +150,7 @@ a.underdashed {
   color: #444;
   font-weight: bold;
   border-bottom: 1px dashed #444;
+  text-shadow: 0 0 8px #000000;
 }
 h2.cinema-title {
   margin-top: 10px;
@@ -154,16 +159,17 @@ h2.cinema-title {
   font-weight: bold;
 }
 .big-font {
-  font-size: 1.1rem;
+  font-size: 17.6px;
 }
-.medium-font {
-  font-size: 1rem;
+.medium-font,
+.normal-font {
+  font-size: 16px;
 }
 .small-font {
-  font-size: 0.9rem;
+  font-size: 14.4px;
 }
 .extra-small-font {
-  font-size: 0.75rem;
+  font-size: 12px;
 }
 .price-slider {
   text-align: center;
@@ -240,10 +246,10 @@ table.bordered {
 table.rating {
   margin-left: auto;
   margin-right: auto;
-  width: 102px;
+  width: 110px;
 }
 table.rating td.users {
-  font-size: 0.9rem;
+  font-size: 14.4px;
 }
 table.rating td.value {
   height: auto;
@@ -252,10 +258,11 @@ table.rating td.value {
   width: 50%;
 }
 td.rating-plates {
-  width: 222px;
+  width: 238px;
+  /*1.125rem;*/
 }
 .like-rating-plate {
-  width: 102px;
+  width: 110px;
   display: inline-block;
 }
 .rating-plate-divider {
@@ -267,7 +274,7 @@ div.divider {
 }
 /* Badges */
 .badge {
-  font-size: 0.9rem;
+  font-size: 14.4px;
 }
 /* Buttons */
 .btn-default:focus,
@@ -283,6 +290,7 @@ div.divider {
   margin-left: -10px;
   margin-right: -10px;
   margin-top: -10px;
+  margin-bottom: 10px;
   border-radius: 0px;
   border: none;
   padding-bottom: 0px;
@@ -293,7 +301,7 @@ div.divider {
   border: none;
 }
 .navbar-inverse .navbar-nav > li > a {
-  font-size: 1.3rem;
+  font-size: 20.8px;
   /*line-height: 67px;*/
   padding: 0px;
   margin-bottom: 15px;
@@ -301,7 +309,7 @@ div.divider {
   margin-right: 25px;
 }
 .dropdown-menu {
-  font-size: 1.1rem;
+  font-size: 17.6px;
   position: absolute;
   top: 67px;
 }

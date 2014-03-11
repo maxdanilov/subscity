@@ -60,13 +60,39 @@ class KassaParser
 					# the night screenings are technically on the next day!
 					session_time += 1.day if session_time.hour.between? 0, 5
 					#p session_id.to_s + " " + session_time.to_s + " " + session_cinema.to_s
-					results << { session: session_id , time: session_time, cinema: session_cinema }
+					session_movie = get_movie_id(a.parent.parent.parent.search("h3/a").first[:href]) rescue nil
+					results << { session: session_id , time: session_time, cinema: session_cinema, movie: session_movie }
 				end
 			end
 		rescue Exception => e
 			nil
 		end
 		results
+	end
+
+	def self.parse_movie_HTML(data)
+		doc = Hpricot(data) rescue nil
+		return nil if doc.nil?
+		title = (doc/"div.primary-col > h1[@itemprop='name']").first.inner_text rescue nil
+		genres = (doc/"div.primary-col > div").first.inner_text rescue nil
+		title_original = (doc/"div.primary-col > p:not(.event-header_type)").first.inner_text rescue nil
+		title_original = nil if (doc/"div.primary-col > p:not(.event-header_type)").first.search("span").length > 0
+		#title_original = (doc/"h1[@itemprop='name'] ~ p:not(.event-header_type):empty").first.inner_text rescue nil
+		country = (doc/"div.primary-col > p:not(.event-header_type) span:nth-child(1)").inner_text[0...-1] rescue nil
+		year = (doc/"div.primary-col > p:not(.event-header_type) span:nth-child(2)").inner_text.to_i rescue nil
+		duration = (doc/"div.primary-col > p:not(.event-header_type) span:nth-child(3)").inner_text.to_i rescue nil
+		age_restriction = (doc/"div.primary-col > p:not(.event-header_type) b").inner_text.to_i rescue nil
+		poster = (doc/"div.pull-right > img").first[:src] rescue nil
+		
+		{   :title => title, 
+			:title_original => title_original, 
+			:genres => genres, 
+			:country => country,
+			:year => year,
+			:duration => duration,
+			:age_restriction => age_restriction,
+			:poster => poster
+		}
 	end
 
 	def self.parse_tickets_available?(data)
@@ -88,6 +114,12 @@ class KassaParser
 		#http://m.kassa.rambler.ru/place/hallplan?sessionid=9637961&geoPlaceID=2&widgetid=16857
 		# => 9637961
 		get_first_regex_match_integer(link, /sessionid=(\d+)/)
+	end
+
+	def self.get_movie_id(link)
+		#http://m.kassa.rambler.ru/movie/51945?geoplaceid=2&widgetid=16857
+		# => 51945
+		get_first_regex_match_integer(link, /movie\/(\d+)/)
 	end
 
 	def self.get_cinema_id(link)

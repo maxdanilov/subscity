@@ -34,7 +34,6 @@ Padrino.configure_apps do
 end
 
 # Mounts the core application for this project
-Padrino.mount("Subscity::Admin", :app_file => File.expand_path('../../admin/app.rb', __FILE__)).to("/admin")
-
-Padrino.mount("Subscity::Admin", :app_file => Padrino.root('admin/app.rb')).to("/admin")
+#Padrino.mount("Subscity::Admin", :app_file => File.expand_path('../../admin/app.rb', __FILE__)).to("/admin")
+#Padrino.mount("Subscity::Admin", :app_file => Padrino.root('admin/app.rb')).to("/admin")
 Padrino.mount('Subscity::App', :app_file => Padrino.root('app/app.rb')).to('/')

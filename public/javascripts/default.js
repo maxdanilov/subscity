@@ -2,8 +2,12 @@ $(function() {
 	var PRICE_MIN = 100;
 	var PRICE_MAX = 600;
 	var PRICE_STEP = 50;
-	var buttonPressed;
-	var sliderValue;
+	
+	var buttonFilterPressed;
+	var priceSliderValue;
+	var priceSlider = "#price-slider";
+
+	var buttonSortPressed;
 
 	function format_price(val)
 	{
@@ -13,29 +17,17 @@ $(function() {
 			return val + " руб."
 	}
 	
-	function filter_by_price(obj)
-	{	
-		price = obj.attr("attr-price");
-		return ((price > sliderValue || typeof(price) == "undefined") && sliderValue < PRICE_MAX)
-	}
-	
-	function filter_by_time(obj)
-	{
-		time = obj.attr("attr-time-of-day");
-		return !(buttonPressed == "all-day" || time == buttonPressed);
-	}
-
 	function hide(obj, speed)
 	{
-		if(typeof(speed)==='undefined') speed = 0;
+		if(typeof(speed)==='undefined') speed = 1000;
 		obj.addClass("hidden");
-		obj.hide(speed);
+		obj.fadeOut(speed);
 	}
 	
 	function show(obj, speed)
 	{
-		if(typeof(speed)==='undefined') speed = 0;
-		obj.show(speed);
+		if(typeof(speed)==='undefined') speed = 1000;
+		obj.fadeIn(speed);
 		obj.removeClass("hidden");
 	}
 	
@@ -44,6 +36,8 @@ $(function() {
 		obj.find("tr.row-entity").not(".hidden").filter(":odd").find("td").css("background-color", color_odd);
 		obj.find("tr.row-entity").not(".hidden").filter(":even").find("td").css("background-color", color_even);
 	}
+	
+	/* FIlter screenings by price and time of day */
 	
 	function filter_screenings()
 	{	
@@ -83,7 +77,21 @@ $(function() {
 			$("#nothing-found").hide();
 	}
 	
-	$( "#slider" ).slider({
+	function filter_by_price(obj)
+	{	
+		price = obj.attr("attr-price");
+		return ((price > priceSliderValue || typeof(price) == "undefined") && priceSliderValue < PRICE_MAX)
+	}
+	
+	function filter_by_time(obj)
+	{
+		time = obj.attr("attr-time-of-day");
+		return !(buttonFilterPressed == "all-day" || time == buttonFilterPressed);
+	}
+	
+	/* Ticket price slider */
+	
+	$( priceSlider ).slider({
 		value: PRICE_MAX,
 		min: PRICE_MIN,
 		max: PRICE_MAX,
@@ -93,14 +101,51 @@ $(function() {
 		},
 		change: function( event, ui ) {
 			$("#ticket-price").text(format_price( ui.value));
-			sliderValuePrev = sliderValue;
-			sliderValue = ui.value;
-			if (sliderValuePrev != sliderValue)
+			priceSliderValuePrev = priceSliderValue;
+			priceSliderValue = ui.value;
+			if (priceSliderValuePrev != priceSliderValue)
 				filter_screenings();
 		}
 	});
 	
-	function activateButton(button){
+	/* Movie sorting button */
+	
+	function activateSortButton(button){
+		var buttons = ["#button-sort-title", "#button-sort-date", "#button-sort-imdb", "#button-sort-kinopoisk"];
+		buttons.forEach(function(b) {
+			$(b).removeClass("active");
+		});	
+		$(button).addClass("active");
+	}
+	
+	function clickSortButton(button, name, compareBy)
+	{
+		activateSortButton(button);
+		buttonSortPressedPrev = buttonSortPressed;
+		buttonSortPressed = name;
+		if (buttonSortPressed != buttonSortPressedPrev) 
+			$('#movie-plates .movie-plate').sort(compareBy).appendTo('#movie-plates');
+	}
+	
+	$("#button-sort-title").click(function(){
+		clickSortButton(this, "sort-title", movieCompareByTitle);
+	});
+	
+	$("#button-sort-date").click(function(){
+		clickSortButton(this, "sort-date", movieCompareByDate);
+	});
+	
+	$("#button-sort-imdb").click(function(){
+		clickSortButton(this, "sort-imdb", movieCompareByIMDB);
+	});
+	
+	$("#button-sort-kinopoisk").click(function(){
+		clickSortButton(this, "sort-kinopoisk", movieCompareByKinopoisk);
+	});
+	
+	/* Time of day selection */
+	
+	function activateFilterButton(button){
 		var buttons = ["#button-morning", "#button-day", "#button-evening", "#button-all-day"];
 		buttons.forEach(function(b) {
 			$(b).removeClass("active");
@@ -108,36 +153,29 @@ $(function() {
 		$(button).addClass("active");
 	}
 	
-	$("#button-morning").click(function(){
-		activateButton(this);
-		buttonPressedPrev = buttonPressed;
-		buttonPressed = "morning";
-		if (buttonPressed != buttonPressedPrev) 
+	function clickFilterButton(button, name)
+	{
+		activateFilterButton(button);
+		buttonFilterPressedPrev = buttonFilterPressed;
+		buttonFilterPressed = name;
+		if (buttonFilterPressed != buttonFilterPressedPrev) 
 			filter_screenings();
+	}
+	
+	$("#button-morning").click(function(){
+		clickFilterButton(this, "morning");
 	});
 	
 	$("#button-day").click(function(){
-		activateButton(this);
-		buttonPressedPrev = buttonPressed;
-		buttonPressed = "day";
-		if (buttonPressed != buttonPressedPrev) 
-			filter_screenings();
+		clickFilterButton(this, "day");
 	});
 	
 	$("#button-evening").click(function(){
-		activateButton(this);
-		buttonPressedPrev = buttonPressed;
-		buttonPressed = "evening";
-		if (buttonPressed != buttonPressedPrev) 
-			filter_screenings();
+		clickFilterButton(this, "evening");
 	});
 	
 	$("#button-all-day").click(function(){
-		activateButton(this);
-		buttonPressedPrev = buttonPressed;
-		buttonPressed = "all-day";
-		if (buttonPressed != buttonPressedPrev) 
-			filter_screenings();
+		clickFilterButton(this, "all-day");
 	});
 	
 	$(".show-button").click(function(){
@@ -145,13 +183,61 @@ $(function() {
 		$(this).children(":first").toggleClass("glyphicon-chevron-down");
 		$(this).children(":first").toggleClass("glyphicon-chevron-up");
 	});
+	
+	function movieCompareByIMDB(a,b){
+		var fields = ["attr-imdb", "attr-imdb-votes"];
 
-	$( document ).ready(function(){
-		activateButton($("#button-all-day"));
-		buttonPressed = "all-day";
-		sliderValue = PRICE_MAX;
+		var contentA = parseFloat( $(a).attr(fields[0]));
+		var contentB = parseFloat( $(b).attr(fields[0]));
+		if (contentA == contentB)
+		{
+			contentA = parseFloat( $(a).attr(fields[1]));
+			contentB = parseFloat( $(b).attr(fields[1]));
+		}
+		return (contentA > contentB) ? -1 : 1;//: (contentA > contentB) ? 1 : 0;
+	}
+	
+	function movieCompareByKinopoisk(a,b){
+		var fields = ["attr-kinopoisk", "attr-kinopoisk-votes"];
 		
-		$("#slider").slider( "value", PRICE_MAX );
+		var contentA = parseFloat( $(a).attr(fields[0]));
+		var contentB = parseFloat( $(b).attr(fields[0]));
+		if (contentA == contentB)
+		{
+			contentA = parseFloat( $(a).attr(fields[1]));
+			contentB = parseFloat( $(b).attr(fields[1]));
+		}
+		return (contentA > contentB) ? -1 : 1;
+	}
+	
+	function movieCompareByDate(a,b){
+		var fields = ["attr-created"];
+		
+		var contentA = parseInt( $(a).attr(fields[0]));
+		var contentB = parseInt( $(b).attr(fields[0]));
+		return (contentA > contentB) ? -1 : 1;
+	}
+	
+	function movieCompareByTitle(a,b){
+		var fields = ["attr-title"];
+		
+		var contentA = ( $(a).attr(fields[0]));
+		var contentB = ( $(b).attr(fields[0]));
+		return (contentA < contentB) ? -1 : 1;
+	}
+	
+	/* When document is ready */
+	
+	$( document ).ready(function(){
+		activateFilterButton($("#button-all-day"));
+		buttonFilterPressed = "all-day";
+		priceSliderValue = PRICE_MAX;
+		$( priceSlider ).slider( "value", PRICE_MAX );
+		
+		activateSortButton($("#button-sort-title"));
+		buttonSortPressed = "sort-name";
+		
+		$("#filters").show();		
 	});
 	
 });

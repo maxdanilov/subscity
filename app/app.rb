@@ -15,7 +15,8 @@ module Subscity
     #
     register Padrino::Cache
     enable :caching
-    CACHE_TTL = 36000 # in seconds
+    #CACHE_TTL = 12 * 3600 # in seconds
+    CACHE_TTL = 1 # in seconds
     #Padrino.cache = Padrino::Cache.new(:File, :dir => Padrino.root('tmp', app_name.to_s, 'cache'))
     Padrino.cache = Padrino::Cache.new(:File, :dir => FileCache.dir)
 
@@ -68,17 +69,21 @@ module Subscity
 
     before do
         pre_redirect
-        Slim::Engine.set_default_options :pretty => false, :sort_attrs => false
+        Slim::Engine.set_default_options :pretty => true, :sort_attrs => false
     end
 
-	get '/' do
-        "#{request.subdomains.join("<br/>")} #{request.ip} D: #{request.get_subdomain}"
+	get '/about' do
+        #{}"#{request.subdomains.join("<br/>")} #{request.ip} D: #{request.get_subdomain}"
+        cache(request.cache_key, :expires => CACHE_TTL) do
+            render 'main', layout: :layout
+        end
 	end
 
     get '/cinemas' do
         cache(request.cache_key, :expires => CACHE_TTL) do
             @city = City.get_by_domain(request.subdomains.first)
             @cinemas = @city.get_sorted_cinemas
+            @title = "Кинотеатры"
             render 'cinema/showall', layout: :layout
         end
     end
@@ -91,6 +96,7 @@ module Subscity
                     @screenings = Screening.get_sorted_screenings(@date, @city.city_id)
                     @movie = Movie.active
                     @cinemas = Cinema.all
+                    @title = show_date(@date)
                     render 'date/show', layout: :layout
                 end
             else
@@ -107,6 +113,7 @@ module Subscity
             @screening_counts = Hash[@movies.map { |movie| {movie => movie.screenings_count(@city.city_id)}.flatten}]
             @cinemas_counts = Hash[@movies.map { |movie| {movie => movie.cinemas_count(@city.city_id)}.flatten}]
             @ratings = Rating.all
+            @title = "Фильмы"
             render 'movie/showall', layout: :layout
         end
     end
@@ -123,6 +130,7 @@ module Subscity
                 screenings_flat = @movie.screenings.active
                 @price_min = screenings_flat.map{ |s| s.price_min}.compact.min rescue nil
                 @price_max = screenings_flat.map{ |s| s.price_max}.compact.max rescue nil
+                @title = @movie.title
                 render 'movie/show', layout: :layout
             end
         rescue ActiveRecord::RecordNotFound => e
@@ -140,6 +148,7 @@ module Subscity
                 screenings_flat = @cinema.screenings.active
                 @price_min = screenings_flat.map {|s| s.price_min}.compact.min rescue nil
                 @price_max = screenings_flat.map {|s| s.price_max}.compact.max rescue nil
+                @title = @cinema.name
                 render 'cinema/show', layout: :layout
             end
         rescue ActiveRecord::RecordNotFound => e

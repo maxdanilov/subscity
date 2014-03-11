@@ -1,11 +1,13 @@
 doctype html
 html
 	head
-		link rel="icon" type="image/png" href="http://#{request.main_domain}/favicon.png"
-		title 
-			| SubsCity
+		link rel="shortcut icon" type="image/png" href="http://#{request.main_domain}/favicon.png"
+		- title = @title rescue nil
+		- title ||= "SubsCity"
+		title.capitalize 
+			| #{title}
 		meta name="keywords" content="template language"
-		meta name="author" content="Me Myself Up"
+		/meta name="author" content="Me Myself Up"
 		meta charset="utf-8"
 		meta http-equiv="X-UA-Compatible" content="IE=edge"
 		meta name="viewport" content="width=device-width, initial-scale=1"
@@ -24,67 +26,67 @@ html
 		= stylesheet_link_tag 'design-dark'
 		
 	body
-		/div.container-fluid
-		div.navbar.navbar-inverse.navbar-primary role="navigation"
-			div.container-fluid
-				div.navbar-header
-					button.navbar-toggle type="button" data-toggle="collapse" data-target=".navbar-collapse"
-						span.sr-only
-							| Toggle navigation
-						span.icon-bar
-						span.icon-bar
-						span.icon-bar
-					/a.navbar-brand.pretty-header href="/" style="font-size: 3.8rem;"
-					span.pretty-header.site-name
-						| S
-						span.semi-transparent ubs
-						| C
-						span.semi-transparent ity.
-						| ru 
-				div.navbar-collapse.collapse
-					ul.nav.navbar-nav
-						li.big-font 
-							a href="/movies"
-								| Фильмы
-						li.big-font 
-							a href="/cinemas"
-								| Кинотеатры
-						li.dropdown
-							a.dropdown-toggle href="#" data-toggle="dropdown" style=""
-								| По дням
-								b.caret
-								- moment_of_now = Time.now
-								- moment_of_now -= 1.day if Time.now.hour < 2
-								ul.dropdown-menu
-									li
-										a href="/dates/#{format_date_url(moment_of_now)}"
-											| Сегодня (#{show_date(moment_of_now)})
-									li
-										a href="/dates/#{format_date_url(moment_of_now + 1.day)}"
-											| Завтра (#{show_date(moment_of_now + 1.day)})
-									li.divider
-									- (2..7).each do |x|
+		span.main-container
+			div.navbar.navbar-inverse.navbar-primary role="navigation"
+				div.container-fluid
+					div.navbar-header
+						button.navbar-toggle type="button" data-toggle="collapse" data-target=".navbar-collapse"
+							span.sr-only
+								| Toggle navigation
+							span.icon-bar
+							span.icon-bar
+							span.icon-bar
+						a href="http://#{request.host}"
+							span.pretty-header.site-name.pulsing
+								| S
+								span.semi-transparent ubs
+								| C
+								span.semi-transparent ity.
+								| ru 
+					div.navbar-collapse.collapse
+						ul.nav.navbar-nav
+							li.big-font 
+								a.redirect href="/movies"
+									| Фильмы
+							li.big-font 
+								a.redirect href="/cinemas"
+									| Кинотеатры
+							li.dropdown
+								a.dropdown-toggle href="#" data-toggle="dropdown" style=""
+									| По дням
+									b.caret
+									- moment_of_now = Time.now
+									- moment_of_now -= 1.day if Time.now.hour < 2
+									ul.dropdown-menu
 										li
-											a href="/dates/#{format_date_url(moment_of_now + x.day)}"
-												| #{show_date(moment_of_now + x.day)}
-						li.big-font 
-							a href="/about"
-								| О сайте
+											a href="/dates/#{format_date_url(moment_of_now)}"
+												| Сегодня (#{show_date(moment_of_now)})
+										li
+											a href="/dates/#{format_date_url(moment_of_now + 1.day)}"
+												| Завтра (#{show_date(moment_of_now + 1.day)})
+										li.divider
+										- (2..7).each do |x|
+											li
+												a href="/dates/#{format_date_url(moment_of_now + x.day)}"
+													| #{show_date(moment_of_now + x.day)}
+							li.big-font 
+								a href="/about"
+									| О сайте
 
-					ul.nav.navbar-nav.navbar-right
-						li.dropdown
-							a.dropdown-toggle href="#" data-toggle="dropdown" style=""
-								| #{@city.name rescue City.get_by_domain(request.subdomains.first).name} 
-								b.caret
-								ul.dropdown-menu
-									li
-										a href="#{'http://msk.' + request.main_domain}#{request.path}"
-											| Москва
-									li
-										a href="#{'http://spb.' + request.main_domain}#{request.path}"
-											| Санкт-Петербург
+						ul.nav.navbar-nav.navbar-right
+							li.dropdown
+								a.dropdown-toggle href="#" data-toggle="dropdown" style=""
+									| #{@city.name rescue City.get_by_domain(request.subdomains.first).name} 
+									b.caret
+									ul.dropdown-menu
+										li
+											a href="#{'http://msk.' + request.main_domain}#{request.path}"
+												| Москва
+										li
+											a href="#{'http://spb.' + request.main_domain}#{request.path}"
+												| Санкт-Петербург
 
-		= yield
+			= yield
 		/! jQuery (necessary for Bootstrap's JavaScript plugins)
 		script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"
 		/! jQuery UI

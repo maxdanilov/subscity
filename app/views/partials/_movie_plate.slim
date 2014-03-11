@@ -41,8 +41,10 @@ span.movie-plate attr-title="#{movie.title}" attr-created="#{movie.created_at.to
 		tbody	
 			tr.table-body
 				td.text-center rowspan = "10"
-			
-					img.poster src = image_path("posters/#{movie.movie_id}.jpg")
+					- if KassaFetcher.poster_exists?(movie)
+						img.poster src = image_path("posters/#{movie.movie_id}.jpg")
+					- else
+						img.poster src = image_path("transparent.png")
 
 					span.badge.gray style="margin-top:5px;"
 						| #{format_screenings_count(@screening_counts[movie])} 
@@ -61,7 +63,7 @@ span.movie-plate attr-title="#{movie.title}" attr-created="#{movie.created_at.to
 						div
 							strong Жанр: 
 							= movie.genres
-			- unless movie.duration.to_s.empty?
+			- unless movie.duration.to_i == 0
 				tr.table-body
 					td.col-md-12 colspan="1" 
 						div

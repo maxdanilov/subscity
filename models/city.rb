@@ -33,6 +33,10 @@ class City < ActiveRecord::Base
 		#Movie.joins(:screenings).merge(Screening.active.joins(:cinema).where("city_id = ?", city_id)).uniq
 	end
 
+	def get_cinemas
+		Cinema.where(:city_id => city_id)
+	end
+
 	def self.get_by_domain(domain)
 		City.where(:domain => domain).first rescue nil
 	end

@@ -13,7 +13,7 @@ h1.text-center.capitalize.like-navbar #{show_date(@date)}
 			<span class="label label-small label-default age-restriction">#{movie.age_restriction}+</span>
 			- unless movie.title_original.to_s.empty?
 				br
-				span.movie-title-original.text-center style="font-size:0.8em;font-weight:normal"
+				span.movie-title-original.text-center.big-font
 					= movie.title_original
 		table.table.table-bordered.table-condensed.table-curved.table-striped
 			- cinemas.each do |cinema, screenings|

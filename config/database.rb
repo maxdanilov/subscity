@@ -23,27 +23,24 @@ ActiveRecord::Base.configurations[:development] = {
   :adapter => 'mysql2',
   :encoding => 'utf8',
   :reconnect => true,
-  :database => 'subscity',
+  :database => DB_NAME,
   :pool => 50,
   :wait_timeout => 1,
   :username => DB_USER,
   :password => DB_PASS,
-  :host => 'localhost'
+  :host => DB_HOST
 }
 
 ActiveRecord::Base.configurations[:production] = {
-  #:adapter => 'sqlite3',
-  #:database => Padrino.root('db', 'subscity_development.db'),
-  #:timeout => 10000
   :adapter => 'mysql2',
   :encoding => 'utf8',
   :reconnect => true,
-  :database => 'subscity',
+  :database => DB_NAME,
   :pool => 50,
   :wait_timeout => 1,
   :username => DB_USER,
   :password => DB_PASS,
-  :host => 'localhost'
+  :host => DB_HOST
 }
 
 ActiveRecord::Base.configurations[:test] = {

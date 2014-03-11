@@ -164,6 +164,22 @@ class Cinemate
 		parse_movie_page(get_movie_page(id))
 	end
 
+	def self.fill_with_data(movie, cinemate_id)
+		results = Cinemate.get_and_parse_movie_page(cinemate_id)
+		changed = false
+		if Cinemate.equal_titles?(results[:title_russian], Cinemate.prepare_title_for_search(movie.title))
+			movie.title_original = results[:title_original]
+			movie.director = results[:director]
+			movie.cast = results[:cast]
+			movie.description = results[:description]
+			movie.kinopoisk_id = results[:kinopoisk_id]
+			movie.imdb_id = results[:imdb_id]
+			movie.cinemate_id = cinemate_id
+			changed = true
+		end
+		[movie, changed]
+	end
+
 	private_class_method :fetch_data_html
 	private_class_method :url_for_id
 	private_class_method :search_movie

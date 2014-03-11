@@ -3,6 +3,7 @@
 body 
 	{
 		background-image: @bg-url;
+		background-color: @basic-bg-color;
 		color: @basic-text-color;
 	}
 	
@@ -73,6 +74,13 @@ table.rating
 	}
 	
 /* Captions */
+
+div.box-text
+	{
+		background-color: fade(@basic-bg-color, 50%);
+		.font-size(@font-size-site-intro);
+		border-radius: 10px;
+	}
 	
 .movie-title-original
 	{
@@ -92,7 +100,16 @@ table.rating
 .site-name
 	{
 		text-shadow: 0 0 12px @dark-text-color;
+		transition: text-shadow 1s linear;
 	}
+	
+/*
+.site-name:hover
+	{
+		text-shadow: 0 0 12px @orange-color;
+		transition: text-shadow 1s linear;
+	}
+*/
 	
 .semi-transparent
 	{
@@ -238,6 +255,7 @@ table.rating
 		border-top: @border-solid-wide fade(@dark-text-color, 80%);
 		border-bottom: @border-solid-wide fade(@dark-text-color, 80%);
 		.shadow(fade(@dark-text-color, 50%), 8px);
+		text-shadow: 0 0 8px rgba(0,0,0,1);
 	}
 	
 .dropdown-menu .divider

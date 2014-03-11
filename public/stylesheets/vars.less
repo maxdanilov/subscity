@@ -4,7 +4,7 @@
 @font-logo: "Sevilla Decor";
 @font-logo-url: url(../fonts/sevilla-decor.ttf) format("truetype");
 @bg-url: url('../images/bgs/background.jpg');
-@font-size-base: 1rem;
+@font-size-base: 16px; /*1rem;*/
 
 /* Sizes, paddings, margins */
 
@@ -13,7 +13,7 @@
 @price-width: 65px;
 @price-padding: 6px;
 
-@rating-plate-width: 102px;
+@rating-plate-width: 110px; /*6.375rem; */
 
 
 /* Font Sizes */
@@ -28,6 +28,7 @@
 @font-size-h3: 1.4;
 @font-size-h2: 1.6;
 @font-size-h1: 1.9;
+@font-size-site-intro: 1.3;
 
 /* Colors */
 
@@ -80,6 +81,11 @@
 .shadow(@color, @size: 8px)
 	{ 
 		box-shadow: 0px 0px @size @color;
+	}
+	
+.text-shadow(@color: @basic-bg-color, @size: 8px)
+	{
+		text-shadow: 0 0 8px @basic-bg-color;
 	}
 
 /* Buttons */

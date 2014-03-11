@@ -26,23 +26,15 @@ task :environment do
 		Dir[File.join(File.dirname(__FILE__), dir, '*.rb')].each {|file| require file rescue nil}
 	end
 
-=begin
-	DB = ROOT_PATH + 'db/subscity_development.db'
-	TIMEOUT = 10000
-	ActiveRecord::Base::establish_connection( 	:adapter => 'sqlite3', 
-												:database => DB, 
-												:timeout => TIMEOUT)
-=end
-
 	ActiveRecord::Base::establish_connection( :adapter => 'mysql2',
 											  :encoding => 'utf8',
 											  :reconnect => true,
-											  :database => 'subscity',
+											  :database => DB_NAME,
 											  :pool => 50,
 											  :wait_timeout => 1,
 											  :username => DB_USER,
 											  :password => DB_PASS,
-											  :host => 'localhost' )
+											  :host => DB_HOST )
 
 	I18n.enforce_available_locales = false
 	puts "Init complete".green
@@ -120,7 +112,6 @@ desc 'update movies list'
 task :update_movies => :environment do |task|
 	t = start_task(task)
 	page_size = KassaFetcher::PAGE_SIZE
-	poster_filename = -> (m) { "../public/images/posters/" + m.movie_id.to_s + ".jpg" }
 	updated_count = 0
 	fetched_count = 0
 	items_count = 0
@@ -151,6 +142,13 @@ task :update_movies => :environment do |task|
 				c['country'] = nil if c['country'].to_s.strip == '-'
 				c['genres'] = nil if c['genres'].to_s.strip.empty?
 
+				# in case poster is changed
+				if c.in_db? and Movie.get_movie(c.movie_id).poster != c.poster and Movie.are_equal?(Movie.get_movie(c.movie_id), c)
+					puts "poster for #{c.movie_id} has changed!".yellow
+					#puts c
+					KassaFetcher.download_poster(c, true) unless c.poster.nil?
+				end
+
 				if c.in_db? and Movie.are_equal?(Movie.get_movie(c.movie_id), c)
 					#mark as active in db
 					Movie.get_movie(c.movie_id).update_attribute(:active, true)
@@ -171,43 +169,11 @@ task :update_movies => :environment do |task|
 							#id = Cinemate.get_movie_id(c.title, key, c.year)
 							id = Cinemate.get_movie_id(Cinemate.prepare_title(Cinemate.prepare_title_for_search(c.title)), key, c.year)
 							unless id.nil?
-								results = Cinemate.get_and_parse_movie_page(id)
-								#if results[:title_russian] == c.title
-								if Cinemate.equal_titles?(results[:title_russian], Cinemate.prepare_title_for_search(c.title))
-									c.title_original = results[:title_original]
-									c.director = results[:director]
-									c.cast = results[:cast]
-									c.description = results[:description]
-									c.kinopoisk_id = results[:kinopoisk_id]
-									c.imdb_id = results[:imdb_id]
-									c.cinemate_id = id
-								end
+								c, changed = Cinemate.fill_with_data(c, id)
 
 								#update ratings
-
 								unless c.kinopoisk_id.nil? 
-									puts "\tUpdating rating #{c.kinopoisk_id}...".yellow
-									result = Kinopoisk.get_ratings(c.kinopoisk_id) rescue nil
-									unless result.nil? or result[:error] == true
-										r = nil
-										if Rating.exists?(:movie_id => c.movie_id)
-											puts "\t\t Updating a record...".magenta
-											r = Rating.where(:movie_id => c.movie_id).first
-										else
-											puts "\t\t Creating a record...".magenta
-											r = Rating.new(	:movie_id => c.movie_id)
-										end
-								
-										r[:kinopoisk_rating] = result[:kinopoisk][:rating]
-										r[:kinopoisk_votes] = result[:kinopoisk][:votes]
-										r[:imdb_rating] = result[:imdb][:rating]
-										r[:imdb_votes] = result[:imdb][:votes]
-								
-										r.save
-										puts "\t\t Update result: #{result}...".green
-									else
-										puts "\t\t An error occured for #{c.kinopoisk_id}...".red
-									end
+									Kinopoisk.update_ratings(c)
 								end
 
 							else
@@ -216,18 +182,7 @@ task :update_movies => :environment do |task|
 						end
 
 						#download poster
-						unless File.exist?(poster_filename.call(c))
-							puts "\tDownloading #{c.poster}...".yellow
-							begin
-							   	open(c.poster) do |f|
-							   	File.open(poster_filename.call(c), "wb") do |file|
-							    	file.puts f.read
-							   	end
-								end
-							rescue
-								puts "\tError occured while loading poster".red
-							end
-						end
+						KassaFetcher.download_poster(c) unless c.poster.nil?
 
 						puts c
 						c.save
@@ -248,6 +203,84 @@ task :update_movies => :environment do |task|
 	end
 
 	puts "#{fetched_count} movies fetched, #{updated_count} updated in the base".red
+
+	Rake::Task[:update_movies_from_cinemas].reenable
+	Rake::Task[:update_movies_from_cinemas].invoke
+
+	stop_task(task, t)
+end
+
+desc 'update movies from cinemas screenings'
+task :update_movies_from_cinemas => :environment do |task|
+	movies = []
+	t = start_task(task)
+	City.active.each do |city|
+		total = city.get_cinemas.count
+		city.get_cinemas.each_with_index do |cinema, index|
+			puts "[#{index + 1} / #{total}] Processing cinema #{cinema.name} (#{city.name}) ...".magenta
+			dates = KassaParser.parse_movie_dates(KassaFetcher.fetch_cinema(cinema.cinema_id, nil, city.city_id))
+			dates.each do |date|
+				screenings = KassaParser.parse_sessions_HTML(KassaFetcher.fetch_cinema(cinema.cinema_id, date, city.city_id), date)
+				screenings.each { |s| movies += [s[:movie]] }
+			end
+			sleep rand(1..2)	
+		end
+	end
+	movies = movies.compact.uniq.sort
+	puts "All movies in cinemas:".green
+	p movies
+
+	puts "Movies that are not in base yet:".green
+	movies_new = movies.find_all{ |m| Movie.get_movie(m) == nil }
+	p movies_new
+
+	# adding new movies to the base
+	movies_new.each do |m|
+		item = KassaParser.parse_movie_HTML(KassaFetcher.fetch_movie(m))
+		c = Movie.new(	movie_id: m, 
+						title: item[:title], 
+						title_original: item[:title_original], 
+						age_restriction: item[:age_restriction], 
+						country: item[:country], 
+						year: item[:year], 
+						genres: item[:genres], 
+						poster: item[:poster], 
+						active: true, 
+						duration: item[:duration] )
+
+		c['country'] = nil if c['country'].to_s.strip == '-'
+		c['genres'] = nil if c['genres'].to_s.strip.empty?
+
+		if c.valid? and c.valid_genre?
+			KassaFetcher.download_poster(c) unless c.poster.nil?
+			
+			#fetch data from cinemate
+			unless c.year.nil?
+				key =  Cinemate.get_csrf_token
+				id = Cinemate.get_movie_id(Cinemate.prepare_title(Cinemate.prepare_title_for_search(c.title)), key, c.year)
+				unless id.nil?
+					c, changed = Cinemate.fill_with_data(c, id)
+
+					#update ratings
+					unless c.kinopoisk_id.nil? 
+						Kinopoisk.update_ratings(c)
+					end
+				end
+			end
+
+			c.save
+			puts "Movie #{c.movie_id} was added to database:".yellow
+			puts c
+		else
+			puts "Movie #{c.movie_id} was not added to database:".red
+		end
+	end
+
+	# marking as active
+	movies.each do |m|
+		Movie.get_movie(m).update_attribute(:active, true)
+	end
+
 	stop_task(task, t)
 end
 
@@ -302,27 +335,8 @@ task :update_movie_ratings => :environment do |task|
 	Movie.active.each_with_index do |m, index|
 		next if m.kinopoisk_id.nil? 
 		puts "\t[#{index+1}/#{total}] Updating rating #{m.kinopoisk_id} [#{m.movie_id}][#{m.title}]...".yellow
-		result = Kinopoisk.get_ratings(m.kinopoisk_id) rescue nil
-		unless result.nil? or result[:error] == true
-			r = nil
-			if Rating.exists?(:movie_id => m.movie_id)
-				puts "\t\t Updating a record...".magenta
-				r = Rating.where(:movie_id => m.movie_id).first
-			else
-				puts "\t\t Creating a record...".magenta
-				r = Rating.new(	:movie_id => m.movie_id)
-			end
-	
-			r[:kinopoisk_rating] = result[:kinopoisk][:rating]
-			r[:kinopoisk_votes] = result[:kinopoisk][:votes]
-			r[:imdb_rating] = result[:imdb][:rating]
-			r[:imdb_votes] = result[:imdb][:votes]
-	
-			r.save
-			puts "\t\t Update result: #{result}...".green
-		else
-			puts "\t\t An error occured for #{m.kinopoisk_id}...".red
-		end
+		
+		Kinopoisk.update_ratings(m)
 		sleep rand(0.5..1)
 	end
 
@@ -395,7 +409,6 @@ end
 
 desc 'seed cities table'
 task :seed_cities => :environment do |task|
-	#City.new(:city_id => 2, :name => "Москва").save
 	City.new(:city_id => 2, :name => "Москва", :geoip => "Moscow; 48 RU", :domain => "msk", :active => true).save
 	City.new(:city_id => 3, :name => "Санкт-Петербург", :geoip => "Saint Petersburg; 66 RU", :domain => "spb", :active => false).save
 end
@@ -430,20 +443,12 @@ end
 desc 'fill movies with info from Cinemate' 
 task :update_movies_info => :environment do |task|
 	t = Timer.new.start
-	Movie.where("cinemate_id IS NULL AND year IS NOT NULL").each do |c|
+	Movie.where("cinemate_id IS NULL AND year IS NOT NULL AND description IS NULL").each do |c|
 		key = Cinemate.get_csrf_token
 		id = Cinemate.get_movie_id(Cinemate.prepare_title(Cinemate.prepare_title_for_search(c.title)), key, c.year)
 		unless id.nil?
-			results = Cinemate.get_and_parse_movie_page(id)
-			if Cinemate.equal_titles?(results[:title_russian], Cinemate.prepare_title_for_search(c.title))
-				c.title_original = results[:title_original]
-				c.director = results[:director]
-				c.cast = results[:cast]
-				c.description = results[:description]
-				c.kinopoisk_id = results[:kinopoisk_id]
-				c.imdb_id = results[:imdb_id]
-				c.cinemate_id = id
-
+			c, changed = Cinemate.fill_with_data(c, id)
+			if changed
 				puts "Movie #{c.movie_id} was changed in the database:".yellow
 				puts c
 				c.save
@@ -469,14 +474,18 @@ end
 desc 'fill file cache'
 task :fill_cache => :environment do |task|
 	t = start_task(task)
-    pages = ["cinemas", "movies", ""]
+    pages = ["cinemas", "movies", "", "dates/#{format_date_url(Time.now)}", "dates/#{format_date_url(Time.now + 1.day)}"]
     domains = City.active.pluck(:domain)
 
     domains.each do |d|
     	pages.each do |p|
     		url = "http://" + d + "." + domain_name + "/" + p
     		puts "Fetching #{url} ...".yellow
-    		open(url).read
+    		begin
+    			open(url, 'r', :read_timeout => 5).read
+    		rescue
+    			puts "  Failed to fetch. Server is not running?".red
+    		end
     	end
     end
     stop_task(task, t)

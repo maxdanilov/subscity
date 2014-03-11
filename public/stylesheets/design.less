@@ -15,6 +15,7 @@ body
 	{
 		padding: @body-padding;
 		font-family: @font-basic;
+		.font-size(@font-size-small);
 	}
 
 div
@@ -27,6 +28,7 @@ img.poster
 		width: 144px;
 		height: 212px;
 		margin-bottom: 10px;
+		border-radius: 8px;
 	}
 	
 /* Captions */
@@ -162,6 +164,7 @@ a.underdashed
 		color: #444;
 		font-weight: bold;
 		border-bottom: 1px dashed #444;
+		.text-shadow;
 	}
 	
 h2.cinema-title
@@ -179,7 +182,7 @@ h2.cinema-title
 		.font-size(@font-size-big);
 	}
 	
-.medium-font
+.medium-font, .normal-font
 	{
 		.font-size(@font-size-normal);
 	}
@@ -322,7 +325,7 @@ table.rating
 
 td.rating-plates
 	{
-		width: 2 * @rating-plate-width + 18px;
+		width: 2 * @rating-plate-width + 18px; /*1.125rem;*/ 
 	}	
 	
 .like-rating-plate
@@ -368,6 +371,7 @@ div.divider
 		margin-left: -@body-padding;
 		margin-right: -@body-padding;
 		margin-top: -@body-padding;
+		margin-bottom: @body-padding;
 		border-radius: 0px;
 		border: none;
 		padding-bottom: 0px;
