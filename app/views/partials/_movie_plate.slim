@@ -1,0 +1,93 @@
+span.movie-plate attr-title="#{movie.title}" attr-created="#{movie.created_at.to_i}" attr-imdb="#{ratings.imdb_rating.round(1)}" attr-kinopoisk="#{ratings.kinopoisk_rating.round(1)}" attr-kinopoisk-votes="#{ratings.kinopoisk_votes.to_i}" attr-imdb-votes="#{ratings.imdb_votes.to_i}"
+	table.table.table-bordered.table-condensed.table-curved.table-striped style="margin-bottom:0px;margin-top:5px;" 
+		tbody
+			tr.table-header
+				td.col-md-1.text-center style="width:4.5rem; vertical-align: middle;"
+					button.btn.btn-default.btn-medium.show-button type="button"
+							span.glyphicon.glyphicon-chevron-down
+
+				td.col.md-8
+					span.movie-title 
+						= link_to_movie(movie)
+						|  
+						span.label.label-bg.label-default.age-restriction 
+							| #{movie.age_restriction}+
+						- if @new_movies.include? movie
+							|  
+							span.badge.new style="position:relative; top:-2px;"
+								| новый 
+						- if @screening_counts[movie] < 5
+							|  
+							span.badge.limited style="position:relative; top:-2px;"
+								| мало сеансов 
+					- unless movie.title_original.nil?
+						div.movie-title-original = movie.title_original
+				
+				- unless movie.kinopoisk_id.nil? and movie.imdb_id.nil?
+					td.col-md-3.text-center.rating-plates
+						- unless movie.imdb_id.nil? or ratings.nil?
+							= partial 'partials/rating_plate', :locals => { :movie => movie, :type => :imdb, :rating => ratings.imdb_rating, :votes => ratings.imdb_votes }
+							span.rating-plate-divider
+							- if movie.kinopoisk_id.nil?
+								span.like-rating-plate								
+						- unless movie.kinopoisk_id.nil? or ratings.nil?
+							- if movie.imdb_id.nil?
+								span.like-rating-plate
+								span.rating-plate-divider
+							= partial 'partials/rating_plate', :locals => { :movie => movie, :type => :kinopoisk, :rating => ratings.kinopoisk_rating, :votes => ratings.kinopoisk_votes }
+
+
+	table.table.table-bordered.table-condensed.table-curved.table-striped.movie-description
+		tbody	
+			tr.table-body
+				td.text-center rowspan = "10"
+			
+					img.poster src = image_path("posters/#{movie.movie_id}.jpg")
+
+					span.badge.gray style="margin-top:5px;"
+						| #{format_screenings_count(@screening_counts[movie])} 
+					span.badge.gray style="margin-top:5px;"
+						| #{format_cinemas_count(@cinemas_counts[movie])} 
+
+				- unless movie.year.to_s.empty?
+					td.col-md-12 colspan="1"
+						div
+							strong Год: 
+							= movie.year.to_s
+
+			- unless movie.genres.to_s.empty?
+				tr.table-body
+					td.col-md-12 colspan="1" 
+						div
+							strong Жанр: 
+							= movie.genres
+			- unless movie.duration.to_s.empty?
+				tr.table-body
+					td.col-md-12 colspan="1" 
+						div
+							strong Продолжительность: 
+							= movie.duration
+							|  мин.
+			- unless movie.country.to_s.empty? or movie.country == '-'
+				tr.table-body
+					td.col-md-12 colspan="1" 
+						div
+							strong Страна: 
+							= movie.country
+			- unless movie.director.to_s.empty?
+				tr.table-body
+					td colspan = "1" 
+						div
+							strong Режиссер: 
+							= movie.director
+			- unless movie.cast.to_s.empty?
+				tr.table-body
+					td colspan = "1" 
+						div
+							strong В ролях: 
+							= movie.cast
+			- unless movie.description.to_s.empty?
+				tr.table-body
+					td colspan = "1" 
+						div
+							= movie.description

@@ -1,4 +1,4 @@
-table.text-center.filters
+table.text-center.filters id="filters" style="display:none;"
 	tbody
 		tr
 			td.price-filter
@@ -6,13 +6,12 @@ table.text-center.filters
 					span.big-font
 						| Максимальная цена билета:  
 					span.bold.big-font id="ticket-price"
-					div id="slider"
+					div id="price-slider"
 			td
-				span.big-font
+				div.big-font
 						| Время суток: 
 				div.btn-group
 					button.btn.btn-default.big-font id="button-morning" type="button" утро
 					button.btn.btn-default.big-font id="button-day" type="button" день
 					button.btn.btn-default.big-font id="button-evening" type="button" вечер
 					button.btn.btn-default.big-font id="button-all-day" type="button" весь день
-br

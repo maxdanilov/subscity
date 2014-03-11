@@ -17,7 +17,7 @@ table.rating style="display: inline-table;"
 					- if rating.to_i != 0
 						| #{(rating).round(1).to_s}
 					- else
-						| —
+						|  —&nbsp;
 		td.users
 			span.glyphicon.glyphicon-user.extra-small-font
 			- if votes < 10000
