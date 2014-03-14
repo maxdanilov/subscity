@@ -22,6 +22,7 @@ body
 img.poster
 	{
 		border: 2px solid @basic-text-color;
+		.shadow(@basic-text-color, 12px);
 	}
 	
 /* Tables */	
@@ -78,7 +79,6 @@ table.rating
 div.box-text
 	{
 		background-color: fade(@basic-bg-color, 50%);
-		.font-size(@font-size-site-intro);
 		border-radius: 10px;
 	}
 	
@@ -117,24 +117,33 @@ div.box-text
 	}
 	
 /* Labels */
+.label
+	{
+		color: fade(@basic-text-color, 100%);
+	}
+
 .label-success /*initially green*/
 	{
 		background: fade(@label-success, 100%);
+		.text-shadow(@basic-bg-color, 6px);
 	}
 
 .label-primary /* initially blue */
 	{
 		background: fade(@label-primary, 80%);
+		.text-shadow(@basic-bg-color, 6px);
 	}
 	
 .label-warning /* initially orange */
 	{
 		background: fade(@label-warning, 80%);
+		.text-shadow(@basic-bg-color, 6px);
 	}
 	
 .label-danger /* initially red */
 	{
 		background: fade(@label-error, 80%);
+		.text-shadow(@basic-bg-color, 6px);
 	}
 	
 .label-default /* initially gray */
@@ -175,11 +184,24 @@ div.box-text
 	{
 		color: @basic-text-color;
 		background-color: @badge-basic-color;
+		.shadow(@badge-basic-color);
+	}
+	
+.badge.count
+	{
+		.text-shadow(@basic-bg-color, 6px);
 	}
 
 .badge.limited
 	{
 		background-color: @badge-extra-color;
+		.shadow(@badge-extra-color);
+		.text-shadow(@basic-bg-color, 6px);
+	}
+	
+.badge.new
+	{
+		.text-shadow(@basic-bg-color, 6px);
 	}
 	
 /* Buttons */

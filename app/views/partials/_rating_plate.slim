@@ -11,7 +11,7 @@ table.rating style="display: inline-table;"
 			a.underdashed href="#{url}" #{title}
 	tr 
 		td.value 
-			a href="#{url}"
+			= link_to url
 				span.label.label-bg.label-rating.btn-block
 					span.glyphicon.glyphicon-star.extra-small-font
 					- if rating.to_i != 0
@@ -20,8 +20,10 @@ table.rating style="display: inline-table;"
 						|  —&nbsp;
 		td.users
 			span.glyphicon.glyphicon-user.extra-small-font
-			- if votes < 10000
+			- if votes < 1000
 				|  #{votes.to_i}
+			- elsif votes > 100000
+				|  #{(votes / 1000.0).to_i}K
 			- else
-				|  #{(votes / 1000).to_i}K
+				|  #{(votes / 1000.0).round(1)}K 
 				

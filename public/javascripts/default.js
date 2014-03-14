@@ -72,9 +72,9 @@ $(function() {
 		});
 		
 		if ($(".header-day").not(".hidden").size() == 0)
-			$("#nothing-found").show();
+			show($("#nothing-found"));
 		else
-			$("#nothing-found").hide();
+			hide($("#nothing-found"));
 	}
 	
 	function filter_by_price(obj)
@@ -111,7 +111,7 @@ $(function() {
 	/* Movie sorting button */
 	
 	function activateSortButton(button){
-		var buttons = ["#button-sort-title", "#button-sort-date", "#button-sort-imdb", "#button-sort-kinopoisk"];
+		var buttons = ["#button-sort-title", "#button-sort-date", "#button-sort-imdb", "#button-sort-kinopoisk", "#button-sort-screenings"];
 		buttons.forEach(function(b) {
 			$(b).removeClass("active");
 		});	
@@ -141,6 +141,10 @@ $(function() {
 	
 	$("#button-sort-kinopoisk").click(function(){
 		clickSortButton(this, "sort-kinopoisk", movieCompareByKinopoisk);
+	});
+	
+	$("#button-sort-screenings").click(function(){
+		clickSortButton(this, "sort-screenings", movieCompareByScreenings);
 	});
 	
 	/* Time of day selection */
@@ -225,6 +229,15 @@ $(function() {
 		var contentB = ( $(b).attr(fields[0]));
 		return (contentA < contentB) ? -1 : 1;
 	}
+	
+	function movieCompareByScreenings(a,b){
+		var fields = ["attr-screenings"];
+		
+		var contentA = parseInt( $(a).attr(fields[0]));
+		var contentB = parseInt( $(b).attr(fields[0]));
+		return (contentA > contentB) ? -1 : 1;
+	}
+	
 	
 	/* When document is ready */
 	

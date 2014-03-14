@@ -69,7 +69,7 @@ module Sinatra
 end
 
 def domain_name
-    "oiltube.ru"
+    "subscity.ru"
 end
 
 def redirect_globally(subdomain = nil, path = nil)

@@ -71,4 +71,12 @@ class Movie < ActiveRecord::Base
 		"\tUpdated: #{updated_at}\n"
 	end
 
+	def poster_filename
+		File.dirname(__FILE__) + "/../public/images/posters/" + movie_id.to_s + ".jpg" 
+	end
+
+	def poster_exists?
+		File.exist?(poster_filename)
+	end
+
 end

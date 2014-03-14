@@ -29,8 +29,7 @@ table.table.table-condensed.table-curved.table-striped
 				div
 					span.glyphicon.glyphicon-link		 		
 					|  
-					a href="#{@cinema.url}"
-						= @cinema.url
+					= link_to @cinema.url, @cinema.url
 	- unless @cinema.phone.to_s.empty?
 		tr
 			 td 
@@ -82,5 +81,5 @@ table.table.table-condensed.table-curved.table-striped
 									 	- transparency = screening.price_min.to_i == 0 ? "pseudo-hidden" : ""
 									 	<span class="label label-bg #{style} price-label btn-block #{transparency}">#{format_price(screening.price_min)}</span>
 		
-		h3.text-center.like-navbar id="nothing-found" style="display:none;"	
+		h3.text-center.like-navbar id="nothing-found"
 			| Ничего не найдено. Смягчите условия поиска.

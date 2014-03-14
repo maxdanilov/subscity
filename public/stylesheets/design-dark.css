@@ -50,6 +50,7 @@ body {
 }
 img.poster {
   border: 2px solid #eec689;
+  box-shadow: 0px 0px 12px #eec689;
 }
 /* Tables */
 .table-striped > tbody > tr:nth-child(odd) > td,
@@ -101,7 +102,6 @@ table.rating {
 /* Captions */
 div.box-text {
   background-color: rgba(0, 0, 0, 0.5);
-  font-size: 20.8px;
   border-radius: 10px;
 }
 .movie-title-original {
@@ -128,17 +128,24 @@ div.box-text {
   opacity: 0.85;
 }
 /* Labels */
+.label {
+  color: #eec689;
+}
 .label-success {
   background: #5c2c65;
+  text-shadow: 0 0 6px #000000;
 }
 .label-primary {
   background: rgba(133, 44, 86, 0.8);
+  text-shadow: 0 0 6px #000000;
 }
 .label-warning {
   background: rgba(180, 59, 67, 0.8);
+  text-shadow: 0 0 6px #000000;
 }
 .label-danger {
   background: rgba(220, 71, 50, 0.8);
+  text-shadow: 0 0 6px #000000;
 }
 .label-default {
   background: rgba(0, 0, 0, 0.35);
@@ -171,9 +178,18 @@ div.box-text {
 .badge {
   color: #eec689;
   background-color: rgba(220, 71, 50, 0.7);
+  box-shadow: 0px 0px 8px rgba(220, 71, 50, 0.7);
+}
+.badge.count {
+  text-shadow: 0 0 6px #000000;
 }
 .badge.limited {
   background-color: rgba(180, 59, 67, 0.7);
+  box-shadow: 0px 0px 8px rgba(180, 59, 67, 0.7);
+  text-shadow: 0 0 6px #000000;
+}
+.badge.new {
+  text-shadow: 0 0 6px #000000;
 }
 /* Buttons */
 .btn-default {

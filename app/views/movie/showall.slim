@@ -1,7 +1,10 @@
-h1.text-center.capitalize.like-navbar Фильмы с субтитрами (#{@city.name})
+h1.text-center.capitalize.like-navbar Фильмы на языке оригинала с русскими субтитрами (#{@city.name})
 = partial 'partials/filters_movies'
 
-span.movie-plates id="movie-plates"
-	- @movies.each do |movie|
-		- ratings = @ratings.detect { |r| r.movie_id == movie.movie_id}
-		= partial 'partials/movie_plate', :locals => { :movie => movie, :ratings => ratings }
+- if @movies.count == 0
+	h2.text-center.like-navbar В ближайшее время сеансов на языке оригинала нет
+- else
+	span.movie-plates id="movie-plates"
+		- @movies.each do |movie|
+			- ratings = @ratings.detect { |r| r.movie_id == movie.movie_id}
+			= partial 'partials/movie_plate', :locals => { :movie => movie, :ratings => ratings }

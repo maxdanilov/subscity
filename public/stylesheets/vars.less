@@ -1,6 +1,6 @@
 /* General */
 
-@font-basic: Trebuchet MS, Arial, Sans Serif;
+@font-basic: 'Trebuchet MS', Arial, Sans Serif;
 @font-logo: "Sevilla Decor";
 @font-logo-url: url(../fonts/sevilla-decor.ttf) format("truetype");
 @bg-url: url('../images/bgs/background.jpg');
@@ -28,7 +28,7 @@
 @font-size-h3: 1.4;
 @font-size-h2: 1.6;
 @font-size-h1: 1.9;
-@font-size-site-intro: 1.3;
+@font-size-site-intro: 1.2;
 
 /* Colors */
 
@@ -85,7 +85,7 @@
 	
 .text-shadow(@color: @basic-bg-color, @size: 8px)
 	{
-		text-shadow: 0 0 8px @basic-bg-color;
+		text-shadow: 0 0 @size @color;
 	}
 
 /* Buttons */

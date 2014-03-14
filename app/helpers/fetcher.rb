@@ -142,35 +142,27 @@ class KassaFetcher
 		fetch_data_html_no_headers(url_for_movie(movie_id))
 	end
 
-	def self.poster_filename(m)
-		File.dirname(__FILE__) + "/../../public/images/posters/" + m.movie_id.to_s + ".jpg" 
-	end
-
-	def self.poster_exists?(c)
-		File.exist?(poster_filename(c))
-	end
-
 	def self.download_poster(c, force_rewrite = false)
-		if (!poster_exists?(c) or force_rewrite)
-			puts "\tDownloading #{c.poster}...".yellow
+		return if c.poster.nil?
+		if (!c.poster_exists? or force_rewrite)
+			puts "\tDownloading #{c.poster}..."#.yellow
 			begin
 			   	open(c.poster) do |f|
-			   	File.open(poster_filename.call(c), "wb") do |file|
+			   	File.open(c.poster_filename, "wb") do |file|
 			    	file.puts f.read
 			   		end
 				end
 			rescue
-				puts "\tError occured while loading poster".red
+				puts "\tError occured while loading poster"#.red
 			end
 		end
 	end
 
-	private_class_method :url_for_session
+	#private_class_method :url_for_session
 	private_class_method :url_for_sessions
 	private_class_method :url_for_movies
 	private_class_method :url_for_movie
 	private_class_method :url_for_cinemas
-	private_class_method :url_for_session
 	private_class_method :url_for_availability
 	private_class_method :params_for_prices
 	private_class_method :params_for_availability

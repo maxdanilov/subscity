@@ -24,13 +24,12 @@ job_type :my_rake, 'cd :path && rake :task :output'
 set :output, 'logs/cron.log'
 
 #movies
-every :day, :at => ['10:05', '14:05'] do
+every :day, :at => ['10:05', '14:05', '19:00'] do
 	my_rake "update_movies", :output => 'logs/cron_movies.log'
 end
 
 #kinopoisk ratings
-every :day, :at => ['10:15', '14:20'] do
-	#my_rake "update_kinopoisk_buttons", :output => 'logs/cron.log'
+every :day, :at => ['10:15', '14:20', '19:10', '00:00'] do
 	my_rake "update_movie_ratings", :output => 'logs/cron.log'
 end
 
@@ -40,18 +39,18 @@ every :day, :at => ['10:00', '14:00'] do
 end
 
 #screenings
-every :day, :at => ['11:18', '14:50', '17:41', '20:41'] do
+every :day, :at => ['11:20', '14:50', '17:40', '20:40'] do
 	my_rake "update_screenings", :output => 'logs/cron_screenings.log'
 end
 
-every :day, :at => ['11:58', '14:58', '18:24', '20:59'] do
-	my_rake "cleanup_screenings", :output => 'logs/cron_screenings.log'
-end
+#every :day, :at => ['11:58', '14:58', '18:24', '20:59'] do
+#	my_rake "cleanup_screenings", :output => 'logs/cron_screenings.log'
+#end
 
 # prices
-every :day, :at => ['12:31', '15:12', '19:20', '21:20'] do
-	my_rake "update_screenings_prices", :output => 'logs/cron_prices.log'
-end
+#every :day, :at => ['12:31', '15:12', '19:20', '21:20'] do
+#	my_rake "update_screenings_prices", :output => 'logs/cron_prices.log'
+#end
 
 # clear cache
 every :day, :at => ['02:00'] do

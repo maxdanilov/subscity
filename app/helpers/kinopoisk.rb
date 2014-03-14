@@ -28,12 +28,12 @@ class Kinopoisk
 	end
 
 	def self.update_ratings(c)
-		puts "\tUpdating rating #{c.kinopoisk_id}...".yellow
+		puts "\tUpdating rating #{c.kinopoisk_id}..."#.yellow
 		result = Kinopoisk.get_ratings(c.kinopoisk_id) rescue nil
 		unless result.nil? or result[:error] == true
 			r = nil
 			if Rating.exists?(:movie_id => c.movie_id)
-				puts "\t\t Updating a record...".magenta
+				puts "\t\t Updating a record..."#.magenta
 				r = Rating.where(:movie_id => c.movie_id).first
 			else
 				puts "\t\t Creating a record...".magenta
@@ -46,9 +46,26 @@ class Kinopoisk
 			r[:imdb_votes] = result[:imdb][:votes]
 
 			r.save
-			puts "\t\t Update result: #{result}...".green
+			puts "\t\t Update result: #{result}..."
 		else
-			puts "\t\t An error occured for #{c.kinopoisk_id}...".red
+			puts "\t\t An error occured for #{c.kinopoisk_id}..."
+		end
+	end
+
+	def self.download_poster(c, force_rewrite = false)
+		return if c.kinopoisk_id.nil?
+		url = "http://st.kp.yandex.net/images/film_iphone/iphone360_#{c.kinopoisk_id}.jpg"
+		if (!c.poster_exists? or force_rewrite)
+			puts "\tDownloading poster #{url}..."
+			begin
+			   	open(url) do |f|
+			   	File.open(c.poster_filename, "wb") do |file|
+			    	file.puts f.read
+			   		end
+				end
+			rescue
+				puts "\tError occured while loading poster"
+			end
 		end
 	end
 end

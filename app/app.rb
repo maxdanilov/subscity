@@ -15,8 +15,8 @@ module Subscity
     #
     register Padrino::Cache
     enable :caching
-    #CACHE_TTL = 12 * 3600 # in seconds
-    CACHE_TTL = 1 # in seconds
+    CACHE_TTL = 2 * 3600 # in seconds
+    #CACHE_TTL = 1 # in seconds
     #Padrino.cache = Padrino::Cache.new(:File, :dir => Padrino.root('tmp', app_name.to_s, 'cache'))
     Padrino.cache = Padrino::Cache.new(:File, :dir => FileCache.dir)
 
@@ -69,17 +69,36 @@ module Subscity
 
     before do
         pre_redirect
-        Slim::Engine.set_default_options :pretty => true, :sort_attrs => false
+        Slim::Engine.set_default_options :pretty => false, :sort_attrs => false
     end
 
-	get '/about' do
-        #{}"#{request.subdomains.join("<br/>")} #{request.ip} D: #{request.get_subdomain}"
+    get :index do
+        #call env.merge('PATH_INFO' => url(:movies))
         cache(request.cache_key, :expires => CACHE_TTL) do
-            render 'main', layout: :layout
+            @city = City.get_by_domain(request.subdomains.first)
+            @movies = @city.get_movies
+            @movies = @movies.sort_by { |a| a.title }
+            @new_movies = @movies.select {|a| (Time.now - a.created_at) <= 8.days}
+            @screening_counts = Hash[@movies.map { |movie| {movie => movie.screenings_count(@city.city_id)}.flatten}]
+            @cinemas_counts = Hash[@movies.map { |movie| {movie => movie.cinemas_count(@city.city_id)}.flatten}]
+            @ratings = Rating.all
+            @title = "Фильмы"
+            @show_about = true
+            render 'movie/showall', layout: :layout
         end
-	end
+    end
 
-    get '/cinemas' do
+    get :latest do
+        cache(request.cache_key, :expires => 300) do
+            @screenings = Screening.active.order("created_at DESC").to_a
+            @cities = City.all.to_a
+            @cinemas = Cinema.all.to_a
+            @movies = Movie.all.to_a
+            render 'latest', layout: :layout
+        end
+    end
+
+    get :cinemas do
         cache(request.cache_key, :expires => CACHE_TTL) do
             @city = City.get_by_domain(request.subdomains.first)
             @cinemas = @city.get_sorted_cinemas
@@ -88,9 +107,9 @@ module Subscity
         end
     end
 
-    get '/dates/:date' do
+    get :dates, :with => :date, :date => /\d{4}-\d{2}-\d{2}/ do
         @date = parse_date(params[:date])
-            unless (params[:date] =~ /\A\d{4}-\d{2}-\d{2}\z/).nil? or @date.nil?
+            unless @date.nil?
                 cache(request.cache_key, :expires => CACHE_TTL) do
                     @city = City.get_by_domain(request.subdomains.first)
                     @screenings = Screening.get_sorted_screenings(@date, @city.city_id)
@@ -104,7 +123,7 @@ module Subscity
             end
     end
 
-    get '/movies' do
+    get :movies do
         cache(request.cache_key, :expires => CACHE_TTL) do
             @city = City.get_by_domain(request.subdomains.first)
             @movies = @city.get_movies
@@ -118,7 +137,7 @@ module Subscity
         end
     end
 
-    get '/movies/:id' do
+    get :movies, :with => :id, :id => /\d+/ do
         begin
             cache(request.cache_key, :expires => CACHE_TTL) do
                 @movie = Movie.find(params[:id])
@@ -126,6 +145,9 @@ module Subscity
                 @city = City.get_by_domain(request.subdomains.first)
                 @screenings = @movie.get_sorted_screenings(@city.city_id) # @movie.screenings
                 @cinemas = Cinema.all
+
+                @screening_count = @movie.screenings_count(@city.city_id)
+                @cinemas_count = @movie.cinemas_count(@city.city_id)
 
                 screenings_flat = @movie.screenings.active
                 @price_min = screenings_flat.map{ |s| s.price_min}.compact.min rescue nil
@@ -138,7 +160,7 @@ module Subscity
         end
     end
 
-    get '/cinemas/:id' do
+    get :cinemas, :with => :id, :id => /\d+/ do
         begin
             cache(request.cache_key, :expires => CACHE_TTL) do
                 @cinema = Cinema.find(params[:id])

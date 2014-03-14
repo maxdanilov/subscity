@@ -1,4 +1,4 @@
-span.movie-plate attr-title="#{movie.title}" attr-created="#{movie.created_at.to_i}" attr-imdb="#{ratings.imdb_rating.round(1)}" attr-kinopoisk="#{ratings.kinopoisk_rating.round(1)}" attr-kinopoisk-votes="#{ratings.kinopoisk_votes.to_i}" attr-imdb-votes="#{ratings.imdb_votes.to_i}"
+span.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-title="#{movie.title}" attr-created="#{movie.created_at.to_i}" attr-imdb="#{ratings.imdb_rating.round(1) rescue 0}" attr-kinopoisk="#{ratings.kinopoisk_rating.round(1) rescue 0}" attr-kinopoisk-votes="#{ratings.kinopoisk_votes.to_i rescue 0}" attr-imdb-votes="#{ratings.imdb_votes.to_i rescue 0}"
 	table.table.table-bordered.table-condensed.table-curved.table-striped style="margin-bottom:0px;margin-top:5px;" 
 		tbody
 			tr.table-header
@@ -6,7 +6,7 @@ span.movie-plate attr-title="#{movie.title}" attr-created="#{movie.created_at.to
 					button.btn.btn-default.btn-medium.show-button type="button"
 							span.glyphicon.glyphicon-chevron-down
 
-				td.col.md-8
+				td.col.md-8 style="border-right-width: 0px;"
 					span.movie-title 
 						= link_to_movie(movie)
 						|  
@@ -23,8 +23,8 @@ span.movie-plate attr-title="#{movie.title}" attr-created="#{movie.created_at.to
 					- unless movie.title_original.nil?
 						div.movie-title-original = movie.title_original
 				
-				- unless movie.kinopoisk_id.nil? and movie.imdb_id.nil?
-					td.col-md-3.text-center.rating-plates
+				- unless (movie.kinopoisk_id.nil? and movie.imdb_id.nil?) or ratings.nil?
+					td.col-md-3.text-center.rating-plates style="border-left-width: 0px;"
 						- unless movie.imdb_id.nil? or ratings.nil?
 							= partial 'partials/rating_plate', :locals => { :movie => movie, :type => :imdb, :rating => ratings.imdb_rating, :votes => ratings.imdb_votes }
 							span.rating-plate-divider
@@ -41,14 +41,14 @@ span.movie-plate attr-title="#{movie.title}" attr-created="#{movie.created_at.to
 		tbody	
 			tr.table-body
 				td.text-center rowspan = "10"
-					- if KassaFetcher.poster_exists?(movie)
-						img.poster src = image_path("posters/#{movie.movie_id}.jpg")
+					- if movie.poster_exists?
+						= image_tag "posters/#{movie.movie_id}.jpg", :class => 'poster'
 					- else
-						img.poster src = image_path("transparent.png")
+						= image_tag "transparent.png", :class => 'poster'
 
-					span.badge.gray style="margin-top:5px;"
+					span.badge.count style="margin-top:5px;"
 						| #{format_screenings_count(@screening_counts[movie])} 
-					span.badge.gray style="margin-top:5px;"
+					span.badge.count style="margin-top:5px;"
 						| #{format_cinemas_count(@cinemas_counts[movie])} 
 
 				- unless movie.year.to_s.empty?

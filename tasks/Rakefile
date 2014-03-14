@@ -65,6 +65,12 @@ task :update_screenings => :environment do |task, args|
 		sleep rand(2..3)
 	end
 
+	Rake::Task[:cleanup_screenings].reenable
+	Rake::Task[:cleanup_screenings].invoke
+
+	Rake::Task[:update_screenings_prices].reenable
+	Rake::Task[:update_screenings_prices].invoke
+
 	Rake::Task[:clear_cache].reenable
 	Rake::Task[:clear_cache].invoke
 
@@ -147,6 +153,7 @@ task :update_movies => :environment do |task|
 					puts "poster for #{c.movie_id} has changed!".yellow
 					#puts c
 					KassaFetcher.download_poster(c, true) unless c.poster.nil?
+					Movie.get_movie(c.movie_id).update_attribute(:poster, c.poster)
 				end
 
 				if c.in_db? and Movie.are_equal?(Movie.get_movie(c.movie_id), c)
@@ -182,7 +189,11 @@ task :update_movies => :environment do |task|
 						end
 
 						#download poster
-						KassaFetcher.download_poster(c) unless c.poster.nil?
+						unless c.poster.nil?
+							KassaFetcher.download_poster(c, true)
+						else
+							Kinopoisk.download_poster(c) unless c.kinopoisk_id.nil?
+						end
 
 						puts c
 						c.save
@@ -251,9 +262,7 @@ task :update_movies_from_cinemas => :environment do |task|
 		c['country'] = nil if c['country'].to_s.strip == '-'
 		c['genres'] = nil if c['genres'].to_s.strip.empty?
 
-		if c.valid? and c.valid_genre?
-			KassaFetcher.download_poster(c) unless c.poster.nil?
-			
+		if c.valid? and c.valid_genre?			
 			#fetch data from cinemate
 			unless c.year.nil?
 				key =  Cinemate.get_csrf_token
@@ -266,6 +275,12 @@ task :update_movies_from_cinemas => :environment do |task|
 						Kinopoisk.update_ratings(c)
 					end
 				end
+			end
+
+			unless c.poster.nil?
+				KassaFetcher.download_poster(c, true)
+			else
+				Kinopoisk.download_poster(c)
 			end
 
 			c.save

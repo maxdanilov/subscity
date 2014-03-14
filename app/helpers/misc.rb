@@ -8,16 +8,6 @@ def price_tag_style(price)
 	end
 end
 
-def age_restriction_style(age)
-	case age
-		when 0..12 then "label-success"
-		when 13...16 then "label-info"
-		when 16...18 then "label-warning"
-		when 18...10**6 then "label-danger"
-		else "label-success"
-	end
-end
-
 def time_of_day(time)
 	case time.hour
 		when 6...12 then "morning"
@@ -74,13 +64,13 @@ def format_date_url(date)
 end
 
 def link_to_cinema(cinema)
-	link_to(cinema.name, "/cinemas/#{cinema.id}", :class => 'underdashed')
+	link_to(cinema.name, url(:cinemas, cinema.id), :class => 'underdashed')
 end
 
 def link_to_movie(movie)
-	link_to(movie.title, "/movies/#{movie.id}", :class => 'underdashed')
+	link_to(movie.title, url(:movies, movie.id), :class => 'underdashed')
 end
 
-def link_to_date(date)	
-	link_to(show_date(date), "/dates/#{date}", :class => 'underdashed')
+def link_to_date(day)	
+	link_to(show_date(day), url(:dates, day), :class => 'underdashed')
 end
