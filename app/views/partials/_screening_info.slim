@@ -1,0 +1,6 @@
+/ needs cinema, day, screening
+a.btn.btn-default.navbar-btn.price-button href="http://kassa.rambler.ru/place/#{@cinema.cinema_id}?date=#{day.to_time.strftime("%Y.%m.%d")}" target="_blank"
+	= show_time(screening.date_time)
+- style = price_tag_style(screening.price_min)
+- transparency = screening.price_min.to_i == 0 ? "pseudo-hidden" : ""
+<span class="label label-bg price-label btn-block #{style} #{transparency}">#{format_price(screening.price_min)}</span>

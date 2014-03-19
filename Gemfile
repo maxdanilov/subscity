@@ -26,6 +26,9 @@ gem 'geocoder'
 gem 'geoip'
 gem 'thin'
 gem 'mysql2'
+gem 'colorize'
+gem 'nokogiri'
+gem 'httpclient'
 
 # Test requirements
 

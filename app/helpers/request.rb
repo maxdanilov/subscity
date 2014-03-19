@@ -21,7 +21,7 @@ module Sinatra
     end
 
     def cache_key
-        subdomains.join(".") + path_info
+        (subdomains.join(".") + path_info).gsub("/", "_")
     end
 
     def geoip

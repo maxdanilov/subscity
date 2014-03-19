@@ -239,6 +239,16 @@ $(function() {
 	}
 	
 	
+	function disablePassedScreenings()
+	{
+		$('a.price-button:not(.disabled)').each(function(){
+			timestamp = parseInt ($(this).parent().attr('attr-time'));
+			current = (new Date()).getTime() / 1000;
+			if ( !isNaN(timestamp) && (timestamp - current) < 600.0 ) // disable button 10 mins before begin
+				$(this).addClass('disabled');
+		});
+	}
+	
 	/* When document is ready */
 	
 	$( document ).ready(function(){
@@ -250,7 +260,12 @@ $(function() {
 		activateSortButton($("#button-sort-title"));
 		buttonSortPressed = "sort-name";
 		
-		$("#filters").show();		
+		$("#filters").show();	
+
+		disablePassedScreenings();
+		window.setInterval(function(){
+			disablePassedScreenings();
+		}, 300 * 1000); // every 5 mins
 	});
 	
 });

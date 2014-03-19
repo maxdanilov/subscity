@@ -15,7 +15,9 @@ module Subscity
     #
     register Padrino::Cache
     enable :caching
-    CACHE_TTL = 2 * 3600 # in seconds
+    CACHE_TTL = 1 * 3600 # in seconds
+    CACHE_TTL_LONG = 2 * 3600
+    
     #CACHE_TTL = 1 # in seconds
     #Padrino.cache = Padrino::Cache.new(:File, :dir => Padrino.root('tmp', app_name.to_s, 'cache'))
     Padrino.cache = Padrino::Cache.new(:File, :dir => FileCache.dir)
@@ -38,7 +40,7 @@ module Subscity
     # set :show_exceptions, true    # Shows a stack trace in browser (default for development)
     # set :logging, true            # Logging in STDOUT for development and file for production (default only for development)
     # set :public_folder, 'foo/bar' # Location for static assets (default root/public)
-    # set :reload, false            # Reload application files (default in development)
+    set :reload, true            # Reload application files (default in development)
     # set :default_builder, 'foo'   # Set a custom form builder (default 'StandardFormBuilder')
     # set :locale_path, 'bar'       # Set path for I18n translations (default your_apps_root_path/locale)
     # disable :sessions             # Disabled sessions by default (enable if needed)
@@ -74,7 +76,7 @@ module Subscity
 
     get :index do
         #call env.merge('PATH_INFO' => url(:movies))
-        cache(request.cache_key, :expires => CACHE_TTL) do
+        cache(request.cache_key, :expires => CACHE_TTL_LONG) do
             @city = City.get_by_domain(request.subdomains.first)
             @movies = @city.get_movies
             @movies = @movies.sort_by { |a| a.title }
@@ -82,15 +84,15 @@ module Subscity
             @screening_counts = Hash[@movies.map { |movie| {movie => movie.screenings_count(@city.city_id)}.flatten}]
             @cinemas_counts = Hash[@movies.map { |movie| {movie => movie.cinemas_count(@city.city_id)}.flatten}]
             @ratings = Rating.all
-            @title = "Фильмы"
+            #@title = "Фильмы"
             @show_about = true
             render 'movie/showall', layout: :layout
         end
     end
 
     get :latest do
-        cache(request.cache_key, :expires => 300) do
-            @screenings = Screening.active.order("created_at DESC").to_a
+        cache(request.cache_key, :expires => 1) do
+            @screenings = Screening.active.order("created_at DESC, screening_id DESC").to_a
             @cities = City.all.to_a
             @cinemas = Cinema.all.to_a
             @movies = Movie.all.to_a
@@ -99,7 +101,7 @@ module Subscity
     end
 
     get :cinemas do
-        cache(request.cache_key, :expires => CACHE_TTL) do
+        cache(request.cache_key, :expires => CACHE_TTL_LONG) do
             @city = City.get_by_domain(request.subdomains.first)
             @cinemas = @city.get_sorted_cinemas
             @title = "Кинотеатры"
@@ -124,7 +126,7 @@ module Subscity
     end
 
     get :movies do
-        cache(request.cache_key, :expires => CACHE_TTL) do
+        cache(request.cache_key, :expires => CACHE_TTL_LONG) do
             @city = City.get_by_domain(request.subdomains.first)
             @movies = @city.get_movies
             @movies = @movies.sort_by { |a| a.title }

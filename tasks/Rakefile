@@ -179,9 +179,7 @@ task :update_movies => :environment do |task|
 								c, changed = Cinemate.fill_with_data(c, id)
 
 								#update ratings
-								unless c.kinopoisk_id.nil? 
-									Kinopoisk.update_ratings(c)
-								end
+								Kinopoisk.update_ratings(c) unless c.kinopoisk_id.nil? 
 
 							else
 								puts "\tMovie #{c.movie_id} was not found on Cinemate".red
@@ -271,9 +269,7 @@ task :update_movies_from_cinemas => :environment do |task|
 					c, changed = Cinemate.fill_with_data(c, id)
 
 					#update ratings
-					unless c.kinopoisk_id.nil? 
-						Kinopoisk.update_ratings(c)
-					end
+					Kinopoisk.update_ratings(c) unless c.kinopoisk_id.nil? 
 				end
 			end
 
@@ -361,30 +357,6 @@ task :update_movie_ratings => :environment do |task|
 	stop_task(task, t)
 end
 
-desc 'update kinopoisk buttons cache'
-task :update_kinopoisk_buttons => :environment do |task|
-	t = start_task(task)
-	filename = -> (m) { "../public/images/kinopoisk/" + m.kinopoisk_id.to_s + ".png" }
-	url = -> (m) { "http://rating.kinopoisk.ru/#{m.kinopoisk_id}.gif" }
-
-	puts "Starting update of all buttons...".cyan
-	total = Movie.active.count
-	Movie.active.select([:kinopoisk_id]).each_with_index do |m, index|
-		next if m.kinopoisk_id.nil? 
-		puts "\t[#{index+1}/#{total}] Downloading #{m.kinopoisk_id}...".yellow
-		begin
-		   	open(url.call(m)) do |f|
-		   	File.open(filename.call(m), "wb") do |file|
-		    	file.puts f.read
-		   	end
-			end
-		rescue
-		end
-		sleep rand(0.5..1.0)
-	end
-	stop_task(task, t)
-end
-
 desc 'update screenings prices'
 task :update_screenings_prices => :environment do |task|
 	t = start_task(task)
@@ -452,6 +424,66 @@ task :cleanup_screenings => :environment do |task|
 	Rake::Task[:clear_cache].invoke
 
 	puts "#{deleted} screenings were deleted from database".red
+	stop_task(task, t)
+end
+
+desc 'force update of given movie with kinopoisk data'
+task :update_movie_kinopoisk, [:id, :kinopoisk_id, :imdb_id] => :environment do |task, args|
+	t = start_task(task)
+	id = args[:id].to_i
+	kinopoisk_id = args[:kinopoisk_id].to_i
+	imdb_id = args[:imdb_id].gsub(/\D/, '').to_i
+
+	unless id.zero? or kinopoisk_id.zero?
+		unless Movie.exists?(id)
+			puts "Error: movie with id = #{id} wasn't found.".red
+		else
+			puts "Do you really want to change this movie info?".yellow
+			m = Movie.where(:id => id).first
+			puts m
+			print "[y/n]:".green
+			update_flag = false
+			while true
+				case STDIN.gets.strip.downcase
+					when 'y', 'yes'
+        				update_flag = true
+        				break
+      				when /\Ano?\Z/ #n or no
+        				break 
+				end
+			end
+
+			if update_flag
+				k = KinopoiskParser::Movie.new kinopoisk_id
+				puts "Proposed kinopoisk title: #{k.title} [#{k.title_en}]".cyan 
+				begin
+					m.update_attribute(:kinopoisk_id, kinopoisk_id)
+					m.update_attribute(:description, k.description)
+					m.update_attribute(:title_original, k.title_en)
+					m.update_attribute(:director, k.directors.join(", "))
+					m.update_attribute(:cast, k.actors.join(", "))
+				
+					m.update_attribute(:imdb_id, imdb_id) unless imdb_id.zero?
+
+					if m.poster.nil? and !k.poster.nil?
+						Kinopoisk.download_poster(m, force_rewrite = true)
+					end
+
+					Kinopoisk.update_ratings(m) unless m.kinopoisk_id.nil? 
+
+					puts "Updated movie looks like this:".green
+					puts m
+
+					Rake::Task[:clear_cache].reenable
+					Rake::Task[:clear_cache].invoke
+				rescue
+					puts "An error occured while updating".red
+				end
+			end
+		end
+	else
+		puts "Error: Input parameters can't be zero: id = #{id}, kinopoisk_id = #{kinopoisk_id}".red
+	end
 	stop_task(task, t)
 end
 

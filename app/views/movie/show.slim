@@ -22,11 +22,11 @@ table.table.table-bordered.table-condensed.table-curved.table-striped
 					| #{format_cinemas_count(@cinemas_count)} 
 				div.divider
 
-			- unless movie.imdb_id.nil? or ratings.nil?
+			- unless movie.imdb_id.nil? or ratings.nil? or ratings.imdb_rating.nil?
 				= partial 'partials/rating_plate', :locals => { :movie => @movie, :type => :imdb, :rating => ratings.imdb_rating, :votes => ratings.imdb_votes }
 				- unless movie.kinopoisk_id.nil?				
 					div.divider
-			- unless movie.kinopoisk_id.nil? or ratings.nil?
+			- unless movie.kinopoisk_id.nil? or ratings.nil? or ratings.kinopoisk_rating.nil?
 				= partial 'partials/rating_plate', :locals => { :movie => @movie, :type => :kinopoisk, :rating => ratings.kinopoisk_rating, :votes => ratings.kinopoisk_votes }
 				div.divider
 
@@ -68,13 +68,13 @@ table.table.table-bordered.table-condensed.table-curved.table-striped
 			td colspan = "2" 
 				div
 					strong Режиссер: 
-					= movie.director
+					= movie.director.gsub("\r", "").split("\n").join(", ")
 	- unless movie.cast.to_s.empty?
 		tr
 			td colspan = "2" 
 				div
 					strong В ролях: 
-					= movie.cast
+					= movie.cast.gsub("\r", "").split("\n").join(", ")
 	- unless movie.description.to_s.empty?
 		tr
 			td colspan = "2" 
@@ -105,7 +105,7 @@ table.table.table-bordered.table-condensed.table-curved.table-striped
 						table
 							tr
 								- screenings.each do |screening|
-									td.text-center.cell-screenings attr-price=screening.price_min attr-time-of-day=time_of_day(screening.date_time)
+									td.text-center.cell-screenings attr-price=screening.price_min attr-time-of-day=time_of_day(screening.date_time) attr-time=screening.date_time.to_i
 										/http://kassa.rambler.ru/place/322?date=2014.02.18
 								 		a.btn.btn-default.navbar-btn.price-button href="http://kassa.rambler.ru/place/#{cinema.cinema_id}?date=#{day.to_time.strftime("%Y.%m.%d")}" target="_blank"
 								 			= show_time(screening.date_time)

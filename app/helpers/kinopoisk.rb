@@ -40,10 +40,10 @@ class Kinopoisk
 				r = Rating.new(	:movie_id => c.movie_id)
 			end
 
-			r[:kinopoisk_rating] = result[:kinopoisk][:rating]
-			r[:kinopoisk_votes] = result[:kinopoisk][:votes]
-			r[:imdb_rating] = result[:imdb][:rating]
-			r[:imdb_votes] = result[:imdb][:votes]
+			r[:kinopoisk_rating] = result[:kinopoisk][:rating].to_f
+			r[:kinopoisk_votes] = result[:kinopoisk][:votes].to_i
+			r[:imdb_rating] = result[:imdb][:rating].to_f
+			r[:imdb_votes] = result[:imdb][:votes].to_i
 
 			r.save
 			puts "\t\t Update result: #{result}..."

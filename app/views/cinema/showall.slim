@@ -24,7 +24,7 @@ h1.text-center.capitalize.like-navbar Кинотеатры (#{@city.name})
 								span.medium-font.location
 									| м. #{cinema.metro}
 						td.col-md-8
-							table.table.no-top-border.table-condensed.transparent
+							table.table.no-top-border.table-condensed.transparent style="box-shadow: none;"
 								tbody
 									- movies.each do |movie, screenings_count|
 										tr

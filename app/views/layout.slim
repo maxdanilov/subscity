@@ -6,7 +6,7 @@ html
 		meta http-equiv="Content-Type" content="text/html" charset="utf-8"
 		meta name="viewport" content="width=device-width, initial-scale=1"
 		meta name="Description" content="Всегда актуальное расписание фильмов на языке оригинала (с русскими субтитрами) в кинотеатрах Москвы и Санкт-Петербурга"
-		meta name="Keywords" content="фильмы на языке оригинала, фильмы с субтитрами, фильмы без перевода, фильмы с русскими субтитрами, расписание, кинотеатры, кино, билеты, цены, Москва, Санкт-Петербург, movies with subtitles, movies with subs, schedule, cinemas, theatres, tickets, price, Moscow, Saint-Petersburg"
+		meta name="Keywords" content="где посмотреть фильм с субтитрами, киносеансы для слабослышащих, фильмы на языке оригинала, фильмы с субтитрами, кино с субтитрами, фильмы без перевода, фильмы с русскими субтитрами, расписание, кинотеатры, кино, билеты, цены, Москва, Санкт-Петербург, movies with subtitles, movies with subs, schedule, cinemas, theatres, tickets, price, Moscow, Saint-Petersburg"
 		
 		- title = @title rescue nil
 		- title ||= "SubsCity"
@@ -89,3 +89,7 @@ html
 
 		/! custom JS
 		= javascript_include_tag 'default'
+
+		= partial 'partials/google'
+		= partial 'partials/yandex'
+		= partial 'partials/mailru'

@@ -25,7 +25,17 @@ img.poster
 		.shadow(@basic-text-color, 12px);
 	}
 	
+div.box-text
+	{
+		/*.shadow(@basic-text-color);*/
+	}
+	
 /* Tables */	
+	
+table.table
+	{
+		.shadow(@basic-bg-color);
+	}
 	
 .table-striped>tbody>tr:nth-child(odd)>td, .table-striped>tbody>tr:nth-child(odd)>th, .table-striped>thead>tr:nth-child(odd)>td
 	{
@@ -229,35 +239,40 @@ div.box-text
 
 .navbar-inverse .navbar-nav>li>a
 	{
-		color: fade(@basic-text-color, 90%);
-		border-bottom: @border-dashed fade(@basic-text-color, 90%);
+		color: fade(@basic-text-color, 100%);
+		border-bottom: @border-dashed fade(@basic-text-color, 100%);
 	}
 	
 .navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover, .navbar-inverse .navbar-nav>.open>a:focus
 	{
-		color: @basic-text-color;
+		color: fade(@basic-text-color, 90%);
 		border-bottom: @border-dashed @basic-text-color;
 	}
 	
 .navbar-inverse .navbar-nav>li>a:hover, .navbar-inverse .navbar-nav>li>a:focus
 	{
-		color: @basic-text-color;
+		color: fade(@basic-text-color, 90%);
 	}
 	
 .dropdown-menu
 	{
-		background-color: fade(@basic-bg-color, 70%);
+		background-color: fade(@basic-bg-color, 80%);
+	}
+	
+ul.dropdown-menu
+	{
+		border-radius: 8px !important;
 	}
 
 .dropdown-menu>li>a
 	{
-		color: fade(@basic-text-color, 80%);
+		color: fade(@basic-text-color, 100%);
 	}
 	
 .dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus
 	{
 		background-color: @basic-bg-color;
-		color: @basic-text-color;
+		color: fade(@basic-text-color, 80%);
 	}
 	
 .navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover, .navbar-inverse .navbar-nav>.open>a:focus
@@ -282,5 +297,6 @@ div.box-text
 	
 .dropdown-menu .divider
 	{
-		background-color: fade(@basic-text-color, 60%);
+		background-color: fade(@basic-text-color, 60);
+		.shadow(@basic-text-color);
 	}

@@ -130,6 +130,7 @@ class KassaParser
 
 	def self.parse_time(time, date)
 		# 11:10 => given date at 11:10
+		# for a different time zone: Time.parse(date.strftime("%Y-%m-%d") + " " + time + " +0400")
 		Time.parse(date.strftime("%Y-%m-%d") + " " + time)
 	end
 

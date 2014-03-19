@@ -25,13 +25,13 @@ span.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-tit
 				
 				- unless (movie.kinopoisk_id.nil? and movie.imdb_id.nil?) or ratings.nil?
 					td.col-md-3.text-center.rating-plates style="border-left-width: 0px;"
-						- unless movie.imdb_id.nil? or ratings.nil?
+						- unless movie.imdb_id.nil? or ratings.nil? or ratings.imdb_rating.nil?
 							= partial 'partials/rating_plate', :locals => { :movie => movie, :type => :imdb, :rating => ratings.imdb_rating, :votes => ratings.imdb_votes }
 							span.rating-plate-divider
 							- if movie.kinopoisk_id.nil?
 								span.like-rating-plate								
 						- unless movie.kinopoisk_id.nil? or ratings.nil?
-							- if movie.imdb_id.nil?
+							- if movie.imdb_id.nil? or ratings.imdb_rating.nil? 
 								span.like-rating-plate
 								span.rating-plate-divider
 							= partial 'partials/rating_plate', :locals => { :movie => movie, :type => :kinopoisk, :rating => ratings.kinopoisk_rating, :votes => ratings.kinopoisk_votes }
@@ -81,13 +81,13 @@ span.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-tit
 					td colspan = "1" 
 						div
 							strong Режиссер: 
-							= movie.director
+							= movie.director.gsub("\r", "").split("\n").join(", ")
 			- unless movie.cast.to_s.empty?
 				tr.table-body
 					td colspan = "1" 
 						div
 							strong В ролях: 
-							= movie.cast
+							= movie.cast.gsub("\r", "").split("\n").join(", ")
 			- unless movie.description.to_s.empty?
 				tr.table-body
 					td colspan = "1" 

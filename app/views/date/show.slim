@@ -30,7 +30,7 @@ h1.text-center.capitalize.like-navbar #{show_date(@date)}
 							tbody
 								tr
 									- screenings.each do |screening|
-										td.text-center.cell-screenings attr-price=screening.price_min attr-time-of-day=time_of_day(screening.date_time)
+										td.text-center.cell-screenings attr-price=screening.price_min attr-time-of-day=time_of_day(screening.date_time) attr-time=screening.date_time.to_i
 									 		a.btn.btn-default.navbar-btn.price-button href="http://kassa.rambler.ru/place/#{cinema.cinema_id}?date=#{@date.strftime("%Y.%m.%d")}" target="_blank"
 									 			= show_time(screening.date_time)
 									 		- style=price_tag_style(screening.price_min)
