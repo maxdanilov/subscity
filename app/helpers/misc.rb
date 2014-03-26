@@ -83,10 +83,23 @@ def language(lang)
 			'Telugu' => 'телугу',
 			'Turkish' => 'турецкий',
 			'Urdu' => 'урду',
+			'Ukrainian' => 'украинский',
 			'Yiddish' => 'идиш'
 		}
 	
 	l[lang] || lang
+end
+
+def language_short(lang)
+	l = {
+			'French' => 'FRA',
+			'Spanish' => 'ESP',
+			'German' => 'DEU',
+			'Chinese' => 'CHN',
+			'Serbian' => 'SRB',
+			'Russian' => 'РУС'
+		}
+	l[lang] || lang[0..2].upcase
 end
 
 def format_movies_count(count)

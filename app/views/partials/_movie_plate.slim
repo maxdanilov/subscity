@@ -1,4 +1,4 @@
-span.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-title="#{movie.title}" attr-created="#{movie.created_at.to_i}" attr-imdb="#{ratings.imdb_rating.round(1) rescue 0}" attr-kinopoisk="#{ratings.kinopoisk_rating.round(1) rescue 0}" attr-kinopoisk-votes="#{ratings.kinopoisk_votes.to_i rescue 0}" attr-imdb-votes="#{ratings.imdb_votes.to_i rescue 0}"
+span.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-title="#{movie.title}" attr-created="#{movie.created_at.to_i}" attr-imdb="#{ratings.imdb_rating.round(1) rescue 0}" attr-kinopoisk="#{ratings.kinopoisk_rating.round(1) rescue 0}" attr-kinopoisk-votes="#{ratings.kinopoisk_votes.to_i rescue 0}" attr-imdb-votes="#{ratings.imdb_votes.to_i rescue 0}" attr-language="#{language(movie.languages.split(", ").first) rescue nil}"
 	table.table.table-bordered.table-condensed.table-curved.table-striped style="margin-bottom:0px;margin-top:5px;" 
 		tbody
 			tr.table-header
@@ -12,17 +12,19 @@ span.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-tit
 						|  
 						- unless movie.languages.to_s.empty?
 							span.label.label-bg.label-default.age-restriction 
-								| #{movie.languages.split(", ").first.upcase[0..2] rescue nil}
+								span.glyphicon.glyphicon-volume-up.language-icon
+								/|  #{movie.languages.split(", ").first.upcase[0..2] rescue nil}
+								|  #{language(movie.languages.split(", ").first) rescue nil}
 							|  
 						span.label.label-bg.label-default.age-restriction 
 							| #{movie.age_restriction}+
 						- if @new_movies.include? movie
 							|  
-							span.badge.new style="position:relative; top:-2px;"
+							span.badge.new style="position:relative; top:-0px;"
 								| новый 
 						- if @screening_counts[movie] < 5
 							|  
-							span.badge.limited style="position:relative; top:-2px;"
+							span.badge.limited style="position:relative; top:-0px;"
 								| мало сеансов 
 					- unless movie.title_original.nil?
 						div.movie-title-original = movie.title_original

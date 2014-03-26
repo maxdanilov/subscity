@@ -111,7 +111,7 @@ $(function() {
 	/* Movie sorting button */
 	
 	function activateSortButton(button){
-		var buttons = ["#button-sort-title", "#button-sort-date", "#button-sort-imdb", "#button-sort-kinopoisk", "#button-sort-screenings"];
+		var buttons = ["#button-sort-title", "#button-sort-date", "#button-sort-imdb", "#button-sort-kinopoisk", "#button-sort-screenings", "#button-sort-language"];
 		buttons.forEach(function(b) {
 			$(b).removeClass("active");
 		});	
@@ -145,6 +145,10 @@ $(function() {
 	
 	$("#button-sort-screenings").click(function(){
 		clickSortButton(this, "sort-screenings", movieCompareByScreenings);
+	});
+	
+	$("#button-sort-language").click(function(){
+		clickSortButton(this, "sort-language", movieCompareByLanguage);
 	});
 	
 	/* Time of day selection */
@@ -221,6 +225,20 @@ $(function() {
 		var contentB = parseInt( $(b).attr(fields[0]));
 		return (contentA > contentB) ? -1 : 1;
 	}
+
+	function movieCompareByLanguage(a,b){
+		var fields = ["attr-language"];
+		
+		var contentA = ( $(a).attr(fields[0]).toLowerCase());
+		var contentB = ( $(b).attr(fields[0]).toLowerCase());
+		if (!contentA)
+			return 1;
+		if (!contentB)
+			return -1;
+		if (contentA == contentB)
+			return movieCompareByTitle(a,b);
+		return (contentA < contentB) ? -1 : 1;
+	}
 	
 	function movieCompareByTitle(a,b){
 		var fields = ["attr-title"];
@@ -237,7 +255,6 @@ $(function() {
 		var contentB = parseInt( $(b).attr(fields[0]));
 		return (contentA > contentB) ? -1 : 1;
 	}
-	
 	
 	function disablePassedScreenings()
 	{
