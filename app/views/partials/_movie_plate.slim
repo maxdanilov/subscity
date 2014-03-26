@@ -76,6 +76,11 @@ span.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-tit
 						div
 							strong Страна: 
 							= movie.country
+			- unless movie.languages.to_s.empty?
+				td.col-md-12 colspan="2" 
+					div
+						strong Язык: 
+						= languages_format(movie.languages)
 			- unless movie.director.to_s.empty?
 				tr.table-body
 					td colspan = "1" 

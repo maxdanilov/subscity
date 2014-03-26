@@ -3,6 +3,7 @@ task :environment do
 	#require 'padrino'
 	gem 'activerecord', '<4'
 	require 'active_record'
+	require 'imdb'
 
 	# no color output if script is run by cron
 	if STDOUT.tty?
@@ -193,6 +194,17 @@ task :update_movies => :environment do |task|
 							Kinopoisk.download_poster(c) unless c.kinopoisk_id.nil?
 						end
 
+						unless c.imdb_id.nil?
+							begin
+								movie = Imdb::Movie.new(c.imdb_id.to_s)
+								langs = movie.languages.join(", ")
+								puts "#{movie.title} [#{langs}]"
+								c.update_attribute(:languages, langs)
+							rescue
+								puts "Error occured while fetching language for movie #{c.movie_id}".red
+							end
+						end
+
 						puts c
 						c.save
 						updated_count += 1
@@ -277,6 +289,17 @@ task :update_movies_from_cinemas => :environment do |task|
 				KassaFetcher.download_poster(c, true)
 			else
 				Kinopoisk.download_poster(c)
+			end
+
+			unless c.imdb_id.nil?
+				begin
+					movie = Imdb::Movie.new(c.imdb_id.to_s)
+					langs = movie.languages.join(", ")
+					puts "#{movie.title} [#{langs}]"
+					c.update_attribute(:languages, langs)
+				rescue
+					puts "Error occured while fetching language for movie #{c.movie_id}".red
+				end
 			end
 
 			c.save
@@ -431,8 +454,8 @@ desc 'force update of given movie with kinopoisk data'
 task :update_movie_kinopoisk, [:id, :kinopoisk_id, :imdb_id] => :environment do |task, args|
 	t = start_task(task)
 	id = args[:id].to_i
-	kinopoisk_id = args[:kinopoisk_id].to_i
-	imdb_id = args[:imdb_id].gsub(/\D/, '').to_i
+	kinopoisk_id = args[:kinopoisk_id].to_i rescue 0
+	imdb_id = args[:imdb_id].gsub(/\D/, '').to_i rescue 0
 
 	unless id.zero? or kinopoisk_id.zero?
 		unless Movie.exists?(id)
@@ -462,8 +485,18 @@ task :update_movie_kinopoisk, [:id, :kinopoisk_id, :imdb_id] => :environment do 
 					m.update_attribute(:title_original, k.title_en)
 					m.update_attribute(:director, k.directors.join(", "))
 					m.update_attribute(:cast, k.actors.join(", "))
-				
-					m.update_attribute(:imdb_id, imdb_id) unless imdb_id.zero?
+					
+					unless imdb_id.zero?
+						m.update_attribute(:imdb_id, imdb_id) 
+						begin
+							movie = Imdb::Movie.new(m.imdb_id.to_s)
+							langs = movie.languages.join(", ")
+							puts "#{movie.title} [#{langs}]"
+							m.update_attribute(:languages, langs)
+						rescue
+							puts "Error occured while fetching language for movie #{m.movie_id}".red
+						end
+					end
 
 					if m.poster.nil? and !k.poster.nil?
 						Kinopoisk.download_poster(m, force_rewrite = true)

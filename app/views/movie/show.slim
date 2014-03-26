@@ -63,6 +63,11 @@ table.table.table-bordered.table-condensed.table-curved.table-striped
 				div
 					strong Страна: 
 					= movie.country
+	- unless movie.languages.to_s.empty?
+			td.col-md-12 colspan="2" 
+				div
+					strong Язык: 
+					= languages_format(movie.languages)
 	- unless movie.director.to_s.empty?
 		tr
 			td colspan = "2" 
@@ -79,7 +84,7 @@ table.table.table-bordered.table-condensed.table-curved.table-striped
 		tr
 			td colspan = "2" 
 				div
-					= movie.description
+					== movie.description.gsub("\n", "<br/>")
 
 - if @screenings.count == 0
 	h2.text-center.like-navbar В ближайшее время сеансов на языке оригинала нет

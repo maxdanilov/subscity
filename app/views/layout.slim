@@ -2,6 +2,7 @@ doctype html
 html
 	head
 		= favicon_tag '/favicon.png', :type => 'image/png', :rel => 'shortcut icon'
+		= stylesheet_link_tag 'http://fonts.googleapis.com/css?family=PT+Sans:400,700&subset=latin,cyrillic'
 
 		meta http-equiv="Content-Type" content="text/html" charset="utf-8"
 		meta name="viewport" content="width=device-width, initial-scale=1"
@@ -51,7 +52,7 @@ html
 									| Кинотеатры
 							li.dropdown
 								= link_to "#", :class => "dropdown-toggle", "data-toggle" => "dropdown"
-									| По дням
+									| По дням 
 									b.caret
 									- moment_of_now = Time.now
 									- moment_of_now -= 1.day if Time.now.hour < 2

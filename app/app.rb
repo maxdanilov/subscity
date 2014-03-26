@@ -7,6 +7,7 @@ module Subscity
     register Padrino::Helpers
     require 'json'
     require 'geocoder'
+    require 'active_support/core_ext'
 
     enable :sessions
 
@@ -79,7 +80,7 @@ module Subscity
         cache(request.cache_key, :expires => CACHE_TTL_LONG) do
             @city = City.get_by_domain(request.subdomains.first)
             @movies = @city.get_movies
-            @movies = @movies.sort_by { |a| a.title }
+            @movies = @movies.sort_by { |a| a.title.mb_chars.downcase.to_s }
             @new_movies = @movies.select {|a| (Time.now - a.created_at) <= 8.days}
             @screening_counts = Hash[@movies.map { |movie| {movie => movie.screenings_count(@city.city_id)}.flatten}]
             @cinemas_counts = Hash[@movies.map { |movie| {movie => movie.cinemas_count(@city.city_id)}.flatten}]
@@ -129,7 +130,7 @@ module Subscity
         cache(request.cache_key, :expires => CACHE_TTL_LONG) do
             @city = City.get_by_domain(request.subdomains.first)
             @movies = @city.get_movies
-            @movies = @movies.sort_by { |a| a.title }
+            @movies = @movies.sort_by { |a| a.title.mb_chars.downcase.to_s }
             @new_movies = @movies.select {|a| (Time.now - a.created_at) <= 8.days}
             @screening_counts = Hash[@movies.map { |movie| {movie => movie.screenings_count(@city.city_id)}.flatten}]
             @cinemas_counts = Hash[@movies.map { |movie| {movie => movie.cinemas_count(@city.city_id)}.flatten}]

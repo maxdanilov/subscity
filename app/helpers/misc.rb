@@ -46,6 +46,49 @@ def format_word_count(count, words)
 	count.to_s + " " + ret
 end
 
+def languages_format(langs)
+	langs.split(", ").map {|l| language(l)}.join(", ") rescue nil
+end
+
+def language(lang)
+	l = {
+			'English' => 'английский',
+			'Arabic' => 'арабский',
+			'Chinese' => 'китайский',
+			'Czech' => 'чешский',
+			'Danish' => 'датский',
+			'Dutch' => 'голландский',
+			'Finnish' => 'финский',
+			'French' => 'французский',
+			'German' => 'немецкий',
+			'Greek' => 'греческий',
+			'Hebrew' => 'иврит',
+			'Hindi' => 'хинди',
+			'Hungarian' => 'венгерский',
+			'Irish' => 'ирландский',
+			'Irish Gaelic' => 'ирландский',
+			'Italian' => 'итальянский',
+			'Japanese' => 'японский',
+			'Korean' => 'корейский',
+			'Mandarin' => 'китайский',
+			'Norwegian' => 'норвежский',
+			'Polish' => 'польский',
+			'Portuguese' => 'португальский',
+			'Romanian' => 'румынский',
+			'Russian' => 'русский',
+			'Serbian' => 'сербский',
+			'Somali' => 'сомалийский',
+			'Spanish' => 'испанский',
+			'Swedish' => 'шведский',
+			'Telugu' => 'телугу',
+			'Turkish' => 'турецкий',
+			'Urdu' => 'урду',
+			'Yiddish' => 'идиш'
+		}
+	
+	l[lang] || lang
+end
+
 def format_movies_count(count)
 	format_word_count(count, {1 => "фильм", 2 => "фильма", 5 => "фильмов"})
 end

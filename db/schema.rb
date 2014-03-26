@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(:version => 7) do
     t.boolean  "active"
     t.string   "title"
     t.string   "title_original"
+    t.string   "languages"
     t.text     "description"
     t.string   "director"
     t.text     "cast"

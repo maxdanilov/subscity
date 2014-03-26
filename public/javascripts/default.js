@@ -225,8 +225,8 @@ $(function() {
 	function movieCompareByTitle(a,b){
 		var fields = ["attr-title"];
 		
-		var contentA = ( $(a).attr(fields[0]));
-		var contentB = ( $(b).attr(fields[0]));
+		var contentA = ( $(a).attr(fields[0]).toLowerCase());
+		var contentB = ( $(b).attr(fields[0]).toLowerCase());
 		return (contentA < contentB) ? -1 : 1;
 	}
 	
