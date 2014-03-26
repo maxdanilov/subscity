@@ -10,6 +10,10 @@ span.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-tit
 					span.movie-title 
 						= link_to_movie(movie)
 						|  
+						- unless movie.languages.to_s.empty?
+							span.label.label-bg.label-default.age-restriction 
+								| #{movie.languages.split(", ").first.upcase[0..2] rescue nil}
+							|  
 						span.label.label-bg.label-default.age-restriction 
 							| #{movie.age_restriction}+
 						- if @new_movies.include? movie
