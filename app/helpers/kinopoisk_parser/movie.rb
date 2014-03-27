@@ -107,7 +107,7 @@ module KinopoiskParser
 
     # Returns a string containing movie description
     def description
-      search_by_itemprop 'description'
+      search_by_itemprop('description').gsub("\u0097", "—")
     end
 
     # Returns an integer kinopoisk rating vote count

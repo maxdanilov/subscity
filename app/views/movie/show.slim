@@ -33,6 +33,13 @@ table.table.table-bordered.table-condensed.table-curved.table-striped
 		td colspan = "1" 
 			span.movie-title 
 				=movie.title 
+				- unless movie.languages.to_s.empty?
+					|  
+					span.label.label-bg.label-default.age-restriction 
+						span.glyphicon.glyphicon-volume-up.language-icon
+						/|  #{movie.languages.split(", ").first.upcase[0..2] rescue nil}
+						|  #{language(movie.languages.split(", ").first) rescue nil}
+					|  
 				|  
 				<span class="label label-bg label-default age-restriction">#{movie.age_restriction}+</span>
 			- unless movie.title_original.nil?
@@ -84,7 +91,7 @@ table.table.table-bordered.table-condensed.table-curved.table-striped
 		tr
 			td colspan = "2" 
 				div
-					== movie.description.gsub("\n", "<br/>")
+					== movie.description.gsub("\r\n\r\n", "<br/>").gsub("\r\n", "<br/>")
 
 - if @screenings.count == 0
 	h2.text-center.like-navbar В ближайшее время сеансов на языке оригинала нет

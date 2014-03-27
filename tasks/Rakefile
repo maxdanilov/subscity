@@ -485,7 +485,8 @@ task :update_movie_kinopoisk, [:id, :kinopoisk_id, :imdb_id] => :environment do 
 					m.update_attribute(:title_original, k.title_en)
 					m.update_attribute(:director, k.directors.join(", "))
 					m.update_attribute(:cast, k.actors.join(", "))
-					
+					m.update_attribute(:year, k.year) if m.year.nil?
+
 					unless imdb_id.zero?
 						m.update_attribute(:imdb_id, imdb_id) 
 						begin
