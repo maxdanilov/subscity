@@ -15,6 +15,10 @@ table.table.table-condensed.table-curved.table-striped
 					| , 
 					- unless @cinema.address.to_s.empty?
 						= @cinema.address
+						|  [
+						a.underdashed href="http://maps.google.com/?q=#{@cinema.city.name}, кинотеатр #{@cinema.name}" target="_blank"
+							| карта
+						| ]
 	- unless @cinema.metro.to_s.empty?
 		tr
 			td
