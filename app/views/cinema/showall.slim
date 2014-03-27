@@ -31,6 +31,13 @@ h1.text-center.capitalize.like-navbar Кинотеатры (#{@city.name})
 											td
 												div.big-font
 													= link_to_movie(movie)
+													- unless movie.languages.to_s.empty?
+														|  
+														span.label.label-bg.label-default.age-restriction 
+															span.glyphicon.glyphicon-volume-up.language-icon
+															/|  #{movie.languages.split(", ").first.upcase[0..2] rescue nil}
+															|  #{language(movie.languages.split(", ").first) rescue nil}
+														|  
 													|  
 													<span class="label label-small label-default age-restriction">#{movie.age_restriction}+</span>
 													|  
