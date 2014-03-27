@@ -21,8 +21,7 @@ module KinopoiskParser
 
     # Returns an array of strings containing actor names
     def actors
-      doc.search("li[itemprop=actors] a").map{|n| n.text.gsub("\n",'').strip}
-        .delete_if{|text| text=='...'}
+      doc.search('#actorList ul')[0].search('li a').map(&:text).delete_if{|text| text=='...'} rescue []
     end
 
     # Returns a string containing title in russian

@@ -450,6 +450,28 @@ task :cleanup_screenings => :environment do |task|
 	stop_task(task, t)
 end
 
+desc 'force update of all active movies with kinopoisk data'
+task :update_movies_kinopoisk => :environment do |task|
+	t = start_task(task)
+	total = Movie.active.where('kinopoisk_id IS NOT NULL').count
+	Movie.active.where('kinopoisk_id IS NOT NULL').each_with_index do |m, index|
+		puts "[#{index + 1} / #{total}] #{m.title} ..."
+		k = KinopoiskParser::Movie.new m.kinopoisk_id
+		begin
+			m.update_attribute(:description, k.description)
+			m.update_attribute(:title_original, k.title_en) unless k.title_en.to_s.empty?
+			m.update_attribute(:director, k.directors.join(", "))
+			m.update_attribute(:cast, k.actors.join(", "))
+			m.update_attribute(:year, k.year) if m.year.nil?
+		rescue
+			puts "Error occured while fetching language for movie #{m.movie_id}".red
+		end
+		sleep rand(1..1.5)
+	end
+	Rake::Task[:clear_cache].invoke
+	stop_task(task, t)
+end
+
 desc 'force update of given movie with kinopoisk data'
 task :update_movie_kinopoisk, [:id, :kinopoisk_id, :imdb_id] => :environment do |task, args|
 	t = start_task(task)
