@@ -27,7 +27,7 @@ span.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-tit
 							span.badge.limited style="position:relative; top:-0px;"
 								| мало сеансов 
 					- unless movie.title_original.nil?
-						div.movie-title-original = movie.title_original
+						div.movie-title-original = movie.title_original.to_s.split("/").first
 				
 				- unless (movie.kinopoisk_id.nil? and movie.imdb_id.nil?) or ratings.nil?
 					td.col-md-3.text-center.rating-plates style="border-left-width: 0px;"

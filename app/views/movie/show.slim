@@ -37,13 +37,12 @@ table.table.table-bordered.table-condensed.table-curved.table-striped
 					|  
 					span.label.label-bg.label-default.age-restriction 
 						span.glyphicon.glyphicon-volume-up.language-icon
-						/|  #{movie.languages.split(", ").first.upcase[0..2] rescue nil}
 						|  #{language(movie.languages.split(", ").first) rescue nil}
 					|  
 				|  
 				<span class="label label-bg label-default age-restriction">#{movie.age_restriction}+</span>
 			- unless movie.title_original.nil?
-				div.movie-title-original = movie.title_original
+				div.movie-title-original = movie.title_original.to_s.split("/").first
 		
 	- unless movie.year.to_s.empty?
 		tr
