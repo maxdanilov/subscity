@@ -97,6 +97,9 @@ module Subscity
             @cities = City.all.to_a
             @cinemas = Cinema.all.to_a
             @movies = Movie.all.to_a
+
+            @movies_active =  Movie.order('created_at DESC').joins(:screenings).group(:movie_id).having("COUNT(screenings.id) > 0").to_a
+            @ratings = Rating.all
             render 'latest', layout: :layout
         end
     end

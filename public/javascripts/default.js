@@ -192,6 +192,20 @@ $(function() {
 		$(this).children(":first").toggleClass("glyphicon-chevron-up");
 	});
 	
+	$("#button-movies").click(function(){
+		$("#tab-movies").show();
+		$("#tab-screenings").hide();
+		$("#button-movies").addClass("active");
+		$("#button-screenings").removeClass("active");
+	});
+	
+	$("#button-screenings").click(function(){
+		$("#tab-screenings").show();
+		$("#tab-movies").hide();
+		$("#button-screenings").addClass("active");
+		$("#button-movies").removeClass("active");
+	});
+	
 	function movieCompareByIMDB(a,b){
 		var fields = ["attr-imdb", "attr-imdb-votes"];
 
@@ -283,6 +297,9 @@ $(function() {
 		window.setInterval(function(){
 			disablePassedScreenings();
 		}, 300 * 1000); // every 5 mins
+		
+		$("#button-screenings").addClass("active");
+		
 	});
 	
 });

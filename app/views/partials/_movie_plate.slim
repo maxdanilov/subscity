@@ -18,11 +18,11 @@ span.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-tit
 							|  
 						span.label.label-bg.label-default.age-restriction 
 							| #{movie.age_restriction}+
-						- if @new_movies.include? movie
+						- if defined? @new_movies and @new_movies.include? movie
 							|  
 							span.badge.new style="position:relative; top:-0px;"
 								| новый 
-						- if @screening_counts[movie] < 5
+						- if defined? @screening_counts and @screening_counts[movie] < 5
 							|  
 							span.badge.limited style="position:relative; top:-0px;"
 								| мало сеансов 
@@ -51,11 +51,12 @@ span.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-tit
 						= image_tag "posters/#{movie.movie_id}.jpg", :class => 'poster'
 					- else
 						= image_tag "transparent.png", :class => 'poster'
-
-					span.badge.count style="margin-top:5px;"
-						| #{format_screenings_count(@screening_counts[movie])} 
-					span.badge.count style="margin-top:5px;"
-						| #{format_cinemas_count(@cinemas_counts[movie])} 
+					- if defined? @screening_counts
+						span.badge.count style="margin-top:5px;"
+							| #{format_screenings_count(@screening_counts[movie])} 
+					- if defined? @cinemas_counts
+						span.badge.count style="margin-top:5px;"
+							| #{format_cinemas_count(@cinemas_counts[movie])} 
 
 				- unless movie.year.to_s.empty?
 					td.col-md-12 colspan="1"

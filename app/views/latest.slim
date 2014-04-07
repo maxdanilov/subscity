@@ -1,48 +1,68 @@
 - no_prices = @screenings.count { |s| s.price_min == nil }
 div.big-font Активных сеансов в базе: #{@screenings.count} (#{ no_prices } без цен)
 div.divider
-table.table.table-bordered.table-condensed.table-curved.table-striped.medium-font
-	tr
-		th.col-md-1.text-center
-			| Сеанс
-		th.col-md-1.text-center
-			| Дата
-		th.col-md-2.text-center
-			| Кинотеатр
-		th.col-md-2.text-center
-			| Фильм
-		th.col-md-1.text-center
-			| Цены
-		th.col-md-1.text-center
-			| Создано
-	- datePrev = 0
-	- @screenings.each do |s|
-		- cinema = @cinemas.detect {|c| c.cinema_id == s.cinema_id}
-		- movie = @movies.detect {|m| m.movie_id == s.movie_id}
-		- city = @cities.detect {|city| city.city_id == cinema.city_id}
-
-		- if (s.created_at.to_i - datePrev.to_i).abs > 3600
-			tr
-				td.text-center.big-font colspan = "6"
-					b
-						| #{s.created_at.strftime("%d.%m.%Y [%H ч]")}
-
+table.text-center.filters id="filters"
+	tbody
 		tr
-			td.text-center
-				a.underdashed href="#{KassaFetcher.url_for_session(s.screening_id, cinema.city_id)}"
-					| #{s.screening_id}
+			td
+				div.big-font.dark-shadowed
+					| Показать: 
+				div.btn-group
+					button.btn.btn-default.big-font.font-bold id="button-movies" type="button" фильмы
+					button.btn.btn-default.big-font.font-bold id="button-screenings" type="button" сеансы
+
+span
+	span id="tab-movies" style="display:none;"
+		span.movie-plates id="movie-plates"
+			- @movies_active.each do |movie|
+				div.text-center style="width:100%;margin-top:10px;"
+					= movie.created_at.strftime("%d.%m.%Y %H:%M")
+				- ratings = @ratings.detect { |r| r.movie_id == movie.movie_id}
+				= partial 'partials/movie_plate', :locals => { :movie => movie, :ratings => ratings }
+	div.divider
+	span id="tab-screenings"
+		table.table.table-bordered.table-condensed.table-curved.table-striped.medium-font
+			tr
+				th.col-md-1.text-center
+					| Сеанс
+				th.col-md-1.text-center
+					| Дата
+				th.col-md-2.text-center
+					| Кинотеатр
+				th.col-md-2.text-center
+					| Фильм
+				th.col-md-1.text-center
+					| Цены
+				th.col-md-1.text-center
+					| Создано
+			- datePrev = 0
+			- @screenings.each do |s|
+				- cinema = @cinemas.detect {|c| c.cinema_id == s.cinema_id}
+				- movie = @movies.detect {|m| m.movie_id == s.movie_id}
+				- city = @cities.detect {|city| city.city_id == cinema.city_id}
+
+				- if (s.created_at.to_i - datePrev.to_i).abs > 3600
+					tr
+						td.text-center.big-font colspan = "6"
+							b
+								| #{s.created_at.strftime("%d.%m.%Y [%H ч]")}
+
+				tr
+					td.text-center
+						a.underdashed href="#{KassaFetcher.url_for_session(s.screening_id, cinema.city_id)}"
+							| #{s.screening_id}
+						
+					td.text-center
+						| #{s.date_time.strftime("%d.%m.%Y %H:%M")}
+					td 
+						| [#{s.cinema_id}] 
+						= link_to_cinema(cinema)
+					td  
+						| [#{s.movie_id}] 
+						= link_to_movie(movie)
+					td.text-center
+						| [#{s.price_min} - #{s.price_max}]
+					td.text-center
+						| #{s.created_at.strftime("%d.%m.%Y %H:%M")}
 				
-			td.text-center
-				| #{s.date_time.strftime("%d.%m.%Y %H:%M")}
-			td 
-				| [#{s.cinema_id}] 
-				= link_to_cinema(cinema)
-			td  
-				| [#{s.movie_id}] 
-				= link_to_movie(movie)
-			td.text-center
-				| [#{s.price_min} - #{s.price_max}]
-			td.text-center
-				| #{s.created_at.strftime("%d.%m.%Y %H:%M")}
-		
-		- datePrev = s.created_at
+				- datePrev = s.created_at
