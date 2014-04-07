@@ -90,7 +90,7 @@ table.table.table-bordered.table-condensed.table-curved.table-striped
 	- unless movie.description.to_s.empty?
 		tr
 			td colspan = "2" 
-				div
+				div.justified
 					== movie.description.gsub("\r\n\r\n", "<br/>").gsub("\r\n", "<br/>")
 
 - if @screenings.count == 0

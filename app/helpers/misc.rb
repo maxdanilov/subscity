@@ -54,6 +54,7 @@ def language(lang)
 	l = {
 			'English' => 'английский',
 			'Arabic' => 'арабский',
+			'Catalan' => 'каталанский',
 			'Chinese' => 'китайский',
 			'Czech' => 'чешский',
 			'Danish' => 'датский',

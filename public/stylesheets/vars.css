@@ -1,1 +1,37 @@
-.font-bold{font-weight:700}.font-normal{font-weight:400}.button-hover{background-color:#edae50;border-color:#E5AA5E}.button-basic{background-image:linear-gradient(to bottom,#e8b876 0,#eac38c 50%,#e8b876 100%);background-color:rgba(238,198,137,.7);border-color:#E5AA5E}.slider-bg{background:#5d2066;background-image:linear-gradient(to right,#5d2066 0,#e04831 100%)}.slider-handle{background-image:linear-gradient(to bottom,#e8b876 0,#eac38c 50%,#e8b876 100%);border-color:#E5AA5E}
+/* General */
+/*1rem;*/
+/* Sizes, paddings, margins */
+/*6.375rem; */
+/* Font Sizes */
+/* Colors */
+/* Basic Colors */
+/* Borders */
+/* Labels */
+/* Generics */
+.font-bold {
+  font-weight: bold;
+}
+.font-normal {
+  font-weight: normal;
+}
+/* Buttons */
+.button-hover {
+  background-color: #edae50;
+  border-color: #E5AA5E;
+}
+.button-basic {
+  background-image: linear-gradient(to bottom, #e8b876 0%, #eac38c 50%, #e8b876 100%);
+  background-color: rgba(238, 198, 137, 0.7);
+  border-color: #E5AA5E;
+}
+/* Sliders */
+.slider-bg {
+  background: #5d2066;
+  /* Old browsers */
+  background-image: linear-gradient(to right, #5d2066 0%, #e04831 100%);
+  /* W3C */
+}
+.slider-handle {
+  background-image: linear-gradient(to bottom, #e8b876 0%, #eac38c 50%, #e8b876 100%);
+  border-color: #E5AA5E;
+}

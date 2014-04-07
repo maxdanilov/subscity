@@ -102,5 +102,5 @@ span.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-tit
 			- unless movie.description.to_s.empty?
 				tr.table-body
 					td colspan = "1" 
-						div
+						div.justified
 							== movie.description.gsub("\r\n\r\n", "<br/>").gsub("\r\n", "<br/>")
