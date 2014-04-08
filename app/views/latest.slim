@@ -55,7 +55,8 @@ span
 					td.text-center
 						| #{s.date_time.strftime("%d.%m.%Y %H:%M")}
 					td 
-						| [#{s.cinema_id}] 
+						/| [#{s.cinema_id}] 
+						| [#{city.domain}] 
 						= link_to_cinema(cinema)
 					td  
 						| [#{s.movie_id}] 

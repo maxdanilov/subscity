@@ -84,6 +84,7 @@ module Subscity
             @new_movies = @movies.select {|a| (Time.now - a.created_at) <= 8.days}
             @screening_counts = Hash[@movies.map { |movie| {movie => movie.screenings_count(@city.city_id)}.flatten}]
             @cinemas_counts = Hash[@movies.map { |movie| {movie => movie.cinemas_count(@city.city_id)}.flatten}]
+            @cinema_count = @city.get_sorted_cinemas.count
             @ratings = Rating.all
             #@title = "Фильмы"
             @show_about = true
@@ -137,6 +138,7 @@ module Subscity
             @new_movies = @movies.select {|a| (Time.now - a.created_at) <= 8.days}
             @screening_counts = Hash[@movies.map { |movie| {movie => movie.screenings_count(@city.city_id)}.flatten}]
             @cinemas_counts = Hash[@movies.map { |movie| {movie => movie.cinemas_count(@city.city_id)}.flatten}]
+            @cinema_count = @city.get_sorted_cinemas.count
             @ratings = Rating.all
             @title = "Фильмы"
             render 'movie/showall', layout: :layout

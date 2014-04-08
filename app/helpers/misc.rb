@@ -32,7 +32,7 @@ def format_price_range(min, max)
 	end
 end
 
-def format_word_count(count, words)
+def format_word(count, words)
 	unless count.to_i.between? 11, 14
 		case count.to_i % 10
 			when 1 then ret = words[1]
@@ -43,7 +43,11 @@ def format_word_count(count, words)
 	else
 		ret = words[5]
 	end
-	count.to_s + " " + ret
+	ret
+end
+
+def format_word_count(count, words)
+	count.to_s + " " + format_word(count, words)
 end
 
 def languages_format(langs)
@@ -91,28 +95,28 @@ def language(lang)
 	l[lang] || lang
 end
 
-def language_short(lang)
-	l = {
-			'French' => 'FRA',
-			'Spanish' => 'ESP',
-			'German' => 'DEU',
-			'Chinese' => 'CHN',
-			'Serbian' => 'SRB',
-			'Russian' => 'РУС'
-		}
-	l[lang] || lang[0..2].upcase
+def format_word_count_generic(count, with_number, words)
+	if with_number
+		format_word_count(count, words)
+	else
+		format_word(count, words)
+	end
 end
 
-def format_movies_count(count)
-	format_word_count(count, {1 => "фильм", 2 => "фильма", 5 => "фильмов"})
+def format_movies_count(count, with_number = true)
+	format_word_count_generic(count, with_number, {1 => "фильм", 2 => "фильма", 5 => "фильмов"})
 end
 
-def format_screenings_count(count)
-	format_word_count(count, {1 => "сеанс", 2 => "сеанса", 5 => "сеансов"})
+def format_screenings_count(count, with_number = true)
+	format_word_count_generic(count, with_number, {1 => "сеанс", 2 => "сеанса", 5 => "сеансов"})
 end
 
-def format_cinemas_count(count)
-	format_word_count(count, {1 => "кинотеатр", 2 => "кинотеатра", 5 => "кинотеатров"})
+def format_cinemas_count(count, with_number = true)
+	format_word_count_generic(count, with_number, {1 => "кинотеатр", 2 => "кинотеатра", 5 => "кинотеатров"})
+end
+
+def format_in_cinemas_count(count, with_number = true)
+	format_word_count_generic(count, with_number, {1 => "кинотеатре", 2 => "кинотеатрах", 5 => "кинотеатрах"})
 end
 
 def format_date_url(date)

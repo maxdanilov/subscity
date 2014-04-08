@@ -1,4 +1,16 @@
-h1.text-center.capitalize.like-navbar Фильмы на языке оригинала с русскими субтитрами (#{@city.name})
+h1.text-center.capitalize.like-navbar 
+	| Фильмы на языке оригинала с русскими субтитрами (#{@city.name})
+- unless @movies.count == 0
+	h4.text-center.capitalize.like-navbar
+			div style="font-size:18px;"
+				| В прокате идут 
+				span.label.label-bg.label-default.age-restriction.big-font 
+					= @movies.count
+				|  #{format_movies_count(@movies.count, false)} в 
+				span.label.label-bg.label-default.age-restriction.big-font
+					= @cinema_count
+				|  #{format_in_cinemas_count(@cinema_count, false)} города
+	
 = partial 'partials/filters_movies'
 
 - if @movies.count == 0
