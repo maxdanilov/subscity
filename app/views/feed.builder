@@ -3,11 +3,11 @@ xml.instruct! :xml, :version => "1.0"
     xml.channel do
       domain = "http://#{locals[:city].domain}.#{request.main_domain}"
       xml.title "SubsCity (#{locals[:city].name})"
-      xml.description "Лента последних фильмов расписания показа фильмов на языке оригинала (с субтитрами) в кинотеатрах Москвы и Санкт-Петербурга."
+      xml.description "Лента последних фильмов на языке оригинала (с субтитрами) в кинотеатрах Москвы и Санкт-Петербурга."
       xml.lastBuildDate Time.now.to_s(:rfc822)
       xml.link domain + url_for(:movies)
 
-      for movie in locals[:movies]
+      locals[:movies].each do |movie|
         title = movie.title
         title += " (#{movie.title_original})" unless movie.title_original.nil?
         description = movie.description.to_s
