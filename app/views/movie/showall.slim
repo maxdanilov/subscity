@@ -1,9 +1,9 @@
-h1.text-center.capitalize.like-navbar 
+h1.text-center.capitalize.like-navbar style="margin-bottom: 0px; border-bottom: 0px;"
 	| Фильмы на языке оригинала с русскими субтитрами (#{@city.name})
 - unless @movies.count == 0
 	h4.text-center.capitalize.like-navbar
 			div style="font-size:18px;"
-				| В прокате идут 
+				| Сейчас в прокате  
 				span.label.label-bg.label-default.age-restriction.big-font 
 					= @movies.count
 				|  #{format_movies_count(@movies.count, false)} в 

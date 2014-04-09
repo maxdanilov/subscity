@@ -130,18 +130,26 @@ module Subscity
             end
     end
 
-    get :movies do
-        cache(request.cache_key, :expires => CACHE_TTL_LONG) do
-            @city = City.get_by_domain(request.subdomains.first)
-            @movies = @city.get_movies
-            @movies = @movies.sort_by { |a| a.title.mb_chars.downcase.to_s }
-            @new_movies = @movies.select {|a| (Time.now - a.created_at) <= 8.days}
-            @screening_counts = Hash[@movies.map { |movie| {movie => movie.screenings_count(@city.city_id)}.flatten}]
-            @cinemas_counts = Hash[@movies.map { |movie| {movie => movie.cinemas_count(@city.city_id)}.flatten}]
-            @cinema_count = @city.get_sorted_cinemas.count
-            @ratings = Rating.all
-            @title = "Фильмы"
-            render 'movie/showall', layout: :layout
+    get :movies, :provides => [:html, :rss] do
+        case content_type
+            when :html
+                cache(request.cache_key, :expires => CACHE_TTL_LONG) do
+                    @city = City.get_by_domain(request.subdomains.first)
+                    @movies = @city.get_movies
+                    @movies = @movies.sort_by { |a| a.title.mb_chars.downcase.to_s }
+                    @new_movies = @movies.select {|a| (Time.now - a.created_at) <= 8.days}
+                    @screening_counts = Hash[@movies.map { |movie| {movie => movie.screenings_count(@city.city_id)}.flatten}]
+                    @cinemas_counts = Hash[@movies.map { |movie| {movie => movie.cinemas_count(@city.city_id)}.flatten}]
+                    @cinema_count = @city.get_sorted_cinemas.count
+                    @ratings = Rating.all
+                    @title = "Фильмы"
+                    render 'movie/showall', layout: :layout
+                end
+            when :rss
+                cache(request.cache_key, :expires => CACHE_TTL_LONG) do
+                    @movies_active =  Movie.order('created_at DESC').joins(:screenings).group(:movie_id).having("COUNT(screenings.id) > 0").to_a
+                    builder :feed, :locals => { :movies => @movies_active }
+                end
         end
     end
 
