@@ -146,9 +146,11 @@ module Subscity
                     render 'movie/showall', layout: :layout
                 end
             when :rss
-                cache(request.cache_key, :expires => CACHE_TTL_LONG) do
-                    @movies_active =  Movie.order('created_at DESC').joins(:screenings).group(:movie_id).having("COUNT(screenings.id) > 0").to_a
-                    builder :feed, :locals => { :movies => @movies_active }
+                cache(request.cache_key, :expires => CACHE_TTL) do
+                    @city = City.get_by_domain(request.subdomains.first)
+                    @movies_active = @city.get_movies.sort_by { |a| a.created_at }.reverse
+                    #@movies_active = Movie.order('created_at DESC').joins(:screenings).group(:movie_id).having("COUNT(screenings.id) > 0").to_a
+                    builder :feed, :locals => { :movies => @movies_active, :city => @city}
                 end
         end
     end

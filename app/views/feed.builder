@@ -1,8 +1,8 @@
 xml.instruct! :xml, :version => "1.0"
   xml.rss "version" => "2.0", "xmlns:dc" => "http://purl.org/dc/elements/1.1/" do
     xml.channel do
-      domain = 'http://' + request.main_domain
-      xml.title "SubsCity"
+      domain = "http://#{locals[:city].domain}.#{request.main_domain}"
+      xml.title "SubsCity (#{locals[:city].name})"
       xml.description "Лента последних фильмов расписания показа фильмов на языке оригинала (с субтитрами) в кинотеатрах Москвы и Санкт-Петербурга."
       xml.lastBuildDate Time.now.to_s(:rfc822)
       xml.link domain + url_for(:movies)
