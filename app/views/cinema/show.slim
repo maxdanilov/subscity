@@ -68,9 +68,15 @@ table.table.table-condensed.table-curved.table-striped
 						div.movie-title							
 							= link_to_movie(movie)
 							|  
-							<span class="label label-small label-default age-restriction">#{movie.age_restriction}+</span>
+							- unless movie.languages.to_s.empty?
+								span.label.label-bg.label-default.age-restriction 
+									span.glyphicon.glyphicon-volume-up.language-icon
+									|  #{language(movie.languages.split(", ").first) rescue nil}
+								|  
+							span.label.label-small.label-default.age-restriction 
+								| #{movie.age_restriction}+
 						- unless movie.title_original.nil?
-							div.movie-title-original.small-font = movie.title_original
+							div.movie-title-original.medium-font = movie.title_original.to_s.split("/").first
 					td.col-sm-7.col-xs-4
 						table
 							tr

@@ -2,7 +2,7 @@ doctype html
 html
 	head
 		= favicon_tag '/favicon.png', :type => 'image/png', :rel => 'shortcut icon'
-		= feed_tag(:rss, url(:movies, :format => :rss), :title => "RSS")
+		= feed_tag(:rss, url(:movies, :format => :rss), :title => "SubsCity (#{@city.name rescue City.get_by_domain(request.subdomains.first).name})")
 		= stylesheet_link_tag 'http://fonts.googleapis.com/css?family=PT+Sans:400,700&subset=latin,cyrillic'
 
 		meta http-equiv="Content-Type" content="text/html" charset="utf-8"

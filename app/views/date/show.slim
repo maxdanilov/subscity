@@ -10,11 +10,17 @@ h1.text-center.capitalize.like-navbar #{show_date(@date)}
 		h3.header-day.text-center 
 			= link_to_movie(movie)
 			|  
-			<span class="label label-small label-default age-restriction">#{movie.age_restriction}+</span>
+			- unless movie.languages.to_s.empty?
+				span.label.label-bg.label-default.age-restriction 
+					span.glyphicon.glyphicon-volume-up.language-icon
+					|  #{language(movie.languages.split(", ").first) rescue nil}
+				|  
+			span.label.label-small.label-default.age-restriction 
+				| #{movie.age_restriction}+
 			- unless movie.title_original.to_s.empty?
 				br
 				span.movie-title-original.text-center.big-font
-					= movie.title_original
+					= movie.title_original.to_s.split("/").first
 		table.table.table-bordered.table-condensed.table-curved.table-striped
 			- cinemas.each do |cinema, screenings|
 				tr.row-entity
