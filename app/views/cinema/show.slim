@@ -76,7 +76,7 @@ table.table.table-condensed.table-curved.table-striped
 							span.label.label-small.label-default.age-restriction 
 								| #{movie.age_restriction}+
 						- unless movie.title_original.nil?
-							div.movie-title-original.medium-font = movie.title_original.to_s.split("/").first
+							div.movie-title-original.medium-font = format_title(movie.title_original)
 					td.col-sm-7.col-xs-4
 						table
 							tr

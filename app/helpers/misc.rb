@@ -32,6 +32,10 @@ def format_price_range(min, max)
 	end
 end
 
+def format_title(title)
+	title.to_s.split("/").first.strip
+end
+
 def format_word(count, words)
 	unless count.to_i.between? 11, 14
 		case count.to_i % 10

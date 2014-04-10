@@ -42,7 +42,7 @@ table.table.table-bordered.table-condensed.table-curved.table-striped
 				|  
 				<span class="label label-bg label-default age-restriction">#{movie.age_restriction}+</span>
 			- unless movie.title_original.nil?
-				div.movie-title-original = movie.title_original.to_s.split("/").first
+				div.movie-title-original = format_title(movie.title_original)
 		
 	- unless movie.year.to_s.empty?
 		tr

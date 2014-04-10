@@ -20,7 +20,7 @@ h1.text-center.capitalize.like-navbar #{show_date(@date)}
 			- unless movie.title_original.to_s.empty?
 				br
 				span.movie-title-original.text-center.big-font
-					= movie.title_original.to_s.split("/").first
+					= format_title(movie.title_original)
 		table.table.table-bordered.table-condensed.table-curved.table-striped
 			- cinemas.each do |cinema, screenings|
 				tr.row-entity
