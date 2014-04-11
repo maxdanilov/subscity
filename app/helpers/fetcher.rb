@@ -4,7 +4,7 @@ class KassaFetcher
 	extend FetcherBase
 
 	DOMAIN = "http://m.kassa.rambler.ru/"
-	DOMAIN_DESKTOP = "http://kassa.rambler.ru/"
+	DOMAIN_DESKTOP = "https://kassa.rambler.ru/"
 	HOST = "m.kassa.rambler.ru"
 	WIDGET_HOST = "widget.kassa.rambler.ru"
 	WIDGET_DOMAIN = "https://widget.kassa.rambler.ru"

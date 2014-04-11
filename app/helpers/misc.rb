@@ -67,6 +67,7 @@ def language(lang)
 			'Czech' => 'чешский',
 			'Danish' => 'датский',
 			'Dutch' => 'голландский',
+			'Faroese' => 'фарерский',
 			'Finnish' => 'финский',
 			'French' => 'французский',
 			'German' => 'немецкий',

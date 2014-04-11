@@ -73,16 +73,18 @@ class KassaParser
 	def self.parse_movie_HTML(data)
 		doc = Hpricot(data) rescue nil
 		return nil if doc.nil?
-		title = (doc/"div.primary-col > h1[@itemprop='name']").first.inner_text rescue nil
-		genres = (doc/"div.primary-col > div").first.inner_text rescue nil
-		title_original = (doc/"div.primary-col > p:not(.event-header_type)").first.inner_text rescue nil
-		title_original = nil if (doc/"div.primary-col > p:not(.event-header_type)").first.search("span").length > 0
-		#title_original = (doc/"h1[@itemprop='name'] ~ p:not(.event-header_type):empty").first.inner_text rescue nil
-		country = (doc/"div.primary-col > p:not(.event-header_type) span:nth-child(1)").inner_text[0...-1] rescue nil
-		year = (doc/"div.primary-col > p:not(.event-header_type) span:nth-child(2)").inner_text.to_i rescue nil
-		duration = (doc/"div.primary-col > p:not(.event-header_type) span:nth-child(3)").inner_text.to_i rescue nil
-		age_restriction = (doc/"div.primary-col > p:not(.event-header_type) b").inner_text.to_i rescue nil
-		poster = (doc/"div.pull-right > img").first[:src] rescue nil
+		title = (doc/"h1.item_title").first.inner_text rescue nil
+		genres = (doc/"div.item_data__type").first.inner_text rescue nil
+		title_original = (doc/"h2.item_title2").first.inner_text rescue nil
+
+		extra_info = (doc/"div.item_data__years").first.inner_text.split(',') rescue []
+		country = extra_info[0].strip rescue nil
+		year = extra_info[1].strip rescue nil
+		duration = extra_info[2].split(' ')[0].to_i rescue nil
+		age_restriction = extra_info[2].split(' ')[2].to_i rescue nil
+
+		poster = (doc/"div.item_img > img").first[:src] rescue nil
+		poster = nil if poster =~ /empty/
 		
 		{   :title => title, 
 			:title_original => title_original, 
