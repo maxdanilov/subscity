@@ -78,10 +78,10 @@ class KassaParser
 		title_original = (doc/"h2.item_title2").first.inner_text rescue nil
 
 		extra_info = (doc/"div.item_data__years").first.inner_text.split(',') rescue []
-		country = extra_info[0].strip rescue nil
-		year = extra_info[1].strip rescue nil
-		duration = extra_info[2].split(' ')[0].to_i rescue nil
-		age_restriction = extra_info[2].split(' ')[2].to_i rescue nil
+		country = extra_info[0...-2].join(',').strip rescue nil
+		year = extra_info[-2].strip rescue nil
+		duration = extra_info[-1].split(' ')[0].to_i rescue nil
+		age_restriction = extra_info[-1].split(' ')[2].to_i rescue nil
 
 		poster = (doc/"div.item_img > img").first[:src] rescue nil
 		poster = nil if poster =~ /empty/

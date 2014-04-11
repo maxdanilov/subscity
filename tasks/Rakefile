@@ -597,7 +597,10 @@ end
 task :testtask => :environment do |task|
 	t = start_task(task)
 	puts "Output test! is TTY: #{STDOUT.tty?}".green
+	
 	puts KassaParser.parse_movie_HTML(KassaFetcher.fetch_movie(8401))
 	puts KassaParser.parse_movie_HTML(KassaFetcher.fetch_movie(59074))
+	puts KassaParser.parse_movie_HTML(KassaFetcher.fetch_movie(60604))
+
 	stop_task(task, t)
 end
