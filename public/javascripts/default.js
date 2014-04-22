@@ -283,6 +283,9 @@ $(function() {
 	/* When document is ready */
 	
 	$( document ).ready(function(){
+	    
+		$("html").niceScroll({styler:"fb",cursorcolor:"#000"});
+	
 		activateFilterButton($("#button-all-day"));
 		buttonFilterPressed = "all-day";
 		priceSliderValue = PRICE_MAX;

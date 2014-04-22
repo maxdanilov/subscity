@@ -1,5 +1,7 @@
 - no_prices = @screenings.count { |s| s.price_min == nil }
+- mid_price = @screenings.reduce(0) {|sum, s| sum + s.price_min.to_i} / @screenings.count {|s| s.price_min.nil? == false}
 div.big-font Активных сеансов в базе: #{@screenings.count} (#{ no_prices } без цен)
+div.big-font Средняя цена билета: #{mid_price} руб.
 div.divider
 table.text-center.filters id="filters"
 	tbody
