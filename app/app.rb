@@ -177,6 +177,18 @@ module Subscity
         end
     end
 
+    get :movie_update, :with => [:id, :kinopoisk_id, :imdb_id], :id => /\d+/, :kinopoisk_id => /\d+/, :imdb_id => /t{0,2}\d+/ do
+        if ADMIN_IP == request.ip
+            #cmd = "cd #{File.dirname(__FILE__)}/../tasks && rake update_movie_kinopoisk[#{params[:id]},#{params[:kinopoisk_id]},#{params[:imdb_id]}] --trace 2>&1 >> /home/nas/rake.log &"
+            cmd = "cd #{File.dirname(__FILE__)}/../tasks && rake update_movie_kinopoisk[#{params[:id]},#{params[:kinopoisk_id]},#{params[:imdb_id]}] &"
+            system(cmd)
+            sleep 3
+            redirect url(:movies, :id => params[:id])
+        else
+            render 'errors/404', layout: :layout
+        end
+    end
+
     get :cinemas, :with => :id, :id => /\d+/ do
         begin
             cache(request.cache_key, :expires => CACHE_TTL) do

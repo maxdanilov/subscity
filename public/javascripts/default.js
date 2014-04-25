@@ -284,7 +284,7 @@ $(function() {
 	
 	$( document ).ready(function(){
 	    
-		$("html").niceScroll({styler:"fb",cursorcolor:"#000"});
+		//$("html").niceScroll({styler:"fb",cursorcolor:"#000"});
 	
 		activateFilterButton($("#button-all-day"));
 		buttonFilterPressed = "all-day";

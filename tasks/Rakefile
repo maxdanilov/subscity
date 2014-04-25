@@ -19,7 +19,7 @@ task :environment do
 	end
 
 	require 'open-uri'
-	require './../db/.credentials'
+	require_relative './../db/.credentials'
 
 	ROOT_PATH = '../'
 	DIRS = [ROOT_PATH + 'app/helpers', ROOT_PATH + 'models']
@@ -483,20 +483,21 @@ task :update_movie_kinopoisk, [:id, :kinopoisk_id, :imdb_id] => :environment do 
 		unless Movie.exists?(id)
 			puts "Error: movie with id = #{id} wasn't found.".red
 		else
-			puts "Do you really want to change this movie info?".yellow
+			#puts "Do you really want to change this movie info?".yellow
 			m = Movie.where(:id => id).first
 			puts m
-			print "[y/n]:".green
-			update_flag = false
-			while true
-				case STDIN.gets.strip.downcase
-					when 'y', 'yes'
-        				update_flag = true
-        				break
-      				when /\Ano?\Z/ #n or no
-        				break 
-				end
-			end
+			#print "[y/n]:".green
+			update_flag = true
+			#update_flag = false
+			#while true
+			#	case STDIN.gets.strip.downcase
+			#		when 'y', 'yes'
+        	#			update_flag = true
+        	#			break
+      		#		when /\Ano?\Z/ #n or no
+        	#			break 
+			#	end
+			#end
 
 			if update_flag
 				k = KinopoiskParser::Movie.new kinopoisk_id
@@ -577,7 +578,7 @@ end
 desc 'fill file cache'
 task :fill_cache => :environment do |task|
 	t = start_task(task)
-    pages = ["cinemas", "movies", "", "dates/#{format_date_url(Time.now)}", "dates/#{format_date_url(Time.now + 1.day)}"]
+    pages = ["movies.rss", "movies", "", "dates/#{format_date_url(Time.now)}", "dates/#{format_date_url(Time.now + 1.day)}"]
     domains = City.active.pluck(:domain)
 
     domains.each do |d|

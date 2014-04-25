@@ -45,4 +45,4 @@ h1.text-center.capitalize.like-navbar Кинотеатры (#{@city.name})
 														|  #{format_screenings_count(screenings_count)} 
 													- unless movie.title_original.to_s.empty?
 														br
-														span.movie-title-original.small-font =movie.title_original
+														span.movie-title-original.small-font =format_title(movie.title_original)

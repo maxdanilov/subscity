@@ -44,7 +44,7 @@ table.table.table-bordered.table-condensed.table-curved.table-striped
 			- unless movie.title_original.nil?
 				div.movie-title-original = format_title(movie.title_original)
 		
-	- unless movie.year.to_s.empty?
+	- unless movie.year.to_s.empty? or movie.year == 0
 		tr
 			td.col-md-12 colspan="2" 
 				div
@@ -56,7 +56,7 @@ table.table.table-bordered.table-condensed.table-curved.table-striped
 				div
 					strong Жанр: 
 					= movie.genres
-	- unless movie.duration.to_i == 0
+	- unless movie.duration.to_i == 0 or movie.duration.to_i > 2000
 		tr
 			td.col-md-12 colspan="2" 
 				div

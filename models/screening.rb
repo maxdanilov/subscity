@@ -16,7 +16,7 @@ class Screening < ActiveRecord::Base
 	scope :on_date, ->(date) { where(:date_time => time_range_on_day(date)) }
 	scope :no_prices, -> { where(:price_max => nil) }
 
-	scope :active, -> { where('date_time > ?', Time.now) }
+	scope :active, -> { where('date_time > ? AND date_time < ?', Time.now, Time.now + 14.days) }
 	scope :inactive, -> { where('date_time <= ?', Time.now) }
 
 	scope :in_city, ->(city_id) { joins(:cinema).where("city_id = ?", city_id) }
