@@ -33,7 +33,7 @@ def format_price_range(min, max)
 end
 
 def format_title(title)
-	title.to_s.split("/").first.strip
+	title.to_s.split("/").first.to_s.strip
 end
 
 def format_word(count, words)
@@ -61,12 +61,16 @@ end
 def language(lang)
 	l = {
 			'English' => 'английский',
+			'Aboriginal' => 'аборигенский',
 			'Arabic' => 'арабский',
+			'Afrikaans' => 'африкаанс',
+			'Bulgarian' => 'болгарский',
 			'Catalan' => 'каталанский',
 			'Chinese' => 'китайский',
 			'Czech' => 'чешский',
 			'Danish' => 'датский',
 			'Dutch' => 'голландский',
+			'Estonian' => 'эстонский',
 			'Faroese' => 'фарерский',
 			'Finnish' => 'финский',
 			'French' => 'французский',
@@ -75,25 +79,33 @@ def language(lang)
 			'Hebrew' => 'иврит',
 			'Hindi' => 'хинди',
 			'Hungarian' => 'венгерский',
+			'Icelandic' => 'исландский',
 			'Irish' => 'ирландский',
 			'Irish Gaelic' => 'ирландский',
 			'Italian' => 'итальянский',
 			'Japanese' => 'японский',
 			'Korean' => 'корейский',
+			'Lithuanian' => 'литовский',
+			'Latvian' => 'латышский',
 			'Mandarin' => 'китайский',
+			'Navajo' => 'навахо',
 			'Norwegian' => 'норвежский',
 			'Polish' => 'польский',
 			'Portuguese' => 'португальский',
 			'Romanian' => 'румынский',
 			'Russian' => 'русский',
 			'Serbian' => 'сербский',
+			'Slovenian' => 'словенский',
+			'Slovakian' => 'словацкий',
 			'Somali' => 'сомалийский',
 			'Spanish' => 'испанский',
 			'Swedish' => 'шведский',
+			'Swiss German' => 'немецкий (швейцарский диалект)',
 			'Telugu' => 'телугу',
 			'Turkish' => 'турецкий',
 			'Urdu' => 'урду',
 			'Ukrainian' => 'украинский',
+			'Wolof' => 'волоф',
 			'Yiddish' => 'идиш'
 		}
 	
@@ -139,4 +151,8 @@ end
 
 def link_to_date(day)	
 	link_to(show_date(day), url(:dates, day), :class => 'underdashed')
+end
+
+def url_title(movie)
+	movie.title.gsub! ' ', '-'
 end

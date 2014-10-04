@@ -304,5 +304,20 @@ $(function() {
 		$("#button-screenings").addClass("active");
 		
 	});
-	
+       
 });
+
+// bg parallax
+function onLoad() {
+	return;
+	/*window.onscroll = function() {
+		document.body.style.backgroundPosition = "0px " + (-window.pageYOffset / 10) + "px";
+	}*/
+}
+/*
+$(document).ready(
+  function() { 
+    $("html").niceScroll();
+  }
+);
+*/

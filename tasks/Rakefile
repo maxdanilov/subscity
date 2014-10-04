@@ -177,7 +177,7 @@ task :update_movies => :environment do |task|
 							#id = Cinemate.get_movie_id(c.title, key, c.year)
 							id = Cinemate.get_movie_id(Cinemate.prepare_title(Cinemate.prepare_title_for_search(c.title)), key, c.year)
 							unless id.nil?
-								c, changed = Cinemate.fill_with_data(c, id)
+								#c, changed = Cinemate.fill_with_data(c, id)
 
 								#update ratings
 								Kinopoisk.update_ratings(c) unless c.kinopoisk_id.nil? 
@@ -312,7 +312,7 @@ task :update_movies_from_cinemas => :environment do |task|
 
 	# marking as active
 	movies.each do |m|
-		Movie.get_movie(m).update_attribute(:active, true)
+		Movie.get_movie(m).update_attribute(:active, true) rescue nil
 	end
 
 	stop_task(task, t)
@@ -515,8 +515,20 @@ task :update_movie_kinopoisk, [:id, :kinopoisk_id, :imdb_id] => :environment do 
 						begin
 							movie = Imdb::Movie.new(m.imdb_id.to_s)
 							langs = movie.languages.join(", ")
-							puts "#{movie.title} [#{langs}]"
+							puts "#{movie.title} [#{langs}] [#{movie.plot_summary}]"												
 							m.update_attribute(:languages, langs)
+							if m.title_original.to_s.empty? and !movie.title.empty?
+								m.update_attribute(:title_original, movie.title)
+							end
+
+							if m.description.to_s.empty? and !movie.plot_summary.empty?
+								m.update_attribute(:description, movie.plot_summary)
+							end
+
+							if m.title_original.to_s.empty? and !movie.title.empty?
+								m.update_attribute(:title_original, movie.title)
+							end
+
 						rescue
 							puts "Error occured while fetching language for movie #{m.movie_id}".red
 						end

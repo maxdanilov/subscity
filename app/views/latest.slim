@@ -41,6 +41,12 @@ span
 			- @screenings.each do |s|
 				- cinema = @cinemas.detect {|c| c.cinema_id == s.cinema_id}
 				- movie = @movies.detect {|m| m.movie_id == s.movie_id}
+				- if cinema.nil?
+					tr
+						td
+							| #{s.cinema_id}
+				- if cinema.nil?
+					- next
 				- city = @cities.detect {|city| city.city_id == cinema.city_id}
 
 				- if (s.created_at.to_i - datePrev.to_i).abs > 3600
