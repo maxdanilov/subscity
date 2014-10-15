@@ -1,0 +1,396 @@
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-09-22 10:00:09 +0400] Starting task update_cinemas
+.......95 cinemas fetched, 0 updated in the base
+
+[<-][2014-09-22 10:00:17 +0400] Task update_cinemas took 7.995 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-09-22 14:00:05 +0400] Starting task update_cinemas
+.........95 cinemas fetched, 0 updated in the base
+
+[<-][2014-09-22 14:00:15 +0400] Task update_cinemas took 9.699 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-09-23 10:00:08 +0400] Starting task update_cinemas
+........95 cinemas fetched, 0 updated in the base
+
+[<-][2014-09-23 10:00:16 +0400] Task update_cinemas took 8.329 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-09-23 14:00:06 +0400] Starting task update_cinemas
+.......95 cinemas fetched, 0 updated in the base
+
+[<-][2014-09-23 14:00:13 +0400] Task update_cinemas took 7.486 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-09-24 10:00:09 +0400] Starting task update_cinemas
+.........95 cinemas fetched, 0 updated in the base
+
+[<-][2014-09-24 10:00:19 +0400] Task update_cinemas took 9.771 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-09-24 14:00:05 +0400] Starting task update_cinemas
+.......95 cinemas fetched, 0 updated in the base
+
+[<-][2014-09-24 14:00:13 +0400] Task update_cinemas took 7.44 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-09-25 10:00:06 +0400] Starting task update_cinemas
+.....94 cinemas fetched, 0 updated in the base
+
+[<-][2014-09-25 10:00:12 +0400] Task update_cinemas took 5.98 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-09-25 14:00:09 +0400] Starting task update_cinemas
+.......95 cinemas fetched, 0 updated in the base
+
+[<-][2014-09-25 14:00:16 +0400] Task update_cinemas took 7.329 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-09-26 10:00:06 +0400] Starting task update_cinemas
+.......94 cinemas fetched, 0 updated in the base
+
+[<-][2014-09-26 10:00:13 +0400] Task update_cinemas took 7.463 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-09-26 14:00:09 +0400] Starting task update_cinemas
+.......95 cinemas fetched, 0 updated in the base
+
+[<-][2014-09-26 14:00:16 +0400] Task update_cinemas took 7.542 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-09-27 10:00:06 +0400] Starting task update_cinemas
+........94 cinemas fetched, 0 updated in the base
+
+[<-][2014-09-27 10:00:14 +0400] Task update_cinemas took 8.248 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-09-27 14:00:10 +0400] Starting task update_cinemas
+......95 cinemas fetched, 0 updated in the base
+
+[<-][2014-09-27 14:00:16 +0400] Task update_cinemas took 6.19 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-09-28 10:00:07 +0400] Starting task update_cinemas
+.......95 cinemas fetched, 0 updated in the base
+
+[<-][2014-09-28 10:00:15 +0400] Task update_cinemas took 7.738 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-09-28 14:00:08 +0400] Starting task update_cinemas
+.......95 cinemas fetched, 0 updated in the base
+
+[<-][2014-09-28 14:00:16 +0400] Task update_cinemas took 7.238 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-09-29 10:00:07 +0400] Starting task update_cinemas
+........92 cinemas fetched, 0 updated in the base
+
+[<-][2014-09-29 10:00:15 +0400] Task update_cinemas took 8.059 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-09-29 14:00:07 +0400] Starting task update_cinemas
+........95 cinemas fetched, 0 updated in the base
+
+[<-][2014-09-29 14:00:15 +0400] Task update_cinemas took 8.196 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-09-30 10:00:08 +0400] Starting task update_cinemas
+.......95 cinemas fetched, 0 updated in the base
+
+[<-][2014-09-30 10:00:15 +0400] Task update_cinemas took 7.136 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-09-30 14:00:06 +0400] Starting task update_cinemas
+.........95 cinemas fetched, 0 updated in the base
+
+[<-][2014-09-30 14:00:16 +0400] Task update_cinemas took 9.785 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-10-01 10:00:06 +0400] Starting task update_cinemas
+.......95 cinemas fetched, 0 updated in the base
+
+[<-][2014-10-01 10:00:13 +0400] Task update_cinemas took 7.918 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-10-01 14:00:07 +0400] Starting task update_cinemas
+.........95 cinemas fetched, 0 updated in the base
+
+[<-][2014-10-01 14:00:17 +0400] Task update_cinemas took 9.854 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-10-02 10:00:07 +0400] Starting task update_cinemas
+........94 cinemas fetched, 0 updated in the base
+
+[<-][2014-10-02 10:00:15 +0400] Task update_cinemas took 8.142 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-10-02 14:00:05 +0400] Starting task update_cinemas
+.........95 cinemas fetched, 0 updated in the base
+
+[<-][2014-10-02 14:00:15 +0400] Task update_cinemas took 9.457 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-10-03 10:00:05 +0400] Starting task update_cinemas
+.......95 cinemas fetched, 0 updated in the base
+
+[<-][2014-10-03 10:00:13 +0400] Task update_cinemas took 7.46 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-10-03 14:00:08 +0400] Starting task update_cinemas
+.......95 cinemas fetched, 0 updated in the base
+
+[<-][2014-10-03 14:00:15 +0400] Task update_cinemas took 7.639 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-10-04 10:00:06 +0400] Starting task update_cinemas
+.......95 cinemas fetched, 0 updated in the base
+
+[<-][2014-10-04 10:00:13 +0400] Task update_cinemas took 7.258 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-10-04 14:00:10 +0400] Starting task update_cinemas
+........95 cinemas fetched, 0 updated in the base
+
+[<-][2014-10-04 14:00:18 +0400] Task update_cinemas took 8.58 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-10-05 10:00:06 +0400] Starting task update_cinemas
+.......95 cinemas fetched, 0 updated in the base
+
+[<-][2014-10-05 10:00:13 +0400] Task update_cinemas took 7.246 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-10-05 14:00:05 +0400] Starting task update_cinemas
+......95 cinemas fetched, 0 updated in the base
+
+[<-][2014-10-05 14:00:11 +0400] Task update_cinemas took 6.047 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-10-06 10:00:09 +0400] Starting task update_cinemas
+.......95 cinemas fetched, 0 updated in the base
+
+[<-][2014-10-06 10:00:16 +0400] Task update_cinemas took 7.655 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-10-06 14:00:09 +0400] Starting task update_cinemas
+.........95 cinemas fetched, 0 updated in the base
+
+[<-][2014-10-06 14:00:18 +0400] Task update_cinemas took 9.597 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-10-07 10:00:05 +0400] Starting task update_cinemas
+.......95 cinemas fetched, 0 updated in the base
+
+[<-][2014-10-07 10:00:13 +0400] Task update_cinemas took 7.701 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-10-07 14:00:06 +0400] Starting task update_cinemas
+.........95 cinemas fetched, 0 updated in the base
+
+[<-][2014-10-07 14:00:15 +0400] Task update_cinemas took 9.609 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-10-08 10:00:08 +0400] Starting task update_cinemas
+........95 cinemas fetched, 0 updated in the base
+
+[<-][2014-10-08 10:00:16 +0400] Task update_cinemas took 8.417 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-10-08 14:00:06 +0400] Starting task update_cinemas
+......95 cinemas fetched, 0 updated in the base
+
+[<-][2014-10-08 14:00:13 +0400] Task update_cinemas took 6.818 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-10-09 10:00:06 +0400] Starting task update_cinemas
+.......95 cinemas fetched, 0 updated in the base
+
+[<-][2014-10-09 10:00:14 +0400] Task update_cinemas took 7.62 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-10-09 14:00:05 +0400] Starting task update_cinemas
+.......95 cinemas fetched, 0 updated in the base
+
+[<-][2014-10-09 14:00:13 +0400] Task update_cinemas took 7.433 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-10-10 10:00:09 +0400] Starting task update_cinemas
+......94 cinemas fetched, 0 updated in the base
+
+[<-][2014-10-10 10:00:16 +0400] Task update_cinemas took 6.635 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-10-10 14:00:06 +0400] Starting task update_cinemas
+...........94 cinemas fetched, 0 updated in the base
+
+[<-][2014-10-10 14:00:18 +0400] Task update_cinemas took 11.907 seconds to run
+--------------------------------------------------------------------------------
+
+rake aborted!
+undefined method `each' for nil:NilClass
+/home/nas/padrino_projects/subscity/tasks/Rakefile:338:in `block (3 levels) in <top (required)>'
+/home/nas/padrino_projects/subscity/tasks/Rakefile:335:in `loop'
+/home/nas/padrino_projects/subscity/tasks/Rakefile:335:in `block (2 levels) in <top (required)>'
+/home/nas/padrino_projects/subscity/tasks/Rakefile:331:in `each'
+/home/nas/padrino_projects/subscity/tasks/Rakefile:331:in `block in <top (required)>'
+/home/nas/.rvm/gems/ruby-2.1.0@railstutorial_rails_4_0/bin/ruby_executable_hooks:15:in `eval'
+/home/nas/.rvm/gems/ruby-2.1.0@railstutorial_rails_4_0/bin/ruby_executable_hooks:15:in `<main>'
+Tasks: TOP => update_cinemas
+(See full trace by running task with --trace)
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-10-11 10:00:09 +0400] Starting task update_cinemas
+................................................................................rake aborted!
+undefined method `each' for nil:NilClass
+/home/nas/padrino_projects/subscity/tasks/Rakefile:338:in `block (3 levels) in <top (required)>'
+/home/nas/padrino_projects/subscity/tasks/Rakefile:335:in `loop'
+/home/nas/padrino_projects/subscity/tasks/Rakefile:335:in `block (2 levels) in <top (required)>'
+/home/nas/padrino_projects/subscity/tasks/Rakefile:331:in `each'
+/home/nas/padrino_projects/subscity/tasks/Rakefile:331:in `block in <top (required)>'
+/home/nas/.rvm/gems/ruby-2.1.0@railstutorial_rails_4_0/bin/ruby_executable_hooks:15:in `eval'
+/home/nas/.rvm/gems/ruby-2.1.0@railstutorial_rails_4_0/bin/ruby_executable_hooks:15:in `<main>'
+Tasks: TOP => update_cinemas
+(See full trace by running task with --trace)
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-10-11 14:00:06 +0400] Starting task update_cinemas
+................................................................................Init complete
+--------------------------------------------------------------------------------
+[->][2014-10-12 10:00:08 +0400] Starting task update_cinemas
+..............94 cinemas fetched, 0 updated in the base
+
+[<-][2014-10-12 10:00:23 +0400] Task update_cinemas took 14.958 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-10-12 14:00:06 +0400] Starting task update_cinemas
+............94 cinemas fetched, 0 updated in the base
+
+[<-][2014-10-12 14:00:18 +0400] Task update_cinemas took 12.742 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-10-13 10:00:08 +0400] Starting task update_cinemas
+........94 cinemas fetched, 0 updated in the base
+
+[<-][2014-10-13 10:00:16 +0400] Task update_cinemas took 8.454 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-10-13 14:00:06 +0400] Starting task update_cinemas
+.......94 cinemas fetched, 0 updated in the base
+
+[<-][2014-10-13 14:00:13 +0400] Task update_cinemas took 7.361 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-10-14 10:00:06 +0400] Starting task update_cinemas
+.........94 cinemas fetched, 0 updated in the base
+
+[<-][2014-10-14 10:00:15 +0400] Task update_cinemas took 9.201 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-10-14 14:00:06 +0400] Starting task update_cinemas
+.....94 cinemas fetched, 0 updated in the base
+
+[<-][2014-10-14 14:00:12 +0400] Task update_cinemas took 5.914 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-10-15 10:00:07 +0400] Starting task update_cinemas
+........94 cinemas fetched, 0 updated in the base
+
+[<-][2014-10-15 10:00:15 +0400] Task update_cinemas took 8.083 seconds to run
+--------------------------------------------------------------------------------
+
+Init complete
+--------------------------------------------------------------------------------
+[->][2014-10-15 14:00:05 +0400] Starting task update_cinemas
+.......94 cinemas fetched, 0 updated in the base
+
+[<-][2014-10-15 14:00:13 +0400] Task update_cinemas took 7.699 seconds to run
+--------------------------------------------------------------------------------
+
