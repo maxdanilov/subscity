@@ -20,7 +20,6 @@ module Subscity
     #CACHE_TTL = 1 # in seconds
     #Padrino.cache = Padrino::Cache.new(:File, :dir => Padrino.root('tmp', app_name.to_s, 'cache'))
     Padrino.cache = Padrino::Cache.new(:File, :dir => FileCache.dir)
-
     #
     # You can customize caching store engines:
     #
@@ -169,6 +168,9 @@ module Subscity
                 @price_min = screenings_flat.map{ |s| s.price_min}.compact.min rescue nil
                 @price_max = screenings_flat.map{ |s| s.price_max}.compact.max rescue nil
                 @title = @movie.title
+                if not @movie.title_original.to_s.empty?
+                    @title += " (#{@movie.title_original})"
+                end
                 render 'movie/show', layout: :layout
             end
         rescue ActiveRecord::RecordNotFound => e
@@ -190,8 +192,11 @@ module Subscity
 
                 screenings_flat = @movie.screenings.active
                 @price_min = screenings_flat.map{ |s| s.price_min}.compact.min rescue nil
-                @price_max = screenings_flat.map{ |s| s.price_max}.compact.max rescue nil
+                @price_max = screenings_flat.map{ |s| s.price_max}.compact.max rescue nil        
                 @title = @movie.title
+                if not @movie.title_original.to_s.empty?
+                    @title += " (#{@movie.title_original})"
+                end
                 render 'movie/show', layout: :layout
             end
         rescue ActiveRecord::RecordNotFound => e

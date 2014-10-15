@@ -34,15 +34,16 @@ h1.text-center.capitalize.like-navbar #{show_date(@date)}
 					td.col-sm-8.col-xs-4
 						table
 							tbody
-								tr
-									- screenings.each do |screening|
-										td.text-center.cell-screenings attr-price=screening.price_min attr-time-of-day=time_of_day(screening.date_time) attr-time=screening.date_time.to_i
-									 		a.btn.btn-default.navbar-btn.price-button href="http://kassa.rambler.ru/place/#{cinema.cinema_id}?date=#{@date.strftime("%Y.%m.%d")}" target="_blank"
-									 			= show_time(screening.date_time)
-									 		- style=price_tag_style(screening.price_min)
-									 		- transparency = screening.price_min.to_i == 0 ? "pseudo-hidden" : ""
-									 		/br
-									 		<span class="label label-bg #{style} #{transparency} price-label btn-block">#{format_price(screening.price_min)}</span>
+								- screenings.to_a.each_slice(10).to_a.each do |screening_set|	
+									tr
+										- screening_set.each do |screening|
+											td.text-center.cell-screenings attr-price=screening.price_min attr-time-of-day=time_of_day(screening.date_time) attr-time=screening.date_time.to_i
+										 		a.btn.btn-default.navbar-btn.price-button href="http://kassa.rambler.ru/place/#{cinema.cinema_id}?date=#{@date.strftime("%Y.%m.%d")}" target="_blank"
+										 			= show_time(screening.date_time)
+										 		- style=price_tag_style(screening.price_min)
+										 		- transparency = screening.price_min.to_i == 0 ? "pseudo-hidden" : ""
+										 		/br
+										 		<span class="label label-bg #{style} #{transparency} price-label btn-block">#{format_price(screening.price_min)}</span>
 								 		
 		h3.text-center.like-navbar id="nothing-found"
 			| Ничего не найдено. Смягчите условия поиска.
