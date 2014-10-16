@@ -314,6 +314,12 @@ function onLoad() {
 		document.body.style.backgroundPosition = "0px " + (-window.pageYOffset / 10) + "px";
 	}*/
 }
+
+function rambler(cinemaId, movieId, time) {
+	ticketManager.hallPlanV2(cinemaId, movieId, time);
+	return false;
+}
+
 /*
 $(document).ready(
   function() { 

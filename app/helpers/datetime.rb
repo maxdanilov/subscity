@@ -18,6 +18,11 @@ def show_time(time)
 	time.strftime("%R") 
 end
 
+def show_time_rambler(time)
+	# '17-10-2014-1515'
+	time.strftime("%d-%m-%Y-%H%M")
+end
+
 def show_date(date)
 	date = date.to_time
 	#date.to_time.strftime("%^a, %d %B %Y")
