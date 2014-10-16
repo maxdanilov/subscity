@@ -70,6 +70,14 @@ html
 												= link_to "#{show_date(moment_of_now + x.day)}", url(:dates, format_date_url(moment_of_now + x.day))
 							li.big-font
 								= link_to "Обратная связь", "http://subscity.reformal.ru/"
+							li.big-font
+								div.big-font style="margin-top:34px;"
+									table
+										tr
+											td.big-font style="font-size:21px;padding-right:5px;"
+												| Поделиться: 
+											td
+												= partial 'partials/share'
 
 						ul.nav.navbar-nav.navbar-right
 							li.dropdown
