@@ -29,7 +29,8 @@ gem 'mysql2'
 gem 'colorize'
 gem 'nokogiri'
 gem 'httpclient'
-
+gem 'translit'
+gem 'stringex'
 #gem 'active_support'
 
 # Test requirements

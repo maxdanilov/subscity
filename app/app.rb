@@ -8,6 +8,8 @@ module Subscity
     require 'json'
     require 'geocoder'
     require 'active_support/core_ext'
+    require 'translit'
+    require 'stringex'
 
     enable :sessions
     #
@@ -152,7 +154,7 @@ module Subscity
         end
     end
 
-    get :movies2, :with => :id, :id => /\d+.*/ do
+    get :movies, :with => :id, :id => /\d+.*/ do
         begin
             cache(request.cache_key, :expires => CACHE_TTL) do
                 @movie = Movie.find(params[:id])
@@ -178,32 +180,6 @@ module Subscity
         end
     end
 
-    get :movies, :with => :id, :id => /\d+/ do
-        begin
-            cache(request.cache_key, :expires => CACHE_TTL) do
-                @movie = Movie.find(params[:id])
-                @ratings = Rating.where(:movie_id => @movie.movie_id).first rescue nil
-                @city = City.get_by_domain(request.subdomains.first)
-                @screenings = @movie.get_sorted_screenings(@city.city_id) # @movie.screenings
-                @cinemas = Cinema.all
-
-                @screening_count = @movie.screenings_count(@city.city_id)
-                @cinemas_count = @movie.cinemas_count(@city.city_id)
-
-                screenings_flat = @movie.screenings.active
-                @price_min = screenings_flat.map{ |s| s.price_min}.compact.min rescue nil
-                @price_max = screenings_flat.map{ |s| s.price_max}.compact.max rescue nil        
-                @title = @movie.title
-                if not @movie.title_original.to_s.empty?
-                    @title += " (#{@movie.title_original})"
-                end
-                render 'movie/show', layout: :layout
-            end
-        rescue ActiveRecord::RecordNotFound => e
-            render 'errors/404', layout: :layout
-        end
-    end
-
     get :movie_update, :with => [:id, :kinopoisk_id, :imdb_id], :id => /\d+/, :kinopoisk_id => /\d+/, :imdb_id => /t{0,2}\d+/ do
         if ADMIN_IP == request.ip
             cmd = "cd #{File.dirname(__FILE__)}/../tasks && rake update_movie_kinopoisk[#{params[:id]},#{params[:kinopoisk_id]},#{params[:imdb_id]}] --trace 2>&1 >> /home/nas/rake.log &"
@@ -217,7 +193,7 @@ module Subscity
         end
     end
 
-    get :cinemas, :with => :id, :id => /\d+/ do
+    get :cinemas, :with => :id, :id => /\d+.*/ do
         begin
             cache(request.cache_key, :expires => CACHE_TTL) do
                 @cinema = Cinema.find(params[:id])

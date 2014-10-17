@@ -144,18 +144,22 @@ def format_date_url(date)
 	date.strftime("%Y-%m-%d")
 end
 
+def format_movie_url(m)
+	Translit.convert(m.id.to_s + " " + m.title, :english).to_url
+end
+
+def format_cinema_url(m)
+	Translit.convert(m.id.to_s + " " + m.name, :english).to_url
+end
+
 def link_to_cinema(cinema)
-	link_to(cinema.name, url(:cinemas, cinema.id), :class => 'underdashed')
+	link_to(cinema.name, url(:cinemas, format_cinema_url(cinema)), :class => 'underdashed')
 end
 
 def link_to_movie(movie)
-	link_to(movie.title, url(:movies, movie.id), :class => 'underdashed')
+	link_to(movie.title, url(:movies, format_movie_url(movie)), :class => 'underdashed')
 end
 
 def link_to_date(day)	
 	link_to(show_date(day), url(:dates, day), :class => 'underdashed')
-end
-
-def url_title(movie)
-	movie.title.gsub! ' ', '-'
 end
