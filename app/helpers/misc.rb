@@ -97,6 +97,7 @@ def language(lang)
 			'Portuguese' => 'португальский',
 			'Romanian' => 'румынский',
 			'Russian' => 'русский',
+			'Scottish' => 'шотландский',
 			'Serbian' => 'сербский',
 			'Slovenian' => 'словенский',
 			'Slovakian' => 'словацкий',
@@ -108,6 +109,7 @@ def language(lang)
 			'Turkish' => 'турецкий',
 			'Urdu' => 'урду',
 			'Ukrainian' => 'украинский',
+			'Welsh' => 'уэльский',
 			'Wolof' => 'волоф',
 			'Yiddish' => 'идиш'
 		}

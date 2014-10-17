@@ -9,13 +9,13 @@ xml.instruct! :xml, :version => "1.0"
 
       locals[:movies].each do |movie|
         title = movie.title
-        title += " (#{format_title(movie.title_original)})" unless movie.title_original.nil?
+        title += " (#{format_title(movie.title_original)})" unless movie.title_original.to_s.empty?
         description = movie.description.to_s
         xml.item do
           xml.title title
           xml.description description
           xml.pubDate movie.created_at.to_s(:rfc822)
-          xml.link domain + url_for(:movies, :id => movie.id)
+          xml.link domain + url_for(:movies, :id => format_movie_url(movie))
         end
       end
     end

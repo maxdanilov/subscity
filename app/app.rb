@@ -15,6 +15,7 @@ module Subscity
     #
     # Caching support.
     #
+    
     register Padrino::Cache
     enable :caching
     CACHE_TTL = 1 * 3600 # in seconds
