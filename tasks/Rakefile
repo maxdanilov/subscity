@@ -487,6 +487,7 @@ task :update_movies_kinopoisk => :environment do |task, args|
 	end
 	Rake::Task[:clear_cache].reenable
 	Rake::Task[:clear_cache].invoke
+	Rake::Task[:fill_cache].invoke
 	stop_task(task, t)
 end
 
