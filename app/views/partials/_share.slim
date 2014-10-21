@@ -1,8 +1,12 @@
-- description_default = "Расписание показа фильмов в кинотеатрах на языке оригинала"
-- image_default = "http://subscity.ru/favicon.png"
 - networks = "vkontakte,facebook,twitter"
 - lang = "ru"
+- unless defined? title
+	- title = "SubsCity.Ru"
+- unless defined? description
+	- description = "Расписание показа фильмов в кинотеатрах Москвы и Петербурга на языке оригинала"
+- unless defined? image
+	- image = "http://subscity.ru/favicon.png"
 - unless defined? link
 	- link = request.url
 
-div.yashare-auto-init data-yashareL10n="#{lang}" data-yashareQuickServices="#{networks}" data-yashareTheme="counter" data-yashareDescription="#{description_default}" data-yashareImage="#{image_default}" data-yashareLink="#{link}"
+div.yashare-auto-init data-yashareL10n="#{lang}" data-yashareQuickServices="#{networks}" data-yashareTheme="counter" data-yashareDescription="#{description}" data-yashareImage="#{image}" data-yashareLink="#{link}" data-yashareTitle="#{title}"
