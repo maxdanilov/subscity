@@ -478,11 +478,11 @@ desc 'force update of all active movies with kinopoisk and imdb data'
 task :update_movies_kinopoisk => :environment do |task, args|
 	t = start_task(task)
 	Movie.active.each do |m|
-		imdb_id = m.imdb_id.to_i
-		kinopoisk_id = m.kinopoisk_id.to_i
-		unless imdb_id == 0 and kinopoisk_id == 0
+		imdb_id = m.imdb_id.to_s
+		kinopoisk_id = m.kinopoisk_id.to_s
+		unless kinopoisk_id == 0
 			Rake::Task[:update_movie_kinopoisk].reenable
-			Rake::Task[:update_movie_kinopoisk].invoke(m.id, kinopoisk_id, imdb_id)
+			Rake::Task[:update_movie_kinopoisk].invoke(m.id.to_s, kinopoisk_id, imdb_id)
 		end
 	end
 	Rake::Task[:clear_cache].reenable

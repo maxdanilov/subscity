@@ -348,3 +348,31 @@ div.divider {
   margin-top: 6px;
   margin-bottom: 6px;
 }
+/* Sticky footer styles
+-------------------------------------------------- */
+/*
+html 
+{
+	position: relative;
+	min-height: 100%;
+}
+
+body 
+{
+	margin-bottom: @footer-height;
+}
+
+.footer 
+{
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: @footer-height;
+	margin-left: -@body-padding;
+	margin-right: -@body-padding;
+	padding: @body-padding;
+	padding-top: 6px;
+	padding-bottom: 6px;
+}
+
+*/

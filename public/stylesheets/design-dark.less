@@ -309,3 +309,14 @@ ul.dropdown-menu
 		background-color: fade(@basic-text-color, 60);
 		.shadow(@basic-text-color);
 	}
+	
+/* Sticky footer */
+
+.footer
+	{
+		background-color: none;
+		background: linear-gradient(to bottom, fade(@basic-bg-color, 40%) 100%, fade(@basic-bg-color, 10%) 0%);
+		color: @basic-text-color;
+		border-top: @border-solid-wide fade(@dark-text-color, 80%);
+		.shadow(fade(@dark-text-color, 50%), 8px);
+	}

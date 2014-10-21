@@ -77,7 +77,7 @@ html
 											td.big-font style="font-size:21px;padding-right:5px;"
 												| Поделиться: 
 											td
-												= partial 'partials/share'
+												= partial 'partials/share', :locals => { :link => "#{'http://' + request.host}" }
 
 						ul.nav.navbar-nav.navbar-right
 							li.dropdown
@@ -113,3 +113,8 @@ html
 		= partial 'partials/google'
 		= partial 'partials/yandex'
 		= partial 'partials/mailru'
+
+		/div.footer
+		/	div.containter
+		/		span.glyphicon.glyphicon-pencil
+		/		= link_to "Обратная связь", "http://subscity.reformal.ru/"

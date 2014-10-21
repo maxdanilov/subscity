@@ -65,6 +65,11 @@ module Sinatra
       redirect_globally(get_subdomain, path) unless subdomain_valid? 
     end
 =end
+
+    def url_without_subdomain
+        # http://msk.subscity.ru/movies/555 => http://subscity.ru/movies/555
+        'http://' + domain_name + path
+    end
   end
 end
 
@@ -73,11 +78,10 @@ def domain_name
 end
 
 def redirect_globally(subdomain = nil, path = nil)
-  subdomain += "." unless subdomain.nil?
-  redirect('http://'+ subdomain.to_s + domain_name + path.to_s)
+    subdomain += "." unless subdomain.nil?
+    redirect('http://'+ subdomain.to_s + domain_name + path.to_s)
 end
 
 def pre_redirect
-  redirect_globally(request.get_subdomain, request.path) unless request.subdomain_valid? 
+    redirect_globally(request.get_subdomain, request.path) unless request.subdomain_valid? 
 end
-

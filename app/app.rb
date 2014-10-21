@@ -15,7 +15,7 @@ module Subscity
     #
     # Caching support.
     #
-    
+
     register Padrino::Cache
     enable :caching
     CACHE_TTL = 1 * 3600 # in seconds
@@ -41,7 +41,7 @@ module Subscity
     # set :show_exceptions, true    # Shows a stack trace in browser (default for development)
     # set :logging, true            # Logging in STDOUT for development and file for production (default only for development)
     # set :public_folder, 'foo/bar' # Location for static assets (default root/public)
-    set :reload, true            # Reload application files (default in development)
+    set :reload, false            # Reload application files (default in development)
     # set :default_builder, 'foo'   # Set a custom form builder (default 'StandardFormBuilder')
     # set :locale_path, 'bar'       # Set path for I18n translations (default your_apps_root_path/locale)
     # disable :sessions             # Disabled sessions by default (enable if needed)

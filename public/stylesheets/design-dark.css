@@ -274,3 +274,11 @@ ul.dropdown-menu {
   background-color: rgba(238, 198, 137, 0.6);
   box-shadow: 0px 0px 8px #eec689;
 }
+/* Sticky footer */
+.footer {
+  background-color: none;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4) 100%, rgba(0, 0, 0, 0.1) 0%);
+  color: #eec689;
+  border-top: 2px solid rgba(247, 187, 97, 0.8);
+  box-shadow: 0px 0px 8px rgba(247, 187, 97, 0.5);
+}
