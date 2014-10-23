@@ -32,7 +32,7 @@ table.table.table-bordered.table-condensed.table-curved.table-striped
 
 			div
 				| Поделиться:
-			= partial 'partials/share', :locals => {:link => request.url_without_subdomain, :title => "#{@title} в кино на языке оригинала"}
+			= partial 'partials/share', :locals => {:link => request.url_without_subdomain, :title => "#{@title} в кино на языке оригинала", :description => @movie.description.to_s}
 
 		td colspan = "1" 
 			span.movie-title 
@@ -123,9 +123,9 @@ table.table.table-bordered.table-condensed.table-curved.table-striped
 									- screening_set.each do |screening|
 										td.text-center.cell-screenings attr-price=screening.price_min attr-time-of-day=time_of_day(screening.date_time) attr-time=screening.date_time.to_i
 											/http://kassa.rambler.ru/place/322?date=2014.02.18
-											/ a.btn.btn-default.navbar-btn.price-button href="http://kassa.rambler.ru/place/#{cinema.cinema_id}?date=#{day.to_time.strftime("%Y.%m.%d")}" target="_blank"
-											/ = show_time(screening.date_time)
-											<a class="btn btn-default navbar-btn price-button" href="#" onclick="return rambler(#{screening.cinema_id}, #{screening.movie_id}, '#{show_time_rambler(screening.date_time)}')">#{show_time(screening.date_time)}</a>
+											a.btn.btn-default.navbar-btn.price-button href="http://kassa.rambler.ru/place/#{cinema.cinema_id}?date=#{day.to_time.strftime("%Y.%m.%d")}" target="_blank"
+												= show_time(screening.date_time)
+											/<a class="btn btn-default navbar-btn price-button" href="#" onclick="return rambler(#{screening.cinema_id}, #{screening.movie_id}, '#{show_time_rambler(screening.date_time)}')">#{show_time(screening.date_time)}</a>
 										 	- style=price_tag_style(screening.price_min)
 										 	- transparency = screening.price_min.to_i == 0 ? "pseudo-hidden" : ""
 										 	<span class="label label-bg #{style} price-label btn-block #{transparency}">#{format_price(screening.price_min)}</span>

@@ -55,7 +55,7 @@ def format_word_count(count, words)
 end
 
 def languages_format(langs)
-	langs.split(", ").map {|l| language(l)}.join(", ") rescue nil
+	langs.split(", ").uniq.map {|l| language(l)}.join(", ") rescue nil
 end
 
 def language(lang)

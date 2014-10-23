@@ -1,21 +1,25 @@
 doctype html
 html
 	head
-		/! Key tag for kassa widget
-		<rb:rich key="9565b54e-cb2e-4063-a15d-d9962e8c49dd" xmlns:rb="http://kassa.rambler.ru"></rb:rich>
-		= favicon_tag '/favicon.png', :type => 'image/png', :rel => 'shortcut icon'
-		= feed_tag(:rss, url(:movies, :format => :rss), :title => "SubsCity (#{@city.name rescue City.get_by_domain(request.subdomains.first).name})")
-		= stylesheet_link_tag 'http://fonts.googleapis.com/css?family=PT+Sans:400,700&subset=latin,cyrillic'
-
 		meta http-equiv="Content-Type" content="text/html" charset="utf-8"
+		meta http-equiv="X-UA-Compatible" content="IE=edge"
+		- title = @title rescue nil
+		- title ||= "SubsCity"
+		title #{title}
+		
 		meta name="viewport" content="width=device-width, initial-scale=1"
 		meta name="Description" content="Всегда актуальное расписание фильмов на языке оригинала (с русскими субтитрами) в кинотеатрах Москвы и Санкт-Петербурга"
 		meta name="Keywords" content="где посмотреть фильм с субтитрами, киносеансы для слабослышащих, фильмы на языке оригинала, фильмы с субтитрами, кино с субтитрами, фильмы без перевода, фильмы с русскими субтитрами, расписание, кинотеатры, кино, билеты, цены, Москва, Санкт-Петербург, movies with subtitles, movies with subs, schedule, cinemas, theatres, tickets, price, Moscow, Saint-Petersburg"
 		
-		- title = @title rescue nil
-		- title ||= "SubsCity"
-		title #{title}
+		/! Key tag for kassa widget
+		<rb:rich key="9565b54e-cb2e-4063-a15d-d9962e8c49dd" xmlns:rb="http://kassa.rambler.ru"></rb:rich>
+		= feed_tag(:rss, url(:movies, :format => :rss), :title => "SubsCity (#{@city.name rescue City.get_by_domain(request.subdomains.first).name})")
 
+		= favicon_tag 'http://subscity.ru/favicon.png', :type => 'image/png', :rel => 'icon'
+		= favicon_tag 'http://subscity.ru/favicon.ico', :rel => 'shortcut icon'
+
+		= stylesheet_link_tag 'http://fonts.googleapis.com/css?family=PT+Sans:400,700&subset=latin,cyrillic'
+		
 		/! Bootstrap
 		= stylesheet_link_tag 'http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css'
 		/! Optional theme
@@ -26,7 +30,7 @@ html
 		/! custom CSS
 		= stylesheet_link_tag 'design', 'design-dark'
 		
-	body onload="onLoad()"
+	body
 		span.main-container
 			div.navbar.navbar-inverse.navbar-primary role="navigation"
 				div.container-fluid
