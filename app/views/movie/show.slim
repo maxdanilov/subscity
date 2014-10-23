@@ -1,5 +1,6 @@
 - movie = @movie
 - ratings = @ratings
+- poster_file = "transparent.png"
 /h1.text-center.capitalize.like-navbar 
 /	span 
 /		=movie.title 
@@ -12,9 +13,8 @@ table.table.table-bordered.table-condensed.table-curved.table-striped
 	tr
 		td.text-center rowspan = "10"
 			- if movie.poster_exists?
-				= image_tag "posters/#{movie.movie_id}.jpg", :class => 'poster'
-			- else
-				= image_tag "transparent.png", :class => 'poster'
+				- poster_file = "posters/#{movie.movie_id}.jpg"
+			= image_tag poster_file, :class => 'poster'
 			- unless @screening_count == 0
 				span.badge.count style="margin-top:5px;"
 					| #{format_screenings_count(@screening_count)} 
@@ -32,7 +32,7 @@ table.table.table-bordered.table-condensed.table-curved.table-striped
 
 			div
 				| Поделиться:
-			= partial 'partials/share', :locals => {:link => request.url_without_subdomain, :title => "#{@title} в кино на языке оригинала", :description => @movie.description.to_s}
+			= partial 'partials/share', :locals => {:link => request.url_without_subdomain, :title => "Фильм #{@title} в кино на языке оригинала", :description => @movie.description.to_s, :image => "http://" + domain_name + "/images/" + poster_file}
 
 		td colspan = "1" 
 			span.movie-title 
