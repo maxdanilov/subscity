@@ -15,8 +15,8 @@ html
 		<rb:rich key="9565b54e-cb2e-4063-a15d-d9962e8c49dd" xmlns:rb="http://kassa.rambler.ru"></rb:rich>
 		= feed_tag(:rss, url(:movies, :format => :rss), :title => "SubsCity (#{@city.name rescue City.get_by_domain(request.subdomains.first).name})")
 
-		= favicon_tag 'http://subscity.ru/favicon.png', :type => 'image/png', :rel => 'icon'
-		= favicon_tag 'http://subscity.ru/favicon.ico', :rel => 'shortcut icon'
+		= favicon_tag '/favicon.png', :type => 'image/png', :rel => 'icon'
+		= favicon_tag '/favicon.ico', :rel => 'shortcut icon'
 
 		= stylesheet_link_tag 'http://fonts.googleapis.com/css?family=PT+Sans:400,700&subset=latin,cyrillic'
 		

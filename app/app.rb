@@ -12,6 +12,10 @@ module Subscity
     require 'stringex'
 
     enable :sessions
+
+    APP_SELL_TICKETS = false # sell tix within site or redirect to kassa
+                             # if sold within, 10% comission applied
+
     #
     # Caching support.
     #
