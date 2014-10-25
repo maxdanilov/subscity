@@ -190,6 +190,8 @@ $(function() {
 		$(this).closest("table").next("table").toggle();
 		$(this).children(":first").toggleClass("glyphicon-chevron-down");
 		$(this).children(":first").toggleClass("glyphicon-chevron-up");
+		//$("img").unveil(0);
+		$(this).closest("table").next("table").find("img:first").unveil(0);
 	});
 	
 	$("#button-movies").click(function(){
@@ -303,6 +305,9 @@ $(function() {
 		
 		$("#button-screenings").addClass("active");
 		
+		//$("img").unveil(0);
+		//$("img").trigger("unveil");
+		
 	});
        
 });
@@ -319,11 +324,3 @@ function rambler(cinemaId, movieId, time) {
 	ticketManager.hallPlanV2(cinemaId, movieId, time);
 	return false;
 }
-
-/*
-$(document).ready(
-  function() { 
-    $("html").niceScroll();
-  }
-);
-*/

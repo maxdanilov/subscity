@@ -48,7 +48,9 @@ span.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-tit
 			tr.table-body
 				td.text-center rowspan = "10"
 					- if movie.poster_exists?
-						= image_tag "posters/#{movie.movie_id}.jpg", :class => 'poster'
+						/= image_tag "posters/#{movie.movie_id}.jpg", :class => 'poster'
+						/= image_tag "transparent.png", :class => 'poster', :data-src => "posters/#{movie.movie_id}.jpg"
+						<img class="poster" src="/images/transparent.png" data-src="/images/posters/#{movie.movie_id}.jpg">
 					- else
 						= image_tag "transparent.png", :class => 'poster'
 					- if defined? @screening_counts
