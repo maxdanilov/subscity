@@ -102,8 +102,8 @@ html
 
 		/! Include all compiled plugins (below), or include individual files as needed
 		= javascript_include_tag 'http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js'
-		= javascript_include_tag 'http://areaaperta.com/nicescroll/js/jquery.nicescroll.min.js'
-		= javascript_include_tag 'jquery.nicescroll.plus.js'
+		/= javascript_include_tag 'http://areaaperta.com/nicescroll/js/jquery.nicescroll.min.js'
+		/= javascript_include_tag 'jquery.nicescroll.plus.js'
 
 		/! custom JS
 		= javascript_include_tag 'default'
@@ -115,7 +115,8 @@ html
 		= javascript_include_tag 'http://yastatic.net/share/share.js'	
 
 		/! Kassa ticket plan
-		= javascript_include_tag 'http://s2.kassa.rl0.ru/widget/js/ticketmanager.js'
+		- if APP_SELL_TICKETS == true
+			= javascript_include_tag 'http://s2.kassa.rl0.ru/widget/js/ticketmanager.js'
 
 		= partial 'partials/google'
 		= partial 'partials/yandex'

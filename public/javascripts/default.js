@@ -187,11 +187,13 @@ $(function() {
 	});
 	
 	$(".show-button").click(function(){
-		$(this).closest("table").next("table").toggle();
-		$(this).children(":first").toggleClass("glyphicon-chevron-down");
-		$(this).children(":first").toggleClass("glyphicon-chevron-up");
-		//$("img").unveil(0);
-		$(this).closest("table").next("table").find("img:first").unveil(0);
+		var table = $(this).closest("table").next("table");
+		table.toggle();
+		table.find("img:first").unveil(0);
+		
+		var chevron = $(this).children(":first");
+		chevron.toggleClass("glyphicon-chevron-down");
+		chevron.toggleClass("glyphicon-chevron-up");
 	});
 	
 	$("#button-movies").click(function(){
@@ -303,22 +305,10 @@ $(function() {
 			disablePassedScreenings();
 		}, 120 * 1000); // every 2 mins
 		
-		$("#button-screenings").addClass("active");
-		
-		//$("img").unveil(0);
-		//$("img").trigger("unveil");
-		
+		$("#button-screenings").addClass("active");	
 	});
        
 });
-
-// bg parallax
-function onLoad() {
-	return;
-	/*window.onscroll = function() {
-		document.body.style.backgroundPosition = "0px " + (-window.pageYOffset / 10) + "px";
-	}*/
-}
 
 function rambler(cinemaId, movieId, time) {
 	ticketManager.hallPlanV2(cinemaId, movieId, time);
