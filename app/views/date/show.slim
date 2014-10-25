@@ -1,3 +1,4 @@
+- day = @date
 h1.text-center.capitalize.like-navbar #{show_date(@date)}
 - if @screenings.count == 0
 	h2.text-center.like-navbar Сеансов на языке оригинала нет
@@ -38,11 +39,11 @@ h1.text-center.capitalize.like-navbar #{show_date(@date)}
 									tr
 										- screening_set.each do |screening|
 											td.text-center.cell-screenings attr-price=screening.price_min attr-time-of-day=time_of_day(screening.date_time) attr-time=screening.date_time.to_i
-										 	- if APP_SELL_TICKETS == false
-												a.btn.btn-default.navbar-btn.price-button href="http://kassa.rambler.ru/place/#{cinema.cinema_id}?date=#{day.to_time.strftime("%Y.%m.%d")}" target="_blank"
-													= show_time(screening.date_time)
-											- else
-												<a class="btn btn-default navbar-btn price-button" href="#" onclick="return rambler(#{screening.cinema_id}, #{screening.movie_id}, '#{show_time_rambler(screening.date_time)}')">#{show_time(screening.date_time)}</a>
+											 	- if APP_SELL_TICKETS == false
+													a.btn.btn-default.navbar-btn.price-button href="http://kassa.rambler.ru/place/#{cinema.cinema_id}?date=#{day.to_time.strftime("%Y.%m.%d")}" target="_blank"
+														= show_time(screening.date_time)
+												- else
+													<a class="btn btn-default navbar-btn price-button" href="#" onclick="return rambler(#{screening.cinema_id}, #{screening.movie_id}, '#{show_time_rambler(screening.date_time)}')">#{show_time(screening.date_time)}</a>
 
 										 		- style=price_tag_style(screening.price_min)
 										 		- transparency = screening.price_min.to_i == 0 ? "pseudo-hidden" : ""

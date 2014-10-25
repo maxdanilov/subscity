@@ -86,7 +86,7 @@ table.table.table-condensed.table-curved.table-striped
 											/http://kassa.rambler.ru/place/322?date=2014.02.18
 											
 											- if APP_SELL_TICKETS == false
-												a.btn.btn-default.navbar-btn.price-button href="http://kassa.rambler.ru/place/#{cinema.cinema_id}?date=#{day.to_time.strftime("%Y.%m.%d")}" target="_blank"
+												a.btn.btn-default.navbar-btn.price-button href="http://kassa.rambler.ru/place/#{@cinema.cinema_id}?date=#{day.to_time.strftime("%Y.%m.%d")}" target="_blank"
 													= show_time(screening.date_time)
 											- else
 												<a class="btn btn-default navbar-btn price-button" href="#" onclick="return rambler(#{screening.cinema_id}, #{screening.movie_id}, '#{show_time_rambler(screening.date_time)}')">#{show_time(screening.date_time)}</a>
