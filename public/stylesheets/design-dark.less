@@ -1,12 +1,19 @@
 @import "vars.less";
 
-body 
+@media only screen and (min-width: 768px) 
+{
+	body
 	{
 		background-image: @bg-url;
-		background-color: @basic-bg-color;
-		//background-size: @bg-size;
 		background-repeat:repeat-xy; 
+		//background-size: @bg-size;
 		/*background-attachment: fixed; */
+	}
+}
+
+body 
+	{
+		background-color: @basic-bg-color;
 		color: @basic-text-color;
 	}
 	

@@ -6,7 +6,7 @@ end
 
 def time_range_on_day(time)
 	shift = 2.hours
-	(time.strip + shift ... time.next_day.strip + shift)
+	(time.strip + shift ... (time.next_day + 1.hour).strip + shift) #fuckup due to daylight savings
 end
 
 def date_for_screening(time)

@@ -136,9 +136,10 @@ a.movie-title:hover
 		.font-size(@font-size-normal);
 	}
 	
-.cell-screenings
+td.cell-screenings
 	{
 		padding-right: 6px;
+		display:table-cell;
 	}
 	
 h1, h2, h3, h4
@@ -451,6 +452,27 @@ div.divider
 	{
 		margin-top: @dropdown-divider-margin;
 		margin-bottom: @dropdown-divider-margin;
+	}
+
+div.share-top
+	{
+		margin-top:34px;
+	}
+	
+td.share-top
+	{
+		font-size:21px;
+		padding-right:5px;
+	}
+	
+a.cell-screening-desktop
+	{
+		display:block;
+	}
+
+a.cell-screening-mobile
+	{
+		display:none;
 	}
 	
 /* Sticky footer styles

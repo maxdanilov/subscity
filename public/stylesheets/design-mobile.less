@@ -1,0 +1,135 @@
+@import "vars.less"; 
+
+@media only screen and (max-width: 767px) 
+{
+	body
+	{
+		background-image: @bg-url-mobile;
+		background-repeat:repeat-xy; 
+	}
+
+	// Toggle button
+	.navbar-toggle
+	{
+		margin-top: 18px;
+		
+	}	
+	
+	// Toggle button border
+	.navbar-inverse .navbar-toggle
+	{
+		border-color: @basic-text-color;
+	}
+	
+	.navbar-inverse .navbar-nav>li>a
+	{
+		margin-bottom: 12px;
+		margin-top: 12px;
+	}
+	
+	.navbar-collapse.collapse.in > ul:nth-child(1), .navbar-collapse.collapse.in > ul.nav.navbar-nav.navbar-right
+	{
+		margin-top: 0px !important;
+		margin-bottom: 0px !important;
+	}
+	
+	.navbar-collapse.collapse.in > ul > li > a
+	{
+		margin-left: 12px;
+		margin-right: 12px;
+	}
+	
+	.site-name
+	{
+		font-size: 48px;
+		padding-left: 12px;
+	}
+	
+	div.share-top
+	{
+		margin-left: 12px;
+		margin-top: 12px;
+	}
+	
+	.navbar-inverse .navbar-nav > li > a
+	{
+		border-bottom-color: none !important;
+		border-bottom-width: 0px;
+	}
+	
+	.navbar-collapse.collapse.in > ul > li.dropdown.open > ul > li > a
+	{
+		color: @basic-text-color;
+	}
+	
+	.navbar-inverse .navbar-nav .open .dropdown-menu .divider
+	{
+		display: none;
+	}
+	
+	//.navbar-nav .open .dropdown-menu>li>a, .navbar-nav .open .dropdown-menu .dropdown-header
+	li>a.dropdown-toggle
+	{
+		padding-top: 0px !important;
+		padding-bottom: 0px !important;
+	}
+	
+	.navbar.navbar-inverse.navbar-primary > div > div.navbar-collapse.collapse.in > ul > li.dropdown.open > ul > li > a
+	{
+		padding-top: 3px;
+		padding-bottom: 3px;
+	}
+	
+	.navbar-collapse 
+	{	
+		box-shadow: none;
+		border-top-width: 0px;
+	}
+	
+	// screenings in one line
+	td.cell-screenings
+	{	
+		display:block;
+		margin-bottom: 5px;
+	}
+	
+	table.filters td
+	{
+		display:block;
+	}
+	
+	table.filters
+	{
+		width: 98%; 
+		margin-left: 1%; 
+		margin-right: 1%;
+	}
+	
+	td.price-filter
+	{
+		width: 100%;
+	}
+	
+	a.cell-screening-desktop
+	{
+		display:none;
+	}
+
+	a.cell-screening-mobile
+	{
+		display:block;
+	}
+	
+	#filters-container
+	{
+		display:none;
+	}
+	
+	/*
+	span.age-restriction, span.limited
+	{
+		display:none;
+	}
+	*/
+	
+}

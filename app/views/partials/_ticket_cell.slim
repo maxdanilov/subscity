@@ -1,0 +1,11 @@
+- if APP_SELL_TICKETS == false
+	a.btn.btn-default.navbar-btn.price-button.cell-screening-desktop href="https://kassa.rambler.ru/place/#{cinema.cinema_id}?date=#{day.to_time.strftime("%Y.%m.%d")}" target="_blank"
+		= show_time(screening.date_time)
+	a.btn.btn-default.navbar-btn.price-button.cell-screening-mobile href="http://m.kassa.rambler.ru/place/hallplan?sessionid=#{screening.screening_id}&widgetid=16857&insertstatistic=False"
+		= show_time(screening.date_time)
+- else
+	<a class="btn btn-default navbar-btn price-button" href="#" onclick="return rambler(#{screening.cinema_id}, #{screening.movie_id}, '#{show_time_rambler(screening.date_time)}')">#{show_time(screening.date_time)}</a>
+
+- style=price_tag_style(screening.price_min)
+- transparency = screening.price_min.to_i == 0 ? "pseudo-hidden" : ""
+<span class="label label-bg #{style} price-label btn-block #{transparency}">#{format_price(screening.price_min)}</span>

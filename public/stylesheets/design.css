@@ -130,8 +130,9 @@ a.movie-title:hover {
   padding-bottom: 0px;
   font-size: 16px;
 }
-.cell-screenings {
+td.cell-screenings {
   padding-right: 6px;
+  display: table-cell;
 }
 h1,
 h2,
@@ -347,6 +348,19 @@ div.divider {
 .dropdown-menu .divider {
   margin-top: 6px;
   margin-bottom: 6px;
+}
+div.share-top {
+  margin-top: 34px;
+}
+td.share-top {
+  font-size: 21px;
+  padding-right: 5px;
+}
+a.cell-screening-desktop {
+  display: block;
+}
+a.cell-screening-mobile {
+  display: none;
 }
 /* Sticky footer styles
 -------------------------------------------------- */

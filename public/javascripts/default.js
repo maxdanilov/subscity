@@ -298,7 +298,11 @@ $(function() {
 		activateSortButton($("#button-sort-title"));
 		buttonSortPressed = "sort-name";
 		
-		$("#filters").show();	
+		
+		//if ($("#filters").css("display") != "none" )
+		//{
+			$("#filters").show();	
+		//}
 
 		disablePassedScreenings();
 		window.setInterval(function(){

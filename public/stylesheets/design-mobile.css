@@ -1,0 +1,122 @@
+/* General */
+/*1rem;*/
+/* Sizes, paddings, margins */
+/*6.375rem; */
+/* Font Sizes */
+/* Colors */
+/* Basic Colors */
+/* Borders */
+/* Labels */
+/* Generics */
+.font-bold {
+  font-weight: bold;
+}
+.font-normal {
+  font-weight: normal;
+}
+/* Buttons */
+.button-hover {
+  background-color: #edae50;
+  border-color: #E5AA5E;
+}
+.button-basic {
+  background-image: linear-gradient(to bottom, #e8b876 0%, #eac38c 50%, #e8b876 100%);
+  background-color: rgba(238, 198, 137, 0.7);
+  border-color: #E5AA5E;
+}
+/* Sliders */
+.slider-bg {
+  background: #5d2066;
+  /* Old browsers */
+  background-image: linear-gradient(to right, #5d2066 0%, #e04831 100%);
+  /* W3C */
+}
+.slider-handle {
+  background-image: linear-gradient(to bottom, #e8b876 0%, #eac38c 50%, #e8b876 100%);
+  border-color: #E5AA5E;
+}
+@media only screen and (max-width: 767px) {
+  body {
+    background-image: url('../images/bgs/background_mobile.jpg');
+    background-repeat: repeat-xy;
+  }
+  .navbar-toggle {
+    margin-top: 18px;
+  }
+  .navbar-inverse .navbar-toggle {
+    border-color: #eec689;
+  }
+  .navbar-inverse .navbar-nav > li > a {
+    margin-bottom: 12px;
+    margin-top: 12px;
+  }
+  .navbar-collapse.collapse.in > ul:nth-child(1),
+  .navbar-collapse.collapse.in > ul.nav.navbar-nav.navbar-right {
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+  }
+  .navbar-collapse.collapse.in > ul > li > a {
+    margin-left: 12px;
+    margin-right: 12px;
+  }
+  .site-name {
+    font-size: 48px;
+    padding-left: 12px;
+  }
+  div.share-top {
+    margin-left: 12px;
+    margin-top: 12px;
+  }
+  .navbar-inverse .navbar-nav > li > a {
+    border-bottom-color: none !important;
+    border-bottom-width: 0px;
+  }
+  .navbar-collapse.collapse.in > ul > li.dropdown.open > ul > li > a {
+    color: #eec689;
+  }
+  .navbar-inverse .navbar-nav .open .dropdown-menu .divider {
+    display: none;
+  }
+  li > a.dropdown-toggle {
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+  }
+  .navbar.navbar-inverse.navbar-primary > div > div.navbar-collapse.collapse.in > ul > li.dropdown.open > ul > li > a {
+    padding-top: 3px;
+    padding-bottom: 3px;
+  }
+  .navbar-collapse {
+    box-shadow: none;
+    border-top-width: 0px;
+  }
+  td.cell-screenings {
+    display: block;
+    margin-bottom: 5px;
+  }
+  table.filters td {
+    display: block;
+  }
+  table.filters {
+    width: 98%;
+    margin-left: 1%;
+    margin-right: 1%;
+  }
+  td.price-filter {
+    width: 100%;
+  }
+  a.cell-screening-desktop {
+    display: none;
+  }
+  a.cell-screening-mobile {
+    display: block;
+  }
+  #filters-container {
+    display: none;
+  }
+  /*
+	span.age-restriction, span.limited
+	{
+		display:none;
+	}
+	*/
+}
