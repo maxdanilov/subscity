@@ -1,14 +1,23 @@
 @import "vars.less";
 
+@media only screen and (max-width: 767px) 
+{
+	body
+		{
+			background-image: @bg-url-mobile;
+			background-repeat:repeat-xy; 
+		}
+}
+
 @media only screen and (min-width: 768px) 
 {
 	body
-	{
-		background-image: @bg-url;
-		background-repeat:repeat-xy; 
-		//background-size: @bg-size;
-		/*background-attachment: fixed; */
-	}
+		{
+			background-image: @bg-url;
+			background-repeat:repeat-xy; 
+			//background-size: @bg-size;
+			/*background-attachment: fixed;*/
+		}
 }
 
 body 
@@ -110,11 +119,6 @@ div.box-text
 .location
 	{
 		color: fade(@basic-text-color, 75%);
-	}
-	
-.pretty-header
-	{
-		font-family: @font-logo;
 	}
 	
 .site-name
@@ -238,6 +242,18 @@ div.box-text
 	}
 		
 /* Navbar */
+
+// Toggle button border
+.navbar-inverse .navbar-toggle
+	{
+		border-color: @basic-text-color;
+	}
+	
+.navbar-collapse.collapse.in > ul > li.dropdown.open > ul > li > a
+	{
+		color: @basic-text-color;
+	}	
+	
 .navbar
 	{
 		background-color: none;

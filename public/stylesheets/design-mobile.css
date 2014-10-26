@@ -36,15 +36,8 @@
   border-color: #E5AA5E;
 }
 @media only screen and (max-width: 767px) {
-  body {
-    background-image: url('../images/bgs/background_mobile.jpg');
-    background-repeat: repeat-xy;
-  }
   .navbar-toggle {
     margin-top: 18px;
-  }
-  .navbar-inverse .navbar-toggle {
-    border-color: #eec689;
   }
   .navbar-inverse .navbar-nav > li > a {
     margin-bottom: 12px;
@@ -68,11 +61,7 @@
     margin-top: 12px;
   }
   .navbar-inverse .navbar-nav > li > a {
-    border-bottom-color: none !important;
     border-bottom-width: 0px;
-  }
-  .navbar-collapse.collapse.in > ul > li.dropdown.open > ul > li > a {
-    color: #eec689;
   }
   .navbar-inverse .navbar-nav .open .dropdown-menu .divider {
     display: none;
@@ -113,10 +102,4 @@
   #filters-container {
     display: none;
   }
-  /*
-	span.age-restriction, span.limited
-	{
-		display:none;
-	}
-	*/
 }

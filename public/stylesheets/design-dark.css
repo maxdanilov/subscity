@@ -35,11 +35,17 @@
   background-image: linear-gradient(to bottom, #e8b876 0%, #eac38c 50%, #e8b876 100%);
   border-color: #E5AA5E;
 }
+@media only screen and (max-width: 767px) {
+  body {
+    background-image: url('../images/bgs/background_mobile.jpg');
+    background-repeat: repeat-xy;
+  }
+}
 @media only screen and (min-width: 768px) {
   body {
     background-image: url('../images/bgs/background.jpg');
     background-repeat: repeat-xy;
-    /*background-attachment: fixed; */
+    /*background-attachment: fixed;*/
   }
 }
 body {
@@ -121,9 +127,6 @@ div.box-text {
 }
 .location {
   color: rgba(238, 198, 137, 0.75);
-}
-.pretty-header {
-  font-family: "Sevilla Decor";
 }
 .site-name {
   text-shadow: 0 0 12px #f7bb61;
@@ -218,6 +221,12 @@ div.box-text {
   box-shadow: 0px 0px 8px #f7bb61;
 }
 /* Navbar */
+.navbar-inverse .navbar-toggle {
+  border-color: #eec689;
+}
+.navbar-collapse.collapse.in > ul > li.dropdown.open > ul > li > a {
+  color: #eec689;
+}
 .navbar {
   background-color: none;
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.3) 100%);

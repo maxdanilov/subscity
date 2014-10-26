@@ -24,12 +24,12 @@ job_type :my_rake, 'cd :path && rake :task :output'
 set :output, 'logs/cron.log'
 
 #movies
-every :day, :at => ['10:05', '14:05', '19:00'] do
+every :day, :at => ['05:55', '10:05', '14:05', '19:00'] do
 	my_rake "update_movies", :output => 'logs/cron_movies.log'
 end
 
 #kinopoisk ratings
-every :day, :at => ['10:15', '14:20', '19:10', '00:00'] do
+every :day, :at => ['06:10', '10:15', '14:20', '19:10', '00:00'] do
 	my_rake "update_movie_ratings", :output => 'logs/cron.log'
 end
 
@@ -39,12 +39,12 @@ every :day, :at => ['04:00', '17:00'] do
 end
 
 #cinemas
-every :day, :at => ['10:00', '14:00'] do
+every :day, :at => ['10:00', '14:00', '22:00'] do
 	my_rake "update_cinemas", :output => 'logs/cron_cinemas.log'
 end
 
 #screenings
-every :day, :at => ['11:20', '14:50', '17:40', '20:40'] do
+every :day, :at => ['07:15', '11:20', '14:50', '17:40', '20:40'] do
 	my_rake "update_screenings", :output => 'logs/cron_screenings.log'
 end
 

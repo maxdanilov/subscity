@@ -47,8 +47,15 @@ body {
   font-family: 'PT Sans', 'Trebuchet MS', Arial, Sans Serif;
   font-size: 14.4px;
 }
+a,
+.btn {
+  transition: all 0.3s ease-out;
+}
 div {
   font-size: 16px;
+}
+.pretty-header {
+  font-family: "Sevilla Decor";
 }
 img.poster {
   width: 144px;
