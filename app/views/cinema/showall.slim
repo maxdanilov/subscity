@@ -3,10 +3,11 @@ h1.text-center.capitalize.like-navbar Кинотеатры (#{@city.name})
 	h3.text-center id="nothing-found"				 		
 		| Кинотеатров не найдено
 - else
-	div.table-responsive
+	/div.table-responsive
+	div
 		table.table.table-striped.table-bordered.table-condensed.table-curved
 			thead
-				tr
+				tr.hidden-xs
 					td.text-center
 						h3 Название
 					td.text-center
@@ -14,7 +15,7 @@ h1.text-center.capitalize.like-navbar Кинотеатры (#{@city.name})
 			tbody
 				- @cinemas.each do |cinema, movies|
 					tr
-						td.name.col-md-4
+						td.name.col-md-4.col-xs-12
 							div.cinema-name
 								= link_to(cinema.name, "/cinemas/#{cinema.id}", :class => 'underdashed')
 								|  
@@ -23,7 +24,7 @@ h1.text-center.capitalize.like-navbar Кинотеатры (#{@city.name})
 							- unless cinema.metro.to_s.empty?
 								span.medium-font.location
 									| м. #{cinema.metro}
-						td.col-md-8
+						td.col-md-8.hidden-xs
 							table.table.no-top-border.table-condensed.transparent style="box-shadow: none;"
 								tbody
 									- movies.each do |movie, screenings_count|

@@ -2,11 +2,11 @@ span.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-tit
 	table.table.table-bordered.table-condensed.table-curved.table-striped style="margin-bottom:0px;margin-top:5px;" 
 		tbody
 			tr.table-header
-				td.col-md-1.text-center style="width:4.5rem; vertical-align: middle;"
+				td.col-md-1.col.xs-1.text-center style="width:4.5rem; vertical-align: middle;"
 					button.btn.btn-default.btn-medium.show-button type="button"
 							span.glyphicon.glyphicon-chevron-down
 
-				td.col.md-8 style="border-right-width: 0px;"
+				td.col.md-8.col.xs-10 style="border-right-width: 0px;"
 					span.movie-title 
 						= link_to_movie(movie)
 						|  
@@ -30,7 +30,7 @@ span.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-tit
 						div.movie-title-original = format_title(movie.title_original)
 				
 				- unless (movie.kinopoisk_id.nil? and movie.imdb_id.nil?) or ratings.nil?
-					td.col-md-3.text-center.rating-plates style="border-left-width: 0px;"
+					td.col-md-3.col.xs-1.text-center.rating-plates style="border-left-width: 0px;"
 						- unless movie.imdb_id.nil? or ratings.nil? or ratings.imdb_rating.nil?
 							= partial 'partials/rating_plate', :locals => { :movie => movie, :type => :imdb, :rating => ratings.imdb_rating, :votes => ratings.imdb_votes }
 							span.rating-plate-divider
