@@ -50,6 +50,10 @@
     margin-right: auto;
     border-radius: 4px;
     box-shadow: inherit;
+    border: 1px dashed rgba(247, 187, 97, 0.8) !important;
+  }
+  .box-text {
+    border: 1px dashed rgba(247, 187, 97, 0.8) !important;
   }
   td.movie-description {
     display: table-cell !important;
@@ -91,7 +95,6 @@ img.poster {
   text-align: justify;
 }
 #nothing-found {
-  display: none;
   margin-top: 10px;
 }
 /* Captions */
@@ -312,6 +315,28 @@ table.bordered {
   border-left: none;
   border-right: none;
 }
+.table-no-side-borders {
+  border-left: none !important;
+  border-right: none !important;
+}
+.table-no-side-borders tr,
+.table-no-side-borders th,
+.table-no-side-borders td {
+  border-left: none !important;
+  border-right: none !important;
+}
+.table-no-top-borders {
+  border-top: none !important;
+  border-bottom: none !important;
+}
+.table-no-top-borders tr:first-of-type > th,
+.table-no-top-borders tr:first-of-type > td {
+  border-top: none !important;
+}
+.table-no-top-borders tr:last-of-type > th,
+.table-no-top-borders tr:last-of-type > td {
+  border-bottom: none !important;
+}
 table.rating {
   margin-left: auto;
   margin-right: auto;
@@ -392,7 +417,7 @@ div.divider {
   margin-left: -10px;
   margin-right: -10px;
   margin-top: 0px;
-  padding: 10px;
+  padding: 12px;
 }
 .dropdown-menu .divider {
   margin-top: 6px;
@@ -446,7 +471,7 @@ td.movie-description {
 table.movie-description {
   margin-bottom: 0px;
   display: none;
-  top: -8px;
+  top: 0px;
   position: relative;
   max-width: 1200px;
   margin-left: auto;
@@ -458,6 +483,7 @@ div.movie-plate-table {
   max-width: 1200px;
   border: 1px dashed;
   margin: 8px auto;
+  border-radius: 6px;
 }
 div.movie-plate-table div.movie-plate-row {
   display: table-row;

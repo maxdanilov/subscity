@@ -7,6 +7,12 @@
 			.centered-content;
 			border-radius: 4px;
 			box-shadow: inherit;
+			border: @border-dashed fade(@dark-text-color, 80%) !important;
+		}
+		
+	.box-text
+		{
+			border: @border-dashed fade(@dark-text-color, 80%) !important;
 		}
 		
 	td.movie-description
@@ -68,7 +74,7 @@ img.poster
 	
 #nothing-found
 	{
-		display: none;
+		//display: none;
 		margin-top: 10px;
 	}
 	
@@ -385,6 +391,34 @@ table.bordered
 		border-right: none;
 	}
 	
+.table-no-side-borders
+{	
+	border-left: none !important;
+	border-right: none !important;
+	
+	tr, th, td
+		{
+			border-left: none !important;
+			border-right: none !important;
+		}
+}		
+
+.table-no-top-borders
+{
+	border-top: none !important;
+	border-bottom: none !important;
+
+	tr:first-of-type > th, tr:first-of-type > td
+		{
+			border-top: none !important;
+		}
+		
+	tr:last-of-type > th, tr:last-of-type > td	
+		{
+			border-bottom: none !important;
+		}
+}
+
 table.rating
 	{
 		margin-left: auto;
@@ -409,6 +443,7 @@ td.rating-plates
 	{
 		width: 2 * @rating-plate-width + 18px !important;
 	}	
+	
 	
 .like-rating-plate
 	{
@@ -498,7 +533,7 @@ div.divider
 		margin-left: -@body-padding;
 		margin-right: -@body-padding;
 		margin-top: -0px;
-		padding: 10px;
+		padding: 12px;
 	}
 	
 .dropdown-menu .divider
@@ -575,7 +610,7 @@ table.movie-description
 	{
 		margin-bottom:0px; 
 		display:none; 
-		top: -8px; 
+		top: 0px; 
 		position: relative;
 		max-width: @max-content-size;
 		margin-left: auto;
@@ -589,6 +624,7 @@ div.movie-plate-table
 		max-width: @max-content-size;
 		border: 1px dashed;
 		margin: 8px auto;		
+		border-radius: 6px;
 		
 		div.movie-plate-row
 		{

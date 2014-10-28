@@ -50,7 +50,6 @@
   body {
     background-image: url('../images/bgs/background.jpg');
     background-repeat: repeat-xy;
-    /*background-attachment: fixed;*/
   }
   h2.like-navbar,
   h1.like-navbar,
@@ -121,6 +120,14 @@ a.underdashed:active {
 .table-bordered {
   border: 1px dashed rgba(247, 187, 97, 0.8);
 }
+.table-condensed > thead > tr > th,
+.table-condensed > tbody > tr > th,
+.table-condensed > tfoot > tr > th,
+.table-condensed > thead > tr > td,
+.table-condensed > tbody > tr > td,
+.table-condensed > tfoot > tr > td {
+  padding: 8px;
+}
 table.rating {
   border: 1px dashed #f7bb61;
   background-color: rgba(0, 0, 0, 0.4);
@@ -139,13 +146,6 @@ div.box-text {
   text-shadow: 0 0 12px #f7bb61;
   transition: text-shadow 1s linear;
 }
-/*
-.site-name:hover
-	{
-		text-shadow: 0 0 12px @orange-color;
-		transition: text-shadow 1s linear;
-	}
-*/
 .semi-transparent {
   opacity: 0.85;
 }

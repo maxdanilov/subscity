@@ -15,13 +15,10 @@
 		{
 			background-image: @bg-url;
 			background-repeat:repeat-xy; 
-			//background-size: @bg-size;
-			/*background-attachment: fixed;*/
 		}
 		
 	h2.like-navbar, h1.like-navbar, h3.like-navbar, h4.like-navbar
 		{			
-			//border: @border-solid-wide fade(@dark-text-color, 80%);
 			border: inherit;
 		}
 }
@@ -94,8 +91,13 @@ a.underdashed:hover, a.underdashed:active
 	}
 	
 .table-bordered>thead>tr>th, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>tbody>tr>td, .table-bordered>tfoot>tr>td, .table-bordered
+		{
+			border: @border-dashed fade(@dark-text-color, 80%);
+		}	
+	
+.table-condensed>thead>tr>th, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>tbody>tr>td, .table-condensed>tfoot>tr>td
 	{
-		border: @border-dashed fade(@dark-text-color, 80%);
+		padding: 8px;
 	}
 	
 table.rating
@@ -126,14 +128,6 @@ div.box-text
 		text-shadow: 0 0 12px @dark-text-color;
 		transition: text-shadow 1s linear;
 	}
-	
-/*
-.site-name:hover
-	{
-		text-shadow: 0 0 12px @orange-color;
-		transition: text-shadow 1s linear;
-	}
-*/
 	
 .semi-transparent
 	{
