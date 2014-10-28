@@ -1,18 +1,18 @@
 @import "vars.less"; 
 
-@media only screen and (min-width: 768px) 
+@media (min-width: 768px) 
 {
 	h1.like-navbar, h2.like-navbar, h3.like-navbar, h4.like-navbar
 		{
 			.centered-content;
 			border-radius: 4px;
 			box-shadow: inherit;
-			border: @border-dashed fade(@dark-text-color, 80%) !important;
+			border: @border-dashed !important;
 		}
 		
 	.box-text
 		{
-			border: @border-dashed fade(@dark-text-color, 80%) !important;
+			border: @border-dashed !important;
 		}
 		
 	td.movie-description
@@ -31,7 +31,7 @@
 	}
 }
 
-@media only screen and (min-width: 768px) and (max-width: 991px)
+@media (min-width: 768px) and (max-width: 991px)
 {
 	.site-name-short
 	{
@@ -44,7 +44,7 @@
 	}
 }
 
-@media only screen and (min-width: 768px) and (max-width: 1023px)
+@media (min-width: 768px) and (max-width: 1023px)
 {
 	.share-text-top
 	{
@@ -65,6 +65,7 @@ html
 
 body 
 	{
+		background-repeat: repeat-xy; 
 		padding: @body-padding;
 		font-family: @font-basic;
 		.font-size(@font-size-small);
@@ -89,8 +90,18 @@ img.poster
 	{
 		width: 144px;
 		height: 212px;
-		margin-bottom: 10px;
-		/*border-radius: 8px;*/
+		margin-bottom: 6px;
+		border-radius: 4px;
+		transition: all 0.3s ease-in;
+	}
+	
+img.poster:hover
+	{
+		-webkit-filter: sepia(100%) !important;
+		-moz-filter: sepia(100%) !important;
+		-o-filter: sepia(100%) !important;
+		-ms-filter: sepia(100%) !important;
+		filter: sepia(100%) !important;
 	}
 	
 .justified
@@ -100,7 +111,6 @@ img.poster
 	
 #nothing-found
 	{
-		//display: none;
 		margin-top: 10px;
 	}
 	
@@ -110,7 +120,14 @@ img.poster
 	{
 		.font-size(4.0);
 		padding-right: 20px;
+		transition: text-shadow 1s linear;
+		//text-shadow: 0 0 12px;
 	}
+	
+.site-name-short
+	{
+		display: none;
+	}	
 	
 .city
 	{
@@ -122,23 +139,12 @@ img.poster
 		display: inline;
 	}
 	
-.site-name-short
-	{
-		display: none;
-	}
-	
-.movie-title
+.movie-title, .cinema-name
 	{
 		.font-size(@font-size-caption);
 		.font-bold;
 	}
-	
-.cinema-name
-	{
-		.font-size(@font-size-caption);
-		.font-bold;
-	}
-	
+
 a.movie-title:hover
 	{
 		text-decoration: dotted;
@@ -146,14 +152,12 @@ a.movie-title:hover
 	
 .movie-title-original
 	{
-		color: #888;
 		text-transform: uppercase;
 		.font-normal;
 	}
 
 .location
 	{
-		color: #888;
 		.font-normal;
 	}
 
@@ -213,6 +217,11 @@ a.movie-title:hover
 		.font-size(@font-size-normal);
 	}
 	
+.label-default
+	{
+		border: @border-dashed;
+	}
+	
 td.cell-screenings
 	{
 		padding-right: 6px;
@@ -227,17 +236,14 @@ h1, h2, h3, h4
 h1
 	{
 		.font-size(@font-size-h1);
-		
 		margin-bottom: 15px;
 		margin: 10px;
 	}
-	
 	
 h2
 	{
 		.font-size(@font-size-h2);
 	}	
-
 	
 h3	
 	{
@@ -256,9 +262,8 @@ a, a:hover
 	
 a.underdashed
 	{
-		color: #444;
 		font-weight: bold;
-		border-bottom: 1px dashed #444;
+		border-bottom: 1px dashed;
 		.text-shadow;
 	}
 	
@@ -345,20 +350,12 @@ div.box-text
 		width: 12px;
 		top: -8px;
 		padding-left: 5px;
-		border-color: #666;
 		margin-left: -8px;
-
-		background-image: linear-gradient(to bottom, #ffffff 0%,#e5e5e5 100%); /* W3C */
 	}
-	
+
 .ui-widget-content
 	{
-		background-color: green;
 		background-image: none;
-		border-color: #666;
-		
-		background: #6db717; /* Old browsers */
-		background-image: linear-gradient(to right, #6db717 0%,#f4a850 50%,#ff4949 100%); /* W3C */
 	}
 	
 /* Generic */
@@ -387,11 +384,25 @@ table.table
 		vertical-align: middle;
 	}
 
+.table-condensed>thead>tr>th, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>tbody>tr>td, .table-condensed>tfoot>tr>td
+	{
+		padding: 8px;
+	}
+	
+.table-bordered>thead>tr>th, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>tbody>tr>td, .table-bordered>tfoot>tr>td, .table-bordered
+	{
+		border: @border-dashed;
+	}	
+	
+.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td
+	{
+		border-top: @border-dashed;
+	}
+
 table.filters-tickets
 	{
 		width: 90%; 
 		margin-left: 10%; 
-		//margin-right: 10%;
 	}
 	
 table.filters-sort
@@ -406,7 +417,6 @@ td.price-filter
 	
 td.daytime-filter
 	{
-		//width: 40%;
 		min-width: 350px;
 	}
 	
@@ -433,32 +443,32 @@ table.bordered
 	}
 	
 .table-no-side-borders
-{	
-	border-left: none !important;
-	border-right: none !important;
-	
-	tr, th, td
-		{
-			border-left: none !important;
-			border-right: none !important;
-		}
-}		
+	{	
+		border-left: none !important;
+		border-right: none !important;
+		
+		tr, th, td
+			{
+				border-left: none !important;
+				border-right: none !important;
+			}
+	}		
 
 .table-no-top-borders
-{
-	border-top: none !important;
-	border-bottom: none !important;
+	{
+		border-top: none !important;
+		border-bottom: none !important;
 
-	tr:first-of-type > th, tr:first-of-type > td
-		{
-			border-top: none !important;
-		}
-		
-	tr:last-of-type > th, tr:last-of-type > td	
-		{
-			border-bottom: none !important;
-		}
-}
+		tr:first-of-type > th, tr:first-of-type > td
+			{
+				border-top: none !important;
+			}
+			
+		tr:last-of-type > th, tr:last-of-type > td	
+			{
+				border-bottom: none !important;
+			}
+	}
 
 table.movie-info tr:first-of-type > td:first-of-type
 	{
@@ -470,6 +480,7 @@ table.rating
 		margin-left: auto;
 		margin-right: auto;
 		width: @rating-plate-width;
+		border: 1px dashed;
 			
 		td.users
 			{
@@ -490,7 +501,6 @@ td.rating-plates
 		width: 2 * @rating-plate-width + 18px !important;
 	}	
 	
-	
 .like-rating-plate
 	{
 		width: @rating-plate-width;
@@ -505,7 +515,7 @@ td.rating-plates
 	
 div.divider
 	{
-		height:10px;
+		height: 10px;
 	}
 	
 /* Badges */	
@@ -557,11 +567,6 @@ div.divider
 		padding-bottom: 0px;	
 	}	
 
-.navbar-collapse
-	{
-		//padding-right: 0px;
-	}
-	
 .nav .open>a, .nav .open>a:hover, .nav .open>a:focus
 	{
 		border: none;
@@ -570,7 +575,6 @@ div.divider
 .navbar-inverse .navbar-nav>li>a
 	{
 		.font-size(@font-size-navbar);
-		/*line-height: 67px;*/
 		padding: 0px;
 		margin-bottom: 15px;
 		margin-top: 38px;
@@ -646,7 +650,6 @@ a.cell-screening-mobile
 		left:0;
 		width:100%;
 		height:100%;
-		//max-width: 800px;
 	}
 	
 /* Movie plates */
@@ -673,6 +676,14 @@ table.movie-description
 		margin-right: auto;
 	}
 
+div.movie-description > table.movie-description
+	{
+		left: 36px;
+		top: -9px;
+		max-width: @max-content-size - 72px !important;
+		border-bottom-width: 1px !important;
+	}
+	
 div.movie-plate-table
 	{			
 		display: table;
@@ -691,7 +702,7 @@ div.movie-plate-table
 		
 		div.show-button
 		{
-			width: 4.5rem;			
+			width: 72px;			
 			border-right: 1px dashed;
 			position: relative;
 			vertical-align: middle;

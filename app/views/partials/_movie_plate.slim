@@ -40,10 +40,11 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 			tbody	
 				tr.table-body
 					td.text-center rowspan = "10"
-						- if movie.poster_exists?
-							<img class="poster" src="/images/transparent.png" data-src="/images/posters/#{movie.movie_id}.jpg">
-						- else
-							= image_tag "transparent.png", :class => 'poster'
+						= link_to url(:movies, format_movie_url(movie))					
+							- if movie.poster_exists?							
+									<img class="poster" src="/images/transparent.png" data-src="/images/posters/#{movie.movie_id}.jpg"/>
+							- else
+								= image_tag "transparent.png", :class => 'poster'
 						- if defined? @screening_counts
 							span.badge.count style="margin-top:5px;"
 								| #{format_screenings_count(@screening_counts[movie])} 
@@ -54,7 +55,7 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 					- unless movie.year.to_i == 0
 						td.col-sm-12 colspan="1"
 							div
-								strong Год: 
+								strong Год:  
 								= movie.year.to_s
 
 				- unless movie.genres.to_s.empty?
@@ -62,44 +63,43 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 						td.col-sm-12 colspan="1" 
 							div
 								i.fa.fa-bookmark
-								strong.hidden-xs  Жанр:
-								= movie.genres
+								strong.hidden-xs  Жанр:  
+								|  #{movie.genres}
 				- unless movie.duration.to_i == 0
 					tr.table-body
 						td.col-sm-12 colspan="1" 
 							div
 								i.fa.fa-clock-o
-								strong.hidden-xs  Длительность:
-								= movie.duration
-								|  мин.
+								strong.hidden-xs  Длительность: 
+								|  #{movie.duration} мин.	
 				- unless movie.country.to_s.empty? or movie.country == '-'
 					tr.table-body
 						td.col-sm-12 colspan="1" 
 							div
 								i.fa.fa-globe			
-								strong.hidden-xs  Страна:
-								= movie.country
+								strong.hidden-xs  Страна:  
+								|  #{movie.country}
 				- unless movie.languages.to_s.empty?
 					tr.table-body
 						td.col-sm-12 colspan="2" 
 							div
 								i.fa.fa-volume-up
-								strong.hidden-xs  Язык:
-								= languages_format(movie.languages)
+								strong.hidden-xs  Язык:  
+								|  #{languages_format(movie.languages)}
 				- unless movie.director.to_s.empty?
 					tr.table-body
 						td.col-sm-12 colspan = "1" 
 							div
 								i.fa.fa-bullhorn
 								strong.hidden-xs  Режиссер:  
-								= movie.director.gsub("\r", "").split("\n").join(", ")
+								|  #{movie.director.gsub("\r", "").split("\n").join(", ")}
 				- unless movie.cast.to_s.empty?
 					tr.table-body
 						td.col-sm-12 colspan = "1" 
 							div
 								i.fa.fa-users
 								strong.hidden-xs  В ролях:  
-								= movie.cast.gsub("\r", "").split("\n").join(", ")
+								|  #{movie.cast.gsub("\r", "").split("\n").join(", ")}
 				- unless movie.description.to_s.empty?
 					tr.table-body
 						td.col-sm-12 colspan = "1" 

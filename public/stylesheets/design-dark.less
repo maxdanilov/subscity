@@ -1,25 +1,28 @@
 @import "vars.less";
 
-@media only screen and (max-width: 767px) 
+@media (max-width: 767px) 
 {
 	body
 		{
 			background-image: @bg-url-mobile;
-			background-repeat:repeat-xy; 
 		}
 }
 
-@media only screen and (min-width: 768px) 
+@media (min-width: 768px) 
 {
 	body
 		{
-			background-image: @bg-url;
-			background-repeat:repeat-xy; 
+			background-image: @bg-url; 
 		}
 		
-	h2.like-navbar, h1.like-navbar, h3.like-navbar, h4.like-navbar
-		{			
-			border: inherit;
+	h1.like-navbar, h2.like-navbar, h3.like-navbar, h4.like-navbar
+		{
+			border-color: fade(@dark-text-color, 80%) !important;
+		}
+		
+	.box-text
+		{
+			border-color: fade(@dark-text-color, 80%) !important;
 		}
 }
 
@@ -87,22 +90,17 @@ a.underdashed:hover, a.underdashed:active
 	
 .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td
 	{
-		border-top: @border-dashed fade(@dark-text-color, 80%);
+		border-top-color: fade(@dark-text-color, 80%);
 	}
 	
 .table-bordered>thead>tr>th, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>tbody>tr>td, .table-bordered>tfoot>tr>td, .table-bordered
-		{
-			border: @border-dashed fade(@dark-text-color, 80%);
-		}	
-	
-.table-condensed>thead>tr>th, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>tbody>tr>td, .table-condensed>tfoot>tr>td
 	{
-		padding: 8px;
-	}
+		border-color: fade(@dark-text-color, 80%);
+	}	
 	
 table.rating
 	{
-		border: 1px dashed fade(@dark-text-color, 100%);
+		border-color: fade(@dark-text-color, 100%);
 		background-color: fade(@basic-bg-table-color, 40%);
 	}
 	
@@ -125,8 +123,7 @@ div.box-text
 	
 .site-name, .site-name-short
 	{
-		text-shadow: 0 0 12px @dark-text-color;
-		transition: text-shadow 1s linear;
+		text-shadow-color: @dark-text-color;
 	}
 	
 .semi-transparent
@@ -167,7 +164,7 @@ div.box-text
 .label-default /* initially gray */
 	{
 		background: fade(@basic-bg-color, 35%);
-		border: @border-dashed fade(@basic-text-color, 80%);
+		border-color: fade(@basic-text-color, 80%);
 		color: @basic-text-color;
 	}
 	
@@ -188,13 +185,13 @@ div.box-text
 	{
 		border-color: fade(@dark-text-color, 60%);
 		.shadow(fade(@dark-text-color, 80%), 5px);
-		.slider-bg
+		.slider-bg;
 	}
 	
 .ui-slider .ui-slider-handle 
 	{
-		.slider-handle;
 		.shadow(fade(@dark-text-color, 80%), 5px);
+		.slider-handle;
 	}
 	
 /* Badges */

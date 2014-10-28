@@ -1,6 +1,6 @@
 @import "vars.less"; 
 
-@media only screen and (max-width: 767px) 
+@media (max-width: 767px) 
 {
 	h1
 	{
@@ -114,45 +114,40 @@
 		{
 			display:block;
 		}
-	
-	#filters-container
-		{
-			//display:none;
-		}	
 		
 	td.daytime-filter
-	{
-		min-width: inherit;
-	}
+		{
+			min-width: inherit;
+		}
 		
 	.button-description-full
-	{
-		display: none;
-	}	
+		{
+			display: none;
+		}	
 	
 	.button-description-mobile
-	{
-		display: inline;
-	}	
+		{
+			display: inline;
+		}	
 		
 /* Movie info */
 
 .movie-info-mobile
-{	
-	display: table;
-}
+	{	
+		display: table;
+	}
 
 table.movie-info
 	{
 		.age-restriction
-		{
-			display: none;
-		}
+			{
+				display: none;
+			}
 		
 		span.b-share-btn__wrap
-		{
-			margin-left: 3px;
-		}
+			{
+				margin-left: 3px;
+			}
 	}
 	
 img.poster
@@ -164,31 +159,31 @@ img.poster
 /* Movie plates */
 
 	div.movie-plate-table
-	{
-		div.rating-plates
 		{
-			border-collapse: separate;
-			border-spacing: 5px;
-			padding: 0px !important;
-		}
-		
-		div.rating-plate-imdb, div.rating-plate-kinopoisk
-		{
-			display: table-row;
-			width: @rating-plate-width;
-			padding-left: 0px;
-		}
-		
-		div.show-button
-		{
-			display: none !important;
-		}
-		
-		.badge.limited, .age-restriction
-		{
-			display: none !important;
-		}		
-	}	
+			div.rating-plates
+				{
+					border-collapse: separate;
+					border-spacing: 5px;
+					padding: 0px !important;
+				}
+			
+			div.rating-plate-imdb, div.rating-plate-kinopoisk
+				{
+					display: table-row;
+					width: @rating-plate-width;
+					padding-left: 0px;
+				}
+			
+			div.show-button
+				{
+					display: none !important;
+				}
+			
+			.badge.limited, .age-restriction
+				{
+					display: none !important;
+				}		
+		}	
 	
 	table.movie-info .badge.count
 		{
@@ -196,19 +191,19 @@ img.poster
 		}
 
 	table.movie-description
-	{
-		display: none !important;
-	}
+		{
+			display: none !important;
+		}
 	
 	.movie-info-mobile-caption
-	{
-		margin-top: 10px;
-		margin-bottom: 0px !important;
-	}
+		{
+			margin-top: 10px;
+			margin-bottom: 0px !important;
+		}
 	
 	td.movie-title
-	{
-		display: none;
-	}
+		{
+			display: none;
+		}
 	
 }

@@ -40,22 +40,23 @@
   margin-left: auto;
   margin-right: auto;
 }
-@media only screen and (max-width: 767px) {
+@media (max-width: 767px) {
   body {
     background-image: url('../images/bgs/background_mobile.jpg');
-    background-repeat: repeat-xy;
   }
 }
-@media only screen and (min-width: 768px) {
+@media (min-width: 768px) {
   body {
     background-image: url('../images/bgs/background.jpg');
-    background-repeat: repeat-xy;
   }
-  h2.like-navbar,
   h1.like-navbar,
+  h2.like-navbar,
   h3.like-navbar,
   h4.like-navbar {
-    border: inherit;
+    border-color: rgba(247, 187, 97, 0.8) !important;
+  }
+  .box-text {
+    border-color: rgba(247, 187, 97, 0.8) !important;
   }
 }
 body {
@@ -109,7 +110,7 @@ a.underdashed:active {
 .table > thead > tr > td,
 .table > tbody > tr > td,
 .table > tfoot > tr > td {
-  border-top: 1px dashed rgba(247, 187, 97, 0.8);
+  border-top-color: rgba(247, 187, 97, 0.8);
 }
 .table-bordered > thead > tr > th,
 .table-bordered > tbody > tr > th,
@@ -118,18 +119,10 @@ a.underdashed:active {
 .table-bordered > tbody > tr > td,
 .table-bordered > tfoot > tr > td,
 .table-bordered {
-  border: 1px dashed rgba(247, 187, 97, 0.8);
-}
-.table-condensed > thead > tr > th,
-.table-condensed > tbody > tr > th,
-.table-condensed > tfoot > tr > th,
-.table-condensed > thead > tr > td,
-.table-condensed > tbody > tr > td,
-.table-condensed > tfoot > tr > td {
-  padding: 8px;
+  border-color: rgba(247, 187, 97, 0.8);
 }
 table.rating {
-  border: 1px dashed #f7bb61;
+  border-color: #f7bb61;
   background-color: rgba(0, 0, 0, 0.4);
 }
 /* Captions */
@@ -144,8 +137,7 @@ div.box-text {
 }
 .site-name,
 .site-name-short {
-  text-shadow: 0 0 12px #f7bb61;
-  transition: text-shadow 1s linear;
+  text-shadow-color: #f7bb61;
 }
 .semi-transparent {
   opacity: 0.85;
@@ -172,7 +164,7 @@ div.box-text {
 }
 .label-default {
   background: rgba(0, 0, 0, 0.35);
-  border: 1px dashed rgba(238, 198, 137, 0.8);
+  border-color: rgba(238, 198, 137, 0.8);
   color: #eec689;
 }
 .label-rating {
@@ -193,9 +185,9 @@ div.box-text {
   /* W3C */
 }
 .ui-slider .ui-slider-handle {
+  box-shadow: 0px 0px 5px rgba(247, 187, 97, 0.8);
   background-image: linear-gradient(to bottom, #e8b876 0%, #eac38c 50%, #e8b876 100%);
   border-color: #E5AA5E;
-  box-shadow: 0px 0px 5px rgba(247, 187, 97, 0.8);
 }
 /* Badges */
 .badge {
