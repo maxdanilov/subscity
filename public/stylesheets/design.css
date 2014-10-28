@@ -363,6 +363,9 @@ table.bordered {
 .table-no-top-borders tr:last-of-type > td {
   border-bottom: none !important;
 }
+table.movie-info tr:first-of-type > td:first-of-type {
+  border-right: 1px dashed !important;
+}
 table.rating {
   margin-left: auto;
   margin-right: auto;

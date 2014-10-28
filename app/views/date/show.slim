@@ -12,11 +12,11 @@ h1.text-center.capitalize.like-navbar #{show_date(@date)}
 			= link_to_movie(movie)
 			|  
 			- unless movie.languages.to_s.empty?
-				span.label.label-bg.label-default.age-restriction 
+				span.label.label-bg.label-default.age-restriction.hidden-xs
 					span.glyphicon.glyphicon-volume-up.language-icon
 					|  #{language(movie.languages.split(", ").first) rescue nil}
 				|  
-			span.label.label-small.label-default.age-restriction 
+			span.label.label-small.label-default.age-restriction.hidden-xs 
 				| #{movie.age_restriction}+
 			- unless movie.title_original.to_s.empty?
 				br
