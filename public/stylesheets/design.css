@@ -58,7 +58,23 @@
   td.movie-description {
     display: table-cell !important;
   }
+  td.movie-title {
+    display: table-cell !important;
+  }
   .movie-info-mobile {
+    display: none;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .site-name-short {
+    display: block !important;
+  }
+  .site-name {
+    display: none;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+  .share-text-top {
     display: none;
   }
 }
@@ -98,9 +114,19 @@ img.poster {
   margin-top: 10px;
 }
 /* Captions */
-.site-name {
+.site-name,
+.site-name-short {
   font-size: 64px;
   padding-right: 20px;
+}
+.city {
+  display: none;
+}
+.city-short {
+  display: inline;
+}
+.site-name-short {
+  display: none;
 }
 .movie-title {
   font-size: 19.2px;
@@ -386,11 +412,14 @@ div.divider {
   -webkit-box-shadow: none;
 }
 /* Navbar */
+.container-fluid {
+  max-width: 1230px;
+}
 .navbar {
   margin-left: -10px;
   margin-right: -10px;
   margin-top: -10px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   border-radius: 0px;
   border: none;
   padding-bottom: 0px;

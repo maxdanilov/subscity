@@ -142,7 +142,8 @@ div.box-text {
 .location {
   color: rgba(238, 198, 137, 0.75);
 }
-.site-name {
+.site-name,
+.site-name-short {
   text-shadow: 0 0 12px #f7bb61;
   transition: text-shadow 1s linear;
 }

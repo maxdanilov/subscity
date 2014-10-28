@@ -9,6 +9,17 @@
 /			| #{movie.age_restriction}+
 /	- unless movie.title_original.nil?
 /		div.movie-title-original.big-font = metroovie.title_original
+
+table.table.table-bordered.table-condensed.table-curved.table-striped.movie-info-mobile.table-no-side-borders.movie-info-mobile-caption
+	tr
+		td
+			span.movie-title 
+				= movie.title 
+				- unless movie.year.to_i == 0
+					|  (#{movie.year})
+			- unless movie.title_original.nil?
+				div.movie-title-original = format_title(movie.title_original)
+
 table.table.table-bordered.table-condensed.table-curved.table-striped.movie-info.table-no-side-borders
 	tr
 		td.text-center rowspan = "10"
@@ -31,12 +42,15 @@ table.table.table-bordered.table-condensed.table-curved.table-striped.movie-info
 				div.divider
 
 			div
-				| Поделиться:
+				i.fa.fa-share-alt
+				|  Поделиться:
 			= partial 'partials/share', :locals => {:link => request.url_without_subdomain, :title => "Фильм #{@title} в кино на языке оригинала", :description => @movie.description.to_s, :image => "http://" + domain_name + "/images/" + poster_file}
 
-		td colspan = "1" 
+		td.movie-title colspan = "1" 
 			span.movie-title 
-				=movie.title 
+				= movie.title 
+				- unless movie.year.to_i == 0
+					|  (#{movie.year})
 				- unless movie.languages.to_s.empty?
 					|  
 					span.label.label-bg.label-default.age-restriction 
@@ -48,48 +62,47 @@ table.table.table-bordered.table-condensed.table-curved.table-striped.movie-info
 			- unless movie.title_original.nil?
 				div.movie-title-original = format_title(movie.title_original)
 		
-	- unless movie.year.to_s.empty? or movie.year == 0
-		tr
-			td.col-md-12 colspan="2" 
-				div
-					strong Год: 
-					= movie.year.to_s
 	- unless movie.genres.to_s.empty?
 		tr
 			td.col-md-12 colspan="2" 
 				div
-					strong Жанр: 
-					= movie.genres
+					i.fa.fa-bookmark
+					strong.hidden-xs  Жанр: 
+					|  #{movie.genres}
 	- unless movie.duration.to_i == 0 or movie.duration.to_i > 2000
 		tr
 			td.col-md-12 colspan="2" 
 				div
-					strong Длительность: 
-					= movie.duration
-					|  мин.
+					i.fa.fa-clock-o
+					strong.hidden-xs  Длительность: 
+					|  #{movie.duration} мин.				
 	- unless movie.country.to_s.empty? or movie.country == '-'
 		tr
 			td.col-md-12 colspan="2" 
 				div
-					strong Страна: 
-					= movie.country
+					i.fa.fa-globe			
+					strong.hidden-xs  Страна: 
+					|  #{movie.country}
 	- unless movie.languages.to_s.empty?
 			td.col-md-12 colspan="2" 
 				div
-					strong Язык: 
-					= languages_format(movie.languages)
+					i.fa.fa-volume-up
+					strong.hidden-xs  Язык: 
+					|  #{languages_format(movie.languages)}
 	- unless movie.director.to_s.empty?
 		tr
 			td colspan = "2" 
 				div
-					strong Режиссер: 
-					= movie.director.gsub("\r", "").split("\n").join(", ")
+					i.fa.fa-bullhorn
+					strong.hidden-xs  Режиссер: 
+					|  #{movie.director.gsub("\r", "").split("\n").join(", ")}
 	- unless movie.cast.to_s.empty?
 		tr
 			td colspan = "2" 
 				div
-					strong В ролях: 
-					= movie.cast.gsub("\r", "").split("\n").join(", ")
+					i.fa.fa-users
+					strong.hidden-xs  В ролях: 
+					|  #{movie.cast.gsub("\r", "").split("\n").join(", ")}
 	- unless movie.description.to_s.empty?
 		tr
 			td.movie-description colspan = "2" 

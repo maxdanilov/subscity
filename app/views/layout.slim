@@ -12,7 +12,7 @@ html
 		meta name="Keywords" content="где посмотреть фильм с субтитрами, киносеансы для слабослышащих, фильмы на языке оригинала, фильмы с субтитрами, кино с субтитрами, фильмы без перевода, фильмы с русскими субтитрами, расписание, кинотеатры, кино, билеты, цены, Москва, Санкт-Петербург, movies with subtitles, movies with subs, schedule, cinemas, theatres, tickets, price, Moscow, Saint-Petersburg"
 		
 		- if APP_SELL_TICKETS == true
-			/! Key tag for kassa widget
+			/ Key tag for kassa widget
 			<rb:rich key="9565b54e-cb2e-4063-a15d-d9962e8c49dd" xmlns:rb="http://kassa.rambler.ru"></rb:rich>
 		= feed_tag(:rss, url(:movies, :format => :rss), :title => "SubsCity (#{@city.name rescue City.get_by_domain(request.subdomains.first).name})")
 
@@ -21,14 +21,17 @@ html
 
 		= stylesheet_link_tag 'http://fonts.googleapis.com/css?family=PT+Sans:400,700&subset=latin,cyrillic'
 		
-		/! Bootstrap
+		/ Bootstrap
 		= stylesheet_link_tag 'http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css'
-		/! Optional theme
+		/ Optional theme
 		= stylesheet_link_tag 'http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css'
 
-		/! jquery UI CSS
+		/ Font awesome icons
+		= stylesheet_link_tag 'http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css'
+
+		/ jquery UI CSS
 		= stylesheet_link_tag '//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css'
-		/! custom CSS
+		/ custom CSS
 		= stylesheet_link_tag 'design', 'design-dark', 'design-mobile'
 		
 	body
@@ -48,8 +51,10 @@ html
 								| S
 								span.semi-transparent ubs
 								| C
-								span.semi-transparent ity.
+								span.semi-transparent ity.								
 								| ru 
+							div.pretty-header.pulsing.site-name-short
+								| SC
 					div.navbar-collapse.collapse
 						ul.nav.navbar-nav
 							li.big-font 
@@ -80,14 +85,19 @@ html
 									table
 										tr
 											td.big-font.share-top
-												| Поделиться: 
+												i.fa.fa-share-alt.share-icon-top
+												span.share-text-top
+													|  Поделиться: 
 											td
 												= partial 'partials/share', :locals => { :link => "#{'http://' + request.host}" }
 
 						ul.nav.navbar-nav.navbar-right
 							li.dropdown
 								= link_to "#", :class => "dropdown-toggle", "data-toggle" => "dropdown"
-									| #{@city.name rescue City.get_by_domain(request.subdomains.first).name} 
+									span.city
+										| #{@city.name rescue City.get_by_domain(request.subdomains.first).name} 
+									span.city-short
+										| #{@city.name_short rescue City.get_by_domain(request.subdomains.first).name} 
 									b.caret
 									ul.dropdown-menu
 										li
@@ -96,26 +106,26 @@ html
 											= link_to "Санкт-Петербург", "#{'http://spb.' + request.main_domain}#{request.path}"
 			= partial 'partials/about' if @show_about == true
 			= yield
-		/! jQuery (necessary for Bootstrap's JavaScript plugins)
+		/ jQuery (necessary for Bootstrap's JavaScript plugins)
 		= javascript_include_tag '//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js'
-		/! jQuery UI
+		/ jQuery UI
 		= javascript_include_tag '//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js'
 
-		/! Include all compiled plugins (below), or include individual files as needed
+		/ Include all compiled plugins (below), or include individual files as needed
 		= javascript_include_tag 'http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js'
 		/= javascript_include_tag 'http://areaaperta.com/nicescroll/js/jquery.nicescroll.min.js'
 		/= javascript_include_tag 'jquery.nicescroll.plus.js'
 
-		/! custom JS
+		/ custom JS
 		= javascript_include_tag 'default'
 
 		/ JQuery Unveil library
 		= javascript_include_tag 'jquery.unveil'
 
-		/! Yandex.Share
+		/ Yandex.Share
 		= javascript_include_tag 'http://yastatic.net/share/share.js'	
 
-		/! Kassa ticket plan
+		/ Kassa ticket plan
 		- if APP_SELL_TICKETS == true
 			= javascript_include_tag 'http://s2.kassa.rl0.ru/widget/js/ticketmanager.js'
 

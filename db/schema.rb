@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(:version => 7) do
     t.string   "domain"
     t.integer  "city_id"
     t.string   "name"
+    t.string   "name_short"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

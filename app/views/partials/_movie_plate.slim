@@ -51,7 +51,7 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 							span.badge.count style="margin-top:5px;"
 								| #{format_cinemas_count(@cinemas_counts[movie])} 
 
-					- unless movie.year.to_s.empty?
+					- unless movie.year.to_i == 0
 						td.col-md-12 colspan="1"
 							div
 								strong Год: 

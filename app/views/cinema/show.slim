@@ -85,5 +85,5 @@ table.table.table-condensed.table-curved.table-striped
 										td.text-center.cell-screenings attr-price=screening.price_min attr-time-of-day=time_of_day(screening.date_time) attr-time=screening.date_time.to_i
 											= partial 'partials/ticket_cell', :locals => { :screening => screening, :cinema => @cinema, :day => day }
 
-	h3.text-center.like-navbar id="nothing-found"
+	h3.text-center.like-navbar.hidden id="nothing-found"
 		| Ничего не найдено. Смягчите условия поиска.

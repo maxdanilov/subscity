@@ -45,7 +45,7 @@
     font-size: 27.36px;
   }
   h2 {
-    font-size: 23.040000000000003px;
+    font-size: 23.04px;
   }
   div.box-text {
     font-size: 17.28px;
@@ -155,7 +155,17 @@
   div.movie-plate-table .age-restriction {
     display: none !important;
   }
+  table.movie-info .badge.count {
+    display: none !important;
+  }
   table.movie-description {
     display: none !important;
+  }
+  .movie-info-mobile-caption {
+    margin-top: 10px;
+    margin-bottom: 0px !important;
+  }
+  td.movie-title {
+    display: none;
   }
 }
