@@ -1,109 +1,100 @@
-span.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-title="#{movie.title}" attr-created="#{movie.created_at.to_i}" attr-imdb="#{ratings.imdb_rating.round(1) rescue 0}" attr-kinopoisk="#{ratings.kinopoisk_rating.round(1) rescue 0}" attr-kinopoisk-votes="#{ratings.kinopoisk_votes.to_i rescue 0}" attr-imdb-votes="#{ratings.imdb_votes.to_i rescue 0}" attr-language="#{language(movie.languages.split(", ").first) rescue nil}"
-	table.table.table-bordered.table-condensed.table-curved.table-striped style="margin-bottom:0px;margin-top:5px;" 
-		tbody
-			tr.table-header
-				td.col-md-1.col.xs-1.text-center style="width:4.5rem; vertical-align: middle;"
-					button.btn.btn-default.btn-medium.show-button type="button"
-							span.glyphicon.glyphicon-chevron-down
+div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-title="#{movie.title}" attr-created="#{movie.created_at.to_i}" attr-imdb="#{ratings.imdb_rating.round(1) rescue 0}" attr-kinopoisk="#{ratings.kinopoisk_rating.round(1) rescue 0}" attr-kinopoisk-votes="#{ratings.kinopoisk_votes.to_i rescue 0}" attr-imdb-votes="#{ratings.imdb_votes.to_i rescue 0}" attr-language="#{language(movie.languages.split(", ").first) rescue nil}"
+	div.movie-plate-table
+		div.movie-plate-row
+			div.text-center.show-button
+				button.btn.btn-default.btn-medium.show-button type="button"
+						span.glyphicon.glyphicon-chevron-down
 
-				td.col.md-8.col.xs-10 style="border-right-width: 0px;"
-					span.movie-title 
-						= link_to_movie(movie)
-						|  
-						- unless movie.languages.to_s.empty?
-							span.label.label-bg.label-default.age-restriction 
-								span.glyphicon.glyphicon-volume-up.language-icon
-								/|  #{movie.languages.split(", ").first.upcase[0..2] rescue nil}
-								|  #{language(movie.languages.split(", ").first) rescue nil}
-							|  
+			div.movie-titles
+				div.movie-title 
+					= link_to_movie(movie)
+					|  
+					- unless movie.languages.to_s.empty?
 						span.label.label-bg.label-default.age-restriction 
-							| #{movie.age_restriction}+
-						- if defined? @new_movies and @new_movies.include? movie
-							|  
-							span.badge.new style="position:relative; top:-0px;"
-								| новый 
-						- if defined? @screening_counts and @screening_counts[movie] < 5
-							|  
-							span.badge.limited style="position:relative; top:-0px;"
-								| мало сеансов 
-					- unless movie.title_original.nil?
-						div.movie-title-original = format_title(movie.title_original)
-				
-				- unless (movie.kinopoisk_id.nil? and movie.imdb_id.nil?) or ratings.nil?
-					td.col-md-3.col.xs-1.text-center.rating-plates style="border-left-width: 0px;"
-						- unless movie.imdb_id.nil? or ratings.nil? or ratings.imdb_rating.nil?
-							= partial 'partials/rating_plate', :locals => { :movie => movie, :type => :imdb, :rating => ratings.imdb_rating, :votes => ratings.imdb_votes }
-							span.rating-plate-divider
-							- if movie.kinopoisk_id.nil?
-								span.like-rating-plate								
-						- unless movie.kinopoisk_id.nil? or ratings.nil?
-							- if movie.imdb_id.nil? or ratings.imdb_rating.nil? 
-								span.like-rating-plate
-								span.rating-plate-divider
+							span.glyphicon.glyphicon-volume-up.language-icon
+							|  #{language(movie.languages.split(", ").first) rescue nil}
+						|  
+					div.label.label-bg.label-default.age-restriction 
+						| #{movie.age_restriction}+
+					- if defined? @new_movies and @new_movies.include? movie
+						|  
+						span.badge.new
+							| новый 
+					- if defined? @screening_counts and @screening_counts[movie] < 5
+						|  
+						span.badge.limited
+							| мало сеансов 
+				- unless movie.title_original.nil?
+					div.movie-title-original = format_title(movie.title_original)
+			
+			- unless (movie.kinopoisk_id.nil? and movie.imdb_id.nil?) or ratings.nil?
+				div.text-center.rating-plates
+					- unless movie.imdb_id.nil? or ratings.nil? or ratings.imdb_rating.nil?
+						div.rating-plate-imdb
+							= partial 'partials/rating_plate', :locals => { :movie => movie, :type => :imdb, :rating => ratings.imdb_rating, :votes => ratings.imdb_votes }							
+					- unless movie.kinopoisk_id.nil? or ratings.nil?
+						div.rating-plate-kinopoisk
 							= partial 'partials/rating_plate', :locals => { :movie => movie, :type => :kinopoisk, :rating => ratings.kinopoisk_rating, :votes => ratings.kinopoisk_votes }
+	div.movie-description
+		table.table.table-bordered.table-condensed.table-curved.table-striped.movie-description
+			tbody	
+				tr.table-body
+					td.text-center rowspan = "10"
+						- if movie.poster_exists?
+							<img class="poster" src="/images/transparent.png" data-src="/images/posters/#{movie.movie_id}.jpg">
+						- else
+							= image_tag "transparent.png", :class => 'poster'
+						- if defined? @screening_counts
+							span.badge.count style="margin-top:5px;"
+								| #{format_screenings_count(@screening_counts[movie])} 
+						- if defined? @cinemas_counts
+							span.badge.count style="margin-top:5px;"
+								| #{format_cinemas_count(@cinemas_counts[movie])} 
 
+					- unless movie.year.to_s.empty?
+						td.col-md-12 colspan="1"
+							div
+								strong Год: 
+								= movie.year.to_s
 
-	table.table.table-bordered.table-condensed.table-curved.table-striped.movie-description
-		tbody	
-			tr.table-body
-				td.text-center rowspan = "10"
-					- if movie.poster_exists?
-						/= image_tag "posters/#{movie.movie_id}.jpg", :class => 'poster'
-						/= image_tag "transparent.png", :class => 'poster', :data-src => "posters/#{movie.movie_id}.jpg"
-						<img class="poster" src="/images/transparent.png" data-src="/images/posters/#{movie.movie_id}.jpg">
-					- else
-						= image_tag "transparent.png", :class => 'poster'
-					- if defined? @screening_counts
-						span.badge.count style="margin-top:5px;"
-							| #{format_screenings_count(@screening_counts[movie])} 
-					- if defined? @cinemas_counts
-						span.badge.count style="margin-top:5px;"
-							| #{format_cinemas_count(@cinemas_counts[movie])} 
-
-				- unless movie.year.to_s.empty?
-					td.col-md-12 colspan="1"
+				- unless movie.genres.to_s.empty?
+					tr.table-body
+						td.col-md-12 colspan="1" 
+							div
+								strong Жанр: 
+								= movie.genres
+				- unless movie.duration.to_i == 0
+					tr.table-body
+						td.col-md-12 colspan="1" 
+							div
+								strong Длительность: 
+								= movie.duration
+								|  мин.
+				- unless movie.country.to_s.empty? or movie.country == '-'
+					tr.table-body
+						td.col-md-12 colspan="1" 
+							div
+								strong Страна: 
+								= movie.country
+				- unless movie.languages.to_s.empty?
+					td.col-md-12 colspan="2" 
 						div
-							strong Год: 
-							= movie.year.to_s
-
-			- unless movie.genres.to_s.empty?
-				tr.table-body
-					td.col-md-12 colspan="1" 
-						div
-							strong Жанр: 
-							= movie.genres
-			- unless movie.duration.to_i == 0
-				tr.table-body
-					td.col-md-12 colspan="1" 
-						div
-							strong Продолжительность: 
-							= movie.duration
-							|  мин.
-			- unless movie.country.to_s.empty? or movie.country == '-'
-				tr.table-body
-					td.col-md-12 colspan="1" 
-						div
-							strong Страна: 
-							= movie.country
-			- unless movie.languages.to_s.empty?
-				td.col-md-12 colspan="2" 
-					div
-						strong Язык: 
-						= languages_format(movie.languages)
-			- unless movie.director.to_s.empty?
-				tr.table-body
-					td colspan = "1" 
-						div
-							strong Режиссер: 
-							= movie.director.gsub("\r", "").split("\n").join(", ")
-			- unless movie.cast.to_s.empty?
-				tr.table-body
-					td colspan = "1" 
-						div
-							strong В ролях: 
-							= movie.cast.gsub("\r", "").split("\n").join(", ")
-			- unless movie.description.to_s.empty?
-				tr.table-body
-					td colspan = "1" 
-						div.justified
-							== movie.description.gsub("\r\n\r\n", "<br/>").gsub("\r\n", "<br/>")
+							strong Язык: 
+							= languages_format(movie.languages)
+				- unless movie.director.to_s.empty?
+					tr.table-body
+						td colspan = "1" 
+							div
+								strong Режиссер: 
+								= movie.director.gsub("\r", "").split("\n").join(", ")
+				- unless movie.cast.to_s.empty?
+					tr.table-body
+						td colspan = "1" 
+							div
+								strong В ролях: 
+								= movie.cast.gsub("\r", "").split("\n").join(", ")
+				- unless movie.description.to_s.empty?
+					tr.table-body
+						td colspan = "1" 
+							div.justified
+								== movie.description.gsub("\r\n\r\n", "<br/>").gsub("\r\n", "<br/>")

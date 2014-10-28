@@ -8,6 +8,7 @@ $(function() {
 	var priceSlider = "#price-slider";
 
 	var buttonSortPressed;
+	var buttonTrailerPressed;
 
 	function format_price(val)
 	{
@@ -20,14 +21,14 @@ $(function() {
 	function hide(obj, speed)
 	{
 		if(typeof(speed)==='undefined') speed = 1000;
+		//obj.fadeOut(speed);
 		obj.addClass("hidden");
-		obj.fadeOut(speed);
 	}
 	
 	function show(obj, speed)
 	{
 		if(typeof(speed)==='undefined') speed = 1000;
-		obj.fadeIn(speed);
+		//obj.fadeIn(speed);
 		obj.removeClass("hidden");
 	}
 	
@@ -108,6 +109,51 @@ $(function() {
 		}
 	});
 	
+	/* Trailers switch button */
+	
+	function activateTrailerButton(button){
+		var buttons = ["#button-trailer-original", "#button-trailer-dubbed"];
+		buttons.forEach(function(b) {
+			$(b).removeClass("active");
+		});	
+		$(button).addClass("active");
+	}
+	
+	function clickTrailerButton(button, name)
+	{
+		activateTrailerButton(button);
+		buttonTrailerPressedPrev = buttonTrailerPressed;
+		buttonTrailerPressed = name;
+		if (buttonTrailerPressed != buttonTrailerPressedPrev) 
+			;//$('#movie-plates .movie-plate').sort(compareBy).appendTo('#movie-plates');
+	}
+	
+	$("#button-trailer-original").click(function(){
+		$("#trailer-original").show();
+		$("#trailer-dubbed").hide();
+		$("#button-trailer-original").addClass("active");
+		$("#button-trailer-dubbed").removeClass("active");
+
+		loadFrameVideo($("#trailer-dubbed"));
+	});
+	
+	$("#button-trailer-dubbed").click(function(){
+		$("#trailer-dubbed").show();
+		$("#trailer-original").hide();
+		$("#button-trailer-dubbed").addClass("active");
+		$("#button-trailer-original").removeClass("active");
+		
+		loadFrameVideo($("#trailer-dubbed"));
+	});
+	
+	function loadFrameVideo(container)
+	{
+		$(container).find('iframe[src="about:blank"]').prop("src", function()
+			{	
+				return $(this).data("src");
+			});		
+	}
+	
 	/* Movie sorting button */
 	
 	function activateSortButton(button){
@@ -186,8 +232,8 @@ $(function() {
 		clickFilterButton(this, "all-day");
 	});
 	
-	$(".show-button").click(function(){
-		var table = $(this).closest("table").next("table");
+	$("button.show-button").click(function(){
+		var table = $(this).closest(".movie-plate-table").next("div").find("table");		
 		table.toggle();
 		table.find("img:first").unveil(0);
 		
@@ -287,9 +333,6 @@ $(function() {
 	/* When document is ready */
 	
 	$( document ).ready(function(){
-	    
-		//$("html").niceScroll({styler:"fb",cursorcolor:"#000"});
-	
 		activateFilterButton($("#button-all-day"));
 		buttonFilterPressed = "all-day";
 		priceSliderValue = PRICE_MAX;
@@ -298,11 +341,14 @@ $(function() {
 		activateSortButton($("#button-sort-title"));
 		buttonSortPressed = "sort-name";
 		
+		activateTrailerButton($("#button-trailer-original"));
+		buttonTrailerPressed = "trailer-original";		
+		$("#button-group-trailers").show();		
+		loadFrameVideo($("#trailer-original"));
+		$("#trailer-original").show();
+		$("#trailers").show();
 		
-		//if ($("#filters").css("display") != "none" )
-		//{
-			$("#filters").show();	
-		//}
+		$("#filters").show();	
 
 		disablePassedScreenings();
 		window.setInterval(function(){

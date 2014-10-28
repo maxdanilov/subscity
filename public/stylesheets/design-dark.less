@@ -18,6 +18,12 @@
 			//background-size: @bg-size;
 			/*background-attachment: fixed;*/
 		}
+		
+	h2.like-navbar, h1.like-navbar, h3.like-navbar, h4.like-navbar
+		{			
+			//border: @border-solid-wide fade(@dark-text-color, 80%);
+			border: inherit;
+		}
 }
 
 body 
@@ -42,11 +48,6 @@ img.poster
 	{
 		border: 2px solid @basic-text-color;
 		.shadow(@basic-text-color, 12px);
-	}
-	
-div.box-text
-	{
-		/*.shadow(@basic-text-color);*/
 	}
 	
 /* Tables */	
@@ -108,7 +109,6 @@ table.rating
 div.box-text
 	{
 		background-color: fade(@basic-bg-color, 50%);
-		border-radius: 10px;
 	}
 	
 .movie-title-original
@@ -320,7 +320,7 @@ ul.dropdown-menu
 	
 .like-navbar
 	{
-		background-color: fade(@basic-bg-color, 30%);
+		background-color: fade(@basic-bg-color, 50%);
 		border-top: @border-solid-wide fade(@dark-text-color, 80%);
 		border-bottom: @border-solid-wide fade(@dark-text-color, 80%);
 		.shadow(fade(@dark-text-color, 50%), 8px);
@@ -343,3 +343,22 @@ ul.dropdown-menu
 		border-top: @border-solid-wide fade(@dark-text-color, 80%);
 		.shadow(fade(@dark-text-color, 50%), 8px);
 	}
+	
+/* Movie plates */
+
+div.movie-plate-table
+	{		
+		border-color: fade(@dark-text-color, 100%);
+		background-color: fade(@basic-bg-color, 50%);
+		.shadow(@basic-bg-color);
+		
+		div.show-button
+		{		
+			border-right-color: fade(@dark-text-color, 100%);
+		}
+		
+		table.movie-description
+		{
+			background: fade(@basic-bg-color, 0%);	
+		}
+	}	

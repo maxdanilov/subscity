@@ -1,17 +1,39 @@
 div id="filters-container"
-	table.text-center.filters id="filters" style="display:none;"
+	table.text-center.filters.filters-sort id="filters" style="display:none;"
 		tbody
 			tr
 				td
 					div.big-font.dark-shadowed
 							| Сортировать по: 
 					div.btn-group
-						button.btn.btn-default.big-font.font-bold id="button-sort-title" type="button" названию
-						button.btn.btn-default.big-font.font-bold id="button-sort-date" type="button" новизне
-						button.btn.btn-default.big-font.font-bold id="button-sort-screenings" type="button" числу сеансов
-						button.btn.btn-default.big-font.font-bold id="button-sort-language" type="button" языку
-						button.btn.btn-default.big-font.font-bold id="button-sort-imdb" type="button" рейтингу IMDB
-						button.btn.btn-default.big-font.font-bold id="button-sort-kinopoisk" type="button" рейтингу КП
+						button.btn.btn-default.big-font.font-bold id="button-sort-title" type="button" 
+							span.button-icon.glyphicon.glyphicon-sort-by-alphabet
+							span.button-description.button-description-full
+								| названию
+						button.btn.btn-default.big-font.font-bold id="button-sort-date" type="button"
+							span.button-icon.glyphicon.glyphicon-time
+							span.button-description-full
+								| новизне
+						button.btn.btn-default.big-font.font-bold.hidden-xs id="button-sort-screenings" type="button"
+							span.button-icon.glyphicon.glyphicon-film
+							span.button-description-full
+								| сеансам						
+						button.btn.btn-default.big-font.font-bold.hidden-xs id="button-sort-language" type="button"
+							span.button-icon.glyphicon.glyphicon-volume-up
+							span.button-description-full
+								| языку
+						button.btn.btn-default.big-font.font-bold id="button-sort-imdb" type="button"
+							span.button-icon.glyphicon.glyphicon-star
+							span.button-description-full
+								| оценке IMDB
+							span.button-description-mobile
+								| IMDB
+						button.btn.btn-default.big-font.font-bold id="button-sort-kinopoisk" type="button"
+							span.button-icon.glyphicon.glyphicon-star
+							span.button-description-full
+								| оценке КП
+							span.button-description-mobile
+								| КП
 			tr
 				td
 					br

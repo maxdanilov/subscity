@@ -2,6 +2,21 @@
 
 @media only screen and (max-width: 767px) 
 {
+	h1
+	{
+		.font-size(@font-size-h1 * 0.9);
+	}	
+	
+	h2
+	{
+		.font-size(@font-size-h2 * 0.9);
+	}
+	
+	div.box-text
+	{
+		.font-size(@font-size-site-intro * 0.9);
+	}
+	
 	// Toggle button
 	.navbar-toggle
 		{
@@ -102,6 +117,82 @@
 	
 	#filters-container
 		{
-			display:none;
+			//display:none;
 		}	
+		
+	td.daytime-filter
+	{
+		min-width: inherit;
+	}
+		
+	.button-description-full
+	{
+		display: none;
+	}	
+	
+	.button-description-mobile
+	{
+		display: inline;
+	}	
+		
+/* Movie info */
+
+.movie-info-mobile
+{	
+	display: table;
+}
+
+table.movie-info
+	{
+		.age-restriction
+		{
+			display: none;
+		}
+		
+		span.b-share-btn__wrap
+		{
+			margin-left: 3px;
+		}
+	}
+	
+img.poster
+	{	
+		max-width: 120px;
+		max-height: 120*1.47px;
+	}
+		
+/* Movie plates */
+
+	div.movie-plate-table
+	{
+		div.rating-plates
+		{
+			border-collapse: separate;
+			border-spacing: 5px;
+			padding: 0px !important;
+		}
+		
+		div.rating-plate-imdb, div.rating-plate-kinopoisk
+		{
+			display: table-row;
+			width: @rating-plate-width;
+			padding-left: 0px;
+		}
+		
+		div.show-button
+		{
+			display: none !important;
+		}
+		
+		.badge.limited, .age-restriction
+		{
+			display: none !important;
+		}		
+	}	
+
+	table.movie-description
+	{
+		display: none !important;
+	}
+	
 }

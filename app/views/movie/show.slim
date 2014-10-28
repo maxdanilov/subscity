@@ -9,7 +9,7 @@
 /			| #{movie.age_restriction}+
 /	- unless movie.title_original.nil?
 /		div.movie-title-original.big-font = metroovie.title_original
-table.table.table-bordered.table-condensed.table-curved.table-striped
+table.table.table-bordered.table-condensed.table-curved.table-striped.movie-info
 	tr
 		td.text-center rowspan = "10"
 			- if movie.poster_exists?
@@ -64,7 +64,7 @@ table.table.table-bordered.table-condensed.table-curved.table-striped
 		tr
 			td.col-md-12 colspan="2" 
 				div
-					strong Продолжительность: 
+					strong Длительность: 
 					= movie.duration
 					|  мин.
 	- unless movie.country.to_s.empty? or movie.country == '-'
@@ -92,9 +92,18 @@ table.table.table-bordered.table-condensed.table-curved.table-striped
 					= movie.cast.gsub("\r", "").split("\n").join(", ")
 	- unless movie.description.to_s.empty?
 		tr
+			td.movie-description colspan = "2" 
+				div.justified
+					== movie.description.gsub("\r\n\r\n", "<br/>").gsub("\r\n", "<br/>")
+
+table.table.table-bordered.table-condensed.table-curved.table-striped.movie-info-mobile
+	- unless movie.description.to_s.empty?
+		tr
 			td colspan = "2" 
 				div.justified
 					== movie.description.gsub("\r\n\r\n", "<br/>").gsub("\r\n", "<br/>")
+
+= partial 'partials/trailers', :locals => { :movie => movie }
 
 - if @screenings.count == 0
 	h2.text-center.like-navbar В ближайшее время сеансов на языке оригинала нет

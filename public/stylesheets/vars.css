@@ -35,3 +35,8 @@
   background-image: linear-gradient(to bottom, #e8b876 0%, #eac38c 50%, #e8b876 100%);
   border-color: #E5AA5E;
 }
+.centered-content {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}

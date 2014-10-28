@@ -474,6 +474,22 @@ task :update_movies_kinopoisk => :environment do |task|
 end
 =end
 
+desc 'update youtube trailer info'
+task :update_movie_trailer, [:id, :video_id] => :environment do |task, args|
+	t = start_task(task)
+	id = args[:id].to_i
+	video_id = args[:video_id].gsub('http://www.youtube.com/watch?v=','').to_s
+	unless id.zero?
+		unless Movie.exists?(id)
+			puts "Error: movie with id = #{id} wasn't found.".red
+		else
+			m = Movie.where(:id => id).first
+			m.update_attribute(:trailer, video_id)
+		end
+	end
+	stop_task(task, t)
+end
+
 desc 'force update of all active movies with kinopoisk and imdb data'
 task :update_movies_kinopoisk => :environment do |task, args|
 	t = start_task(task)

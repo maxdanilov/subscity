@@ -7,6 +7,7 @@
 @bg-url-mobile: url('../images/bgs/background_mobile.jpg');
 @font-size-base: 16px; /*1rem;*/
 @bg-size: 2400px;
+@max-content-size: 1200px;
 
 /* Sizes, paddings, margins */
 
@@ -16,6 +17,7 @@
 @price-padding: 6px;
 
 @rating-plate-width: 110px; /*6.375rem; */
+@rating-plate-height: 54px;
 @footer-height: 40px;
 
 
@@ -119,4 +121,11 @@
 	{
 		background-image: linear-gradient(to bottom, #e8b876 0%,#eac38c 50%,#e8b876 100%);
 		border-color: #E5AA5E;
+	}
+	
+.centered-content
+	{
+		max-width: @max-content-size;
+		margin-left: auto;
+		margin-right: auto;
 	}

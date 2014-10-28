@@ -35,6 +35,11 @@
   background-image: linear-gradient(to bottom, #e8b876 0%, #eac38c 50%, #e8b876 100%);
   border-color: #E5AA5E;
 }
+.centered-content {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
 @media only screen and (max-width: 767px) {
   body {
     background-image: url('../images/bgs/background_mobile.jpg');
@@ -46,6 +51,12 @@
     background-image: url('../images/bgs/background.jpg');
     background-repeat: repeat-xy;
     /*background-attachment: fixed;*/
+  }
+  h2.like-navbar,
+  h1.like-navbar,
+  h3.like-navbar,
+  h4.like-navbar {
+    border: inherit;
   }
 }
 body {
@@ -63,9 +74,6 @@ body {
 img.poster {
   border: 2px solid #eec689;
   box-shadow: 0px 0px 12px #eec689;
-}
-div.box-text {
-  /*.shadow(@basic-text-color);*/
 }
 /* Tables */
 table.table {
@@ -120,7 +128,6 @@ table.rating {
 /* Captions */
 div.box-text {
   background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 10px;
 }
 .movie-title-original {
   color: rgba(238, 198, 137, 0.75);
@@ -276,7 +283,7 @@ ul.dropdown-menu {
   background-color: rgba(0, 0, 0, 0);
 }
 .like-navbar {
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.5);
   border-top: 2px solid rgba(247, 187, 97, 0.8);
   border-bottom: 2px solid rgba(247, 187, 97, 0.8);
   box-shadow: 0px 0px 8px rgba(247, 187, 97, 0.5);
@@ -293,4 +300,16 @@ ul.dropdown-menu {
   color: #eec689;
   border-top: 2px solid rgba(247, 187, 97, 0.8);
   box-shadow: 0px 0px 8px rgba(247, 187, 97, 0.5);
+}
+/* Movie plates */
+div.movie-plate-table {
+  border-color: #f7bb61;
+  background-color: rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 0px 8px #000000;
+}
+div.movie-plate-table div.show-button {
+  border-right-color: #f7bb61;
+}
+div.movie-plate-table table.movie-description {
+  background: rgba(0, 0, 0, 0);
 }

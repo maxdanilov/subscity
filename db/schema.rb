@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(:version => 7) do
     t.integer  "cinemate_id"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
+    t.string   "trailer"
   end
 
   create_table "screenings", :force => true do |t|
