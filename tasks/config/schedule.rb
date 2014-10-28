@@ -35,7 +35,7 @@ end
 
 #kinopoisk info
 every :day, :at => ['04:00', '17:00'] do
-	my_rake "update_movies_kinopoisk", :output => 'logs/cron.log'
+	my_rake "update_movies_info", :output => 'logs/cron.log'
 end
 
 #cinemas
