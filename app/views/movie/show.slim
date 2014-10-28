@@ -46,7 +46,7 @@ table.table.table-bordered.table-condensed.table-curved.table-striped.movie-info
 				|  Поделиться:
 			= partial 'partials/share', :locals => {:link => request.url_without_subdomain, :title => "Фильм #{@title} в кино на языке оригинала", :description => @movie.description.to_s, :image => "http://" + domain_name + "/images/" + poster_file}
 
-		td.movie-title colspan = "1" 
+		td.movie-title.col-sm-12 colspan = "1" 
 			span.movie-title 
 				= movie.title 
 				- unless movie.year.to_i == 0
@@ -64,48 +64,48 @@ table.table.table-bordered.table-condensed.table-curved.table-striped.movie-info
 		
 	- unless movie.genres.to_s.empty?
 		tr
-			td.col-md-12 colspan="2" 
+			td.col-sm-12 colspan="2" 
 				div
 					i.fa.fa-bookmark
 					strong.hidden-xs  Жанр: 
 					|  #{movie.genres}
 	- unless movie.duration.to_i == 0 or movie.duration.to_i > 2000
 		tr
-			td.col-md-12 colspan="2" 
+			td.col-sm-12 colspan="2" 
 				div
 					i.fa.fa-clock-o
 					strong.hidden-xs  Длительность: 
 					|  #{movie.duration} мин.				
 	- unless movie.country.to_s.empty? or movie.country == '-'
 		tr
-			td.col-md-12 colspan="2" 
+			td.col-sm-12 colspan="2" 
 				div
 					i.fa.fa-globe			
 					strong.hidden-xs  Страна: 
 					|  #{movie.country}
 	- unless movie.languages.to_s.empty?
-			td.col-md-12 colspan="2" 
+			td.col-sm-12 colspan="2" 
 				div
 					i.fa.fa-volume-up
 					strong.hidden-xs  Язык: 
 					|  #{languages_format(movie.languages)}
 	- unless movie.director.to_s.empty?
 		tr
-			td colspan = "2" 
+			td.col-sm-12 colspan = "2" 
 				div
 					i.fa.fa-bullhorn
 					strong.hidden-xs  Режиссер: 
 					|  #{movie.director.gsub("\r", "").split("\n").join(", ")}
 	- unless movie.cast.to_s.empty?
 		tr
-			td colspan = "2" 
+			td.col-sm-12 colspan = "2" 
 				div
 					i.fa.fa-users
 					strong.hidden-xs  В ролях: 
 					|  #{movie.cast.gsub("\r", "").split("\n").join(", ")}
 	- unless movie.description.to_s.empty?
 		tr
-			td.movie-description colspan = "2" 
+			td.col-sm-12.movie-description colspan = "2" 
 				div.justified
 					== movie.description.gsub("\r\n\r\n", "<br/>").gsub("\r\n", "<br/>")
 

@@ -52,49 +52,56 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 								| #{format_cinemas_count(@cinemas_counts[movie])} 
 
 					- unless movie.year.to_i == 0
-						td.col-md-12 colspan="1"
+						td.col-sm-12 colspan="1"
 							div
 								strong Год: 
 								= movie.year.to_s
 
 				- unless movie.genres.to_s.empty?
 					tr.table-body
-						td.col-md-12 colspan="1" 
+						td.col-sm-12 colspan="1" 
 							div
-								strong Жанр: 
+								i.fa.fa-bookmark
+								strong.hidden-xs  Жанр:
 								= movie.genres
 				- unless movie.duration.to_i == 0
 					tr.table-body
-						td.col-md-12 colspan="1" 
+						td.col-sm-12 colspan="1" 
 							div
-								strong Длительность: 
+								i.fa.fa-clock-o
+								strong.hidden-xs  Длительность:
 								= movie.duration
 								|  мин.
 				- unless movie.country.to_s.empty? or movie.country == '-'
 					tr.table-body
-						td.col-md-12 colspan="1" 
+						td.col-sm-12 colspan="1" 
 							div
-								strong Страна: 
+								i.fa.fa-globe			
+								strong.hidden-xs  Страна:
 								= movie.country
 				- unless movie.languages.to_s.empty?
-					td.col-md-12 colspan="2" 
-						div
-							strong Язык: 
-							= languages_format(movie.languages)
+					tr.table-body
+						td.col-sm-12 colspan="2" 
+							div
+								i.fa.fa-volume-up
+								strong.hidden-xs  Язык:
+								= languages_format(movie.languages)
 				- unless movie.director.to_s.empty?
 					tr.table-body
-						td colspan = "1" 
+						td.col-sm-12 colspan = "1" 
 							div
-								strong Режиссер: 
+								i.fa.fa-bullhorn
+								strong.hidden-xs  Режиссер:  
 								= movie.director.gsub("\r", "").split("\n").join(", ")
 				- unless movie.cast.to_s.empty?
 					tr.table-body
-						td colspan = "1" 
+						td.col-sm-12 colspan = "1" 
 							div
-								strong В ролях: 
+								i.fa.fa-users
+								strong.hidden-xs  В ролях:  
 								= movie.cast.gsub("\r", "").split("\n").join(", ")
 				- unless movie.description.to_s.empty?
 					tr.table-body
-						td colspan = "1" 
+						td.col-sm-12 colspan = "1" 
 							div.justified
 								== movie.description.gsub("\r\n\r\n", "<br/>").gsub("\r\n", "<br/>")
