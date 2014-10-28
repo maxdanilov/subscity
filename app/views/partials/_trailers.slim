@@ -1,0 +1,19 @@
+/ Trailer format: original*dubbed
+- unless movie.trailer.to_s.empty?
+	- trailers = movie.trailer.to_s.split("*")
+	div id = "trailers" style="display:none;"
+		h2.text-center.like-navbar
+			- if trailers.size > 1
+				| Трейлеры: 
+				div.btn-group id="button-group-trailers" style="display:none;"
+					button.btn.btn-default.big-font.font-bold id="button-trailer-original" type="button" оригинальный
+					button.btn.btn-default.big-font.font-bold id="button-trailer-dubbed" type="button" русский
+			- else
+				| Трейлер
+		div.youtubevideowrap id="trailer-original" style="display:none;"
+			div.video-container
+				<iframe width="640" height="352" src="about:blank" data-src="http://www.youtube.com/embed/#{trailers.first}?rel=0" frameborder="0" allowfullscreen></iframe>
+		- if trailers.size > 1
+			div.youtubevideowrap id="trailer-dubbed" style="display:none;"
+				div.video-container
+					<iframe width="640" height="352" src="about:blank" data-src="http://www.youtube.com/embed/#{trailers[1]}?rel=0" frameborder="0" allowfullscreen></iframe>
