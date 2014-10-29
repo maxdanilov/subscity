@@ -266,7 +266,7 @@ $(function() {
 	});
 	
 	function movieCompareByIMDB(a,b){
-		var fields = ["attr-imdb", "attr-imdb-votes"];
+		var fields = ["attr-imdb", "attr-kinopoisk"];
 
 		var contentA = parseFloat( $(a).attr(fields[0]));
 		var contentB = parseFloat( $(b).attr(fields[0]));
@@ -279,7 +279,7 @@ $(function() {
 	}
 	
 	function movieCompareByKinopoisk(a,b){
-		var fields = ["attr-kinopoisk", "attr-kinopoisk-votes"];
+		var fields = ["attr-kinopoisk", "attr-imdb"];
 		
 		var contentA = parseFloat( $(a).attr(fields[0]));
 		var contentB = parseFloat( $(b).attr(fields[0]));
