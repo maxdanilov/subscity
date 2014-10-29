@@ -126,9 +126,9 @@ table.table.table-bordered.table-condensed.table-curved.table-striped.movie-info
 	= partial 'partials/filters'
 
 	- @screenings.each do |day, cinemas|
-		time datetime = "#{day}"
-			h3.header-day.text-center
-				= link_to_date(day)
+		/time datetime = "#{day}"
+		h3.header-day.text-center
+			= link_to_date(day)
 		table.table.table-bordered.table-condensed.table-curved.table-striped.table-no-side-borders
 			- cinemas.each do |cinema, screenings|
 				tr.row-entity

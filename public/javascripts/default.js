@@ -40,12 +40,6 @@ $(function() {
 		obj.toggleClass("hidden");
 	}
 	
-	function stripe_table(obj, color_even, color_odd)
-	{
-		obj.find("tr.row-entity").not(".hidden").filter(":odd").find("td").css("background-color", color_odd);
-		obj.find("tr.row-entity").not(".hidden").filter(":even").find("td").css("background-color", color_even);
-	}
-	
 	/* FIlter screenings by price and time of day */
 	
 	function filter_screenings()
@@ -74,10 +68,7 @@ $(function() {
 			{
 				show($(this));
 				show($(this).next("table"));
-			}
-			
-			//stripe_table($(this).next("table"), "#f9f9f9", $("body").css("background-color"));
-
+			}			
 		});
 		
 		if ($(".header-day").not(".hidden").size() == 0)

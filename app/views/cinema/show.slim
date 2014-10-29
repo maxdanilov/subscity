@@ -60,9 +60,9 @@ table.table.table-condensed.table-curved.table-striped
 	
 	- @screenings.each do |day, movies|
 		- next if movies.size == 0
-		time datetime = "#{day}"
-			h3.header-day.text-center
-				= link_to_date(day)
+		/time datetime = "#{day}"
+		h3.header-day.text-center
+			= link_to_date(day)
 		table.table.table-bordered.table-condensed.table-curved.table-striped.table-no-side-borders
 			- movies.each do |movie, screenings|
 				tr.row-entity
