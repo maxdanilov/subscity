@@ -358,6 +358,7 @@ $(function() {
 		$("#button-screenings").addClass("active");	
 
 		$("img.poster").unveil();
+		$("#button-sort-imdb").click();
 	});
        
 });

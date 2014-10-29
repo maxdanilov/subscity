@@ -671,12 +671,19 @@ table.movie-description
 		margin-right: auto;
 	}
 
+div.movie-description
+	{
+		max-width: @max-content-size;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
 div.movie-description > table.movie-description
 	{
-		left: @open-button-size / 2;
 		top: -9px;
-		max-width: @max-content-size - @open-button-size !important;
 		border-bottom-width: 1px !important;
+		margin-left: @open-button-size;
+		width: auto;
 	}
 	
 div.movie-plate-table
