@@ -17,7 +17,7 @@ h1.text-center.capitalize.like-navbar Кинотеатры (#{@city.name})
 					tr
 						td.name.col-md-4.col-xs-12
 							div.cinema-name
-								= link_to(cinema.name, "/cinemas/#{cinema.id}", :class => 'underdashed')
+								= link_to_cinema(cinema)
 								|  
 								span.badge
 									| #{format_movies_count(movies.size)} 
