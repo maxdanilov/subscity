@@ -71,9 +71,14 @@ body
 		.font-size(@font-size-small);
 	}
 
-a, .btn, span
+a:not(.btn), span/*, .btn*/
 	{
         transition: all 0.3s ease-out;
+	}
+	
+.btn
+	{
+		transition: box-shadow 0.15s ease-out !important;
 	}
 	
 div
@@ -668,7 +673,7 @@ td.movie-description
 table.movie-description
 	{
 		margin-bottom:0px; 
-		display:none; 
+		//display:none; 
 		top: 0px; 
 		position: relative;
 		max-width: @max-content-size;

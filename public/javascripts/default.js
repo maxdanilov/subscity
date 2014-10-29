@@ -1,4 +1,5 @@
 $(function() {
+
 	var PRICE_MIN = 100;
 	var PRICE_MAX = 600;
 	var PRICE_STEP = 50;
@@ -30,6 +31,13 @@ $(function() {
 		if(typeof(speed)==='undefined') speed = 1000;
 		//obj.fadeIn(speed);
 		obj.removeClass("hidden");
+	}
+	
+	function toggle(obj, speed)
+	{
+		if(typeof(speed)==='undefined') speed = 1000;
+		//obj.fadeIn(speed);
+		obj.toggleClass("hidden");
 	}
 	
 	function stripe_table(obj, color_even, color_odd)
@@ -234,12 +242,13 @@ $(function() {
 	
 	$("button.show-button").click(function(){
 		var table = $(this).closest(".movie-plate-table").next("div").find("table");		
-		table.toggle();
+		//table.toggle();
+		toggle(table);		
 		table.find("img:first").unveil(0);
 		
 		var chevron = $(this).children(":first");
-		chevron.toggleClass("glyphicon-chevron-down");
-		chevron.toggleClass("glyphicon-chevron-up");
+		chevron.toggleClass("fa-plus");
+		chevron.toggleClass("fa-minus");
 	});
 	
 	$("#button-movies").click(function(){

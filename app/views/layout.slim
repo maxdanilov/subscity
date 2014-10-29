@@ -30,7 +30,8 @@ html
 		= stylesheet_link_tag 'http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css'
 
 		/ jquery UI CSS
-		= stylesheet_link_tag '//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css'
+		/= stylesheet_link_tag '//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.min.css'
+		= stylesheet_link_tag 'jquery-ui-1.11.2.custom/jquery-ui.min'
 		/ custom CSS
 		= stylesheet_link_tag 'design', 'design-dark', 'design-mobile'
 		
@@ -41,7 +42,7 @@ html
 					div.navbar-header
 						button.navbar-toggle type="button" data-toggle="collapse" data-target=".navbar-collapse"
 							span.sr-only
-								| Toggle navigation
+								| Меню навигации
 							span.icon-bar
 							span.icon-bar
 							span.icon-bar
@@ -107,20 +108,19 @@ html
 			= partial 'partials/about' if @show_about == true
 			= yield
 		/ jQuery (necessary for Bootstrap's JavaScript plugins)
-		= javascript_include_tag '//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js'
+		= javascript_include_tag '//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'
 		/ jQuery UI
-		= javascript_include_tag '//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js'
+		/= javascript_include_tag '//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js'
+		= javascript_include_tag 'jquery-ui-1.11.2.custom/jquery-ui.min'
 
 		/ Include all compiled plugins (below), or include individual files as needed
 		= javascript_include_tag 'http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js'
-		/= javascript_include_tag 'http://areaaperta.com/nicescroll/js/jquery.nicescroll.min.js'
-		/= javascript_include_tag 'jquery.nicescroll.plus.js'
 
 		/ custom JS
-		= javascript_include_tag 'default'
+		= javascript_include_tag 'default.min'
 
 		/ JQuery Unveil library
-		= javascript_include_tag 'jquery.unveil'
+		= javascript_include_tag 'jquery.unveil.min'
 
 		/ Yandex.Share
 		= javascript_include_tag 'http://yastatic.net/share/share.js'	
