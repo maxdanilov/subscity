@@ -23,6 +23,11 @@ job_type :my_rake, 'cd :path && rake :task :output'
 
 set :output, 'logs/cron.log'
 
+#clear obsolete movies
+every :day, :at => ['04:00'] do
+	my_rake "clear_movies", :output => 'logs/cron_movies.log'
+end
+
 #movies
 every :day, :at => ['05:55', '10:05', '14:05', '19:00'] do
 	my_rake "update_movies", :output => 'logs/cron_movies.log'
