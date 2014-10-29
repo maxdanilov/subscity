@@ -1,29 +1,42 @@
-table.rating style="display: inline-table;"
+- mobile_first ||= false
+
+table style="display: inline-table;" class = ("rating " + ("mobile-rating" if mobile_first).to_s)
 	tr 
 		td colspan="2"
 			- if type == :imdb
-				- url = "http://www.imdb.com/title/tt#{movie.imdb_id}/"
-				- title = "IMDB"
+				- url = "http://www.imdb.com/title/tt#{movie.imdb_id}/"			
+				- title = "IMDB"		
 			- elsif type == :kinopoisk
 				- url = "http://www.kinopoisk.ru/film/#{movie.kinopoisk_id}/"
+				- mobile_url = "http://m.kinopoisk.ru/movie/#{movie.kinopoisk_id}/"
 				- title = "КиноПоиск"
+				- mobile_title = "КП"
 
-			a.underdashed href="#{url}" #{title}
+			- mobile_title ||= title
+			- mobile_url ||= url
+			- if mobile_first
+				a.underdashed.visible-xs href="#{mobile_url}" #{mobile_title}
+				a.underdashed.hidden-xs href="#{url}" #{title}
+			- else
+				a.underdashed href="#{url}" #{title}
 	tr 
 		td.value 
 			= link_to url
 				span.label.label-bg.label-rating.btn-block
 					span.glyphicon.glyphicon-star.extra-small-font
-					- if rating.to_i != 0
-						| #{(rating).round(1).to_s}
+					span
+						- if rating.to_i != 0
+							| #{(rating).round(1).to_s}
+						- else
+							|  —&nbsp;
+		td.users		
+			span.label-votes
+				span.glyphicon.glyphicon-user.extra-small-font
+				span
+					- if votes < 1000
+						|  #{votes.to_i}
+					- elsif votes > 100000
+						|  #{(votes / 1000.0).to_i}K
 					- else
-						|  —&nbsp;
-		td.users
-			span.glyphicon.glyphicon-user.extra-small-font
-			- if votes < 1000
-				|  #{votes.to_i}
-			- elsif votes > 100000
-				|  #{(votes / 1000.0).to_i}K
-			- else
-				|  #{(votes / 1000.0).round(1)}K 
+						|  #{(votes / 1000.0).round(1)}K 
 				

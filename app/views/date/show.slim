@@ -1,5 +1,6 @@
 - day = @date
-h1.text-center.capitalize.like-navbar #{show_date(@date)}
+time datetime = "#{format_date_url(@date)}"
+	h1.text-center.capitalize.like-navbar #{show_date(@date)}
 - if @screenings.count == 0
 	h2.text-center.like-navbar Сеансов на языке оригинала нет
 - else

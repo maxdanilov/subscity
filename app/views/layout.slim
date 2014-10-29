@@ -72,13 +72,16 @@ html
 									- moment_of_now -= 1.day if Time.now.hour < 2
 									ul.dropdown-menu
 										li
-											= link_to "сегодня (#{show_date(moment_of_now)})", url(:dates, format_date_url(moment_of_now))
+											time datetime = "#{format_date_url(moment_of_now)}"
+												= link_to "сегодня (#{show_date(moment_of_now)})", url(:dates, format_date_url(moment_of_now))
 										li
-											= link_to "завтра (#{show_date(moment_of_now + 1.day)})", url(:dates, format_date_url(moment_of_now + 1.day))
+											time datetime = "#{format_date_url(moment_of_now + 1.day)}"
+												= link_to "завтра (#{show_date(moment_of_now + 1.day)})", url(:dates, format_date_url(moment_of_now + 1.day))
 										li.divider
 										- (2..7).each do |x|
 											li
-												= link_to "#{show_date(moment_of_now + x.day)}", url(:dates, format_date_url(moment_of_now + x.day))
+												time datetime = "#{format_date_url(moment_of_now + x.day)}"
+													= link_to "#{show_date(moment_of_now + x.day)}", url(:dates, format_date_url(moment_of_now + x.day))
 							/li.big-font
 							/	= link_to "Обратная связь", "http://subscity.reformal.ru/"
 							li.big-font

@@ -1,10 +1,16 @@
 div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-title="#{movie.title}" attr-created="#{movie.created_at.to_i}" attr-imdb="#{ratings.imdb_rating.round(1) rescue 0}" attr-kinopoisk="#{ratings.kinopoisk_rating.round(1) rescue 0}" attr-kinopoisk-votes="#{ratings.kinopoisk_votes.to_i rescue 0}" attr-imdb-votes="#{ratings.imdb_votes.to_i rescue 0}" attr-language="#{language(movie.languages.split(", ").first) rescue nil}"
 	div.movie-plate-table
 		div.movie-plate-row
+			/div.text-center.movie-poster-mobile.hidden
+			/	= link_to url(:movies, format_movie_url(movie))					
+			/		- if movie.poster_exists?							
+			/				<img class="poster" src="/images/transparent.png" data-src="/images/posters/#{movie.movie_id}.jpg"/>
+			/		- else
+			/			= image_tag "transparent.png", :class => 'poster'
+
 			div.text-center.show-button
 				button.btn.btn-default.btn-medium.show-button type="button"
-						/span.glyphicon.glyphicon-chevron-down
-						span.fa.fa-plus
+					span.fa.fa-plus
 
 			div.movie-titles
 				div.movie-title 
@@ -32,10 +38,10 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 				div.text-center.rating-plates
 					- unless movie.imdb_id.nil? or ratings.nil? or ratings.imdb_rating.nil?
 						div.rating-plate-imdb
-							= partial 'partials/rating_plate', :locals => { :movie => movie, :type => :imdb, :rating => ratings.imdb_rating, :votes => ratings.imdb_votes }							
+							= partial 'partials/rating_plate', :locals => { :movie => movie, :type => :imdb, :rating => ratings.imdb_rating, :votes => ratings.imdb_votes, :mobile_first => true }							
 					- unless movie.kinopoisk_id.nil? or ratings.nil?
 						div.rating-plate-kinopoisk
-							= partial 'partials/rating_plate', :locals => { :movie => movie, :type => :kinopoisk, :rating => ratings.kinopoisk_rating, :votes => ratings.kinopoisk_votes }
+							= partial 'partials/rating_plate', :locals => { :movie => movie, :type => :kinopoisk, :rating => ratings.kinopoisk_rating, :votes => ratings.kinopoisk_votes, :mobile_first => true }
 	div.movie-description
 		table.table.table-bordered.table-condensed.table-curved.table-striped.movie-description.hidden-xs.hidden
 			tbody	
