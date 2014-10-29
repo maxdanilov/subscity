@@ -365,6 +365,8 @@ $(function() {
 		}, 120 * 1000); // every 2 mins
 		
 		$("#button-screenings").addClass("active");	
+
+		$("img.poster").unveil();
 	});
        
 });
