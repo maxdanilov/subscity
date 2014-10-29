@@ -518,8 +518,10 @@ task :update_movie_info, [:id, :kinopoisk_id, :imdb_id, :trailers] => :environme
 				puts "Updated movie looks like this:".green
 				puts m
 
-				Rake::Task[:update_movie_trailer].reenable
-				Rake::Task[:update_movie_trailer].invoke(id, trailers)
+				unless trailers.empty?
+					Rake::Task[:update_movie_trailer].reenable
+					Rake::Task[:update_movie_trailer].invoke(id, trailers)
+				end
 
 				#Rake::Task[:clear_cache].reenable
 				Rake::Task[:clear_cache].invoke

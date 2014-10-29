@@ -8,7 +8,7 @@ class City < ActiveRecord::Base
 
 	def get_sorted_cinemas
 		screenings_all = Screening.active.in_city(city_id).order(:date_time)
-		movies_all = Movie.all
+		movies_all = Movie.all.select { |m| not m.russian? }
 		cinemas_all = Cinema.where(:city_id => city_id)
 		r = Hash.new
 		# format is like this: r[cinema][movie] = screenings count
@@ -29,7 +29,7 @@ class City < ActiveRecord::Base
 	end
 
 	def get_movies
-		Movie.joins(:screenings).merge(Screening.active.in_city(city_id)).uniq
+		Movie.joins(:screenings).merge(Screening.active.in_city(city_id)).uniq.select { |m| not m.russian? }
 		#Movie.joins(:screenings).merge(Screening.active.joins(:cinema).where("city_id = ?", city_id)).uniq
 	end
 

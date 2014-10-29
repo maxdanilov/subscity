@@ -14,6 +14,12 @@ class Movie < ActiveRecord::Base
 		!(non_valid_genres.any? { |w| genres.include? w })
 	end
 
+	def russian?
+		return true if country == 'Россия'
+		return true if (languages == 'Russian' or languages == 'русский')
+		return false
+	end
+
 	def in_db?
 		Movie.where("movie_id = #{movie_id}").size > 0
 	end
@@ -61,7 +67,7 @@ class Movie < ActiveRecord::Base
 	def to_s
 		"\tMovie: [#{movie_id}][#{id}] #{title} (#{title_original})\n" +
 		"\tActive: #{active}\n" +
-		"\tCinemate, Kinopoisk, IMDB: #{cinemate_id}, #{kinopoisk_id}, #{imdb_id}\n" +
+		"\tKinopoisk, IMDB: #{kinopoisk_id}, #{imdb_id}\n" +
 		"\t#{year}; #{country}; #{genres}; Age: #{age_restriction}\n" +
 		"\tDirector: #{director}\n" +
 		"\tCast: #{cast}\n" +

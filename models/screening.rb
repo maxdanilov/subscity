@@ -25,7 +25,7 @@ class Screening < ActiveRecord::Base
 	def self.get_sorted_screenings(date, city_id)
 		screenings_all = Screening.active.on_date(date).in_city(city_id).order(:date_time)
 		cinemas_all = Cinema.all
-		movies_all = Movie.all
+		movies_all = Movie.all.select { |m| not m.russian? }
 		r = Hash.new
 		# format is like this: r[movie][cinema] -> array of screenings
 		screenings_all.each do |s|

@@ -59,6 +59,7 @@ table.table.table-condensed.table-curved.table-striped
 	= partial 'partials/filters'
 	
 	- @screenings.each do |day, movies|
+		- next if movies.size == 0
 		h3.header-day.text-center
 			= link_to_date(day)
 		table.table.table-bordered.table-condensed.table-curved.table-striped.table-no-side-borders
