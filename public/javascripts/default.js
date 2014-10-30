@@ -357,7 +357,14 @@ $(function() {
 		
 		$("#button-screenings").addClass("active");	
 
-		$("img.poster").unveil();
+		//$(".movie-poster-mobile img.poster").trigger("unveil");
+		$(".movie-poster-mobile img.poster").unveil(300);
+	
+		// hack to trigger scrolling (unveil doesn't work until scroll happens although it should)
+		$(window).scrollTop($(window).scrollTop() + 1);
+		$(window).scrollTop($(window).scrollTop() - 1);
+
+		//$("img.poster").unveil();
 		$("#button-sort-imdb").click();
 	});
        

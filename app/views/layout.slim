@@ -11,7 +11,7 @@ html
 		meta name="Description" content="Всегда актуальное расписание фильмов на языке оригинала (с русскими субтитрами) в кинотеатрах Москвы и Санкт-Петербурга"
 		meta name="Keywords" content="где посмотреть фильм с субтитрами, киносеансы для слабослышащих, фильмы на языке оригинала, фильмы с субтитрами, кино с субтитрами, фильмы без перевода, фильмы с русскими субтитрами, расписание, кинотеатры, кино, билеты, цены, Москва, Санкт-Петербург, movies with subtitles, movies with subs, schedule, cinemas, theatres, tickets, price, Moscow, Saint-Petersburg"
 		
-		- if APP_SELL_TICKETS == true
+		- if SETTINGS[:sell_tickets] == true
 			/ Key tag for kassa widget
 			<rb:rich key="9565b54e-cb2e-4063-a15d-d9962e8c49dd" xmlns:rb="http://kassa.rambler.ru"></rb:rich>
 		= feed_tag(:rss, url(:movies, :format => :rss), :title => "SubsCity (#{@city.name rescue City.get_by_domain(request.subdomains.first).name})")
@@ -103,7 +103,7 @@ html
 									span.city-short
 										| #{@city.name_short rescue City.get_by_domain(request.subdomains.first).name} 
 									b.caret
-									ul.dropdown-menu
+									ul.dropdown-menu id="dropdown-cities-menu"
 										li
 											= link_to "Москва", "#{'http://msk.' + request.main_domain}#{request.path}"
 										li
@@ -129,7 +129,7 @@ html
 		= javascript_include_tag 'http://yastatic.net/share/share.js'	
 
 		/ Kassa ticket plan
-		- if APP_SELL_TICKETS == true
+		- if SETTINGS[:sell_tickets] == true
 			= javascript_include_tag 'http://s2.kassa.rl0.ru/widget/js/ticketmanager.js'
 
 		= partial 'partials/google'

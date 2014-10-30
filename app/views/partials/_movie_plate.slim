@@ -46,7 +46,17 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 		table.table.table-bordered.table-condensed.table-curved.table-striped.movie-description.hidden-xs.hidden
 			tbody	
 				tr.table-body
-					td.text-center rowspan = "10"
+					- row_count = 0
+					- row_count += 1 unless movie.genres.to_s.empty?
+					- row_count += 1 #unless movie.year.to_i == 0
+					- row_count += 1 unless movie.duration.to_i == 0
+					- row_count += 1 unless movie.country.to_s.empty? or movie.country == '-'
+					- row_count += 1 unless movie.languages.to_s.empty?
+					- row_count += 1 unless movie.director.to_s.empty?
+					- row_count += 1 unless movie.cast.to_s.empty?					
+					- row_count = 8 if movie.description.to_s.empty?
+
+					td.text-center rowspan = "#{row_count}"
 						= link_to url(:movies, format_movie_url(movie))					
 							- if movie.poster_exists?							
 									<img class="poster" src="/images/transparent.png" data-src="/images/posters/#{movie.movie_id}.jpg"/>
@@ -88,7 +98,7 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 								|  #{movie.country}
 				- unless movie.languages.to_s.empty?
 					tr.table-body
-						td.col-sm-12 colspan="2" 
+						td.col-sm-12 colspan="1" 
 							div
 								i.fa.fa-volume-up
 								strong.hidden-xs  Язык:  
@@ -109,6 +119,6 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 								|  #{movie.cast.gsub("\r", "").split("\n").join(", ")}
 				- unless movie.description.to_s.empty?
 					tr.table-body
-						td.col-sm-12 colspan = "1" 
+						td.col-sm-12 colspan = "2" 
 							div.justified
 								== movie.description.gsub("\r\n\r\n", "<br/>").gsub("\r\n", "<br/>")

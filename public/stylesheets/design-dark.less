@@ -19,11 +19,6 @@
 		{
 			border-color: fade(@dark-text-color, 80%) !important;
 		}
-		
-	.box-text
-		{
-			border-color: fade(@dark-text-color, 80%) !important;
-		}
 }
 
 body 
@@ -74,7 +69,7 @@ a
 
 a:hover, a:active
 	{
-		color: fade(@basic-text-color, 90%);
+		color: saturate(@basic-text-color, 100%);
 	}
 
 a.underdashed
@@ -85,7 +80,7 @@ a.underdashed
 	
 a.underdashed:hover, a.underdashed:active
 	{
-		color: fade(@basic-text-color, 90%);
+		color: saturate(@basic-text-color, 100%);
 	}	
 	
 .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td
@@ -106,8 +101,9 @@ table.rating
 	
 /* Captions */
 
-div.box-text
+.box-text
 	{
+		border-color: fade(@dark-text-color, 80%) !important;
 		background-color: fade(@basic-bg-color, 50%);
 	}
 	
@@ -176,7 +172,7 @@ div.box-text
 	
 .label-rating:hover, .label-rating:active
 	{
-		background-color: fade(@basic-text-color, 90%);
+		background-color: saturate(@basic-text-color, 100%);
 	}	
 	
 /* Slide Bar */
@@ -248,10 +244,12 @@ div.box-text
 .navbar
 	{
 		background-color: none;
-		background: linear-gradient(to bottom, fade(@basic-bg-color, 70%) 0%, fade(@basic-bg-color, 30%) 100%);
+		background: linear-gradient(to bottom, fade(@basic-bg-color, 60%) 0%, fade(@basic-bg-color, 60%) 100%);
 		color: @basic-text-color;
-		border-bottom: @border-solid-wide fade(@dark-text-color, 80%);
-		.shadow(fade(@dark-text-color, 50%), 8px);
+		//border-bottom: @border-solid-wide fade(@dark-text-color, 80%);
+		border-bottom: 1px dashed fade(@dark-text-color, 80%);
+		//.shadow(fade(@dark-text-color, 50%), 8px);
+		.shadow(fade(@basic-bg-color, 50%), 8px);
 	}
 
 .navbar-inverse .navbar-nav>li>a
@@ -262,13 +260,13 @@ div.box-text
 	
 .navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover, .navbar-inverse .navbar-nav>.open>a:focus
 	{
-		color: fade(@basic-text-color, 90%);
+		color: saturate(@basic-text-color, 100%);
 		border-bottom: @border-dashed @basic-text-color;
 	}
 	
 .navbar-inverse .navbar-nav>li>a:hover, .navbar-inverse .navbar-nav>li>a:focus
 	{
-		color: fade(@basic-text-color, 90%);
+		color: saturate(@basic-text-color, 100%);
 	}
 	
 .dropdown-menu
@@ -289,7 +287,7 @@ ul.dropdown-menu
 .dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus
 	{
 		background-color: @basic-bg-color;
-		color: fade(@basic-text-color, 80%);
+		color: saturate(@basic-text-color, 100%);
 	}
 	
 .navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover, .navbar-inverse .navbar-nav>.open>a:focus
@@ -311,7 +309,7 @@ ul.dropdown-menu
 	
 .like-navbar
 	{
-		background-color: fade(@basic-bg-color, 50%);
+		background-color: fade(@basic-bg-color, 55%);
 		border-top: @border-solid-wide fade(@dark-text-color, 80%);
 		border-bottom: @border-solid-wide fade(@dark-text-color, 80%);
 		.shadow(fade(@dark-text-color, 50%), 8px);
@@ -340,7 +338,7 @@ ul.dropdown-menu
 div.movie-plate-table
 	{		
 		border-color: fade(@dark-text-color, 100%);
-		background-color: fade(@basic-bg-color, 50%);
+		background-color: fade(@basic-bg-color, 60%);
 		.shadow(@basic-bg-color);
 		
 		div.show-button

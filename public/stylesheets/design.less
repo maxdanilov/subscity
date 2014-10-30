@@ -10,25 +10,20 @@
 			border: @border-dashed !important;
 		}
 		
-	.box-text
-		{
-			border: @border-dashed !important;
-		}
-		
 	td.movie-description
-	{
-		display: table-cell !important;
-	}
+		{
+			display: table-cell !important;
+		}
 	
 	td.movie-title
-	{
-		display: table-cell !important;
-	}
+		{
+			display: table-cell !important;
+		}
 	
 	.movie-info-mobile
-	{
-		display: none;
-	}
+		{
+			display: none;
+		}
 }
 
 @media (min-width: 768px) and (max-width: 991px)
@@ -325,6 +320,7 @@ div.box-text
 		padding: 15px;
 		.centered-content;
 		border-radius: 4px;
+		border: @border-dashed !important;
 	}
 	
 #filters-container
@@ -574,7 +570,12 @@ div.divider
 		.font-size(@font-size-big);
 		position: absolute;
 		top: 67px;
-		min-width: 300px;
+		min-width: 320px;
+	}
+
+#dropdown-cities-menu
+	{
+		min-width: 200px !important;
 	}
 
 .dropdown-menu li a

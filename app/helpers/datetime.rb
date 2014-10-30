@@ -32,6 +32,12 @@ def show_date(date)
 	weekdays[date.wday - 1] + ", " + date.day.to_s + " " + months[date.month - 1]
 end
 
+def difference_in_days(time1, time2)
+	diff = time2 - time1
+	diff = -diff if diff < 0
+	(diff / 86400).to_i
+end
+
 class Fixnum
 	def seconds
 		self

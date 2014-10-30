@@ -1,4 +1,4 @@
-- if APP_SELL_TICKETS == false
+- if SETTINGS[:sell_tickets] == false
 	a.btn.btn-default.navbar-btn.price-button.cell-screening-desktop href="https://kassa.rambler.ru/place/#{cinema.cinema_id}?date=#{day.to_time.strftime("%Y.%m.%d")}" target="_blank"
 		= show_time(screening.date_time)
 - else

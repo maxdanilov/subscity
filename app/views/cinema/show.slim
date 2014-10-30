@@ -1,15 +1,15 @@
-table.table.table-condensed.table-curved.table-striped
+table.table.table-condensed.table-curved.table-striped.table-bordered.table-no-side-borders
 	tr
 		td
 			h2.cinema-title 
-				span.glyphicon.glyphicon-film
+				span.fa.fa-film
 				|  
 				= @cinema.name
 	- unless @cinema.city_id.nil?
 		tr
 			td
 				div
-					span.glyphicon.glyphicon-map-marker
+					span.fa.fa-map-marker.fa-lg
 					|  
 					= @cinema.city.name
 					| , 
@@ -23,7 +23,7 @@ table.table.table-condensed.table-curved.table-striped
 		tr
 			td
 				div
-					span.glyphicon.glyphicon-map-marker style="color:rgba( 0, 0, 0, 0);"
+					span.fa.fa-map-marker.fa-lg style="color:rgba( 0, 0, 0, 0);"
 					|  
 					| м. 
 					= @cinema.metro
@@ -31,22 +31,22 @@ table.table.table-condensed.table-curved.table-striped
 		tr
 			td
 				div
-					span.glyphicon.glyphicon-link		 		
+					span.fa.fa-link.fa-lg	 		
 					|  
 					= link_to @cinema.url.gsub("http://", "").split("/").first.to_s, @cinema.url, :class => :underdashed
 	- unless @cinema.phone.to_s.empty?
 		tr
 			 td 
 			 	div
-			 		span.glyphicon.glyphicon-earphone			 		
+			 		span.fa.fa-phone.fa-lg		 		
 					|  
 			 		= @cinema.phone
 
 	- unless @price_min.nil? or @price_max.nil?
 		tr
 			 td 
-			 	div
-			 		span.glyphicon.glyphicon-euro			 		
+			 	div			 
+			 		span.fa.fa-rub.fa-lg		 		
 					|  
 			 		| Билеты: 
 			 		= format_price_range(@price_min, @price_max)

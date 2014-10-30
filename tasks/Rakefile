@@ -27,6 +27,8 @@ task :environment do
 		Dir[File.join(File.dirname(__FILE__), dir, '*.rb')].each {|file| require file rescue nil}
 	end
 
+	require ROOT_PATH + "app/settings" rescue nil
+
 	ActiveRecord::Base::establish_connection( :adapter => 'mysql2',
 											  :encoding => 'utf8',
 											  :reconnect => true,
@@ -93,7 +95,13 @@ task :update_screenings_movie, [:id] => :environment do |task, args|
 			dates = KassaParser.parse_movie_dates(KassaFetcher.fetch_sessions(id, nil, city_id))
 			# then iterate through them to fetch all sessions 
 			dates.each_with_index do |date, index|
+				#puts "Diff: #{difference_in_days(date, Time.now.strip)}"
+				if (difference_in_days(date, Time.now.strip) > SETTINGS[:screenings_fetch_span])				
+					puts "-> [#{index + 1} / #{dates.size}] Skipping screenings for #{date}"
+					next
+				end
 				puts "-> [#{index + 1} / #{dates.size}] Fetching screenings for #{date}".green
+				next
 				puts
 				KassaParser.parse_sessions_HTML(KassaFetcher.fetch_sessions(id, date, city_id), date).each do |s|
 					c = Screening.new(movie_id: id, cinema_id: s[:cinema], date_time: s[:time], screening_id: s[:session])
