@@ -13,7 +13,7 @@ module Subscity
     enable :sessions
 
     require './app/settings'
-    
+
     #
     # Caching support.
     #
@@ -83,7 +83,7 @@ module Subscity
             @city = City.get_by_domain(request.subdomains.first)
             @movies = @city.get_movies
             @movies = @movies.sort_by { |a| a.title.mb_chars.downcase.to_s }
-            @new_movies = @movies.select {|a| (Time.now - a.created_at) <= 8.days}
+            @new_movies = @movies.select {|a| (Time.now - a.created_at) <= SETTINGS[:movie_new_span].days}
             @screening_counts = Hash[@movies.map { |movie| {movie => movie.screenings_count(@city.city_id)}.flatten}]
             @cinemas_counts = Hash[@movies.map { |movie| {movie => movie.cinemas_count(@city.city_id)}.flatten}]
             @cinema_count = @city.get_sorted_cinemas.count
@@ -139,7 +139,7 @@ module Subscity
                     @city = City.get_by_domain(request.subdomains.first)
                     @movies = @city.get_movies
                     @movies = @movies.sort_by { |a| a.title.mb_chars.downcase.to_s }
-                    @new_movies = @movies.select {|a| (Time.now - a.created_at) <= 8.days}
+                    @new_movies = @movies.select {|a| (Time.now - a.created_at) <= SETTINGS[:movie_new_span].days}
                     @screening_counts = Hash[@movies.map { |movie| {movie => movie.screenings_count(@city.city_id)}.flatten}]
                     @cinemas_counts = Hash[@movies.map { |movie| {movie => movie.cinemas_count(@city.city_id)}.flatten}]
                     @cinema_count = @city.get_sorted_cinemas.count
@@ -164,7 +164,7 @@ module Subscity
                     @city = City.get_by_domain(request.subdomains.first)
                     @movies = @city.get_movies
                     @movies = @movies.sort_by { |a| a.title.mb_chars.downcase.to_s }
-                    @new_movies = @movies.select {|a| (Time.now - a.created_at) <= 8.days}
+                    @new_movies = @movies.select {|a| (Time.now - a.created_at) <= SETTINGS[:movie_new_span].days}
                     @screening_counts = Hash[@movies.map { |movie| {movie => movie.screenings_count(@city.city_id)}.flatten}]
                     @cinemas_counts = Hash[@movies.map { |movie| {movie => movie.cinemas_count(@city.city_id)}.flatten}]
                     @cinema_count = @city.get_sorted_cinemas.count
