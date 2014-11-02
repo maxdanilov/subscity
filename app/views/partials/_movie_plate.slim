@@ -40,7 +40,7 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 						/		|  #{format_screenings_count(@screening_counts[movie])} 
 					div.movie-next-screening
 						- if defined? @next_screenings					
-							| следующий сеанс:  
+							| ближайший сеанс:  
 							span.label.label-bg.label-default.normal-font
 								span.fa.fa-calendar
 								|  #{format_next_screening @next_screenings[movie].date_time}
@@ -56,7 +56,7 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 		div.movie-plate-row
 			div.movie-next-screening-mobile
 				- if defined? @next_screenings					
-					| следующий сеанс  
+					| ближайший сеанс  
 					span.label.label-bg.label-default.normal-font
 						span.fa.fa-calendar
 						|  #{format_next_screening @next_screenings[movie].date_time}

@@ -33,12 +33,12 @@ body
 		color: @basic-text-color;
 	}
 
-*::-moz-selection
+::-moz-selection
 	{
 		background-color: fade(@orange-color, 50%);
 		color: @basic-text-color;
-	}	
-	
+	}
+
 img.poster
 	{
 		border: 2px solid @basic-text-color;
@@ -234,9 +234,7 @@ table.rating
 		background-color: none;
 		background: linear-gradient(to bottom, fade(@basic-bg-color, 60%) 0%, fade(@basic-bg-color, 60%) 100%);
 		color: @basic-text-color;
-		//border-bottom: @border-solid-wide fade(@dark-text-color, 80%);
-		border-bottom: 1px dashed fade(@dark-text-color, 80%);
-		//.shadow(fade(@dark-text-color, 50%), 8px);
+		border-bottom: 1px dashed; 
 		.shadow(fade(@basic-bg-color, 50%), 8px);
 	}
 
@@ -306,7 +304,7 @@ ul.dropdown-menu
 	
 .dropdown-menu .divider
 	{
-		background-color: fade(@basic-text-color, 60);
+		background-color: fade(@basic-text-color, 60%);
 		.shadow(@basic-text-color);
 	}
 	
@@ -325,17 +323,6 @@ ul.dropdown-menu
 
 div.movie-plate-table
 	{		
-		border-color: fade(@dark-text-color, 100%);
 		background-color: fade(@basic-bg-color, 60%);
 		.shadow(@basic-bg-color);
-		
-		div.show-button
-		{		
-			border-right-color: fade(@dark-text-color, 100%);
-		}
-		
-		table.movie-description
-		{
-			background: fade(@basic-bg-color, 0%);	
-		}
 	}	
