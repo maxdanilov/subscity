@@ -156,7 +156,7 @@ $(function() {
 	/* Movie sorting button */
 	
 	function activateSortButton(button){
-		var buttons = ["#button-sort-title", "#button-sort-date", "#button-sort-imdb", "#button-sort-kinopoisk", "#button-sort-screenings", "#button-sort-language"];
+		var buttons = ["#button-sort-title", "#button-sort-date", "#button-sort-imdb", "#button-sort-kinopoisk", "#button-sort-screenings", "#button-sort-next-screening", "#button-sort-language"];
 		buttons.forEach(function(b) {
 			$(b).removeClass("active");
 		});	
@@ -170,6 +170,7 @@ $(function() {
 		buttonSortPressed = name;
 		if (buttonSortPressed != buttonSortPressedPrev) 
 			$('#movie-plates .movie-plate').sort(compareBy).appendTo('#movie-plates');
+		invokeScroll();
 	}
 	
 	$("#button-sort-title").click(function(){
@@ -188,10 +189,14 @@ $(function() {
 		clickSortButton(this, "sort-kinopoisk", movieCompareByKinopoisk);
 	});
 	
+	$("#button-sort-next-screening").click(function(){
+		clickSortButton(this, "sort-next-screening", movieCompareByNextScreening);
+	});
+
 	$("#button-sort-screenings").click(function(){
 		clickSortButton(this, "sort-screenings", movieCompareByScreenings);
 	});
-	
+
 	$("#button-sort-language").click(function(){
 		clickSortButton(this, "sort-language", movieCompareByLanguage);
 	});
@@ -312,6 +317,14 @@ $(function() {
 		return (contentA < contentB) ? -1 : 1;
 	}
 	
+	function movieCompareByNextScreening(a,b){
+		var fields = ["attr-next-screening"];
+		
+		var contentA = parseInt( $(a).attr(fields[0]));
+		var contentB = parseInt( $(b).attr(fields[0]));
+		return (contentA < contentB) ? -1 : 1;
+	}
+
 	function movieCompareByScreenings(a,b){
 		var fields = ["attr-screenings"];
 		
@@ -330,6 +343,13 @@ $(function() {
 		});
 	}
 	
+
+	function invokeScroll()
+	{
+		$(window).scrollTop($(window).scrollTop() + 1);
+		$(window).scrollTop($(window).scrollTop() - 1);
+	}
+
 	/* When document is ready */
 	
 	$( document ).ready(function(){
@@ -361,9 +381,7 @@ $(function() {
 		$(".movie-poster-mobile img.poster").unveil(300);
 	
 		// hack to trigger scrolling (unveil doesn't work until scroll happens although it should)
-		$(window).scrollTop($(window).scrollTop() + 1);
-		$(window).scrollTop($(window).scrollTop() - 1);
-
+		invokeScroll();
 		//$("img.poster").unveil();
 		$("#button-sort-imdb").click();
 	});

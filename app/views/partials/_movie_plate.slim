@@ -1,4 +1,4 @@
-div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-title="#{movie.title}" attr-created="#{movie.created_at.to_i}" attr-imdb="#{ratings.imdb_rating.round(1) rescue 0}" attr-kinopoisk="#{ratings.kinopoisk_rating.round(1) rescue 0}" attr-kinopoisk-votes="#{ratings.kinopoisk_votes.to_i rescue 0}" attr-imdb-votes="#{ratings.imdb_votes.to_i rescue 0}" attr-language="#{language(movie.languages.split(", ").first) rescue nil}"
+div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-title="#{movie.title}" attr-created="#{movie.created_at.to_i}" attr-imdb="#{ratings.imdb_rating.round(1) rescue 0}" attr-kinopoisk="#{ratings.kinopoisk_rating.round(1) rescue 0}" attr-kinopoisk-votes="#{ratings.kinopoisk_votes.to_i rescue 0}" attr-imdb-votes="#{ratings.imdb_votes.to_i rescue 0}" attr-language="#{language(movie.languages.split(", ").first) rescue nil}" attr-next-screening = "#{@next_screenings[movie].date_time.to_i rescue 0}"
 	div.movie-plate-table
 		div.movie-plate-row
 			div.text-center.show-button
@@ -40,10 +40,10 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 						/		|  #{format_screenings_count(@screening_counts[movie])} 
 					div.movie-next-screening
 						- if defined? @next_screenings					
+							| следующий сеанс:  
 							span.label.label-bg.label-default.normal-font
 								span.fa.fa-calendar
 								|  #{format_next_screening @next_screenings[movie].date_time}
-							|  следующий сеанс
 
 			- unless (movie.kinopoisk_id.nil? and movie.imdb_id.nil?) or ratings.nil?
 				div.text-center.rating-plates
