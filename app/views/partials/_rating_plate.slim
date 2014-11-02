@@ -23,7 +23,7 @@ table style="display: inline-table;" class = ("rating " + ("mobile-rating" if mo
 		td.value 
 			= link_to url
 				span.label.label-bg.label-rating.btn-block
-					span.glyphicon.glyphicon-star.extra-small-font
+					span.fa.fa-star.small-font
 					span
 						- if rating.to_i != 0
 							| #{(rating).round(1).to_s}
@@ -31,7 +31,7 @@ table style="display: inline-table;" class = ("rating " + ("mobile-rating" if mo
 							|  —&nbsp;
 		td.users		
 			span.label-votes
-				span.glyphicon.glyphicon-user.extra-small-font
+				span.fa.fa-user.small-font
 				span
 					- if votes < 1000
 						|  #{votes.to_i}

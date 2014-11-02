@@ -21,7 +21,7 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 					|  
 					- unless movie.languages.to_s.empty?
 						span.label.label-bg.label-default.age-restriction 
-							span.glyphicon.glyphicon-volume-up.language-icon
+							span.fa.fa-volume-up.language-icon
 							|  #{language(movie.languages.split(", ").first) rescue nil}
 						|  
 					div.label.label-bg.label-default.age-restriction 
