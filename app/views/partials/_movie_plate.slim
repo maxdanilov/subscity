@@ -15,6 +15,9 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 			div.movie-titles
 				div.movie-title 
 					= link_to_movie(movie)
+					- unless movie.year.to_i == 0
+						span.hidden-xs
+							|  (#{movie.year})
 					|  
 					- unless movie.languages.to_s.empty?
 						span.label.label-bg.label-default.age-restriction 
@@ -25,15 +28,23 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 						| #{movie.age_restriction}+
 					- if defined? @new_movies and @new_movies.include? movie
 						|  
-						span.badge.new
-							| новый 
-					- if defined? @screening_counts and @screening_counts[movie] < 5
-						|  
-						span.badge.limited
-							| мало сеансов 
+						span.badge.new новый 
 				- unless movie.title_original.nil?
 					div.movie-title-original = format_title(movie.title_original)
 			
+				div.movie-screenings.hidden-xs
+					div.movie-screenings-count
+						/- if defined? @screening_counts
+						/	span.label.label-bg.label-default.normal-font
+						/		span.fa.fa-film  
+						/		|  #{format_screenings_count(@screening_counts[movie])} 
+					div.movie-next-screening
+						- if defined? @next_screenings					
+							span.label.label-bg.label-default.normal-font
+								span.fa.fa-calendar
+								|  #{format_next_screening @next_screenings[movie].date_time}
+							|  следующий сеанс
+
 			- unless (movie.kinopoisk_id.nil? and movie.imdb_id.nil?) or ratings.nil?
 				div.text-center.rating-plates
 					- unless movie.imdb_id.nil? or ratings.nil? or ratings.imdb_rating.nil?
@@ -42,83 +53,47 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 					- unless movie.kinopoisk_id.nil? or ratings.nil?
 						div.rating-plate-kinopoisk
 							= partial 'partials/rating_plate', :locals => { :movie => movie, :type => :kinopoisk, :rating => ratings.kinopoisk_rating, :votes => ratings.kinopoisk_votes, :mobile_first => true }
+		div.movie-plate-row
+			div.movie-next-screening-mobile
+				- if defined? @next_screenings					
+					| следующий сеанс  
+					span.label.label-bg.label-default.normal-font
+						span.fa.fa-calendar
+						|  #{format_next_screening @next_screenings[movie].date_time}
 	div.movie-description
 		table.table.table-bordered.table-condensed.table-curved.table-striped.movie-description.hidden-xs.hidden
 			tbody	
 				tr.table-body
-					- row_count = 0
-					- row_count += 1 unless movie.genres.to_s.empty?
-					- row_count += 1 #unless movie.year.to_i == 0
-					- row_count += 1 unless movie.duration.to_i == 0
-					- row_count += 1 unless movie.country.to_s.empty? or movie.country == '-'
-					- row_count += 1 unless movie.languages.to_s.empty?
-					- row_count += 1 unless movie.director.to_s.empty?
-					- row_count += 1 unless movie.cast.to_s.empty?					
-					- row_count = 8 if movie.description.to_s.empty?
-
-					td.text-center rowspan = "#{row_count}"
-						= link_to url(:movies, format_movie_url(movie))					
-							- if movie.poster_exists?							
-									<img class="poster" src="/images/transparent.png" data-src="/images/posters/#{movie.movie_id}.jpg"/>
-							- else
-								= image_tag "transparent.png", :class => 'poster'
-						- if defined? @screening_counts
-							span.badge.count style="margin-top:5px;"
-								| #{format_screenings_count(@screening_counts[movie])} 
-						- if defined? @cinemas_counts
-							span.badge.count style="margin-top:5px;"
-								| #{format_cinemas_count(@cinemas_counts[movie])} 
-
-					- unless movie.year.to_i == 0
-						td.col-sm-12 colspan="1"
-							div
-								strong Год:  
-								= movie.year.to_s
-
 				- unless movie.genres.to_s.empty?
-					tr.table-body
-						td.col-sm-12 colspan="1" 
-							div
-								i.fa.fa-bookmark
-								strong.hidden-xs  Жанр:  
-								|  #{movie.genres}
-				- unless movie.duration.to_i == 0
-					tr.table-body
-						td.col-sm-12 colspan="1" 
-							div
-								i.fa.fa-clock-o
-								strong.hidden-xs  Длительность: 
-								|  #{movie.duration} мин.	
+					td.col-sm-4.vertical-middle
+						div
+							i.fa.fa-bookmark
+							|  #{movie.genres}
 				- unless movie.country.to_s.empty? or movie.country == '-'
-					tr.table-body
-						td.col-sm-12 colspan="1" 
-							div
-								i.fa.fa-globe			
-								strong.hidden-xs  Страна:  
-								|  #{movie.country}
-				- unless movie.languages.to_s.empty?
-					tr.table-body
-						td.col-sm-12 colspan="1" 
-							div
-								i.fa.fa-volume-up
-								strong.hidden-xs  Язык:  
-								|  #{languages_format(movie.languages)}
+					td.col-sm-3.text-center.vertical-middle
+						div
+							i.fa.fa-globe			
+							|  #{movie.country}
+				- unless movie.duration.to_i == 0
+					td.col-sm-2.text-center.vertical-middle
+						div
+							i.fa.fa-clock-o
+							|  #{movie.duration} мин.	
 				- unless movie.director.to_s.empty?
-					tr.table-body
-						td.col-sm-12 colspan = "1" 
-							div
-								i.fa.fa-bullhorn
-								strong.hidden-xs  Режиссер:  
-								|  #{movie.director.gsub("\r", "").split("\n").join(", ")}
+					td.col-sm-3.text-center.vertical-middle
+						div
+							i.fa.fa-bullhorn
+							|  #{movie.director.gsub("\r", "").split("\n").join(", ")}
 				- unless movie.cast.to_s.empty?
 					tr.table-body
-						td.col-sm-12 colspan = "1" 
+						td.col-sm-12 colspan = "4"
 							div
 								i.fa.fa-users
-								strong.hidden-xs  В ролях:  
 								|  #{movie.cast.gsub("\r", "").split("\n").join(", ")}
+
 				- unless movie.description.to_s.empty?
 					tr.table-body
-						td.col-sm-12 colspan = "2" 
+						td.col-sm-12 colspan = "4"
 							div.justified
-								== movie.description.gsub("\r\n\r\n", "<br/>").gsub("\r\n", "<br/>")
+								i.fa.fa-book
+								|  #{movie.description.gsub("\r\n\r\n", "<br/>").gsub("\r\n", "<br/>")}

@@ -8,6 +8,10 @@ class Movie < ActiveRecord::Base
 
 	scope :active, -> { where(:active => true) }
 
+	def url
+		@url ||= format_movie_url(self)
+	end
+
 	def valid_genre?
 		return true if genres.nil?
 		non_valid_genres = ['Опера', 'Балет', 'Фильмы-спектакли']
@@ -36,8 +40,16 @@ class Movie < ActiveRecord::Base
 		url.gsub("48x72", "144x212") # too small posters in mobile version
 	end
 
+	def get_screenings(city_id)
+		screenings.active.in_city(city_id).order(:date_time)
+	end
+
+	def get_next_screening(city_id)
+		get_screenings(city_id).first
+	end
+
 	def get_sorted_screenings(city_id)
-		screenings_all = screenings.active.in_city(city_id).order(:date_time)
+		screenings_all = get_screenings(city_id)
 		cinemas_all = Cinema.all
 		r = Hash.new
 		# format is like this: r["2014-02-17"][cinema] -> array of screenings
@@ -55,9 +67,11 @@ class Movie < ActiveRecord::Base
 	end
 
 	def cinemas_count(city_id)
-		cinemas = Array.new
-		screenings.active.in_city(city_id).each { |s| cinemas |= [s.cinema_id] }
-		cinemas.size
+		#cinemas = Array.new
+		#screenings.active.in_city(city_id).each { |s| cinemas |= [s.cinema_id] }
+		#cinemas.size
+		#screenings.active.in_city(city_id).select(:cinema_id).uniq.count # slower
+		screenings.active.in_city(city_id).pluck(:cinema_id).uniq.count
 	end
 
 	def screenings_count(city_id)

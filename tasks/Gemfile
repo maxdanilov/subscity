@@ -25,6 +25,7 @@ gem 'colorize'
 gem 'nokogiri'
 gem 'httpclient'
 gem 'imdb'
+gem 'benchmark'
 
 # Test requirements
 

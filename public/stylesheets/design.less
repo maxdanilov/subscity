@@ -1,5 +1,10 @@
 @import "vars.less"; 
 
+.vertical-middle
+	{
+		vertical-align: middle !important;
+	}
+
 @media (min-width: 768px) 
 {
 	h1.like-navbar, h2.like-navbar, h3.like-navbar, h4.like-navbar
@@ -93,15 +98,15 @@ img.poster
 		margin-bottom: 6px;
 		border-radius: 4px;
 		transition: all 0.3s ease-in;
-	}
-	
-img.poster:hover
-	{
-		-webkit-filter: sepia(100%) !important;
-		-moz-filter: sepia(100%) !important;
-		-o-filter: sepia(100%) !important;
-		-ms-filter: sepia(100%) !important;
-		filter: sepia(100%) !important;
+
+		&:hover
+			{
+				-webkit-filter: sepia(100%) !important;
+				-moz-filter: sepia(100%) !important;
+				-o-filter: sepia(100%) !important;
+				-ms-filter: sepia(100%) !important;
+				filter: sepia(100%) !important;
+			}
 	}
 	
 .justified
@@ -677,14 +682,16 @@ div.movie-description
 		max-width: @max-content-size;
 		margin-left: auto;
 		margin-right: auto;
+		padding-left: @open-button-size;
 	}
 
 div.movie-description > table.movie-description
 	{
 		top: -9px;
 		border-bottom-width: 1px !important;
-		margin-left: @open-button-size;
-		width: auto;
+		//margin-left: @open-button-size;
+		//width: auto;
+		width: 100%;
 	}
 	
 div.movie-plate-table
@@ -696,11 +703,26 @@ div.movie-plate-table
 		margin: 8px auto;		
 		border-radius: 6px;
 		
+		div.movie-screenings
+		{
+			vertical-align: middle;
+		}
+
 		div.movie-poster-mobile
 		{
 			width: @poster-preview-width;
 			vertical-align: top;
-			display: none !important;
+
+			&when (@show-mobile-poster = false)
+				{
+					display: none !important;
+				}
+
+			&when (@show-mobile-poster = true)
+				{
+					display: table-cell !important;
+				}
+
 			img.poster
 			{				
 				height: @poster-preview-height;
@@ -711,9 +733,11 @@ div.movie-plate-table
 
 		div.movie-plate-row
 		{
-			display: table-row;
-			width: auto;
-			min-height: @rating-plate-height;
+			//display: table-row;
+			//width: auto;
+			display: table;
+			width: 100%;
+			//min-height: @rating-plate-height;
 		}
 		
 		div.show-button
@@ -724,23 +748,58 @@ div.movie-plate-table
 			position: relative;
 			vertical-align: middle;
 		}
+
+		div.movie-screenings-count + div.movie-next-screening
+		{
+			margin-top: 10px;
+		}
+
+		div.movie-screenings-count
+		{
+			margin-top: 6px;
+		}
+
+		div.movie-next-screening-mobile
+		{
+			padding-bottom: 8px !important;
+			border-top: 1px dashed;
+			text-align: center;
+			display: none !important;
+		}
 				
 		div.movie-plate-row > div
 		{
 			display: table-cell;
 			padding: 5px;
 		}
-		
+
 		div.rating-plate-imdb, div.rating-plate-kinopoisk
 		{
-			width: @rating-plate-width + 5px;
-			display: table-cell;
-			padding-left: 5px;
+			&when (@show-mobile-poster = false)
+			{
+				width: @rating-plate-width + 5px;
+				display: table-cell;
+				padding-left: 5px;
+			}
+
+			&when (@show-mobile-poster = true)
+			{
+				display: table-row;
+				width: @rating-plate-width;
+				padding-left: 0px;
+			}
 		}
 		
 		div.rating-plates
 		{
 			float: right;
+
+			&when (@show-mobile-poster = true)
+			{
+				border-collapse: separate;
+				border-spacing: 5px;
+				padding: 0px !important;
+			}
 		}
 		
 		div.movie-titles

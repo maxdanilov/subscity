@@ -125,6 +125,26 @@ def format_word_count_generic(count, with_number, words)
 	end
 end
 
+def format_next_screening(time)
+	date = date_for_screening(time)
+	date_now = date_for_screening(Time.now)
+	diff = difference_in_days(date, date_now)
+	case diff
+		when 0
+			'сегодня'
+		when 1
+			'завтра'
+		when 2
+			'послезавтра'
+		else
+			"через #{format_in_days_count(diff)}"
+	end
+end
+
+def format_in_days_count(count, with_number = true)
+	format_word_count_generic(count, with_number, {1 => "день", 2 => "дня", 5 => "дней"})
+end
+
 def format_movies_count(count, with_number = true)
 	format_word_count_generic(count, with_number, {1 => "фильм", 2 => "фильма", 5 => "фильмов"})
 end
@@ -147,19 +167,23 @@ def format_date_url(date)
 end
 
 def format_movie_url(m)
-	Translit.convert(m.id.to_s + " " + m.title, :english).to_url
+	"#{m.id.to_s} #{Translit.convert(m.title, :english)}".to_url
 end
 
 def format_cinema_url(m)
-	Translit.convert(m.id.to_s + " " + m.name, :english).to_url
+	"#{m.id.to_s} #{Translit.convert(m.name, :english)}".to_url
+end
+
+def format_simple_url(m)
+	m.id.to_s
 end
 
 def link_to_cinema(cinema)
-	link_to(cinema.name, url(:cinemas, format_cinema_url(cinema)), :class => 'underdashed')
+	link_to(cinema.name, url(:cinemas, cinema.url), :class => 'underdashed')
 end
 
 def link_to_movie(movie)
-	link_to(movie.title, url(:movies, format_movie_url(movie)), :class => 'underdashed')
+	link_to(movie.title, url(:movies, movie.url), :class => 'underdashed')
 end
 
 def link_to_date(day)	

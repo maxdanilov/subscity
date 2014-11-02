@@ -10,6 +10,7 @@ module Subscity
     require 'active_support/core_ext'
     require 'translit'
     require 'stringex'
+    require 'benchmark'
     enable :sessions
 
     require './app/settings'
@@ -22,6 +23,9 @@ module Subscity
     enable :caching
     CACHE_TTL = 1 * 3600 # in seconds
     CACHE_TTL_LONG = 2 * 3600
+
+    LOG_FILE = File.dirname(__FILE__) + "/../tmp/performance.txt"
+
     #CACHE_TTL = 1 # in seconds
     #Padrino.cache = Padrino::Cache.new(:File, :dir => Padrino.root('tmp', app_name.to_s, 'cache'))
     Padrino.cache = Padrino::Cache.new(:File, :dir => FileCache.dir)
@@ -74,34 +78,38 @@ module Subscity
 
     before do
         pre_redirect
-        Slim::Engine.set_default_options :pretty => false, :sort_attrs => false
+        Slim::Engine.set_default_options :pretty => false, :sort_attrs => false, :enable_engines => nil # disabled engines to speed up things a bit
     end
 
     get :index do
-        #call env.merge('PATH_INFO' => url(:movies))
         cache(request.cache_key, :expires => CACHE_TTL_LONG) do
             @city = City.get_by_domain(request.subdomains.first)
-            @movies = @city.get_movies
+            @movies = @city.get_movies.to_a
             @movies = @movies.sort_by { |a| a.title.mb_chars.downcase.to_s }
-            @new_movies = @movies.select {|a| (Time.now - a.created_at) <= SETTINGS[:movie_new_span].days}
-            @screening_counts = Hash[@movies.map { |movie| {movie => movie.screenings_count(@city.city_id)}.flatten}]
-            @cinemas_counts = Hash[@movies.map { |movie| {movie => movie.cinemas_count(@city.city_id)}.flatten}]
-            @cinema_count = @city.get_sorted_cinemas.count
-            @ratings = Rating.all
-            #@title = "Фильмы"
+            @new_movies = @movies.select {|a| (Time.now - a.created_at) <= SETTINGS[:movie_new_span].days}                       
+            @cinema_count = @city.get_cinema_count
+            @screening_counts = Hash.new(0)
+            @next_screenings = {}
+            @screenings_all = Screening.active.in_city(@city.city_id).order(:date_time).select([:movie_id, :date_time]).to_a
+            @screenings_all.each do |s|
+                movie = @movies.find { |m| m.movie_id == s.movie_id}
+                next if movie.nil?
+                @screening_counts[movie] += 1
+                @next_screenings[movie] = s unless @next_screenings.has_key? movie
+            end
+            @ratings = Rating.where(:movie_id => @movies.map(&:movie_id));
             @show_about = true
             render 'movie/showall', layout: :layout
         end
     end
 
     get :latest do
-        cache(request.cache_key, :expires => 1) do
-            @screenings = Screening.active_all.order("created_at DESC, screening_id DESC").to_a
-            @cities = City.all.to_a
-            @cinemas = Cinema.all.to_a
-            @movies = Movie.all.to_a
-
-            @movies_active =  Movie.order('created_at DESC').joins(:screenings).group(:movie_id).having("COUNT(screenings.id) > 0").to_a
+        cache(request.cache_key, :expires => 1) do                         
+            @screenings = Screening.active_all.order("created_at DESC, screening_id DESC").to_a      
+            @cities = City.all.to_a                         
+            @cinemas = Cinema.all.to_a                         
+            @movies = Movie.all.to_a            
+            @movies_active = Movie.where(:movie_id => Screening.active.pluck(:movie_id).uniq).order('created_at DESC')                         
             @ratings = Rating.all
             render 'latest', layout: :layout
         end
@@ -137,13 +145,20 @@ module Subscity
             when :html
                 cache(request.cache_key, :expires => CACHE_TTL_LONG) do
                     @city = City.get_by_domain(request.subdomains.first)
-                    @movies = @city.get_movies
+                    @movies = @city.get_movies.to_a
                     @movies = @movies.sort_by { |a| a.title.mb_chars.downcase.to_s }
-                    @new_movies = @movies.select {|a| (Time.now - a.created_at) <= SETTINGS[:movie_new_span].days}
-                    @screening_counts = Hash[@movies.map { |movie| {movie => movie.screenings_count(@city.city_id)}.flatten}]
-                    @cinemas_counts = Hash[@movies.map { |movie| {movie => movie.cinemas_count(@city.city_id)}.flatten}]
-                    @cinema_count = @city.get_sorted_cinemas.count
-                    @ratings = Rating.all
+                    @new_movies = @movies.select {|a| (Time.now - a.created_at) <= SETTINGS[:movie_new_span].days}                       
+                    @cinema_count = @city.get_cinema_count
+                    @screening_counts = Hash.new(0)
+                    @next_screenings = {}
+                    @screenings_all = Screening.active.in_city(@city.city_id).order(:date_time).select([:movie_id, :date_time]).to_a
+                    @screenings_all.each do |s|
+                        movie = @movies.find { |m| m.movie_id == s.movie_id}
+                        next if movie.nil?
+                        @screening_counts[movie] += 1
+                        @next_screenings[movie] = s unless @next_screenings.has_key? movie
+                    end
+                    @ratings = Rating.where(:movie_id => @movies.map(&:movie_id));
                     @title = "Фильмы"
                     render 'movie/showall', layout: :layout
                 end
@@ -151,32 +166,6 @@ module Subscity
                 cache(request.cache_key, :expires => CACHE_TTL) do
                     @city = City.get_by_domain(request.subdomains.first)
                     @movies_active = @city.get_movies.sort_by { |a| a.created_at }.reverse
-                    #@movies_active = Movie.order('created_at DESC').joins(:screenings).group(:movie_id).having("COUNT(screenings.id) > 0").to_a
-                    builder :feed, :locals => { :movies => @movies_active, :city => @city}
-                end
-        end
-    end
-
-    get :movies2, :provides => [:html, :rss] do
-        case content_type
-            when :html
-                cache(request.cache_key, :expires => CACHE_TTL_LONG) do
-                    @city = City.get_by_domain(request.subdomains.first)
-                    @movies = @city.get_movies
-                    @movies = @movies.sort_by { |a| a.title.mb_chars.downcase.to_s }
-                    @new_movies = @movies.select {|a| (Time.now - a.created_at) <= SETTINGS[:movie_new_span].days}
-                    @screening_counts = Hash[@movies.map { |movie| {movie => movie.screenings_count(@city.city_id)}.flatten}]
-                    @cinemas_counts = Hash[@movies.map { |movie| {movie => movie.cinemas_count(@city.city_id)}.flatten}]
-                    @cinema_count = @city.get_sorted_cinemas.count
-                    @ratings = Rating.all
-                    @title = "Фильмы"
-                    render 'movie/showall2', layout: :layout
-                end
-            when :rss
-                cache(request.cache_key, :expires => CACHE_TTL) do
-                    @city = City.get_by_domain(request.subdomains.first)
-                    @movies_active = @city.get_movies.sort_by { |a| a.created_at }.reverse
-                    #@movies_active = Movie.order('created_at DESC').joins(:screenings).group(:movie_id).having("COUNT(screenings.id) > 0").to_a
                     builder :feed, :locals => { :movies => @movies_active, :city => @city}
                 end
         end

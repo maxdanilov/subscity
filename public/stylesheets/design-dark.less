@@ -65,23 +65,11 @@ table.table
 a
 	{
 		color: @basic-text-color;
+		&:hover, &:active
+			{
+				color: saturate(@basic-text-color, 100%);
+			}
 	}
-
-a:hover, a:active
-	{
-		color: saturate(@basic-text-color, 100%);
-	}
-
-a.underdashed
-	{
-		color: @basic-text-color;
-		border-color: @basic-text-color;
-	}
-	
-a.underdashed:hover, a.underdashed:active
-	{
-		color: saturate(@basic-text-color, 100%);
-	}	
 	
 .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td
 	{
@@ -168,13 +156,13 @@ table.rating
 	{
 		background-color: @basic-text-color;
 		color: @basic-bg-color;
+
+		&:hover, &:active
+		{
+			background-color: saturate(@basic-text-color, 100%);
+		}	
 	}
-	
-.label-rating:hover, .label-rating:active
-	{
-		background-color: saturate(@basic-text-color, 100%);
-	}	
-	
+
 /* Slide Bar */
 
 .ui-widget-content
@@ -221,7 +209,7 @@ table.rating
 	{
 		.button-basic
 	}
-	
+
 .btn-default:active, .btn-default.active, .btn-default:hover, .btn-default:focus
 	{
 		.button-hover;

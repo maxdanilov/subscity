@@ -19,7 +19,7 @@ span
 			- @movies_active.each do |movie|
 				div.text-center style="width:100%;margin-top:10px;"
 					= movie.created_at.strftime("%d.%m.%Y %H:%M")
-				- ratings = @ratings.detect { |r| r.movie_id == movie.movie_id}
+				- ratings = @ratings.find { |r| r.movie_id == movie.movie_id}
 				= partial 'partials/movie_plate', :locals => { :movie => movie, :ratings => ratings }
 	div.divider
 	span id="tab-screenings"
@@ -39,15 +39,14 @@ span
 					| Создано
 			- datePrev = 0
 			- @screenings.each do |s|
-				- cinema = @cinemas.detect {|c| c.cinema_id == s.cinema_id}
-				- movie = @movies.detect {|m| m.movie_id == s.movie_id}
+				- cinema = @cinemas.find {|c| c.cinema_id == s.cinema_id}
+				- movie = @movies.find {|m| m.movie_id == s.movie_id}
 				- if cinema.nil?
 					tr
 						td
 							| #{s.cinema_id}
-				- if cinema.nil?
 					- next
-				- city = @cities.detect {|city| city.city_id == cinema.city_id}
+				- city = @cities.find {|city| city.city_id == cinema.city_id}
 
 				- if (s.created_at.to_i - datePrev.to_i).abs > 3600
 					tr
@@ -63,9 +62,10 @@ span
 					td.text-center
 						| #{s.date_time.strftime("%d.%m.%Y %H:%M")}
 					td 
-						/| [#{s.cinema_id}] 
 						| [#{city.domain}] 
-						= link_to_cinema(cinema)
+						/= link_to_cinema(cinema)
+						= cinema.name
+
 					td  
 						| [#{s.movie_id}] 
 						= link_to_movie(movie)

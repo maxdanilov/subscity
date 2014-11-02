@@ -7,6 +7,10 @@ class Cinema < ActiveRecord::Base
 	validates :name,  		presence: true
 	validates :city_id, 	presence: true
 	
+	def url
+		@url ||= format_cinema_url(self)
+	end
+
 	def get_sorted_screenings
 		screenings_all = Screening.active.where(:cinema_id => cinema_id).order(:date_time)
 		movies_all = Movie.all.select { |m| not m.russian? }
