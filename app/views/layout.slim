@@ -18,14 +18,13 @@ html
 
 		= favicon_tag '/favicon.png', :type => 'image/png', :rel => 'icon'
 		= favicon_tag '/favicon.ico', :rel => 'shortcut icon'
-
+		
 		= stylesheet_link_tag 'http://fonts.googleapis.com/css?family=PT+Sans:400,700&subset=latin,cyrillic'
 		
 		/ Bootstrap
 		= stylesheet_link_tag 'http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css'
 		/ Optional theme
 		= stylesheet_link_tag 'http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css'
-
 		/ Font awesome icons
 		= stylesheet_link_tag 'http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css'
 
@@ -34,7 +33,7 @@ html
 		= stylesheet_link_tag 'jquery-ui-1.11.2.custom/jquery-ui.min'
 		/ custom CSS
 		= stylesheet_link_tag 'design', 'design-dark', 'design-mobile'
-		
+
 	body
 		span.main-container
 			div.navbar.navbar-inverse.navbar-primary role="navigation"
@@ -110,6 +109,7 @@ html
 											= link_to "Санкт-Петербург", "#{'http://spb.' + request.main_domain}#{request.path}"
 			= partial 'partials/about' if @show_about == true
 			= yield
+
 		/ jQuery (necessary for Bootstrap's JavaScript plugins)
 		= javascript_include_tag '//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'
 		/ jQuery UI

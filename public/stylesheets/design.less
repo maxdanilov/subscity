@@ -7,13 +7,6 @@
 
 @media (min-width: 768px) 
 {
-	h1.like-navbar, h2.like-navbar, h3.like-navbar, h4.like-navbar
-		{
-			.centered-content;
-			border-radius: 4px;
-			box-shadow: inherit;
-			border: @border-dashed !important;
-		}
 		
 	td.movie-description
 		{
@@ -69,6 +62,14 @@ body
 		padding: @body-padding;
 		font-family: @font-basic;
 		.font-size(@font-size-small);
+	}
+
+h1.like-navbar, h2.like-navbar, h3.like-navbar, h4.like-navbar
+	{
+		.centered-content;
+		border-radius: 4px;
+		box-shadow: inherit;
+		border: @border-dashed !important;
 	}
 
 a:not(.btn), span/*, .btn*/
@@ -845,3 +846,76 @@ body
 }
 
 */
+
+/* ADMIN */
+
+label
+	{
+		margin-right: 5px;
+	}
+
+input, select
+	{
+		background-color: fade(@basic-bg-color, 60%);
+		border-radius: 4px;
+		border: 1px dashed @basic-text-color;
+		padding: 3px 5px;
+		width: 100%;
+		//outline: none;
+	}
+
+.trailer-original
+{
+	margin-bottom: 5px;
+}
+
+select
+	{
+		overflow: hidden; 
+  		white-space: nowrap; 
+  		text-overflow: ellipsis;
+	}
+
+input:focus 
+	{
+		outline:none;
+	}
+
+#result-update
+	{
+		font-family: Consolas;
+		display: none;
+		background-color: fade(@basic-bg-color, 60%);
+		color: @basic-text-color;
+		border: 1px dashed @basic-text-color;
+		margin-top: 10px;
+	}
+
+@media (max-width: 767px) 
+{
+	#result-update
+	{
+		.font-size(@font-size-extra-small);
+	}
+
+	table.table-update-movies
+		{	
+			box-shadow: none !important;
+
+			tr, td, th
+			{
+				display: block;
+				width: 100%;
+			}
+
+			tr:not(:last-child)
+			{
+				margin-bottom: 15px;
+			}
+
+			label[for="movie_id"]
+			{
+				font-size: 20px !important;//@font-size-big;
+			}
+		}
+}

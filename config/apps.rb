@@ -30,7 +30,7 @@ Padrino.configure_apps do
   set :session_secret, 'd9f2bda10f064673c8547c37baa50fd78d1b7754e68a629a398418fb69c4752b'
   #set :protection, true
   set :protection, :except => :path_traversal # 0.12 update
-  set :protect_from_csrf, true
+  set :protect_from_csrf, false #true - every post request was 403 cause of it
 end
 
 # Mounts the core application for this project

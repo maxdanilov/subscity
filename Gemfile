@@ -31,6 +31,7 @@ gem 'nokogiri'
 gem 'httpclient'
 gem 'translit'
 gem 'stringex'
+gem 'imdb'
 #gem 'active_support'
 
 # Test requirements

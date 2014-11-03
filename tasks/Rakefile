@@ -456,7 +456,7 @@ desc 'update youtube trailer info'
 task :update_movie_trailer, [:id, :video_id] => :environment do |task, args|
 	t = start_task(task)
 	id = args[:id].to_i
-	video_id = args[:video_id].gsub('http://www.youtube.com/watch?v=','').to_s
+	video_id = args[:video_id].gsub('http://www.youtube.com/watch?v=','').gsub('youtube','').to_s
 	unless id.zero?
 		unless Movie.exists?(id)
 			puts "Error: movie with id = #{id} wasn't found.".red
@@ -492,6 +492,8 @@ task :update_movie_info, [:id, :kinopoisk_id, :imdb_id, :trailers] => :environme
 	kinopoisk_id = args[:kinopoisk_id].to_i rescue 0
 	imdb_id = args[:imdb_id].gsub(/\D/, '').to_i rescue 0
 	trailers = args[:trailers].to_s
+
+	puts "input data: id = #{id}, kinopoisk = #{kinopoisk_id}, imdb = #{imdb_id}, trailer = #{trailers}"
 
 	unless id.zero? or kinopoisk_id.zero?
 		unless Movie.exists?(id)
@@ -549,7 +551,7 @@ task :update_movie_info, [:id, :kinopoisk_id, :imdb_id, :trailers] => :environme
 				end
 
 				#Rake::Task[:clear_cache].reenable
-				Rake::Task[:clear_cache].invoke
+				Rake::Task[:clear_cache_no_fill].invoke
 			rescue
 				puts "An error occured while updating".red
 			end
@@ -558,6 +560,13 @@ task :update_movie_info, [:id, :kinopoisk_id, :imdb_id, :trailers] => :environme
 		puts "Error: Input parameters can't be zero: id = #{id}, kinopoisk_id = #{kinopoisk_id}".red
 	end
 	stop_task(task, t)
+end
+
+desc 'clear file cache, no fill'
+task :clear_cache_no_fill => :environment do |task|
+	t = start_task(task)
+    FileCache.expire
+    stop_task(task, t)
 end
 
 desc 'clear file cache'

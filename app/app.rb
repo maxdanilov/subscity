@@ -55,6 +55,8 @@ module Subscity
     # layout  :my_layout            # Layout can be in views/layouts/foo.ext or views/foo.ext (default :application)
     #
 
+    set :protection, :except => [:json_csrf]
+
     ##
     # You can configure for a specified environment like:
     #
@@ -197,14 +199,21 @@ module Subscity
         end
     end
 
-    get :movie_update, :with => [:id, :kinopoisk_id, :imdb_id], :id => /\d+/, :kinopoisk_id => /\d+/, :imdb_id => /t{0,2}\d+/ do
+    get [:movies, :update] do
         if ADMIN_IP == request.ip
-            cmd = "cd #{File.dirname(__FILE__)}/../tasks && rake update_movie_kinopoisk[#{params[:id]},#{params[:kinopoisk_id]},#{params[:imdb_id]}] --trace 2>&1 >> /home/nas/rake.log &"
-            #cmd = "cd #{File.dirname(__FILE__)}/../tasks && rake update_movie_kinopoisk[#{params[:id]},#{params[:kinopoisk_id]},#{params[:imdb_id]}] &"
-            system cmd
-            sleep 8
-            cmd
-            #redirect url(:movies, :id => params[:id])
+            @movies = Movie.all
+            render 'movie/update', layout: :layout
+        else
+            render 'errors/404', layout: :layout
+        end
+    end
+
+    post [:movies, :update] do #, :with => [:id, :kinopoisk_id, :imdb_id, :trailers], :id => /\d+/, :kinopoisk_id => /\d+/, :imdb_id => /t{0,2}\d+/ do
+        if ADMIN_IP == request.ip
+            #cmd = "cd #{File.dirname(__FILE__)}/../tasks && rake update_movie_info[#{params[:id]},#{params[:kinopoisk_id]},#{params[:imdb_id]}] >> /home/nas/rake.log 2>&1"
+            cmd = "cd #{File.dirname(__FILE__)}/../tasks && rake update_movie_info[#{params[:id]},#{params[:kinopoisk_id]},#{params[:imdb_id]},#{params[:trailers]}]"
+            result = `#{cmd}`
+            "#{result}"
         else
             render 'errors/404', layout: :layout
         end
