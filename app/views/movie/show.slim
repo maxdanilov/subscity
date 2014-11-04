@@ -10,19 +10,26 @@
 /	- unless movie.title_original.nil?
 /		div.movie-title-original.big-font = metroovie.title_original
 
-table.table.table-bordered.table-condensed.table-striped.movie-info-mobile.table-no-side-borders.movie-info-mobile-caption
+- row_count = 1
+- row_count += 1 unless movie.genres.to_s.empty?
+- row_count += 1 unless movie.duration.to_i == 0 or movie.duration.to_i > 2000
+- row_count += 1 unless movie.country.to_s.empty? or movie.country == '-'
+- row_count += 1 unless movie.languages.to_s.empty?
+- row_count += 1 unless movie.director.to_s.empty?
+- row_count += 1 unless movie.cast.to_s.empty?
+- row_count += 1 unless movie.description.to_s.empty?
+
+table.table.table-bordered.table-condensed.table-striped.movie-info.table-curved
 	tr
-		td.visible-xs
+		td.visible-xs colspan = "2"
 			span.movie-title 
 				= movie.title 
 				- unless movie.year.to_i == 0
 					|  (#{movie.year})
 			- unless movie.title_original.nil?
 				div.movie-title-original = format_title(movie.title_original)
-
-table.table.table-bordered.table-condensed.table-striped.movie-info.table-no-side-borders
 	tr
-		td.text-center rowspan = "10"
+		td.text-center rowspan = "#{row_count}"
 			- if movie.poster_exists?
 				- poster_file = "posters/#{movie.movie_id}.jpg"
 			= image_tag poster_file, :class => 'poster'
@@ -108,10 +115,7 @@ table.table.table-bordered.table-condensed.table-striped.movie-info.table-no-sid
 			td.col-xs-12.movie-description.hidden-xs colspan = "2" 
 				div.justified
 					== movie.description.gsub("\r\n\r\n", "<br/>").gsub("\r\n", "<br/>")
-
-table.table.table-bordered.table-condensed.table-striped.movie-info-mobile.table-no-side-borders
-	- unless movie.description.to_s.empty?
-		tr
+		tr.visible-xs
 			td.visible-xs colspan = "2" 
 				div.justified
 					== movie.description.gsub("\r\n\r\n", "<br/>").gsub("\r\n", "<br/>")
