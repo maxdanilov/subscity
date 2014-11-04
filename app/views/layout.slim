@@ -51,21 +51,27 @@ html
 								| S
 								span.semi-transparent ubs
 								| C
-								span.semi-transparent ity.								
-								| ru 
+								span.semi-transparent ity								
+								/| ru 
 							div.pretty-header.pulsing.site-name-short
 								| SC
 					div.navbar-collapse.collapse
 						ul.nav.navbar-nav
 							li.big-font 
 								= link_to url(:movies)
-									| Фильмы
+									span.fa.fa-film.navbar-icon
+									span.navbar-link-text
+										| Фильмы
 							li.big-font 
 								= link_to url(:cinemas)
-									| Кинотеатры
+									span.fa.fa-map-marker.navbar-icon
+									span.navbar-link-text
+										| Кинотеатры
 							li.dropdown
 								= link_to "#", :class => "dropdown-toggle", "data-toggle" => "dropdown"
-									| По дням 
+									span.fa.fa-calendar.navbar-icon
+									span.navbar-link-text
+										| По дням 
 									b.caret
 									- moment_of_now = Time.now
 									- moment_of_now -= 1.day if Time.now.hour < 2
@@ -88,18 +94,18 @@ html
 									table
 										tr
 											td.big-font.share-top
-												i.fa.fa-share-alt.share-icon-top
+												span.fa.fa-share-alt.navbar-icon
 												span.share-text-top
-													|  Поделиться: 
+													| Поделиться: 
 											td
 												= partial 'partials/share', :locals => { :link => "#{'http://' + request.host}" }
 
 						ul.nav.navbar-nav.navbar-right
 							li.dropdown
 								= link_to "#", :class => "dropdown-toggle", "data-toggle" => "dropdown"
-									span.city
+									span.city.navbar-link-text
 										| #{@city.name rescue City.get_by_domain(request.subdomains.first).name} 
-									span.city-short
+									span.city-short.navbar-link-text
 										| #{@city.name_short rescue City.get_by_domain(request.subdomains.first).name} 
 									b.caret
 									ul.dropdown-menu id="dropdown-cities-menu"

@@ -1,8 +1,8 @@
 - mobile_first ||= false
 
-table style="display: inline-table;" class = ("rating " + ("mobile-rating" if mobile_first).to_s)
+table style="display: inline-table;" class = ("table-curved rating " + ("mobile-rating" if mobile_first).to_s)
 	tr 
-		td colspan="2"
+		td.rating-site colspan="2" style="border:none !important;"
 			- if type == :imdb
 				- url = "http://www.imdb.com/title/tt#{movie.imdb_id}/"			
 				- title = "IMDB"		

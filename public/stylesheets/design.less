@@ -185,6 +185,12 @@ a.movie-title:hover
 		text-align: center;
 	}
 	
+.navbar-icon
+	{
+		margin-right: 6px;
+		text-align: center;
+	}
+
 .age-restriction
 	{
 		position: relative;
@@ -398,8 +404,8 @@ div.box-text
 			border-top: 0px;
 		
 			& > thead:first-child > tr:first-child > td
-				{
-				    border-bottom: 1px dashed fade(@dark-text-color, 80%) !important;
+				{				   
+				    border-bottom: 1px dashed !important;// fade(@dark-text-color, 100%) !important;
 				}
 
 			& td//, & th 
@@ -564,7 +570,12 @@ table.rating
 		margin-right: auto;
 		width: @rating-plate-width;
 		border: 1px dashed;
-			
+
+		td.rating-site
+			{
+				border-right: none !important;
+			}
+
 		td.users
 			{
 				.small-font;
@@ -577,6 +588,7 @@ table.rating
 				padding-top:5px;
 				padding-bottom:3px;
 				width: 50%;
+				border-right: none !important;
 			}
 	}
 	

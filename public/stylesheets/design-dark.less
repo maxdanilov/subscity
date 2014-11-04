@@ -14,11 +14,6 @@
 		{
 			background-image: @bg-url;
 		}
-		
-	h1.like-navbar, h2.like-navbar, h3.like-navbar, h4.like-navbar
-		{
-			border-color: fade(@dark-text-color, 80%) !important;
-		}
 }
 
 body 
@@ -46,12 +41,7 @@ img.poster
 	}
 	
 /* Tables */	
-	
-table.table
-	{
-		//.shadow(@basic-bg-color);
-	}
-	
+
 .table-striped>tbody>tr:nth-child(odd)>td, .table-striped>tbody>tr:nth-child(odd)>th, .table-striped>thead>tr:nth-child(odd)>td
 	{
 		background-color: fade(@basic-bg-table-color, 50%);
@@ -71,19 +61,8 @@ a
 			}
 	}
 	
-.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td
-	{
-		border-top-color: fade(@dark-text-color, 80%);
-	}
-	
-.table-bordered>thead>tr>th, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>tbody>tr>td, .table-bordered>tfoot>tr>td, .table-bordered
-	{
-		border-color: fade(@dark-text-color, 80%);
-	}	
-	
 table.rating
 	{
-		border-color: fade(@dark-text-color, 100%);
 		background-color: fade(@basic-bg-table-color, 40%);
 	}
 	
@@ -91,7 +70,6 @@ table.rating
 
 div.box-text
 	{
-		border-color: fade(@dark-text-color, 80%) !important;
 		background-color: fade(@basic-bg-color, 50%);
 	}
 	
@@ -148,7 +126,6 @@ div.box-text
 .label-default /* initially gray */
 	{
 		background: fade(@basic-bg-color, 35%);
-		border-color: fade(@basic-text-color, 80%);
 		color: @basic-text-color;
 	}
 	
@@ -221,7 +198,7 @@ div.box-text
 // Toggle button border
 .navbar-inverse .navbar-toggle
 	{
-		border-color: fade(@dark-text-color, 80%);
+		border-color: fade(@basic-text-color, 100%);
 	}
 	
 .navbar-collapse.collapse.in > ul > li.dropdown.open > ul > li > a
@@ -234,20 +211,24 @@ div.box-text
 		background-color: none;
 		background: linear-gradient(to bottom, fade(@basic-bg-color, 60%) 0%, fade(@basic-bg-color, 60%) 100%);
 		color: @basic-text-color;
-		border-bottom: 1px dashed fade(@dark-text-color, 80%); 
+		border-bottom: 1px dashed;
 		.shadow(fade(@basic-bg-color, 50%), 8px);
 	}
 
 .navbar-inverse .navbar-nav>li>a
 	{
 		color: fade(@basic-text-color, 100%);
-		border-bottom: @border-dashed fade(@basic-text-color, 100%);
+		//border-bottom: @border-dashed;
+	}
+
+.navbar-link-text
+	{
+		border-bottom: @border-dashed;
 	}
 	
 .navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover, .navbar-inverse .navbar-nav>.open>a:focus
 	{
 		color: saturate(@basic-text-color, 100%);
-		border-bottom: @border-dashed @basic-text-color;
 	}
 	
 .navbar-inverse .navbar-nav>li>a:hover, .navbar-inverse .navbar-nav>li>a:focus
@@ -311,7 +292,6 @@ ul.dropdown-menu
 		background-color: none;
 		background: linear-gradient(to bottom, fade(@basic-bg-color, 40%) 100%, fade(@basic-bg-color, 10%) 0%);
 		color: @basic-text-color;
-		border-top: @border-solid-wide fade(@dark-text-color, 80%);
 		.shadow(fade(@dark-text-color, 50%), 8px);
 	}
 	
@@ -321,4 +301,5 @@ div.movie-plate-table
 	{		
 		background-color: fade(@basic-bg-color, 60%);
 		.shadow(@basic-bg-color);
+		//border-color: fade(@dark-text-color, 100%);
 	}	

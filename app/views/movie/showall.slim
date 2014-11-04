@@ -1,5 +1,6 @@
 h1.text-center.capitalize.like-navbar 
-	| Фильмы на языке оригинала с русскими субтитрами (#{@city.name})
+	span.fa.fa-film
+	|  Фильмы на языке оригинала с русскими субтитрами (#{@city.name})
 - unless @movies.count == 0
 	h4.text-center.capitalize.like-navbar.hidden-xs
 			div style="font-size:18px;"

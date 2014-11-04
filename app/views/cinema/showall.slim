@@ -1,12 +1,14 @@
-h1.text-center.capitalize.like-navbar Кинотеатры (#{@city.name})
+h1.text-center.capitalize.like-navbar
+	span.fa.fa-map-marker
+	|  Кинотеатры (#{@city.name})
 - if @cinemas.size == 0
 	h3.text-center id="nothing-found"				 		
 		| Кинотеатров не найдено
 - else
 	/div.table-responsive
 	div
-		table.table.table-striped.table-bordered.table-condensed.table-curved
-			thead
+		table.table.table-striped.table-bordered.table-condensed.table-curved.table-no-inside-borders
+			thead.hidden
 				tr.hidden-xs
 					td.text-center
 						h3 Название

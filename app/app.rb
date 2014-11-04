@@ -105,16 +105,18 @@ module Subscity
         end
     end
 
-    get :latest do
-        cache(request.cache_key, :expires => 1) do                         
-            @screenings = Screening.active_all.order("created_at DESC, screening_id DESC").to_a      
-            @cities = City.all.to_a                         
-            @cinemas = Cinema.all.to_a                         
-            @movies = Movie.all.to_a            
-            @movies_active = Movie.where(:movie_id => Screening.active.pluck(:movie_id).uniq).order('created_at DESC')                         
-            @ratings = Rating.all
-            render 'latest', layout: :layout
-        end
+    get :latest do  
+        if admin?                    
+	        @screenings = Screening.active_all.order("created_at DESC, screening_id DESC").to_a      
+	        @cities = City.all.to_a                         
+	        @cinemas = Cinema.all.to_a                         
+	        @movies = Movie.all.to_a            
+	        @movies_active = Movie.where(:movie_id => Screening.active.pluck(:movie_id).uniq).order('created_at DESC')                         
+	        @ratings = Rating.all
+	        render 'latest', layout: :layout
+    	else
+    		render 'errors/404', layout: :layout
+    	end
     end
 
     get :cinemas do
@@ -200,7 +202,7 @@ module Subscity
     end
 
     get [:movies, :update] do
-        if ADMIN_IP == request.ip
+        if admin?
             @movies = Movie.all
             render 'movie/update', layout: :layout
         else
@@ -209,7 +211,7 @@ module Subscity
     end
 
     post [:movies, :update] do #, :with => [:id, :kinopoisk_id, :imdb_id, :trailers], :id => /\d+/, :kinopoisk_id => /\d+/, :imdb_id => /t{0,2}\d+/ do
-        if ADMIN_IP == request.ip
+        if admin?
             #cmd = "cd #{File.dirname(__FILE__)}/../tasks && rake update_movie_info[#{params[:id]},#{params[:kinopoisk_id]},#{params[:imdb_id]}] >> /home/nas/rake.log 2>&1"
             cmd = "cd #{File.dirname(__FILE__)}/../tasks && rake update_movie_info[#{params[:id]},#{params[:kinopoisk_id]},#{params[:imdb_id]},#{params[:trailers]}]"
             result = `#{cmd}`
