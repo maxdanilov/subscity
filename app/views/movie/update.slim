@@ -1,0 +1,43 @@
+- @movies = @movies.sort_by { |m| m.title.mb_chars.downcase }
+javascript:
+	var titles = []
+	var ids = []
+	var kinopoiskIds = []
+	var imdbIds = []
+	var trailers_original = []
+	var trailers_russian = []
+	var admin = true
+- @movies.each do |m|
+	javascript:
+		titles.push("#{m.title}");
+		ids.push(#{m.id});
+		kinopoiskIds.push(#{m.kinopoisk_id.to_i});
+		imdbIds.push(#{m.imdb_id.to_i});
+		trailers_original.push("#{m.trailer.to_s.split('*')[0]}");
+		trailers_russian.push("#{m.trailer.to_s.split('*')[1] rescue ''}");
+/form
+table.table.table-update-movies.table-bordered.big-font.table-striped.table-curved
+	- 5.times do
+		tr.movie-edit.text-center
+			td.col-xs-5
+				label for="movie_id" Фильм
+				select.movie size="1" name="movie[]"
+				    <option selected value="-1"> -</option>
+			td.col-xs-2
+				label for="kinopoisk_id" Кинопоиск
+				input.kinopoisk id="kinopoisk_id" type="text" pattern="^[0-9]+$"
+			td.col-xs-2
+				label for="imdb_id" IMDB
+				input.imdb id="imdb_id" type="text"
+			td.col-xs-3	
+				label for="trailers" Трейлеры
+				input.trailer-original id="trailers" type="text"
+				input.trailer-russian type="text"
+div.centered-content
+	div.text-center
+		button.btn.btn-default.big-font.font-bold id="submit-update"
+			| Обновить
+	pre.normal-font id="result-update"
+
+= javascript_include_tag '//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'
+= javascript_include_tag 'admin.min'
