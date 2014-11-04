@@ -39,8 +39,11 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 						/		span.fa.fa-film  
 						/		|  #{format_screenings_count(@screening_counts[movie])} 
 					div.movie-next-screening
-						- if defined? @next_screenings					
-							| ближайший сеанс:  
+						- if defined? @next_screenings[movie]			
+							- if defined? @screening_counts[movie] and @screening_counts[movie] == 1
+								| единственный сеанс: 
+							- else
+								| ближайший сеанс:  
 							span.label.label-bg.label-default.normal-font
 								span.fa.fa-calendar
 								|  #{format_next_screening @next_screenings[movie].date_time}
@@ -55,8 +58,11 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 							= partial 'partials/rating_plate', :locals => { :movie => movie, :type => :kinopoisk, :rating => ratings.kinopoisk_rating, :votes => ratings.kinopoisk_votes, :mobile_first => true }
 		div.movie-plate-row
 			div.movie-next-screening-mobile
-				- if defined? @next_screenings					
-					| ближайший сеанс  
+				- if defined? @next_screenings		
+					- if defined? @screening_counts[movie] and @screening_counts[movie] == 1			
+						| единственный сеанс  
+					- else					
+						| ближайший сеанс  
 					span.label.label-bg.label-default.normal-font
 						span.fa.fa-calendar
 						|  #{format_next_screening @next_screenings[movie].date_time}
