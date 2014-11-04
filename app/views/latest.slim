@@ -1,9 +1,9 @@
 - no_prices = @screenings.count { |s| s.price_min == nil }
 - mid_price = @screenings.reduce(0) {|sum, s| sum + s.price_min.to_i} / @screenings.count {|s| s.price_min.nil? == false}
-div.big-font Активных сеансов в базе: #{@screenings.count} (#{ no_prices } без цен)
-div.big-font Средняя цена билета: #{mid_price} руб.
+div.big-font.centered-content Активных сеансов в базе: #{@screenings.count} (#{ no_prices } без цен)
+div.big-font.centered-content Средняя цена билета: #{mid_price} руб.
 div.divider
-table.text-center.filters id="filters"
+table.text-center.filters.centered-content id="filters"
 	tbody
 		tr
 			td
@@ -23,7 +23,7 @@ span
 				= partial 'partials/movie_plate', :locals => { :movie => movie, :ratings => ratings }
 	div.divider
 	span id="tab-screenings"
-		table.table.table-bordered.table-condensed.table-curved.table-striped.medium-font
+		table.table.table-bordered.table-condensed.table-curved.table-striped.medium-font.table-responsive
 			tr
 				th.col-md-1.text-center
 					| Сеанс

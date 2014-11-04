@@ -101,8 +101,6 @@ task :update_screenings_movie, [:id] => :environment do |task, args|
 					next
 				end
 				puts "-> [#{index + 1} / #{dates.size}] Fetching screenings for #{date}".green
-				next
-				puts
 				KassaParser.parse_sessions_HTML(KassaFetcher.fetch_sessions(id, date, city_id), date).each do |s|
 					c = Screening.new(movie_id: id, cinema_id: s[:cinema], date_time: s[:time], screening_id: s[:session])
 					if c.valid?

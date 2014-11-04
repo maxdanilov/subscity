@@ -61,7 +61,7 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 						span.fa.fa-calendar
 						|  #{format_next_screening @next_screenings[movie].date_time}
 	div.movie-description
-		table.table.table-bordered.table-condensed.table-curved.table-striped.movie-description.hidden-xs.hidden
+		table.table.table-bordered.table-condensed.table-striped.movie-description.hidden-xs.hidden
 			tbody	
 				tr.table-body
 				- unless movie.genres.to_s.empty?

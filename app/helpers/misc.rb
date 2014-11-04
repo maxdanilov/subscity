@@ -179,11 +179,11 @@ def format_simple_url(m)
 end
 
 def link_to_cinema(cinema)
-	link_to(cinema.name, url(:cinemas, cinema.url), :class => 'underdashed')
+	link_to(cinema.name, url(:cinemas, cinema.format_url), :class => 'underdashed')
 end
 
 def link_to_movie(movie)
-	link_to(movie.title, url(:movies, movie.url), :class => 'underdashed')
+	link_to(movie.title, url(:movies, movie.format_url), :class => 'underdashed')
 end
 
 def link_to_date(day)	

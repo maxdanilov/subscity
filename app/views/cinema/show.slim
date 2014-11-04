@@ -1,4 +1,4 @@
-table.table.table-condensed.table-curved.table-striped.table-bordered.table-no-side-borders
+table.table.table-condensed.table-curved.table-striped.table-bordered
 	tr
 		td
 			h2.cinema-title 
@@ -9,7 +9,7 @@ table.table.table-condensed.table-curved.table-striped.table-bordered.table-no-s
 		tr
 			td
 				div
-					span.fa.fa-map-marker.fa-lg
+					span.fa.fa-map-marker.fa-lg.cinema-icon
 					|  
 					= @cinema.city.name
 					| , 
@@ -23,7 +23,7 @@ table.table.table-condensed.table-curved.table-striped.table-bordered.table-no-s
 		tr
 			td
 				div
-					span.fa.fa-map-marker.fa-lg style="color:rgba( 0, 0, 0, 0);"
+					span.fa.fa-map-marker.fa-lg.cinema-icon style="color:rgba( 0, 0, 0, 0);"
 					|  
 					| м. 
 					= @cinema.metro
@@ -38,7 +38,7 @@ table.table.table-condensed.table-curved.table-striped.table-bordered.table-no-s
 		tr
 			 td 
 			 	div
-			 		span.fa.fa-phone.fa-lg		 		
+			 		span.fa.fa-phone.fa-lg.cinema-icon
 					|  
 			 		= @cinema.phone
 
@@ -46,7 +46,7 @@ table.table.table-condensed.table-curved.table-striped.table-bordered.table-no-s
 		tr
 			 td 
 			 	div			 
-			 		span.fa.fa-rub.fa-lg	
+			 		span.fa.fa-rub.fa-lg.cinema-icon
 			 		|  	 		
 			 		= format_price_range(@price_min, @price_max)
 
@@ -62,7 +62,7 @@ table.table.table-condensed.table-curved.table-striped.table-bordered.table-no-s
 		/time datetime = "#{day}"
 		h3.header-day.text-center
 			= link_to_date(day)
-		table.table.table-bordered.table-condensed.table-curved.table-striped.table-no-side-borders
+		table.table.table-bordered.table-condensed.table-curved.table-striped
 			- movies.each do |movie, screenings|
 				tr.row-entity
 					td.col-sm-5.col-xs-10

@@ -8,8 +8,8 @@ class Movie < ActiveRecord::Base
 
 	scope :active, -> { where(:active => true) }
 
-	def url
-		@url ||= format_movie_url(self)
+	def format_url
+		@format_url ||= format_movie_url(self)
 	end
 
 	def valid_genre?

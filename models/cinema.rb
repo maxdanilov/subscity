@@ -7,8 +7,8 @@ class Cinema < ActiveRecord::Base
 	validates :name,  		presence: true
 	validates :city_id, 	presence: true
 	
-	def url
-		@url ||= format_cinema_url(self)
+	def format_url
+		@forman_url ||= format_cinema_url(self)
 	end
 
 	def get_sorted_screenings
