@@ -89,7 +89,7 @@ table.rating
 	
 /* Captions */
 
-.box-text
+div.box-text
 	{
 		border-color: fade(@dark-text-color, 80%) !important;
 		background-color: fade(@basic-bg-color, 50%);
@@ -221,7 +221,7 @@ table.rating
 // Toggle button border
 .navbar-inverse .navbar-toggle
 	{
-		border-color: @basic-text-color;
+		border-color: fade(@dark-text-color, 80%);
 	}
 	
 .navbar-collapse.collapse.in > ul > li.dropdown.open > ul > li > a
@@ -234,7 +234,7 @@ table.rating
 		background-color: none;
 		background: linear-gradient(to bottom, fade(@basic-bg-color, 60%) 0%, fade(@basic-bg-color, 60%) 100%);
 		color: @basic-text-color;
-		border-bottom: 1px dashed; 
+		border-bottom: 1px dashed fade(@dark-text-color, 80%); 
 		.shadow(fade(@basic-bg-color, 50%), 8px);
 	}
 

@@ -23,7 +23,7 @@ time datetime = "#{format_date_url(@date)}"
 				br
 				span.movie-title-original.text-center.big-font
 					= format_title(movie.title_original)
-		table.table.table-bordered.table-condensed.table-curved.table-striped
+		table.table.table-bordered.table-condensed.table-curved.table-striped.table-no-inside-borders
 			- cinemas.each do |cinema, screenings|
 				tr.row-entity
 					td.col-sm-4.col-xs-10

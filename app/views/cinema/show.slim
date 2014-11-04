@@ -62,7 +62,7 @@ table.table.table-condensed.table-curved.table-striped.table-bordered
 		/time datetime = "#{day}"
 		h3.header-day.text-center
 			= link_to_date(day)
-		table.table.table-bordered.table-condensed.table-curved.table-striped
+		table.table.table-bordered.table-condensed.table-curved.table-striped.table-no-inside-borders
 			- movies.each do |movie, screenings|
 				tr.row-entity
 					td.col-sm-5.col-xs-10

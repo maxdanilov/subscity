@@ -512,6 +512,19 @@ table.bordered
 		border-right: none;
 	}
 	
+.table-no-inside-borders
+	{	
+		tr > td:not(:last-of-type)
+			{
+				border-right: none !important;
+			}
+
+		tr > td:not(:first-of-type)
+			{
+				border-left: none !important;
+			}
+	}
+
 .table-no-side-borders
 	{	
 		border-left: none !important;
