@@ -2,6 +2,12 @@
 
 @media (max-width: 767px) 
 {
+
+	* 
+	{
+    	transition: none !important;
+	}
+
 	h1
 	{
 		.font-size(@font-size-h1 * 0.9);
@@ -22,25 +28,46 @@
 		width: 20px;
 	}
 
+	.filters-sort .btn, .filters-tickets .btn
+	{
+		//.font-size(@font-size-normal) !important;
+		letter-spacing: -1px;
+		@media (max-width: 325px)
+		{
+			letter-spacing: -1px;
+			font-weight: normal;
+		}
+	}
+
 	// Toggle button
+	.navbar-collapse
+		{
+			&.in, &.collapsing
+			{
+				border-top: 1px dashed;
+			}
+		}
+
 	.navbar-toggle
 		{
 			margin-top: 18px;
 		}	
 	
-	.navbar-inverse .navbar-nav>li>a
+	.navbar-inverse .navbar-nav > li > a
 		{
 			margin-bottom: 12px;
 			margin-top: 12px;
 		}
 	
-	.navbar-collapse.collapse.in > ul:nth-child(1), .navbar-collapse.collapse.in > ul.nav.navbar-nav.navbar-right
+	//.navbar-collapse.collapse.in > ul:nth-child(1), .navbar-collapse.collapse.in > ul.nav.navbar-nav.navbar-right
+	.navbar-collapse > ul:nth-child(1), .navbar-collapse > ul.nav.navbar-nav.navbar-right
 		{
 			margin-top: 0px !important;
 			margin-bottom: 0px !important;
 		}
 	
-	.navbar-collapse.collapse.in > ul > li > a
+	//.navbar-collapse.collapse.in > ul > li > a
+	.navbar-collapse > ul > li > a
 		{
 			margin-left: 12px;
 			margin-right: 12px;

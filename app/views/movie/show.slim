@@ -73,41 +73,41 @@ table.table.table-bordered.table-condensed.table-striped.movie-info.table-curved
 		tr
 			td.col-xs-12 colspan="2" 
 				div
-					i.fa.fa-bookmark
+					i.fa.fa-bookmark.movie-icon
 					strong.hidden-xs  Жанр: 
 					|  #{movie.genres}
 	- unless movie.duration.to_i == 0 or movie.duration.to_i > 2000
 		tr
 			td.col-xs-12 colspan="2" 
 				div
-					i.fa.fa-clock-o
+					i.fa.fa-clock-o.movie-icon
 					strong.hidden-xs  Длительность: 
 					|  #{movie.duration} мин.				
 	- unless movie.country.to_s.empty? or movie.country == '-'
 		tr
 			td.col-xs-12 colspan="2" 
 				div
-					i.fa.fa-globe			
+					i.fa.fa-globe.movie-icon			
 					strong.hidden-xs  Страна: 
 					|  #{movie.country}
 	- unless movie.languages.to_s.empty?
 			td.col-xs-12 colspan="2" 
 				div
-					i.fa.fa-volume-up
+					i.fa.fa-volume-up.movie-icon
 					strong.hidden-xs  Язык: 
 					|  #{languages_format(movie.languages)}
 	- unless movie.director.to_s.empty?
 		tr
 			td.col-xs-12 colspan = "2" 
 				div
-					i.fa.fa-bullhorn
+					i.fa.fa-bullhorn.movie-icon
 					strong.hidden-xs  Режиссер: 
 					|  #{movie.director.gsub("\r", "").split("\n").join(", ")}
 	- unless movie.cast.to_s.empty?
 		tr
 			td.col-xs-12 colspan = "2" 
 				div
-					i.fa.fa-users
+					i.fa.fa-users.movie-icon
 					strong.hidden-xs  В ролях: 
 					|  #{movie.cast.gsub("\r", "").split("\n").join(", ")}
 	- unless movie.description.to_s.empty?
@@ -125,7 +125,9 @@ table.table.table-bordered.table-condensed.table-striped.movie-info.table-curved
 - if @screenings.count == 0
 	h2.text-center.like-navbar В ближайшее время сеансов на языке оригинала нет
 - else
-	h2.text-center.like-navbar Сеансы на языке оригинала<br>(с русскими субтитрами)
+	h2.text-center.like-navbar 
+		span.fa.fa-ticket
+		|  Сеансы на языке оригинала<br>(с русскими субтитрами)
 
 	= partial 'partials/filters'
 

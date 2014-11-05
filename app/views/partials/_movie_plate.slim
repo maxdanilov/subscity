@@ -14,7 +14,7 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 
 			div.movie-titles
 				div.movie-title 
-					= link_to_movie(movie)
+					== link_to_movie(movie)
 					- unless movie.year.to_i == 0
 						span.hidden-xs
 							|  (#{movie.year})

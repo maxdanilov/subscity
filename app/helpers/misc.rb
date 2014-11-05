@@ -33,7 +33,7 @@ def format_price_range(min, max)
 end
 
 def format_title(title)
-	title.to_s.split("/").first.to_s.strip
+	title#.to_s.split("/").first.to_s.strip
 end
 
 def format_word(count, words)
@@ -183,9 +183,15 @@ def link_to_cinema(cinema)
 end
 
 def link_to_movie(movie)
-	link_to(movie.title, url(:movies, movie.format_url), :class => 'underdashed')
+	#link_to(hyphenate(movie.title, :ru), url(:movies, movie.format_url), :class => 'underdashed')
+	"<a class='underdashed' href='#{url(:movies, movie.format_url)}'>#{hyphenate(movie.title, :ru)}</a>"
 end
 
 def link_to_date(day)	
 	link_to(show_date(day), url(:dates, day), :class => 'underdashed')
+end
+
+def hyphenate(text, lang)
+	h = Text::Hyphen.new(:language => lang.to_s, :left => 4, :right => 4)
+	text.split(" ").collect! { |w| h.visualise(w, "&shy;") }.join(" ")
 end

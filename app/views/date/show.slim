@@ -6,7 +6,9 @@ time datetime = "#{format_date_url(@date)}"
 - if @screenings.count == 0
 	h2.text-center.like-navbar Сеансов на языке оригинала нет
 - else
-	h2.text-center.like-navbar Сеансы на языке оригинала<br>(с русскими субтитрами)
+	h2.text-center.like-navbar 
+		span.fa.fa-ticket
+		|  Сеансы на языке оригинала<br>(с русскими субтитрами)
 	
 	= partial 'partials/filters'
 

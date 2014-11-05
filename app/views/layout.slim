@@ -19,8 +19,6 @@ html
 		= favicon_tag '/favicon.png', :type => 'image/png', :rel => 'icon'
 		= favicon_tag '/favicon.ico', :rel => 'shortcut icon'
 		
-		= stylesheet_link_tag 'http://fonts.googleapis.com/css?family=PT+Sans:400,700&subset=latin,cyrillic'
-		
 		/ Bootstrap
 		= stylesheet_link_tag 'http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css'
 		/ Optional theme
@@ -55,7 +53,7 @@ html
 								/| ru 
 							div.pretty-header.pulsing.site-name-short
 								| SC
-					div.navbar-collapse.collapse
+					div.navbar-collapse.collapse.no-transition
 						ul.nav.navbar-nav
 							li.big-font 
 								= link_to url(:movies)
@@ -137,6 +135,8 @@ html
 		/ Kassa ticket plan
 		- if SETTINGS[:sell_tickets] == true
 			= javascript_include_tag 'http://s2.kassa.rl0.ru/widget/js/ticketmanager.js'
+
+		= stylesheet_link_tag 'http://fonts.googleapis.com/css?family=PT+Sans:400,700&subset=latin,cyrillic', :media => "min-width: 768px" 
 
 		= partial 'partials/google'
 		= partial 'partials/yandex'

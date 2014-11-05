@@ -32,6 +32,7 @@ gem 'httpclient'
 gem 'translit'
 gem 'stringex'
 gem 'imdb'
+gem 'text-hyphen'
 #gem 'active_support'
 
 # Test requirements

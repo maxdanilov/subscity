@@ -63,7 +63,6 @@ ActiveRecord::Schema.define(:version => 7) do
     t.integer  "duration"
     t.integer  "kinopoisk_id"
     t.integer  "imdb_id"
-    t.integer  "cinemate_id"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
     t.string   "trailer"

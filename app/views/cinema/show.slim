@@ -31,7 +31,7 @@ table.table.table-condensed.table-curved.table-striped.table-bordered
 		tr
 			td
 				div
-					span.fa.fa-link.fa-lg	 		
+					span.fa.fa-link.fa-lg.cinema-icon	 		
 					|  
 					= link_to @cinema.url.gsub("http://", "").split("/").first.to_s, @cinema.url, :class => :underdashed
 	- unless @cinema.phone.to_s.empty?
@@ -53,7 +53,9 @@ table.table.table-condensed.table-curved.table-striped.table-bordered
 - if @screenings.count == 0
 	h2.text-center.like-navbar В ближайшее время сеансов на языке оригинала нет
 - else
-	h2.text-center.like-navbar Сеансы на языке оригинала<br>(с русскими субтитрами)
+	h2.text-center.like-navbar 
+		span.fa.fa-ticket
+		|  Сеансы на языке оригинала<br>(с русскими субтитрами)
 
 	= partial 'partials/filters'
 	
