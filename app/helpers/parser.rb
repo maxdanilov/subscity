@@ -49,19 +49,25 @@ class KassaParser
 		results = []
 		begin
 			(doc/"p.caption").each do |el|
-				next if !el.inner_html.include? HAS_SUBS # skip headlines of non-subs sessions
-
 				# looking up and aside in the DOM to find the cinema info
-				session_cinema = get_cinema_id ( el.parent.preceding_siblings.filter("header").at("a")[:href] )
+				session_cinema_id = get_cinema_id ( el.parent.preceding_siblings.filter("header").at("a")[:href] )
+				session_cinema = Cinema.where(:cinema_id => session_cinema_id).first
+				fetch_all = false
+				fetch_all = session_cinema.fetch_all if session_cinema != nil			
+
+				next if (not el.inner_html.include? HAS_SUBS) and (not fetch_all) 
+														 # skip headlines of non-subs sessions
+														 # but download all screenings for given cinemas
+
 				# looking up and then down to find the sessions info
 				el.parent.search("div/a").each do |a|
 					session_id = get_session_id( a[:href] )
 					session_time = parse_time( a.inner_html, date)
 					# the night screenings are technically on the next day!
 					session_time += 1.day if session_time.hour.between? 0, 5
-					#p session_id.to_s + " " + session_time.to_s + " " + session_cinema.to_s
+					#p session_id.to_s + " " + session_time.to_s + " " + session_cinema_id.to_s
 					session_movie = get_movie_id(a.parent.parent.parent.search("h3/a").first[:href]) rescue nil
-					results << { session: session_id , time: session_time, cinema: session_cinema, movie: session_movie }
+					results << { session: session_id , time: session_time, cinema: session_cinema_id, movie: session_movie }
 				end
 			end
 		rescue Exception => e
