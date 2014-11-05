@@ -33,7 +33,7 @@ h1.text-center.capitalize.like-navbar
 										tr
 											td
 												div.big-font
-													= link_to_movie(movie)
+													== link_to_movie(movie)
 													- unless movie.languages.to_s.empty?
 														|  
 														span.label.label-bg.label-default.age-restriction 

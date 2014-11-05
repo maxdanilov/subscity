@@ -69,7 +69,7 @@ table.table.table-condensed.table-curved.table-striped.table-bordered
 				tr.row-entity
 					td.col-sm-5.col-xs-10
 						div.movie-title							
-							= link_to_movie(movie)
+							== link_to_movie(movie)
 							|  
 							- unless movie.languages.to_s.empty?
 								span.label.label-bg.label-default.age-restriction.hidden-xs 
