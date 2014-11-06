@@ -156,6 +156,29 @@ class KassaParser
 		title.split(TITLE_DELIMITER).first
 	end
 
+	def self.screening_date_time(data)
+		#replace = ["сегодня", "завтра"]
+		overnight = "в ночь с"
+		months = ["янв", "фев", "мар", "апр", "ма", "июн", "июл", "авг", "сен", "окт", "ноя", "дек"]		
+		doc = Hpricot(data) rescue nil
+		return nil if doc.nil?
+		date_text = doc.at(".order-info dd:nth-of-type(2)").inner_text rescue ""
+		tokens = date_text.split " "
+		day = tokens[1]
+		month_name = tokens[2]
+		month = Time.now.month
+		months.each_with_index do |m, i|
+			next unless month_name.include? m
+			month = i + 1
+		end
+		time = tokens[4]
+		year = Time.now.year
+		year += 1 if Time.now.month > month
+		date = Time.local(year, month, day, 0, 0, 0)
+		date += 1.day if date_text.include? overnight
+		parse_time(time, date)
+	end
+
 	private_class_method	:parse_time
 	private_class_method	:get_cinema_id
 	private_class_method	:get_session_id

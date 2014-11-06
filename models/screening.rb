@@ -46,23 +46,30 @@ class Screening < ActiveRecord::Base
 		date_for_screening(date_time).to_date
 	end
 
+	def session_data
+		@session_data ||= KassaFetcher.fetch_session(screening_id, cinema.city_id)
+	end
+
 	def exists?
 		#puts "Checking if exists: #{screening_id}".cyan
-		KassaParser.screening_exists?(KassaFetcher.fetch_session(screening_id, cinema.city_id))
+		KassaParser.screening_exists?(session_data)
 	end
 
 	def actual_title
-		title = KassaParser.screening_title(KassaFetcher.fetch_session(screening_id, cinema.city_id))
+		title = KassaParser.screening_title(session_data)
 	end
 
 	def has_correct_title?
 		title = actual_title
-		#puts "#{movie.title} vs #{title}"
 		(movie.title.include? title or title.include? movie.title) rescue false
 	end
 
 	def available?
 		KassaParser.parse_tickets_available?(KassaFetcher.fetch_availability(screening_id))
+	end
+
+	def actual_date_time
+		KassaParser.screening_date_time(session_data)
 	end
 
 	def get_prices

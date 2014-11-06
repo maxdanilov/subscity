@@ -72,8 +72,8 @@ task :update_screenings => :environment do |task, args|
 		sleep rand(2..3)
 	end
 
-	Rake::Task[:cleanup_screenings].reenable
-	Rake::Task[:cleanup_screenings].invoke
+	#Rake::Task[:cleanup_screenings].reenable
+	#Rake::Task[:cleanup_screenings].invoke
 
 	Rake::Task[:update_screenings_prices].reenable
 	Rake::Task[:update_screenings_prices].invoke
@@ -438,7 +438,7 @@ task :cleanup_screenings => :environment do |task|
 	deleted = 0
 	puts "Starting cleanup of #{Screening.active.count} screenings...".cyan
 	Screening.active.each do |s|
-		if (not s.exists?) or (not s.has_correct_title?)
+		if (not s.exists?) or (not s.has_correct_title?) or (s.actual_date_time != s.date_time)
 			puts "\tScreening #{s.screening_id} was excluded from database:".yellow
 			puts s
 
@@ -604,9 +604,12 @@ task :testtask => :environment do |task|
 	t = start_task(task)
 	
 	s = Screening.active
+	#s = Screening.where(:screening_id => 13552023)
+	#puts "[#{s.cinema.name}] #{s.screening_id} #{s.actual_date_time}"
 	s.each do |s|
-		unless s.has_correct_title?
-			puts "[#{s.cinema.name}] #{s.screening_id} #{s.movie.title} - #{s.actual_title}"
+		next unless s.exists?
+		unless s.actual_date_time == s.date_time
+			puts "[#{s.cinema.name}] #{s.screening_id} #{s.actual_date_time} - #{s.date_time}" rescue puts "#{s.screening_id}"
 		end
 	end
 
