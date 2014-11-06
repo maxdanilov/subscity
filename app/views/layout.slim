@@ -23,9 +23,10 @@ html
 		= stylesheet_link_tag 'http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css'
 		/ Optional theme
 		= stylesheet_link_tag 'http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css'
-		/ Font awesome icons
-		= stylesheet_link_tag 'http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css'
 
+		/ PT Sans font
+		= stylesheet_link_tag 'http://fonts.googleapis.com/css?family=PT+Sans:400,700&subset=latin,cyrillic'
+		/, :media => "min-width: 768px" 
 		/ jquery UI CSS
 		/= stylesheet_link_tag '//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.min.css'
 		= stylesheet_link_tag 'jquery-ui-1.11.2.custom/jquery-ui.min'
@@ -136,11 +137,12 @@ html
 		- if SETTINGS[:sell_tickets] == true
 			= javascript_include_tag 'http://s2.kassa.rl0.ru/widget/js/ticketmanager.js'
 
-		= stylesheet_link_tag 'http://fonts.googleapis.com/css?family=PT+Sans:400,700&subset=latin,cyrillic', :media => "min-width: 768px" 
+		/ Font awesome icons
+		= stylesheet_link_tag 'http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css'
 
 		= partial 'partials/google'
 		= partial 'partials/yandex'
-		= partial 'partials/mailru'
+		/= partial 'partials/mailru'
 
 		/div.footer
 		/	div.containter

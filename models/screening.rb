@@ -51,6 +51,16 @@ class Screening < ActiveRecord::Base
 		KassaParser.screening_exists?(KassaFetcher.fetch_session(screening_id, cinema.city_id))
 	end
 
+	def actual_title
+		title = KassaParser.screening_title(KassaFetcher.fetch_session(screening_id, cinema.city_id))
+	end
+
+	def has_correct_title?
+		title = actual_title
+		#puts "#{movie.title} vs #{title}"
+		(movie.title.include? title or title.include? movie.title) rescue false
+	end
+
 	def available?
 		KassaParser.parse_tickets_available?(KassaFetcher.fetch_availability(screening_id))
 	end

@@ -58,6 +58,10 @@ end
 
 desc 'update screenings for all movies in the DB (active ones)'
 task :update_screenings => :environment do |task, args|
+	#do this before as well because cinemas can change movies assigned to screenings while keeping screening id!
+	Rake::Task[:cleanup_screenings].reenable
+	Rake::Task[:cleanup_screenings].invoke
+
 	t = start_task(task)
 	count_all = Movie.active.count
 	Movie.active.each_with_index do |m, index|
@@ -434,7 +438,7 @@ task :cleanup_screenings => :environment do |task|
 	deleted = 0
 	puts "Starting cleanup of #{Screening.active.count} screenings...".cyan
 	Screening.active.each do |s|
-		unless s.exists?
+		if (not s.exists?) or (not s.has_correct_title?)
 			puts "\tScreening #{s.screening_id} was excluded from database:".yellow
 			puts s
 
@@ -598,11 +602,13 @@ end
 
 task :testtask => :environment do |task|
 	t = start_task(task)
-	puts "Output test! is TTY: #{STDOUT.tty?}".green
 	
-	puts KassaParser.parse_movie_HTML(KassaFetcher.fetch_movie(8401))
-	puts KassaParser.parse_movie_HTML(KassaFetcher.fetch_movie(59074))
-	puts KassaParser.parse_movie_HTML(KassaFetcher.fetch_movie(60604))
+	s = Screening.active
+	s.each do |s|
+		unless s.has_correct_title?
+			puts "[#{s.cinema.name}] #{s.screening_id} #{s.movie.title} - #{s.actual_title}"
+		end
+	end
 
 	stop_task(task, t)
 end

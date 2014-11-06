@@ -7,6 +7,7 @@ class KassaParser
 
 	HAS_SUBS = "субтитр"
 	NOT_FOUND_SCREENING = /Сеанс не найден/
+	TITLE_DELIMITER = " на языке оригинала"
 	
 	def self.parse_prices(data)
 		parsed = parse_json(data)
@@ -146,6 +147,13 @@ class KassaParser
 		doc = Hpricot(data) rescue nil
 		return false if doc.nil?
 		((doc.at("title").inner_text rescue nil) =~ NOT_FOUND_SCREENING).nil?
+	end
+
+	def self.screening_title(data)
+		doc = Hpricot(data) rescue nil
+		return "" if doc.nil?
+		title = doc.at("title").inner_text rescue ""
+		title.split(TITLE_DELIMITER).first
 	end
 
 	private_class_method	:parse_time
