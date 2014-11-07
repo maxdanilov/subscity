@@ -5,7 +5,6 @@ h1.text-center.capitalize.like-navbar
 	h3.text-center id="nothing-found"				 		
 		| Кинотеатров не найдено
 - else
-	/div.table-responsive
 	div
 		table.table.table-striped.table-bordered.table-condensed.table-curved.table-no-inside-borders
 			thead.hidden
@@ -21,8 +20,9 @@ h1.text-center.capitalize.like-navbar
 							div.cinema-name
 								= link_to_cinema(cinema)
 								|  
-								span.badge
-									| #{format_movies_count(movies.size)} 
+								div.label.label-bg.label-default.normal-font
+									span.fa.fa-film
+									|  #{format_movies_count(movies.size)} 
 							- unless cinema.metro.to_s.empty?
 								span.medium-font.location
 									| м. #{cinema.metro}
@@ -44,8 +44,6 @@ h1.text-center.capitalize.like-navbar
 													|  
 													<span class="label label-small label-default age-restriction">#{movie.age_restriction}+</span>
 													|  
-													span.badge.font-medium
-														|  #{format_screenings_count(screenings_count)} 
 													- unless movie.title_original.to_s.empty?
 														br
 														span.movie-title-original.small-font =format_title(movie.title_original)

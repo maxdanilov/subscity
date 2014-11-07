@@ -32,6 +32,11 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 				- unless movie.title_original.nil?
 					div.movie-title-original = format_title(movie.title_original)
 			
+				- unless movie.genres.to_s.empty?
+					div.hidden-xs.movie-genres
+						i.fa.fa-bookmark
+						|  #{movie.genres}
+
 				div.movie-screenings.hidden-xs
 					div.movie-screenings-count
 						/- if defined? @screening_counts

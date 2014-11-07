@@ -34,10 +34,12 @@ table.table.table-bordered.table-condensed.table-striped.movie-info.table-curved
 				- poster_file = "posters/#{movie.movie_id}.jpg"
 			= image_tag poster_file, :class => 'poster'
 			- unless @screening_count == 0
-				span.badge.count style="margin-top:5px;"
-					| #{format_screenings_count(@screening_count)} 
-				span.badge.count style="margin-top:5px;"
-					| #{format_cinemas_count(@cinemas_count)} 
+				div.label.label-bg.label-default.normal-font.label-screenings-count.hidden-xs
+					span.fa.fa-film
+					|  #{format_screenings_count(@screening_count)} 
+				div.label.label-bg.label-default.normal-font.label-cinemas-count.hidden-xs
+					span.fa.fa-map-marker
+					|  #{format_cinemas_count(@cinemas_count)} 
 				div.divider
 
 			- unless movie.imdb_id.nil? or ratings.nil? or ratings.imdb_rating.nil?
