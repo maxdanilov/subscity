@@ -1,4 +1,4 @@
-div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-title="#{movie.title}" attr-created="#{movie.created_at.to_i}" attr-imdb="#{ratings.imdb_rating.round(1) rescue 0}" attr-kinopoisk="#{ratings.kinopoisk_rating.round(1) rescue 0}" attr-kinopoisk-votes="#{ratings.kinopoisk_votes.to_i rescue 0}" attr-imdb-votes="#{ratings.imdb_votes.to_i rescue 0}" attr-language="#{language(movie.languages.split(", ").first) rescue nil}" attr-next-screening = "#{@next_screenings[movie].date_time.to_i rescue 0}"
+div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-title="#{movie.title}" attr-created="#{movie.created_at.to_i}" attr-imdb="#{ratings.imdb_rating.round(1) rescue -1}" attr-kinopoisk="#{ratings.kinopoisk_rating.round(1) rescue -1}" attr-kinopoisk-votes="#{ratings.kinopoisk_votes.to_i rescue 0}" attr-imdb-votes="#{ratings.imdb_votes.to_i rescue 0}" attr-language="#{language(movie.languages.split(", ").first) rescue nil}" attr-next-screening = "#{@next_screenings[movie].date_time.to_i rescue 0}"
 	div.movie-plate-table
 		div.movie-plate-row
 			div.text-center.show-button
@@ -8,7 +8,7 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 			div.text-center.movie-poster-mobile
 				= link_to url(:movies, format_movie_url(movie))					
 					- if movie.poster_exists?							
-							<img class="poster" src="/images/transparent.png" data-src="/images/posters/#{movie.movie_id}.jpg"/>
+							<img class="poster" src="/images/transparent.png" data-src="/images/posters/#{movie.movie_id}.jpg?#{movie.timestamp_poster}"/>
 					- else
 						= image_tag "transparent.png", :class => 'poster'
 

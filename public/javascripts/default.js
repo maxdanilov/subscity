@@ -358,8 +358,8 @@ $(function() {
 		priceSliderValue = PRICE_MAX;
 		$( priceSlider ).slider( "value", PRICE_MAX );
 		
-		activateSortButton($("#button-sort-title"));
-		buttonSortPressed = "sort-name";
+		//activateSortButton($("#button-sort-title"));
+		//buttonSortPressed = "sort-name";
 		
 		activateTrailerButton($("#button-trailer-original"));
 		buttonTrailerPressed = "trailer-original";		

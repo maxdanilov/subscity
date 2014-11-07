@@ -99,4 +99,8 @@ class Movie < ActiveRecord::Base
 		File.exist?(poster_filename)
 	end
 
+	def timestamp_poster
+  		(File.mtime(poster_filename).to_i.to_s) rescue ""
+	end
+
 end
