@@ -33,6 +33,7 @@ gem 'translit'
 gem 'stringex'
 gem 'imdb'
 gem 'text-hyphen'
+gem "rmagick", "~>2.13.2", :require => 'RMagick'
 #gem 'active_support'
 
 # Test requirements

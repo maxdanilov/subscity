@@ -25,7 +25,8 @@ gem 'colorize'
 gem 'nokogiri'
 gem 'httpclient'
 gem 'imdb'
-gem 'benchmark'
+#gem 'benchmark'
+gem "rmagick", "~>2.13.2", :require => 'RMagick'
 
 # Test requirements
 

@@ -4,6 +4,7 @@ task :environment do
 	gem 'activerecord', '<4'
 	require 'active_record'
 	require 'imdb'
+	require 'RMagick'
 
 	# no color output if script is run by cron
 	if STDOUT.tty?
@@ -142,6 +143,36 @@ task :cleanup_movies => :environment do |task|
 	stop_task(task, t)
 end
 
+desc 'posters update'
+task :update_posters => :environment do |task|
+	t = start_task(task)
+	Movie.all.each do |m|
+		# if poster doesn't exist, load it from kp, not kassa
+		if (not m.poster_exists?) and (not m.kinopoisk_id.nil?)
+			puts "Downloading kinopoisk poster for [#{m.movie_id}] #{m.title}"
+			Kinopoisk.download_poster(m, force_rewrite = true) 
+		end
+	end
+
+	path = '../public/images/posters/'
+	max_width = 144
+	threshold_width = 150
+	threshold_size = 20000
+	Dir.foreach(path) do |file|
+		next if file == '.' or file == '..'
+		size = File::size(path + file)
+		img = Magick::Image::read(path + file)[0] rescue nil
+		puts "unable to open #{file}" if img.nil?
+		if img and (img.columns > threshold_width or size > threshold_size)
+			ratio = img.rows * 1.0 / img.columns
+			img = img.thumbnail(max_width, max_width * ratio)
+			img.write path + file
+			puts "thumbnailing #{file}"
+		end
+	end
+	stop_task(task, t)
+end
+
 desc 'update movies list'
 task :update_movies => :environment do |task|
 	t = start_task(task)
@@ -241,6 +272,9 @@ task :update_movies => :environment do |task|
 	Rake::Task[:update_movies_from_cinemas].reenable
 	Rake::Task[:update_movies_from_cinemas].invoke
 
+	Rake::Task[:update_posters].reenable
+	Rake::Task[:update_posters].invoke
+
 	stop_task(task, t)
 end
 
@@ -292,7 +326,7 @@ task :update_movies_from_cinemas => :environment do |task|
 			unless c.poster.nil?
 				KassaFetcher.download_poster(c, true)
 			else
-				Kinopoisk.download_poster(c)
+				Kinopoisk.download_poster(c) unless c.kinopoisk_id.nil? 
 			end
 
 			unless c.imdb_id.nil?
@@ -387,11 +421,12 @@ end
 desc 'update screenings prices'
 task :update_screenings_prices => :environment do |task|
 	t = start_task(task)
-	fetched_count = Screening.active.no_prices.count
+	screenings = Screening.active_all.no_prices
+	fetched_count = screenings.count
 	updated_count = 0
 	puts "Starting updating of #{fetched_count} screenings...".cyan
 	counter = 0
-	Screening.active.no_prices.find_each do |s|
+	screenings.find_each do |s|
 		counter += 1
 
 		if s.available?
@@ -432,12 +467,14 @@ task :cleanup_screenings => :environment do |task|
 	t = start_task(task)
 
 	#clean old screenings
-	puts "#{Screening.before(Time.now.strip).count} old screenings deleted".cyan
-	Screening.before(Time.now.strip).destroy_all
+	old_screenings = Screening.before(Time.now.strip)
+	puts "#{old_screenings.count} old screenings deleted".cyan
+	old_screenings.destroy_all
 
 	deleted = 0
-	puts "Starting cleanup of #{Screening.active.count} screenings...".cyan
-	Screening.active.each do |s|
+	screenings = Screening.active_all
+	puts "Starting cleanup of #{screenings.count} screenings...".cyan
+	screenings.find_each do |s|
 		if (not s.exists?) or (not s.has_correct_title?) or (s.actual_date_time != s.date_time)
 			puts "\tScreening #{s.screening_id} was excluded from database:".yellow
 			puts s
@@ -602,16 +639,5 @@ end
 
 task :testtask => :environment do |task|
 	t = start_task(task)
-	
-	s = Screening.active
-	#s = Screening.where(:screening_id => 13552023)
-	#puts "[#{s.cinema.name}] #{s.screening_id} #{s.actual_date_time}"
-	s.each do |s|
-		next unless s.exists?
-		unless s.actual_date_time == s.date_time
-			puts "[#{s.cinema.name}] #{s.screening_id} #{s.actual_date_time} - #{s.date_time}" rescue puts "#{s.screening_id}"
-		end
-	end
-
 	stop_task(task, t)
 end

@@ -52,16 +52,29 @@ class Kinopoisk
 		end
 	end
 
+	def self.poster_url c
+		return "" if c.kinopoisk_id.nil?
+		"http://st.kp.yandex.net/images/film_iphone/iphone360_#{c.kinopoisk_id}.jpg"
+	end
+
+	def self.has_poster? c
+		(not open(poster_url(c)).base_uri.request_uri.include? "no-poster") rescue false
+	end
+
 	def self.download_poster(c, force_rewrite = false)
 		return if c.kinopoisk_id.nil?
-		url = "http://st.kp.yandex.net/images/film_iphone/iphone360_#{c.kinopoisk_id}.jpg"
+		url = poster_url(c)
 		if (!c.poster_exists? or force_rewrite)
 			puts "\tDownloading poster #{url}..."
 			begin
-			   	open(url) do |f|
-			   	File.open(c.poster_filename, "wb") do |file|
-			    	file.puts f.read
-			   		end
+				if has_poster? c
+				   	open(url) do |f|
+				   	File.open(c.poster_filename, "wb") do |file|
+				    	file.puts f.read
+				   		end
+					end
+				else
+					puts "\tWarning: no poster found"
 				end
 			rescue
 				puts "\tError occured while loading poster"
