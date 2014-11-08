@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(:version => 7) do
     t.string   "title_original"
     t.string   "languages"
     t.text     "description"
+    t.text     "description_english"
     t.string   "director"
     t.text     "cast"
     t.integer  "age_restriction"

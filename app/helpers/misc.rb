@@ -198,3 +198,11 @@ def hyphenate(text, lang)
 	h = Text::Hyphen.new(:language => lang.to_s, :left => 4, :right => 4)
 	text.split(" ").collect! { |w| h.visualise(w, "&shy;") }.join(" ")
 end
+
+class String
+	def is_russian?
+		letters = ('а'..'я').to_a + ('А'..'Я').to_a
+		letters.each { |l| return true if self.include? l }
+		false
+	end
+end

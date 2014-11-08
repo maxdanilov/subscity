@@ -12,6 +12,18 @@ class Movie < ActiveRecord::Base
 		@format_url ||= format_movie_url(self)
 	end
 
+	def has_description?
+		@has_descr ||= !get_description.to_s.empty?
+	end
+
+	def get_description
+		@get_descr ||= ( (description.nil?) ? description_english : description )
+	end
+
+	def get_description_formatted
+		@get_descr_f ||= get_description.gsub("\r\n\r\n", "<br/>").gsub("\r\n", "<br/>")
+	end
+
 	def valid_genre?
 		return true if genres.nil?
 		non_valid_genres = ['Опера', 'Балет', 'Фильмы-спектакли']

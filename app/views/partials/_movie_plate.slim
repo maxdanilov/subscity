@@ -102,10 +102,10 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 								i.fa.fa-users
 								|  #{movie.cast.gsub("\r", "").split("\n").join(", ")}
 
-				- unless movie.description.to_s.empty?
+				- if movie.has_description?
 					tr.table-body
 						td.col-sm-12 colspan = "4"
 							div.justified
 								i.fa.fa-book
 								|  
-								== movie.description.gsub("\r\n\r\n", "<br/>").gsub("\r\n", "<br/>")
+								== movie.get_description_formatted

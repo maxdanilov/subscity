@@ -562,8 +562,9 @@ task :update_movie_info, [:id, :kinopoisk_id, :imdb_id, :trailers] => :environme
 							m.update_attribute(:title_original, movie.title)
 						end
 
-						if m.description.to_s.empty? and !movie.plot_summary.empty?
-							m.update_attribute(:description, movie.plot_summary)
+						#if m.description.to_s.empty? and !movie.plot_summary.empty?
+						if !movie.plot_summary.empty?
+							m.update_attribute(:description_original, movie.plot_summary)
 						end
 
 						if m.title_original.to_s.empty? and !movie.title.empty?
