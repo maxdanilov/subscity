@@ -100,6 +100,9 @@ html
 												= partial 'partials/share', :locals => { :link => "#{'http://' + request.host}" }
 
 						ul.nav.navbar-nav.navbar-right
+							li.big-font.hidden-xs.rss-icon
+								= link_to url(:movies, :format => :rss), :title => "RSS-лента новых фильмов"
+									span.fa.fa-rss.navbar-icon
 							li.dropdown
 								= link_to "#", :class => "dropdown-toggle", "data-toggle" => "dropdown"
 									span.city.navbar-link-text

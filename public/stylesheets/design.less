@@ -46,7 +46,7 @@
 	}
 }
 
-@media (min-width: 768px) and (max-width: 1023px)
+@media (min-width: 768px) and (max-width: 1100px)
 {
 	.share-text-top
 	{
@@ -92,7 +92,7 @@ h1.like-navbar, h2.like-navbar, h3.like-navbar, h4.like-navbar
 
 a:not(.btn), span/*, .btn*/
 	{
-        transition: all 0.3s ease-out;
+        transition: all 0.2s ease-out;
 	}
 	
 .btn
@@ -218,6 +218,22 @@ a.movie-title:hover
 	{
 		margin-right: 6px;
 		text-align: center;
+	}
+
+.navbar-link-text
+{
+	@media (min-width: 768px) and (max-width: 820px)
+	{
+		letter-spacing: -1px;
+	}
+}
+
+.rss-icon
+	{
+		@media (max-width: 800px) 
+		{
+			display: none !important;
+		}
 	}
 
 .age-restriction
@@ -524,6 +540,14 @@ table.filters-sort
 	{
 		width: 100%;
 	}
+
+.filters-sort .btn
+	{
+		@media (max-width: 800px)
+		{
+			letter-spacing: -1px;
+		}
+	}
 	
 td.price-filter
 	{
@@ -700,6 +724,11 @@ div.divider
 		margin-right: 25px;
 	}
 	
+li.rss-icon>a
+	{
+		margin-right: 10px !important;
+	}
+
 .dropdown-menu
 	{
 		.font-size(@font-size-big);
