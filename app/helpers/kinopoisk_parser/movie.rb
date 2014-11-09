@@ -168,7 +168,7 @@ module KinopoiskParser
     # KinopoiskParser has defined first=yes param to redirect to first result
     # Return its id from location header
     def find_by_title(title)
-      url = SEARCH_URL+"#{URI.escape(title)}&first=yes"
+      url = SEARCH_URL+"#{URI.escape(title).gsub("+", "%2B")}&first=yes"
       KinopoiskParser.fetch(url).headers['Location'].to_s.match(/\/(\d*)\/$/)[1]
     end
 

@@ -5,6 +5,8 @@ task :environment do
 	require 'active_record'
 	require 'imdb'
 	require 'RMagick'
+	require 'youtube_search'
+	#require 'active_support/core_ext'
 
 	# no color output if script is run by cron
 	if STDOUT.tty?
@@ -75,6 +77,12 @@ task :update_screenings => :environment do |task, args|
 
 	#Rake::Task[:cleanup_screenings].reenable
 	#Rake::Task[:cleanup_screenings].invoke
+
+	Movie.all.each do |m|
+		next if m.kinopoisk_id.to_i != 0 or m.has_description?
+		next if m.screenings.count == 0
+		movie_auto_fill_info_on_add(m.id)
+	end
 
 	Rake::Task[:update_screenings_prices].reenable
 	Rake::Task[:update_screenings_prices].invoke
@@ -511,6 +519,7 @@ desc 'force update of all active movies with kinopoisk and imdb data'
 task :update_movies_info => :environment do |task, args|
 	t = start_task(task)
 	Movie.active.each do |m|
+		next if m.screenings.count == 0
 		imdb_id = m.imdb_id.to_s
 		kinopoisk_id = m.kinopoisk_id.to_s
 		unless kinopoisk_id == 0
@@ -564,7 +573,7 @@ task :update_movie_info, [:id, :kinopoisk_id, :imdb_id, :trailers] => :environme
 
 						#if m.description.to_s.empty? and !movie.plot_summary.empty?
 						if !movie.plot_summary.empty?
-							m.update_attribute(:description_original, movie.plot_summary)
+							m.update_attribute(:description_english, movie.plot_summary)
 						end
 
 						if m.title_original.to_s.empty? and !movie.title.empty?
@@ -638,7 +647,88 @@ task :fill_cache => :environment do |task|
     stop_task(task, t)
 end
 
+def movie_auto_fill_info_on_add(id)
+	m = Movie.where(:id => id).first rescue nil
+	return if m.nil? or m.kinopoisk_id.to_i != 0
+	ids = movie_find_id(m.title)
+	kinopoisk_id = ids[:kinopoisk]
+	imdb_id = ids[:imdb]
+	return if kinopoisk_id.nil?
+	# fetch primary data
+	Rake::Task[:update_movie_info].reenable
+	Rake::Task[:update_movie_info].invoke(m.id.to_s, kinopoisk_id.to_s, imdb_id.to_s)
+	# now we can try to update trailers
+	m = Movie.where(:id => id).first rescue nil
+	return if m.nil? or not m.trailer.to_s.empty?
+	trailers = movie_find_trailers(m.title.to_s, m.title_original.to_s)
+	m.update_attribute(:trailer, trailers) unless trailers.nil?
+end
+
+def movie_find_trailer(title, lang = :ru, year = nil)
+	prepare_title = -> (t) { t.mb_chars.downcase.to_s.strip.gsub(/[:.–—-]/, "").gsub("  ", " ") }
+	return nil if prepare_title.call(title).empty?
+	max_duration = 240
+	trailer_key = "trailer"
+	trailer_key = "трейлер" if lang == :ru
+	query = [title, year, trailer_key].join " "
+	#puts query
+	
+	id = nil
+	YoutubeSearch.search(query).first(10).each do |v|
+		#puts "[#{v["duration"]}][#{v["video_id"]}] #{v["title"]}"
+		next if v["duration"].to_i > max_duration or not prepare_title.call(v["title"]).include? trailer_key or not prepare_title.call(v["title"]).include? prepare_title.call(title)
+		id = v["video_id"]
+		break
+	end
+	id
+end
+
+def movie_find_trailers(title_ru, title_en = nil, year = nil)
+	title_en ||= title_ru
+	ru = movie_find_trailer(title_ru, :ru, year)
+	en = movie_find_trailer(title_en, :en, year)
+	return nil if en.nil? and ru.nil?
+	return ru if en.nil?
+	return en if ru.nil?
+	return "#{en}*#{ru}"
+end
+
+def movie_find_id(title, year = nil)
+
+	query = [title, year].join " "
+	prepare_title = -> (t) { t.mb_chars.downcase.to_s.strip.gsub(/[:.–—-]/, "").gsub("  ", " ") }
+	compare_titles = -> (t1, t2) { prepare_title.call(t1) == prepare_title.call(t2) }
+	begin
+		m = KinopoiskParser::Movie.new query
+		title_en = m.title_en rescue ""
+		title_en = m.title if title_en.empty?
+		kinopoiskID = m.id
+		kinopoiskID = nil if not compare_titles.call(m.title, title) and not compare_titles.call(m.title_en, title)
+		kinopoiskID = kinopoiskID.to_i unless kinopoiskID.nil?
+	rescue
+		kinopoiskID = nil
+	end
+
+	query = [title_en, year].join " "
+
+	if kinopoiskID != nil
+		begin
+			imdbID = Imdb::Search.new(query).movies[0].id
+			title_original = Imdb::Movie.new(imdbID).title
+			imdbID nil if not compare_titles.call(title_original, title) and not compare_titles.call(title_original, title_en)
+			imdbID = imdbID.to_i unless imdbID.nil?
+		rescue
+			imdbID = nil
+		end
+	else
+		imdbID = nil
+	end
+	return {:kinopoisk => kinopoiskID, :imdb => imdbID}
+end
+
 task :testtask => :environment do |task|
 	t = start_task(task)
+	#puts movie_find_trailers("", "mommy")
+	#movie_auto_fill_info_on_add(1529)
 	stop_task(task, t)
 end

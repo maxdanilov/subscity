@@ -87,6 +87,7 @@ GEM
     tzinfo (0.3.38)
     url_mount (0.2.1)
       rack
+    youtube_search (0.1.10)
 
 PLATFORMS
   ruby
@@ -105,3 +106,4 @@ DEPENDENCIES
   rmagick (~> 2.13.2)
   slim
   sqlite3
+  youtube_search
