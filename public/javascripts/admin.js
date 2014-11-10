@@ -47,10 +47,11 @@ $(function() {
 	{
 		arrayOfLines = s.match(/[^\r\n]+/g);
 		result = "";
-		for(i = 0; i < arrayOfLines.length; i++)
-		{
-			result += "\t" + arrayOfLines[i] + "\n";
-		}
+		if (arrayOfLines)
+			for(i = 0; i < arrayOfLines.length; i++)
+			{
+				result += "\t" + arrayOfLines[i] + "\n";
+			}
 		return result;
 	}
 
@@ -145,7 +146,7 @@ $(function() {
 		chain = chain.done(stopTicking, unblockSubmit);
 	});
 	
-		/* When document is ready */
+	/* When document is ready */
 	
 	$( document ).ready(function(){
 		if (admin)

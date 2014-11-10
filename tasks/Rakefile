@@ -81,7 +81,8 @@ task :update_screenings => :environment do |task, args|
 	Movie.all.each do |m|
 		next if m.kinopoisk_id.to_i != 0 or m.has_description?
 		next if m.screenings.count == 0
-		movie_auto_fill_info_on_add(m.id)
+		puts "Auto filling info for (#{m.id}) [#{m.movie_id}] #{m.title}".green
+		movie_auto_fill_info(m.id)
 	end
 
 	Rake::Task[:update_screenings_prices].reenable
@@ -647,7 +648,7 @@ task :fill_cache => :environment do |task|
     stop_task(task, t)
 end
 
-def movie_auto_fill_info_on_add(id)
+def movie_auto_fill_info(id)
 	m = Movie.where(:id => id).first rescue nil
 	return if m.nil? or m.kinopoisk_id.to_i != 0
 	ids = movie_find_id(m.title)
@@ -728,7 +729,11 @@ end
 
 task :testtask => :environment do |task|
 	t = start_task(task)
-	#puts movie_find_trailers("", "mommy")
-	#movie_auto_fill_info_on_add(1529)
+	Movie.all.each do |m|
+		next if !m.description.to_s.empty?
+		next if m.description_english.to_s.empty?
+		next if m.screenings.count == 0
+		puts "#{m.id} #{m.title}"
+	end
 	stop_task(task, t)
 end

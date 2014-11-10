@@ -58,6 +58,8 @@ table.table.table-bordered.table-condensed.table-striped.movie-info.table-curved
 		td.movie-title.col-xs-12.hidden-xs colspan = "1" 
 			span.movie-title 
 				= movie.title 
+				- if admin?
+					= link_to " [e]", url_for(:movie_edit, :id => params[:id]), :class => "underdashed"
 				- unless movie.year.to_i == 0
 					|  (#{movie.year})
 				- unless movie.languages.to_s.empty?

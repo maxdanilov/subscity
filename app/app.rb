@@ -101,6 +101,7 @@ module Subscity
             end
             @ratings = Rating.where(:movie_id => @movies.map(&:movie_id));
             @show_about = true
+            @title = "SubsCity :: Расписание сеансов на языке оригинала в кино (#{@city.name})"
             render 'movie/showall', layout: :layout
         end
     end
@@ -163,7 +164,7 @@ module Subscity
                         @next_screenings[movie] = s unless @next_screenings.has_key? movie
                     end
                     @ratings = Rating.where(:movie_id => @movies.map(&:movie_id));
-                    @title = "Фильмы"
+                    @title = "Фильмы на языке оригинала в кино (#{@city.name})"
                     render 'movie/showall', layout: :layout
                 end
             when :rss
@@ -172,6 +173,63 @@ module Subscity
                     @movies_active = @city.get_movies.sort_by { |a| a.created_at }.reverse
                     builder :feed, :locals => { :movies => @movies_active, :city => @city}
                 end
+        end
+    end
+
+    get :movie_edit, :map => "/movies/:id/edit" do
+        id = params[:id].to_i rescue 0
+        if id > 0 and admin?
+            begin
+                @movie = Movie.find(id)
+                render 'movie/edit', layout: :layout
+            rescue ActiveRecord::RecordNotFound => e
+                render 'errors/404', layout: :layout
+            end
+        else
+            render 'errors/404', layout: :layout
+        end
+    end
+
+    post :movie_edit, :map => "/movies/:id/edit" do
+        id = params[:id].to_i rescue 0
+        if id > 0 and admin?
+            begin
+                m = Movie.find(id)
+                params.each do |k,v|
+                    next if k == "id"
+                    if m.has_attribute? k
+                        v.gsub!(/\D/, '') if Movie.columns_hash[k].type == :integer
+                        v = nil if v.empty? and [:text, :string].include? Movie.columns_hash[k].type
+                        m.update_attribute(k, v) 
+                    end
+                end
+
+                # poster update
+                if !params[:new_poster].empty?
+                    begin
+                        open(params[:new_poster], "rb") do |read_file|
+                            data = read_file.read
+                            File.open(m.poster_filename, "wb") do |save_file|
+                                save_file.write(data)
+                            end
+                        end
+                    rescue
+                    end
+                end
+
+                # poster delete
+                if params[:new_poster].downcase.strip == "delete"
+                    File.delete m.poster_filename rescue nil
+                end
+
+                FileCache.expire
+
+                redirect(url_for(:movie_edit, :id => params[:id]))
+            rescue ActiveRecord::RecordNotFound => e
+                render 'errors/404', layout: :layout
+            end
+        else
+            render 'errors/404', layout: :layout
         end
     end
 
@@ -194,6 +252,7 @@ module Subscity
                 if not @movie.title_original.to_s.empty?
                     @title += " (#{@movie.title_original})"
                 end
+                @title += " на языке оригинала в кино"
                 render 'movie/show', layout: :layout
             end
         rescue ActiveRecord::RecordNotFound => e
@@ -201,7 +260,7 @@ module Subscity
         end
     end
 
-    get [:movies, :update] do
+    get :movies_update, :map => "/movies/update" do
         if admin?
             @movies = Movie.all
             render 'movie/update', layout: :layout
@@ -210,7 +269,7 @@ module Subscity
         end
     end
 
-    post [:movies, :update] do #, :with => [:id, :kinopoisk_id, :imdb_id, :trailers], :id => /\d+/, :kinopoisk_id => /\d+/, :imdb_id => /t{0,2}\d+/ do
+    post :movies_update, :map => "/movies/update" do
         if admin?
             #cmd = "cd #{File.dirname(__FILE__)}/../tasks && rake update_movie_info[#{params[:id]},#{params[:kinopoisk_id]},#{params[:imdb_id]}] >> /home/nas/rake.log 2>&1"
             cmd = "cd #{File.dirname(__FILE__)}/../tasks && rake update_movie_info[#{params[:id]},#{params[:kinopoisk_id]},#{params[:imdb_id]},#{params[:trailers]}]"

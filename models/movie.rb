@@ -21,7 +21,7 @@ class Movie < ActiveRecord::Base
 	end
 
 	def get_description_formatted
-		@get_descr_f ||= get_description.gsub("\r\n\r\n", "<br/>").gsub("\r\n", "<br/>")
+		@get_descr_f ||= get_description.gsub("\r\n", "\n").gsub("\n\n", "<br/>").gsub("\n", "<br/>")
 	end
 
 	def valid_genre?

@@ -185,9 +185,10 @@ def link_to_cinema(cinema)
 	link_to(cinema.name, url(:cinemas, cinema.format_url), :class => 'underdashed')
 end
 
-def link_to_movie(movie)
+def link_to_movie(movie, text = nil)
 	#link_to(hyphenate(movie.title, :ru), url(:movies, movie.format_url), :class => 'underdashed')
-	"<a class='underdashed' href='#{url(:movies, movie.format_url)}'>#{hyphenate(movie.title, :ru)}</a>"
+	text ||= movie.title
+	"<a class='underdashed' href='#{url(:movies, movie.format_url)}'>#{hyphenate(text, :ru)}</a>"
 end
 
 def link_to_date(day)	
