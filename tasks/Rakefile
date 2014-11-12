@@ -182,6 +182,20 @@ task :update_posters => :environment do |task|
 	stop_task(task, t)
 end
 
+def get_movie(id)
+	data = KassaParser.parse_movie_HTML(KassaFetcher.fetch_movie(id))
+	Movie.new(	movie_id: id, 
+				title: data[:title], 
+				title_original: data[:title_original], 
+				age_restriction: data[:age_restriction], 
+				country: data[:country], 
+				year: data[:year], 
+				genres: data[:genres], 
+				poster: data[:poster], 
+				active: true, 
+				duration: data[:duration] )
+end
+
 desc 'update movies list'
 task :update_movies => :environment do |task|
 	t = start_task(task)
@@ -203,19 +217,7 @@ task :update_movies => :environment do |task|
 			parsed = KassaParser.parse_json(KassaFetcher.fetch_movies(page_count * page_size, page_size, city_id))
 			items = parsed["Items"]
 			items.each do |item|
-				c = Movie.new(	movie_id: item["objectId"], 
-								title: item["name"], 
-								age_restriction: item["ageRestriction"], 
-								country: item["country"], 
-								year: item["productionYear"], 
-								genres: item["visibleTagsString"], 
-								poster: Movie.upd_thumbnail(item["thumbnail"]), 
-								active: true, 
-								duration: item["duration"] )
-				
-				c['country'] = nil if c['country'].to_s.strip == '-'
-				c['genres'] = nil if c['genres'].to_s.strip.empty?
-
+				c = get_movie(item["objectId"])
 				# in case poster is changed
 				if c.in_db? and Movie.get_movie(c.movie_id).poster != c.poster and Movie.are_equal?(Movie.get_movie(c.movie_id), c)
 					puts "poster for #{c.movie_id} has changed!".yellow
@@ -237,27 +239,8 @@ task :update_movies => :environment do |task|
 					#add to db
 					if c.valid? and c.valid_genre?
 						puts "Movie #{c.movie_id} was added to database:".yellow
-
-						Kinopoisk.update_ratings(c) unless c.kinopoisk_id.nil? 
-
 						#download poster
-						unless c.poster.nil?
-							KassaFetcher.download_poster(c, true)
-						else
-							Kinopoisk.download_poster(c) unless c.kinopoisk_id.nil?
-						end
-
-						unless c.imdb_id.nil?
-							begin
-								movie = Imdb::Movie.new(c.imdb_id.to_s)
-								langs = movie.languages.join(", ")
-								puts "#{movie.title} [#{langs}]"
-								c.update_attribute(:languages, langs)
-							rescue
-								puts "Error occured while fetching language for movie #{c.movie_id}".red
-							end
-						end
-
+						KassaFetcher.download_poster(c, true) unless c.poster.nil?
 						puts c
 						c.save
 						updated_count += 1
@@ -313,42 +296,10 @@ task :update_movies_from_cinemas => :environment do |task|
 
 	# adding new movies to the base
 	movies_new.each do |m|
-		item = KassaParser.parse_movie_HTML(KassaFetcher.fetch_movie(m))
-		c = Movie.new(	movie_id: m, 
-						title: item[:title], 
-						title_original: item[:title_original], 
-						age_restriction: item[:age_restriction], 
-						country: item[:country], 
-						year: item[:year], 
-						genres: item[:genres], 
-						poster: item[:poster], 
-						active: true, 
-						duration: item[:duration] )
-
-		c['country'] = nil if c['country'].to_s.strip == '-'
-		c['genres'] = nil if c['genres'].to_s.strip.empty?
+		c = get_movie(m)
 
 		if c.valid? and c.valid_genre?			
-			#update ratings
-			Kinopoisk.update_ratings(c) unless c.kinopoisk_id.nil? 
-
-			unless c.poster.nil?
-				KassaFetcher.download_poster(c, true)
-			else
-				Kinopoisk.download_poster(c) unless c.kinopoisk_id.nil? 
-			end
-
-			unless c.imdb_id.nil?
-				begin
-					movie = Imdb::Movie.new(c.imdb_id.to_s)
-					langs = movie.languages.join(", ")
-					puts "#{movie.title} [#{langs}]"
-					c.update_attribute(:languages, langs)
-				rescue
-					puts "Error occured while fetching language for movie #{c.movie_id}".red
-				end
-			end
-
+			KassaFetcher.download_poster(c, true) unless c.poster.nil?
 			c.save
 			puts "Movie #{c.movie_id} was added to database:".yellow
 			puts c
@@ -500,11 +451,9 @@ task :cleanup_screenings => :environment do |task|
 	stop_task(task, t)
 end
 
-desc 'update youtube trailer info'
-task :update_movie_trailer, [:id, :video_id] => :environment do |task, args|
-	t = start_task(task)
-	id = args[:id].to_i
-	video_id = args[:video_id].gsub('http://www.youtube.com/watch?v=','').gsub('youtube','').to_s
+def update_movie_trailer(id, video_id)
+	id = id.to_i
+	video_id = video_id.gsub('http://www.youtube.com/watch?v=','').gsub('youtube','').to_s
 	unless id.zero?
 		unless Movie.exists?(id)
 			puts "Error: movie with id = #{id} wasn't found.".red
@@ -512,7 +461,15 @@ task :update_movie_trailer, [:id, :video_id] => :environment do |task, args|
 			m = Movie.where(:id => id).first
 			m.update_attribute(:trailer, video_id)
 		end
+	else
+		puts "Error: movie id should be > 0".red
 	end
+end
+
+desc 'update youtube trailer info'
+task :update_movie_trailer, [:id, :video_id] => :environment do |task, args|
+	t = start_task(task)
+	update_movie_trailer(args[:id], args[:video_id])
 	stop_task(task, t)
 end
 
@@ -595,13 +552,9 @@ task :update_movie_info, [:id, :kinopoisk_id, :imdb_id, :trailers] => :environme
 				puts "Updated movie looks like this:".green
 				puts m
 
-				unless trailers.empty?
-					Rake::Task[:update_movie_trailer].reenable
-					Rake::Task[:update_movie_trailer].invoke(id, trailers)
-				end
-
-				#Rake::Task[:clear_cache].reenable
-				Rake::Task[:clear_cache_no_fill].invoke
+				update_movie_trailer(id, trailers) unless trailers.empty?
+				puts "clearing cache..."
+				clear_cache_no_fill
 			rescue
 				puts "An error occured while updating".red
 			end
@@ -612,17 +565,21 @@ task :update_movie_info, [:id, :kinopoisk_id, :imdb_id, :trailers] => :environme
 	stop_task(task, t)
 end
 
+def clear_cache_no_fill
+	FileCache.expire
+end
+
 desc 'clear file cache, no fill'
 task :clear_cache_no_fill => :environment do |task|
 	t = start_task(task)
-    FileCache.expire
+    clear_cache_no_fill
     stop_task(task, t)
 end
 
-desc 'clear file cache'
+desc 'clear file cache and fill'
 task :clear_cache => :environment do |task|
 	t = start_task(task)
-    FileCache.expire
+    clear_cache_no_fill
     Rake::Task[:fill_cache].reenable
     Rake::Task[:fill_cache].invoke
     stop_task(task, t)
@@ -729,11 +686,64 @@ end
 
 task :testtask => :environment do |task|
 	t = start_task(task)
-	Movie.all.each do |m|
-		next if !m.description.to_s.empty?
-		next if m.description_english.to_s.empty?
-		next if m.screenings.count == 0
-		puts "#{m.id} #{m.title}"
+	stop_task(task, t)
+end
+
+task :testparser => :environment do |task|
+	t = start_task(task)
+	
+	def check_parameter(field, sample, actual)
+		if sample[field] != actual.send(field)
+			puts ("'#{field}' field error (" + sample[field].to_s + " != " + actual.send(field).to_s + ")" ).red 
+			return false
+		end
+		return true
 	end
+
+	movies = [
+				{ 	:id => 64245, 
+					:title => "Мой дорогой", 
+					:title_original => "Anata e",
+					:country => "Япония",
+					:year => 2012,
+					:duration => 111,
+					:age_restriction => 16,
+					:genres => "Драматические фильмы",
+					:poster => "https://img09.rl0.ru/kassa/c144x214/kassa.rambler.ru/s/StaticContent/Photos/140820170948/141107094642/p_O.jpg"
+				},
+				{ 	:id => 58529, 
+					:title => "Зильс-Мария", 
+					:title_original => "Clouds of Sils Maria",
+					:country => "Франция, Швейцария, Германия",
+					:year => 2014,
+					:duration => 124,
+					:age_restriction => 16,
+					:genres => "Драматические фильмы",
+					:poster => "https://img07.rl0.ru/kassa/c144x214/kassa.rambler.ru/s/StaticContent/Photos/140928164221/141003101349/p_O.jpg"
+				},
+				{ 	:id => 64265, 
+					:title => "НОЧНОЙ НОН-СТОП: НОВАЯ ПОДРУЖКА, МЫ ТЕБЯ ЛЮБИМ, МЕРЗАВЕЦ, РИО, Я ЛЮБЛЮ ТЕБЯ", 
+					:title_original => nil,
+					:country => "Франция",
+					:year => nil,
+					:duration => 339,
+					:age_restriction => 0,
+					:genres => nil,
+					:poster => "https://img05.rl0.ru/kassa/c144x214/kassa.rambler.ru/s/StaticContent/Photos/140402140149/141106123008/p_O.png"
+				}
+			 ]
+	result = []
+	movies.each do |m|
+		c = get_movie m[:id]
+		result << check_parameter(:title, m, c)
+		result << check_parameter(:title_original, m, c)
+		result << check_parameter(:country, m, c)
+		result << check_parameter(:year, m, c)
+		result << check_parameter(:duration, m, c)
+		result << check_parameter(:age_restriction, m, c)
+		result << check_parameter(:genres, m, c)
+		result << check_parameter(:poster, m, c)
+	end
+	puts "All tests passed".green unless result.include? false
 	stop_task(task, t)
 end

@@ -169,10 +169,39 @@ $(function() {
 		buttonSortPressedPrev = buttonSortPressed;
 		buttonSortPressed = name;
 		if (buttonSortPressed != buttonSortPressedPrev) 
+		{
 			$('#movie-plates .movie-plate').sort(compareBy).appendTo('#movie-plates');
+			/*
+			var plates = $('#movie-plates .movie-plate');
+			var keys = [];
+			var map = {};
+			if (compareBy == movieCompareByTitle)
+				getAttr = getAttrTitle;
+			else
+				getAttr = getAttrIMDB;
+			plates.each(function(){
+				var attr = getAttr($(this));
+				keys.push(attr);
+				map[attr] = $(this);
+			});
+			keys.sort();
+			var platesInOrder = [];
+			for (var j = 0, key; key = keys[j]; ++j)
+    			platesInOrder.push(keys[key]);
+    		$('#movie-plates').empty().append(plates);
+    		*/
+		}
 		invokeScroll();
 	}
 	
+	function getAttrTitle(a){
+		return ( $(a).attr("attr_title").toLowerCase());
+	}
+
+	function getAttrIMDB(a){
+		return ( $(a).attr("attr-imdb").toLowerCase());
+	}
+
 	$("#button-sort-title").click(function(){
 		clickSortButton(this, "sort-title", movieCompareByTitle);
 	});
@@ -384,6 +413,8 @@ $(function() {
 		invokeScroll();
 		//$("img.poster").unveil();
 		$("#button-sort-imdb").click();
+
+		//$.getScript('http://yastatic.net/share/share.js');
 	});
        
 });

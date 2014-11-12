@@ -48,9 +48,9 @@ class Movie < ActiveRecord::Base
 		Movie.where("movie_id = #{id}").first
 	end
 
-	def self.upd_thumbnail(url)
-		url.gsub("48x72", "144x212") # too small posters in mobile version
-	end
+	#def self.upd_thumbnail(url)
+	#	url.gsub("48x72", "144x212") # too small posters in mobile version
+	#end
 
 	def get_screenings(city_id)
 		screenings.active.in_city(city_id).order(:date_time)

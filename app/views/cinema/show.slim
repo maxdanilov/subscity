@@ -40,7 +40,7 @@ table.table.table-condensed.table-curved.table-striped.table-bordered
 			 	div
 			 		span.fa.fa-phone.fa-lg.cinema-icon
 					|  
-			 		= @cinema.phone
+					= link_to "#{@cinema.phone}", "tel:#{@cinema.phone}", :class => "underdashed"
 
 	- unless @price_min.nil? or @price_max.nil?
 		tr

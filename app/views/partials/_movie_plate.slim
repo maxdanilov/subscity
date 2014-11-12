@@ -1,4 +1,4 @@
-div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-title="#{movie.title}" attr-created="#{movie.created_at.to_i}" attr-imdb="#{ratings.imdb_rating.round(1) rescue -1}" attr-kinopoisk="#{ratings.kinopoisk_rating.round(1) rescue -1}" attr-kinopoisk-votes="#{ratings.kinopoisk_votes.to_i rescue 0}" attr-imdb-votes="#{ratings.imdb_votes.to_i rescue 0}" attr-language="#{language(movie.languages.split(", ").first) rescue nil}" attr-next-screening = "#{@next_screenings[movie].date_time.to_i rescue 0}"
+div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-title="#{movie.title.strip}" attr-created="#{movie.created_at.to_i}" attr-imdb="#{ratings.imdb_rating.round(1) rescue -1}" attr-kinopoisk="#{ratings.kinopoisk_rating.round(1) rescue -1}" attr-kinopoisk-votes="#{ratings.kinopoisk_votes.to_i rescue 0}" attr-imdb-votes="#{ratings.imdb_votes.to_i rescue 0}" attr-language="#{language(movie.languages.split(", ").first) rescue nil}" attr-next-screening = "#{@next_screenings[movie].date_time.to_i rescue 0}"
 	div.movie-plate-table
 		div.movie-plate-row
 			div.text-center.show-button
@@ -34,7 +34,7 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 			
 				- unless movie.genres.to_s.empty?
 					div.hidden-xs.movie-genres
-						i.fa.fa-bookmark
+						i.fa.fa-bookmark.movie-icon
 						|  #{movie.genres}
 
 				div.movie-screenings.hidden-xs
@@ -75,37 +75,37 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 		table.table.table-bordered.table-condensed.table-striped.movie-description.hidden-xs.hidden
 			tbody	
 				tr.table-body
-				- unless movie.genres.to_s.empty?
+				/- unless movie.genres.to_s.empty?
+				/	td.col-sm-4.vertical-middle
+				/		div
+				/			i.fa.fa-bookmark
+				/			|  #{movie.genres}
+				- unless movie.director.to_s.empty?
 					td.col-sm-4.vertical-middle
 						div
-							i.fa.fa-bookmark
-							|  #{movie.genres}
+							i.fa.fa-bullhorn.movie-icon
+							|  #{movie.director.gsub("\r", "").split("\n").join(", ")}
 				- unless movie.country.to_s.empty? or movie.country == '-'
-					td.col-sm-3.text-center.vertical-middle
+					td.col-sm-4.text-center.vertical-middle
 						div
-							i.fa.fa-globe			
+							i.fa.fa-globe.movie-icon			
 							|  #{movie.country}
 				- unless movie.duration.to_i == 0
-					td.col-sm-2.text-center.vertical-middle
-						div
-							i.fa.fa-clock-o
-							|  #{movie.duration} мин.	
-				- unless movie.director.to_s.empty?
 					td.col-sm-3.text-center.vertical-middle
 						div
-							i.fa.fa-bullhorn
-							|  #{movie.director.gsub("\r", "").split("\n").join(", ")}
+							i.fa.fa-clock-o.movie-icon
+							|  #{movie.duration} мин.	
 				- unless movie.cast.to_s.empty?
 					tr.table-body
 						td.col-sm-12 colspan = "4"
 							div
-								i.fa.fa-users
+								i.fa.fa-users.movie-icon
 								|  #{movie.cast.gsub("\r", "").split("\n").join(", ")}
 
 				- if movie.has_description?
 					tr.table-body
 						td.col-sm-12 colspan = "4"
 							div.justified
-								i.fa.fa-book
+								i.fa.fa-book.movie-icon
 								|  
 								== movie.get_description_formatted

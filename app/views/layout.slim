@@ -6,6 +6,10 @@ html
 		- title = @title rescue nil
 		- title ||= "SubsCity"
 		title #{title}
+
+		<!--[if lt IE 9]>
+    	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    	<![endif]-->
 		
 		meta name="viewport" content="width=device-width, initial-scale=1"
 		meta name="Description" content="Всегда актуальное расписание фильмов на языке оригинала (с русскими субтитрами) в кинотеатрах Москвы и Санкт-Петербурга"
@@ -132,10 +136,7 @@ html
 
 		/ JQuery Unveil library
 		= javascript_include_tag 'jquery.unveil.min'
-
-		/ Yandex.Share
-		= javascript_include_tag 'http://yastatic.net/share/share.js'	
-
+		
 		/ Kassa ticket plan
 		- if SETTINGS[:sell_tickets] == true
 			= javascript_include_tag 'http://s2.kassa.rl0.ru/widget/js/ticketmanager.js'
@@ -146,6 +147,11 @@ html
 		= partial 'partials/google'
 		= partial 'partials/yandex'
 		/= partial 'partials/mailru'
+
+		/ Yandex.Share async
+		/ 'http://yastatic.net/share/share.js'
+		javascript:
+  			$.getScript("http://yandex.st/share/share.js");
 
 		/div.footer
 		/	div.containter

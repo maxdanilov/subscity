@@ -85,13 +85,19 @@ class KassaParser
 		title_original = (doc/"h2.item_title2").first.inner_text rescue nil
 
 		extra_info = (doc/"div.item_data__years").first.inner_text.split(',') rescue []
-		country = extra_info[0...-2].join(',').strip rescue nil
+		country = extra_info[0..-2].select {|x| x.to_i == 0}.join(',').strip rescue nil
 		year = extra_info[-2].strip rescue nil
 		duration = extra_info[-1].split(' ')[0].to_i rescue nil
 		age_restriction = extra_info[-1].split(' ')[2].to_i rescue nil
 
 		poster = (doc/"div.item_img > img").first[:src] rescue nil
 		poster = nil if poster =~ /empty/
+
+		country = nil if country.to_s.strip == '-'
+		genres = nil if genres.to_s.strip.empty?
+		title.strip! rescue nil
+		title_original.strip! rescue nil
+		year = nil if year.to_i == 0 or year.to_i < 2000
 		
 		{   :title => title, 
 			:title_original => title_original, 
