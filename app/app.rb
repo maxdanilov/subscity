@@ -206,6 +206,7 @@ module Subscity
 
                 # poster update
                 if !params[:new_poster].empty?
+=begin
                     begin
                         open(params[:new_poster], "rb") do |read_file|
                             data = read_file.read
@@ -215,6 +216,8 @@ module Subscity
                         end
                     rescue
                     end
+=end                    
+                    m.download_poster(params[:new_poster], true)
                 end
 
                 # poster delete

@@ -61,7 +61,7 @@ end
 
 desc 'update screenings for all movies in the DB (active ones)'
 task :update_screenings => :environment do |task, args|
-	#do this before as well because cinemas can change movies assigned to screenings while keeping screening id!
+	#do this before because cinemas can change movies assigned to screenings while keeping screening id!
 	Rake::Task[:cleanup_screenings].reenable
 	Rake::Task[:cleanup_screenings].invoke
 
@@ -74,9 +74,6 @@ task :update_screenings => :environment do |task, args|
 		Rake::Task[:update_screenings_movie].reenable
 		sleep rand(2..3)
 	end
-
-	#Rake::Task[:cleanup_screenings].reenable
-	#Rake::Task[:cleanup_screenings].invoke
 
 	Movie.all.each do |m|
 		next if m.kinopoisk_id.to_i != 0 or m.has_description?
@@ -149,36 +146,6 @@ task :cleanup_movies => :environment do |task|
 	end
 
 	puts "#{count} movies removed"
-	stop_task(task, t)
-end
-
-desc 'posters update'
-task :update_posters => :environment do |task|
-	t = start_task(task)
-	Movie.all.each do |m|
-		# if poster doesn't exist, load it from kp, not kassa
-		if (not m.poster_exists?) and (not m.kinopoisk_id.nil?)
-			puts "Downloading kinopoisk poster for [#{m.movie_id}] #{m.title}"
-			Kinopoisk.download_poster(m, force_rewrite = true) 
-		end
-	end
-
-	path = '../public/images/posters/'
-	max_width = 144
-	threshold_width = 150
-	threshold_size = 20000
-	Dir.foreach(path) do |file|
-		next if file == '.' or file == '..'
-		size = File::size(path + file)
-		img = Magick::Image::read(path + file)[0] rescue nil
-		puts "unable to open #{file}" if img.nil?
-		if img and (img.columns > threshold_width or size > threshold_size)
-			ratio = img.rows * 1.0 / img.columns
-			img = img.thumbnail(max_width, max_width * ratio)
-			img.write path + file
-			puts "thumbnailing #{file}"
-		end
-	end
 	stop_task(task, t)
 end
 
@@ -263,10 +230,7 @@ task :update_movies => :environment do |task|
 
 	Rake::Task[:update_movies_from_cinemas].reenable
 	Rake::Task[:update_movies_from_cinemas].invoke
-
-	Rake::Task[:update_posters].reenable
-	Rake::Task[:update_posters].invoke
-
+	
 	stop_task(task, t)
 end
 
@@ -544,7 +508,7 @@ task :update_movie_info, [:id, :kinopoisk_id, :imdb_id, :trailers] => :environme
 				end
 
 				if m.poster.nil? and !k.poster.nil?
-					Kinopoisk.download_poster(m, force_rewrite = true)
+					Kinopoisk.download_poster(m, true)
 				end
 
 				Kinopoisk.update_ratings(m) unless m.kinopoisk_id.nil? 

@@ -95,21 +95,7 @@ class Kinopoisk
 	def self.download_poster(c, force_rewrite = false)
 		return if c.kinopoisk_id.nil?
 		url = poster_url(c)
-		if (!c.poster_exists? or force_rewrite)
-			puts "\tDownloading poster #{url}..."
-			begin
-				if has_poster? c
-				   	open(url) do |f|
-				   	File.open(c.poster_filename, "wb") do |file|
-				    	file.puts f.read
-				   		end
-					end
-				else
-					puts "\tWarning: no poster found"
-				end
-			rescue
-				puts "\tError occured while loading poster"
-			end
-		end
+		#return unless has_poster? c
+		c.download_poster(url, force_rewrite)
 	end
 end

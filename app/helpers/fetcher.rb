@@ -143,19 +143,7 @@ class KassaFetcher
 	end
 
 	def self.download_poster(c, force_rewrite = false)
-		return if c.poster.nil?
-		if (!c.poster_exists? or force_rewrite)
-			puts "\tDownloading #{c.poster}..."#.yellow
-			begin
-			   	open(c.poster) do |f|
-			   	File.open(c.poster_filename, "wb") do |file|
-			    	file.puts f.read
-			   		end
-				end
-			rescue
-				puts "\tError occured while loading poster"#.red
-			end
-		end
+		c.download_poster(c.poster, force_rewrite)
 	end
 
 	#private_class_method :url_for_session

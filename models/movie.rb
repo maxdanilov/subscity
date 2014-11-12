@@ -115,4 +115,28 @@ class Movie < ActiveRecord::Base
   		(File.mtime(poster_filename).to_i.to_s) rescue ""
 	end
 
+	def thumbnail_poster
+		return unless poster_exists?
+		img = Magick::Image::read(poster_filename)[0] rescue nil
+		return if img.nil?
+		max_width = 144
+		ratio = img.rows * 1.0 / img.columns
+		img = img.thumbnail(max_width, max_width * ratio)
+		img.write poster_filename
+	end
+
+	def download_poster(url, force_rewrite = false)
+		return if url.nil?
+		if (!poster_exists? or force_rewrite)
+			begin
+			   	open(url) do |f|
+				   	File.open(poster_filename, "wb") do |file|
+				    	file.puts f.read
+				   	end
+				end
+				thumbnail_poster
+			rescue
+			end
+		end
+	end
 end

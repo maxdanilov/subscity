@@ -97,7 +97,7 @@ class KassaParser
 		genres = nil if genres.to_s.strip.empty?
 		title.strip! rescue nil
 		title_original.strip! rescue nil
-		year = nil if year.to_i == 0 or year.to_i < 2000
+		year = nil if year.to_i == 0 or year.to_i < 1900
 		
 		{   :title => title, 
 			:title_original => title_original, 
