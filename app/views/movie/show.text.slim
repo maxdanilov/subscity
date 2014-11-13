@@ -1,0 +1,55 @@
+- newline = "\r\n"
+| #{@movie.title}
+- unless @movie.title_original.to_s.empty?
+	|  / #{@movie.title_original}
+- unless @movie.year.to_i == 0
+	|  (#{@movie.year})
+| #{newline * 2}
+| --------------
+| #{newline * 2}
+| #{@movie.get_description}
+| #{newline * 2}
+| IMDB: [#{@ratings[:imdb_rating].round(1) rescue "—"}]
+| #{newline}
+| КиноПоиск: [#{@ratings[:kinopoisk_rating].round(1) rescue "—"}]
+| #{newline * 2}
+- unless @movie.genres.to_s.empty?
+	| Жанр: #{@movie.genres}
+	| #{newline}
+- unless @movie.country.to_s.empty?
+	| Страна: #{@movie.country}
+	| #{newline}
+- unless @movie.languages.to_s.empty?
+	| Язык: #{languages_format(@movie.languages).mb_chars.capitalize.to_s}
+	| #{newline}
+| #{newline}
+- screenings = @movie.screenings.in_city(@city.city_id)
+- count = screenings.count
+- dates = []
+- screenings.each {|s| dates << s.date}
+- dates.uniq!
+- if count > 0
+	- if count > 1
+		- if dates.count > 1
+			| В прокате с #{show_date(screenings.first.date, false) }
+		- else
+			| В прокате один день - #{show_date(screenings.first.date, false) }
+	- else count == 1
+		| Единственный показ - #{show_date(screenings.first.date, false) } 
+		| в кинотеатре "#{Cinema.where(:cinema_id => screenings.first.cinema_id).first.name}"
+	| #{newline * 2}
+| --------------
+| #{newline * 2}
+- if @movie.poster_exists?
+	- poster_file = "http://#{domain_name}/images/posters/#{@movie.movie_id}.jpg"
+	| 
+	| #{poster_file}
+
+| #{newline * 2}
+| http://#{@city.domain}.#{domain_name}#{url(:movies, :index, @movie.format_url)}
+| #{newline}
+| #{newline}
+- unless @movie.trailer.to_s.empty?
+	- @movie.trailer.split("*").each do |t|
+		| http://www.youtube.com/watch?v=#{t}
+		| #{newline}

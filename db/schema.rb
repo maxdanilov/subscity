@@ -14,8 +14,6 @@
 ActiveRecord::Schema.define(:version => 7) do
 
   create_table "accounts", :force => true do |t|
-    t.string   "name"
-    t.string   "surname"
     t.string   "email"
     t.string   "crypted_password"
     t.string   "role"
