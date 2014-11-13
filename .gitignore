@@ -1,5 +1,6 @@
 .DS_Store
 log/**/*
+log/*
 tmp/**/*
 bin/*
 vendor/gems/*
@@ -13,5 +14,8 @@ public/images/kinopoisk/
 public/images/posters/
 public/images/bgs/old/
 public/stylesheets/old/
-dumps/
 *.sublime-*
+config/.token.rb
+tasks/logs/*
+stub
+*.txt

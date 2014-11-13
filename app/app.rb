@@ -65,7 +65,7 @@ module Subscity
 	        @ratings = Rating.all
 	        render 'latest', layout: :layout
 	    end
-
+	    
 	    #error 404 do
 	    not_found do
 	        render 'errors/404', layout: :layout
