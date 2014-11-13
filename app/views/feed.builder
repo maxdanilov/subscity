@@ -5,7 +5,7 @@ xml.instruct! :xml, :version => "1.0"
       xml.title "SubsCity (#{locals[:city].name})"
       xml.description "Лента последних фильмов на языке оригинала (с субтитрами) в кинотеатрах Москвы и Санкт-Петербурга."
       xml.lastBuildDate Time.now.to_s(:rfc822)
-      xml.link domain + url_for(:movies)
+      xml.link domain + url_for(:movies, :index)
 
       locals[:movies].each do |movie|
         title = movie.title
@@ -15,7 +15,7 @@ xml.instruct! :xml, :version => "1.0"
           xml.title title
           xml.description description
           xml.pubDate movie.created_at.to_s(:rfc822)
-          xml.link domain + url_for(:movies, :id => format_movie_url(movie))
+          xml.link domain + url_for(:movies, :index, :id => format_movie_url(movie))
         end
       end
     end

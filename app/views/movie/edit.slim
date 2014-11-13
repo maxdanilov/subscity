@@ -1,0 +1,154 @@
+- poster_file = "transparent.png"
+- if @movie.poster_exists?
+	- poster_file = "posters/#{@movie.movie_id}.jpg?#{@movie.timestamp_poster}"
+
+h1.text-center.capitalize.like-navbar 
+	span.fa.fa-film
+	|  
+	- title = @movie.title
+	- unless @movie.title_original.to_s.empty?
+		- title += " (#{@movie.title_original})"
+	== link_to_movie @movie, title
+	div.divider
+	= image_tag poster_file, :class => 'poster'
+
+form method="post"
+	fieldset
+		table.table.table-bordered.normal-font.table-striped.table-curved.table-no-inside-borders
+			/ ID
+			tr.movie-edit
+				td.col-xs-3.text-right
+					label for="movie_id" ID
+				td.col-xs-9
+					span id="movie_id" type="text" #{@movie.id}
+			/ Kassa ID
+			tr.movie-edit
+				td.col-xs-3.text-right
+					label for="movie_kassa_id" Касса ID
+				td.col-xs-9
+					span id="movie_kassa_id" type="text" 
+						= link_to "#{@movie.movie_id}", "https://kassa.rambler.ru/movie/#{@movie.movie_id}", :class => "underdashed", :target => '_blank'
+			/ active field
+			tr.movie-edit
+				td.col-xs-3.text-right
+					label for="movie_active" В прокате
+				td.col-xs-9
+					span id="movie_active" type="text" #{@movie.active}
+			/ Russian title
+			tr.movie-edit
+				td.col-xs-3.text-right
+					label for="movie_title" Название
+				td.col-xs-9
+					input id="movie_title" name="title" type="text" value="#{@movie.title}"
+			/ Original title
+			tr.movie-edit
+				td.col-xs-3.text-right
+					label for="movie_title_original" Оригинальное название
+				td.col-xs-9
+					input id="movie_title_origitnal" name="title_original" type="text" value = "#{@movie.title_original}"
+			
+			/ Poster
+			tr.movie-edit
+				td.col-xs-3.text-right
+					label for="movie_poster" Новый постер (url)
+				td.col-xs-9
+					input id="movie_poster" name="new_poster" type="text" value = ""
+					/| #{@movie.poster}
+			
+			/ Year
+			tr.movie-edit
+				td.col-xs-3.text-right
+					label for="movie_year" Год
+				td.col-xs-9
+					input id="movie_year" name="year" type="text" value = "#{@movie.year}"
+
+			/ Duration
+			tr.movie-edit
+				td.col-xs-3.text-right
+					label for="movie_duration" Длительность
+				td.col-xs-9
+					input id="movie_duration" name="duration" type="text" value = "#{@movie.duration}"
+
+			/ Age restriction
+			tr.movie-edit
+				td.col-xs-3.text-right
+					label for="movie_age_restriction" Возврастное ограничение
+				td.col-xs-9
+					input id="movie_age_restriction" name="age_restriction" type="text" value = "#{@movie.age_restriction}"
+
+			/ Genres
+			tr.movie-edit
+				td.col-xs-3.text-right
+					label for="movie_genres" Жанр
+				td.col-xs-9
+					input id="movie_genres" name="genres" type="text" value = "#{@movie.genres}"
+
+			/ Country
+			tr.movie-edit
+				td.col-xs-3.text-right
+					label for="movie_country" Страна
+				td.col-xs-9
+					input id="movie_country" name="country" type="text" value = "#{@movie.country}"
+
+			/ Languages
+			tr.movie-edit
+				td.col-xs-3.text-right
+					label for="movie_language" Язык
+				td.col-xs-9
+					input id="movie_language" name="languages" type="text" value = "#{@movie.languages}"
+
+			/ Director
+			tr.movie-edit
+				td.col-xs-3.text-right
+					label for="movie_director" Режиссер
+				td.col-xs-9
+					input id="movie_director" name="director" type="text" value = "#{@movie.director}"
+
+			/ Cast
+			tr.movie-edit
+				td.col-xs-3.text-right
+					label for="movie_cast" В ролях
+				td.col-xs-9
+					textarea rows="2" id="movie_cast" name="cast" type="text" #{@movie.cast}
+
+			/ Descprtion russian
+			tr.movie-edit
+				td.col-xs-3.text-right
+					label for="movie_description" Описание (рус.)
+				td.col-xs-9
+					textarea rows="5" id="movie_description" name="description" type="text" #{@movie.description}
+			/ Description english
+			tr.movie-edit
+				td.col-xs-3.text-right
+					label for="movie_description_english" Описание (англ.)
+				td.col-xs-9
+					textarea rows="5" id="movie_description_english" name="description_english" type="text" #{@movie.description_english}
+
+			/ Kinopoisk
+			tr.movie-edit
+				td.col-xs-3.text-right
+					= link_to "http://kinopoisk.ru/film/#{@movie.kinopoisk_id}/", :class => "underdashed", :target => "_blank"
+						| Кинопоиск
+				td.col-xs-9
+					input id="movie_kinopoisk" name="kinopoisk_id" type="text" value = "#{@movie.kinopoisk_id}"
+
+			/ IMDB
+			tr.movie-edit
+				td.col-xs-3.text-right
+					= link_to "http://www.imdb.com/title/tt#{@movie.imdb_id.to_s.rjust(8, "0")}/", :class => "underdashed", :target => "_blank"
+						| IMDB
+				td.col-xs-9
+					input id="movie_imdb" name="imdb_id" type="text" value = "#{@movie.imdb_id}"
+
+			/ Trailers
+			tr.movie-edit
+				td.col-xs-3.text-right
+					label for="movie_trailer" Трейлеры
+				td.col-xs-9
+					input id="movie_trailer" name="trailer" type="text" value = "#{@movie.trailer}"
+			tr
+				td.text-center colspan = "2"
+					/input type="submit"
+					/ value="Submit"
+					button.btn.btn-default.big-font.font-bold id="submit-update"
+						| Обновить

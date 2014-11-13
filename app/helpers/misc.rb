@@ -182,17 +182,17 @@ def format_simple_url(m)
 end
 
 def link_to_cinema(cinema)
-	link_to(cinema.name, url(:cinemas, cinema.format_url), :class => 'underdashed')
+	link_to(cinema.name, url(:cinemas, :index, cinema.format_url), :class => 'underdashed')
 end
 
 def link_to_movie(movie, text = nil)
 	#link_to(hyphenate(movie.title, :ru), url(:movies, movie.format_url), :class => 'underdashed')
 	text ||= movie.title
-	"<a class='underdashed' href='#{url(:movies, movie.format_url)}'>#{hyphenate(text, :ru)}</a>"
+	"<a class='underdashed' href='#{url(:movies, :index, movie.format_url)}'>#{hyphenate(text, :ru)}</a>"
 end
 
 def link_to_date(day)	
-	link_to(show_date(day), url(:dates, day), :class => 'underdashed')
+	link_to(show_date(day), url(:dates, :index, day), :class => 'underdashed')
 end
 
 def hyphenate(text, lang)

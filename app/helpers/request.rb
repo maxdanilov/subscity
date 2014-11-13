@@ -25,7 +25,7 @@ module Sinatra
     end
 
     def geoip
-      GeoIP.new(File.dirname(__FILE__) + '/../../db/GeoLiteCity.dat').city(ip)
+      @geo_ip ||= GeoIP.new(File.dirname(__FILE__) + '/../../db/GeoLiteCity.dat').city(ip)
     end
 
     def get_city
@@ -69,7 +69,7 @@ module Sinatra
 end
 
 def domain_name
-    "subscity.ru"
+    DOMAIN_NAME
 end
 
 def redirect_globally(subdomain = nil, path = nil)
@@ -79,8 +79,4 @@ end
 
 def pre_redirect
     redirect_globally(request.get_subdomain, request.path) unless request.subdomain_valid? 
-end
-
-def admin?
-	ADMIN_IP == request.ip 
 end

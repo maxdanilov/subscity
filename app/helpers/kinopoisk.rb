@@ -95,7 +95,7 @@ class Kinopoisk
 	def self.download_poster(c, force_rewrite = false)
 		return if c.kinopoisk_id.nil?
 		url = poster_url(c)
-		#return unless has_poster? c
+		return unless has_poster? c
 		c.download_poster(url, force_rewrite)
 	end
 end

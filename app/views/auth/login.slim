@@ -1,0 +1,25 @@
+div style="max-width: 400px; margin: auto;"
+  /h1.text-center.capitalize.like-navbar 
+  /  span.fa.fa-key
+    /|  Вход
+
+  form method="post"
+    fieldset
+      table.table.table-bordered.big-font.table-striped.table-curved.table-no-inside-borders.table-no-bordered
+        tr
+          td.col-xs-3.text-right
+            label for="email" E-mail:
+          td.col-xs-9
+            input id="email" name="email" type="text"
+
+        tr
+          td.col-xs-3.text-right
+            label for="password" Пароль:
+          td.col-xs-9
+            input id="password" name="password" type="password"
+        
+        tr
+          td.text-center colspan = "2"
+            button.btn.btn-default.big-font.font-bold id="submit"
+              span.fa.fa-key
+              |  Войти

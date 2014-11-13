@@ -413,8 +413,6 @@ $(function() {
 		invokeScroll();
 		//$("img.poster").unveil();
 		$("#button-sort-imdb").click();
-
-		//$.getScript('http://yastatic.net/share/share.js');
 	});
        
 });
