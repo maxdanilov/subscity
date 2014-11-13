@@ -1,8 +1,0 @@
-ul class="nav nav-tabs"
-  li = link_to tag_icon(:list, pat(:list)), url(:movies, :index)
-  li = link_to tag_icon(:plus, pat(:new)), url(:movies, :new)
-  li class="active" = link_to tag_icon(:edit, pat(:edit)), url(:movies, :edit, :id => @movie.id)
-
-div class="tabs-content"
-  = form_for :movie, url(:movies, :update, :id => @movie.id), :method => :put, :class => 'form-horizontal' do |f|
-    = partial 'movies/form', :locals => { :f => f }
