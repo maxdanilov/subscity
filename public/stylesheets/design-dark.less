@@ -54,10 +54,16 @@ img.poster
 	
 a
 	{
-		color: @basic-text-color;
+		&,&:visited, &:focus
+		{
+			color: @basic-text-color;
+			outline: none;
+		}
+
 		&:hover, &:active
 			{
 				color: saturate(@basic-text-color, 100%);
+				outline: none;
 			}
 	}
 	
@@ -192,10 +198,11 @@ div.box-text
 		.button-basic
 	}
 
-.btn-default:active, .btn-default.active, .btn-default:hover, .btn-default:focus
+.btn-default:active, .btn-default.active, .btn-default:hover, .btn-default:focus, .btn-default:visited
 	{
 		.button-hover;
 		.shadow(@dark-text-color, 8px);
+		outline: none !important;
 	}
 		
 /* Navbar */

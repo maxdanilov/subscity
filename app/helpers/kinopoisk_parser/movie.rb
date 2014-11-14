@@ -26,7 +26,7 @@ module KinopoiskParser
 
     # Returns a string containing title in russian
     def title
-      @title ||= doc.search('.moviename-big').xpath('text()').text.strip
+      @title ||= doc.search('.moviename-big').xpath('text()').text.strip.gsub("\u00a0"," ")
     end
 
     # Returns an integer imdb rating vote count
@@ -101,7 +101,7 @@ module KinopoiskParser
 
     # Returns a string containing title in english
     def title_en
-      search_by_itemprop 'alternativeHeadline'
+      (search_by_itemprop 'alternativeHeadline').gsub("\u00a0"," ")
     end
 
     # Returns a string containing movie description

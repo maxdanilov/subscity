@@ -575,7 +575,13 @@ def movie_auto_fill_info(id)
 	ids = movie_find_id(m.title)
 	kinopoisk_id = ids[:kinopoisk]
 	imdb_id = ids[:imdb]
-	return if kinopoisk_id.nil?
+	if kinopoisk_id.nil?
+		return if m.title_original.strip.empty?
+		ids = movie_find_id(m.title_original)
+		kinopoisk_id = ids[:kinopoisk]
+		imdb_id = ids[:imdb]
+		return if kinopoisk_id.nil?
+	end
 	# fetch primary data
 	Rake::Task[:update_movie_info].reenable
 	Rake::Task[:update_movie_info].invoke(m.id.to_s, kinopoisk_id.to_s, imdb_id.to_s)

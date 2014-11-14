@@ -9,18 +9,21 @@
 | #{newline * 2}
 | #{@movie.get_description}
 | #{newline * 2}
-| IMDB: [#{@ratings[:imdb_rating].round(1) rescue "—"}]
-| #{newline}
-| КиноПоиск: [#{@ratings[:kinopoisk_rating].round(1) rescue "—"}]
+- if @ratings[:imdb_rating].to_i != 0
+	| IMDB: [#{@ratings[:imdb_rating].round(1)}]
+- if @ratings[:kinopoisk_rating].to_i != 0
+	| #{newline}
+	| КиноПоиск: [#{@ratings[:kinopoisk_rating].round(1)}]
+
 | #{newline * 2}
 - unless @movie.genres.to_s.empty?
-	| Жанр: #{@movie.genres}
+	| Жанр: #{@movie.genres.mb_chars.downcase.to_s}
 	| #{newline}
 - unless @movie.country.to_s.empty?
 	| Страна: #{@movie.country}
 	| #{newline}
 - unless @movie.languages.to_s.empty?
-	| Язык: #{languages_format(@movie.languages).mb_chars.capitalize.to_s}
+	| Язык: #{languages_format(@movie.languages).mb_chars.downcase.to_s}
 	| #{newline}
 | #{newline}
 - screenings = @movie.screenings.in_city(@city.city_id)

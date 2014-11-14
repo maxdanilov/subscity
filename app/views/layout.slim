@@ -24,10 +24,11 @@ html
 		= favicon_tag '/favicon.ico', :rel => 'shortcut icon'
 		
 		/ Bootstrap
-		= stylesheet_link_tag 'http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css'
+		/= stylesheet_link_tag 'http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css'
+		= stylesheet_link_tag 'http://yastatic.net/bootstrap/3.1.1/css/bootstrap.min.css'
 		/ Optional theme
-		= stylesheet_link_tag 'http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css'
-
+		/= stylesheet_link_tag 'http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css'
+		= stylesheet_link_tag 'http://yastatic.net/bootstrap/3.1.1/css/bootstrap-theme.min.css'
 		/ PT Sans font
 		= stylesheet_link_tag 'http://fonts.googleapis.com/css?family=PT+Sans:400,700&subset=latin,cyrillic'
 		/, :media => "min-width: 768px" 
@@ -123,13 +124,15 @@ html
 			= yield
 
 		/ jQuery (necessary for Bootstrap's JavaScript plugins)
-		= javascript_include_tag '//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'
+		/= javascript_include_tag '//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'
+		= javascript_include_tag 'http://yastatic.net/jquery/1.11.1/jquery.min.js'
 		/ jQuery UI
 		/= javascript_include_tag '//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js'
 		= javascript_include_tag 'jquery-ui-1.11.2.custom/jquery-ui.min'
 
 		/ Include all compiled plugins (below), or include individual files as needed
-		= javascript_include_tag 'http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js'
+		/= javascript_include_tag 'http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js'
+		= javascript_include_tag 'http://yastatic.net/bootstrap/3.1.1/js/bootstrap.min.js'
 
 		/ custom JS
 		= javascript_include_tag 'default.min'

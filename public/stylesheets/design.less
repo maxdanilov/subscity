@@ -60,6 +60,14 @@
 		src: @font-logo-url;
 	}
 
+:focus {outline:none;}
+::-moz-focus-inner {border:0;}
+/*
+select:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 #000;
+}
+*/
 html, body 
 	{
 		height: 100%;
@@ -846,11 +854,14 @@ div.movie-description
 
 div.movie-description > table.movie-description
 	{
-		top: -9px;
+		top: -8px;
 		border-bottom-width: 1px !important;
-		//margin-left: @open-button-size;
-		//width: auto;
 		width: 100%;
+
+		& tr:first-of-type, & tr:first-of-type > td, &
+		{
+			border-top: none !important;
+		}
 	}
 	
 div.movie-plate-table

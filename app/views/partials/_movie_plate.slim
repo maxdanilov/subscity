@@ -75,26 +75,26 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 		table.table.table-bordered.table-condensed.table-striped.movie-description.hidden-xs.hidden
 			tbody	
 				tr.table-body
-				/- unless movie.genres.to_s.empty?
-				/	td.col-sm-4.vertical-middle
-				/		div
-				/			i.fa.fa-bookmark
-				/			|  #{movie.genres}
-				- unless movie.director.to_s.empty?
-					td.col-sm-4.vertical-middle
-						div
-							i.fa.fa-bullhorn.movie-icon
-							|  #{movie.director.gsub("\r", "").split("\n").join(", ")}
-				- unless movie.country.to_s.empty? or movie.country == '-'
-					td.col-sm-4.text-center.vertical-middle
-						div
-							i.fa.fa-globe.movie-icon			
-							|  #{movie.country}
-				- unless movie.duration.to_i == 0
-					td.col-sm-3.text-center.vertical-middle
-						div
-							i.fa.fa-clock-o.movie-icon
-							|  #{movie.duration} мин.	
+					/- unless movie.genres.to_s.empty?
+					/	td.col-sm-4.vertical-middle
+					/		div
+					/			i.fa.fa-bookmark
+					/			|  #{movie.genres}
+					- unless movie.director.to_s.empty?
+						td.col-sm-4.vertical-middle
+							div
+								i.fa.fa-bullhorn.movie-icon
+								|  #{movie.director.gsub("\r", "").split("\n").join(", ")}
+					- unless movie.country.to_s.empty? or movie.country == '-'
+						td.col-sm-4.text-center.vertical-middle
+							div
+								i.fa.fa-globe.movie-icon			
+								|  #{movie.country}
+					- unless movie.duration.to_i == 0
+						td.col-sm-3.text-center.vertical-middle
+							div
+								i.fa.fa-clock-o.movie-icon
+								|  #{movie.duration} мин.	
 				- unless movie.cast.to_s.empty?
 					tr.table-body
 						td.col-sm-12 colspan = "4"
