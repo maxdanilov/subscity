@@ -90,7 +90,7 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 							div
 								i.fa.fa-globe.movie-icon			
 								|  #{movie.country}
-					- unless movie.duration.to_i == 0
+					- unless movie.duration.to_i == 0 or movie.duration.to_i > 1900
 						td.col-sm-3.text-center.vertical-middle
 							div
 								i.fa.fa-clock-o.movie-icon

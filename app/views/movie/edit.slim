@@ -146,6 +146,21 @@ form method="post"
 					label for="movie_trailer" Трейлеры
 				td.col-xs-9
 					input id="movie_trailer" name="trailer" type="text" value = "#{@movie.trailer}"
+
+			/ Created at
+			tr.movie-edit
+				td.col-xs-3.text-right
+					label for="created_at" Создано
+				td.col-xs-9
+					span id="created_at" type="text" #{@movie.created_at}
+
+			/ Updated at
+			tr.movie-edit
+				td.col-xs-3.text-right
+					label for="updated_id" Обновлено
+				td.col-xs-9
+					span id="updated_id" type="text" #{@movie.updated_at}
+
 			tr
 				td.text-center colspan = "2"
 					/input type="submit"

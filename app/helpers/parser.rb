@@ -98,6 +98,7 @@ class KassaParser
 		title.strip! rescue nil
 		title_original.strip! rescue nil
 		year = nil if year.to_i == 0 or year.to_i < 1900
+		duration = nil if duration.to_i > 1900
 		
 		{   :title => title, 
 			:title_original => title_original, 
