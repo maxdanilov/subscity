@@ -128,12 +128,14 @@ Subscity::App.controllers :movies do
                         @title += " на языке оригинала в кино"
                         render 'movie/show', layout: :layout
                     end
-            when :txt
-                auth_allow_for_role :admin                 
-                @city = City.get_by_domain(request.subdomains.first)
-                @movie = Movie.find(params[:id]) rescue nil
-                @ratings = Rating.where(:movie_id => @movie.movie_id).first rescue nil
-                render 'movie/show.text'
+                when :txt
+                    auth_allow_for_role :admin                 
+                    @city = City.get_by_domain(request.subdomains.first)
+                    @movie = Movie.find(params[:id]) rescue nil
+                    @ratings = Rating.where(:movie_id => @movie.movie_id).first rescue nil
+                    render 'movie/show.text'
+                else
+                    render 'errors/404', layout: :layout
             end
         rescue ActiveRecord::RecordNotFound => e
             render 'errors/404', layout: :layout

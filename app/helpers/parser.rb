@@ -94,6 +94,7 @@ class KassaParser
 		poster = nil if poster =~ /empty/
 
 		country = nil if country.to_s.strip == '-'
+		genres = genres.mb_chars.downcase.to_s unless genres.nil?
 		genres = nil if genres.to_s.strip.empty?
 		title.strip! rescue nil
 		title_original.strip! rescue nil

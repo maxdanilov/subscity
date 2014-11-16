@@ -36,6 +36,7 @@ gem 'text-hyphen'
 gem "rmagick", "~>2.13.2", :require => 'RMagick'
 gem "youtube_search"
 gem 'encrypted_cookie'
+gem 'sinatra-synchrony'
 #gem 'active_support'
 
 # Test requirements

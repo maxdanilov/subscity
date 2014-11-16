@@ -28,7 +28,6 @@ gem 'imdb'
 #gem 'benchmark'
 gem "rmagick", "~>2.13.2", :require => 'RMagick'
 gem "youtube_search"
-
 # Test requirements
 
 # Padrino Stable Gem

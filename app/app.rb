@@ -1,5 +1,7 @@
 module Subscity
+	require 'sinatra/synchrony'
   	class App < Padrino::Application
+  		register Sinatra::Synchrony
 	    use ActiveRecord::ConnectionAdapters::ConnectionManagement
 	    register Padrino::Rendering
 	    register Padrino::Mailer
