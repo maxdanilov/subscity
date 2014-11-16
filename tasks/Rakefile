@@ -679,7 +679,7 @@ task :testparser => :environment do |task|
 					:year => 2012,
 					:duration => 111,
 					:age_restriction => 16,
-					:genres => "Драматические фильмы",
+					:genres => "драма",
 					:poster => "https://img09.rl0.ru/kassa/c144x214/kassa.rambler.ru/s/StaticContent/Photos/140820170948/141107094642/p_O.jpg"
 				},
 				{ 	:id => 58529, 
@@ -689,11 +689,11 @@ task :testparser => :environment do |task|
 					:year => 2014,
 					:duration => 124,
 					:age_restriction => 16,
-					:genres => "Драматические фильмы",
+					:genres => "драма",
 					:poster => "https://img07.rl0.ru/kassa/c144x214/kassa.rambler.ru/s/StaticContent/Photos/140928164221/141003101349/p_O.jpg"
 				},
 				{ 	:id => 64265, 
-					:title => "НОЧНОЙ НОН-СТОП: НОВАЯ ПОДРУЖКА, МЫ ТЕБЯ ЛЮБИМ, МЕРЗАВЕЦ, РИО, Я ЛЮБЛЮ ТЕБЯ", 
+					:title => "НОЧНОЙ НОН-СТОП:  Новая подружка, Рио, я люблю тебя, Одержимость", 
 					:title_original => nil,
 					:country => "Франция",
 					:year => nil,
@@ -701,6 +701,17 @@ task :testparser => :environment do |task|
 					:age_restriction => 0,
 					:genres => nil,
 					:poster => "https://img05.rl0.ru/kassa/c144x214/kassa.rambler.ru/s/StaticContent/Photos/140402140149/141106123008/p_O.png"
+				},
+				{
+					:id => 57690,
+					:title => 'Детка',
+					:title_original => 'Laggies',
+					:genres => 'комедия, мелодрама',
+					:country => 'США',
+					:year => 2014,
+					:duration => 97,
+					:age_restriction => 16,
+					:poster => 'https://img09.rl0.ru/kassa/c144x214/kassa.rambler.ru/s/StaticContent/Photos/140621235250/141024154934/p_O.jpg'
 				}
 			 ]
 	result = []

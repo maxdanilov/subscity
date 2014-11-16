@@ -77,6 +77,41 @@ class KassaParser
 		results
 	end
 
+	# Kassa genres => Kinopoisk genres
+	def self.kinopoisk_genre(g)
+		hash = {
+				'боевики' => 'боевик',
+				'вестерны' => 'вестерн',
+				'военные фильмы' => 'военный',
+				'детективные фильмы' => 'детектив',
+				'дети' => 'детский',
+				'детские фильмы' => 'детский',
+				'документальное кино' => 'документальный',
+				'драматические фильмы' => 'драма',
+				'исторические фильмы' => 'история',
+				'комедии' => 'комедия',
+				'короткометражные фильмы' => 'короткометражный',
+				'криминальные фильмы' => 'криминал',
+				'мелодрамы' => 'мелодрама',
+				'музыкальные фильмы' => 'музыка',
+				'мультфильмы' => 'мультфильм',
+				'мюзиклы' => 'мюзикл',
+				'приключенческие фильмы' => 'приключения',
+				'романтические комедии' => 'комедия, мелодрама',
+				'семейное кино' => 'семейный',
+				'спортивные фильмы' => 'спорт',
+				'тв' => nil,
+				'трагикомедии' => 'трагикомедия',
+				'триллеры' => 'триллер',
+				'фантастические фильмы' => 'фантастика',
+				'фильмы ужасов' => 'ужасы',
+				'фильмы-биографии' => 'биография',
+				'экранизации классической литературы' => nil
+			}
+		return hash[g] if hash.has_key? g
+		g
+	end
+
 	def self.parse_movie_HTML(data)
 		doc = Hpricot(data) rescue nil
 		return nil if doc.nil?
@@ -95,11 +130,18 @@ class KassaParser
 
 		country = nil if country.to_s.strip == '-'
 		genres = genres.mb_chars.downcase.to_s unless genres.nil?
-		genres = nil if genres.to_s.strip.empty?
 		title.strip! rescue nil
 		title_original.strip! rescue nil
 		year = nil if year.to_i == 0 or year.to_i < 1900
 		duration = nil if duration.to_i > 1900
+
+		unless genres.to_s.empty?
+			genres_new = []
+			genres.split(", ").each { |g| genres_new << kinopoisk_genre(g) }
+			genres = genres_new.compact.join(", ")
+		end
+
+		genres = nil if genres.to_s.strip.empty?
 		
 		{   :title => title, 
 			:title_original => title_original, 
