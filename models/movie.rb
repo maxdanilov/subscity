@@ -26,7 +26,7 @@ class Movie < ActiveRecord::Base
 
 	def valid_genre?
 		return true if genres.nil?
-		non_valid_genres = ['Опера', 'Балет', 'Фильмы-спектакли']
+		non_valid_genres = ['Опера', 'Балет', 'Фильмы-спектакли', 'Оперетты']
 		!(non_valid_genres.any? { |w| genres.include? w })
 	end
 

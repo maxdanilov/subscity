@@ -7,7 +7,7 @@ $(function() {
 	{
 		$("select.movie").each(function(){
 			for(var i = 0; i < titles.length; i++)
-				$(this).append("<option attr-id=" + ids[i] + " value=" + (i + 1) + ">" + "[" + ids[i] + "] " + titles[i] + "</option>");
+				$(this).append("<option attr-id=" + ids[i] + " value=" + (i + 1) + ">" + ids[i] + ". " + titles[i] + "</option>");
 		});
 	}
 
@@ -72,12 +72,14 @@ $(function() {
 
 	function blockSubmit()
 	{
-		$("#submit-update").attr("disabled", true);
+		//$("#submit-update").attr("disabled", true);
+		$("#submit-update").addClass("disabled");
 	}
 
 	function unblockSubmit()
 	{
-		$("#submit-update").removeAttr("disabled");
+		//$("#submit-update").removeAttr("disabled");
+		$("#submit-update").removeClass("disabled");
 	}
 
 	function parseYoutubeUrl(url)

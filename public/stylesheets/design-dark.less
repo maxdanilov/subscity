@@ -1,10 +1,21 @@
 @import "vars.less";
 
+@-moz-document url-prefix()
+{
+	@media (min-width: 768px) 
+	{
+		body
+		{
+			background-attachment: fixed;	
+		}
+	}
+}
+
 @media (max-width: 767px) 
 {
 	body
 		{
-			background-image: @bg-url-mobile;			
+			background-image: @bg-url-mobile;	
 		}
 }
 
@@ -202,6 +213,7 @@ div.box-text
 	{
 		.button-hover;
 		.shadow(@dark-text-color, 8px);
+		color: #333;
 		outline: none !important;
 	}
 		
