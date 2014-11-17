@@ -204,7 +204,7 @@ task :update_movies => :environment do |task|
 						puts "Movie #{c.movie_id} was destroyed".red
 					end
 					#add to db
-					if c.valid? and c.valid_genre?
+					if c.valid? and c.valid_genre? and (not c.russian?)
 						puts "Movie #{c.movie_id} was added to database:".yellow
 						#download poster
 						KassaFetcher.download_poster(c, true) unless c.poster.nil?
@@ -262,7 +262,7 @@ task :update_movies_from_cinemas => :environment do |task|
 	movies_new.each do |m|
 		c = get_movie(m)
 
-		if c.valid? and c.valid_genre?			
+		if c.valid? and c.valid_genre? and (not c.russian?)		
 			KassaFetcher.download_poster(c, true) unless c.poster.nil?
 			c.save
 			puts "Movie #{c.movie_id} was added to database:".yellow
@@ -600,11 +600,9 @@ def movie_find_trailer(title, lang = :ru, year = nil)
 	trailer_key = "trailer"
 	trailer_key = "трейлер" if lang == :ru
 	query = [title, year, trailer_key].join " "
-	#puts query
 	
 	id = nil
 	YoutubeSearch.search(query).first(10).each do |v|
-		#puts "[#{v["duration"]}][#{v["video_id"]}] #{v["title"]}"
 		next if v["duration"].to_i > max_duration or not prepare_title.call(v["title"]).include? trailer_key or not prepare_title.call(v["title"]).include? prepare_title.call(title)
 		id = v["video_id"]
 		break
