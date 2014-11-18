@@ -653,77 +653,22 @@ def movie_find_id(title, year = nil)
 	return {:kinopoisk => kinopoiskID, :imdb => imdbID}
 end
 
-task :testtask => :environment do |task|
+task :test_parsers => :environment do |task|
 	t = start_task(task)
+
+	result = []
+	[:test_kassa, :test_kinopoisk_imdb].each { |f| result << send(f) }
+
+	unless result.include? false
+		puts "[OK]".green unless result.include? false
+	else
+		puts "[!!]".red
+	end
+
 	stop_task(task, t)
 end
 
-task :testparser => :environment do |task|
+task :test => :environment do |task|
 	t = start_task(task)
-	
-	def check_parameter(field, sample, actual)
-		if sample[field] != actual.send(field)
-			puts ("'#{field}' field error (" + sample[field].to_s + " != " + actual.send(field).to_s + ")" ).red 
-			return false
-		end
-		return true
-	end
-
-	movies = [
-				{ 	:id => 64245, 
-					:title => "Мой дорогой", 
-					:title_original => "Anata e",
-					:country => "Япония",
-					:year => 2012,
-					:duration => 111,
-					:age_restriction => 16,
-					:genres => "драма",
-					:poster => "https://img09.rl0.ru/kassa/c144x214/kassa.rambler.ru/s/StaticContent/Photos/140820170948/141107094642/p_O.jpg"
-				},
-				{ 	:id => 58529, 
-					:title => "Зильс-Мария", 
-					:title_original => "Clouds of Sils Maria",
-					:country => "Франция, Швейцария, Германия",
-					:year => 2014,
-					:duration => 124,
-					:age_restriction => 16,
-					:genres => "драма",
-					:poster => "https://img07.rl0.ru/kassa/c144x214/kassa.rambler.ru/s/StaticContent/Photos/140928164221/141003101349/p_O.jpg"
-				},
-				{ 	:id => 64265, 
-					:title => "НОЧНОЙ НОН-СТОП:  Новая подружка, Рио, я люблю тебя, Одержимость", 
-					:title_original => nil,
-					:country => "Франция",
-					:year => nil,
-					:duration => 339,
-					:age_restriction => 0,
-					:genres => nil,
-					:poster => "https://img05.rl0.ru/kassa/c144x214/kassa.rambler.ru/s/StaticContent/Photos/140402140149/141106123008/p_O.png"
-				},
-				{
-					:id => 57690,
-					:title => 'Детка',
-					:title_original => 'Laggies',
-					:genres => 'комедия, мелодрама',
-					:country => 'США',
-					:year => 2014,
-					:duration => 97,
-					:age_restriction => 16,
-					:poster => 'https://img09.rl0.ru/kassa/c144x214/kassa.rambler.ru/s/StaticContent/Photos/140621235250/141024154934/p_O.jpg'
-				}
-			 ]
-	result = []
-	movies.each do |m|
-		c = get_movie m[:id]
-		result << check_parameter(:title, m, c)
-		result << check_parameter(:title_original, m, c)
-		result << check_parameter(:country, m, c)
-		result << check_parameter(:year, m, c)
-		result << check_parameter(:duration, m, c)
-		result << check_parameter(:age_restriction, m, c)
-		result << check_parameter(:genres, m, c)
-		result << check_parameter(:poster, m, c)
-	end
-	puts "All tests passed".green unless result.include? false
 	stop_task(task, t)
 end
