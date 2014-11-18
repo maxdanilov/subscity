@@ -23,6 +23,11 @@ job_type :my_rake, 'cd :path && rake :task :output'
 
 set :output, 'logs/cron.log'
 
+#check if all parsers are still working right
+every :day, :at => ['03:00'] do
+	my_rake "test_parsers", :output => 'logs/cron_tests.log'
+end
+
 #clean obsolete movies
 every :day, :at => ['03:30'] do
 	my_rake "cleanup_movies", :output => 'logs/cron_movies.log'
