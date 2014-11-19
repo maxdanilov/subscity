@@ -244,7 +244,7 @@ task :update_movies_from_cinemas => :environment do |task|
 			puts "[#{index + 1} / #{total}] Processing cinema #{cinema.name} (#{city.name}) ...".magenta
 			dates = KassaParser.parse_movie_dates(KassaFetcher.fetch_cinema(cinema.cinema_id, nil, city.city_id))
 			dates.each do |date|
-				screenings = KassaParser.parse_sessions_HTML(KassaFetcher.fetch_cinema(cinema.cinema_id, date, city.city_id), date)
+				screenings = KassaParser.parse_sessions_HTML(KassaFetcher.fetch_cinema(cinema.cinema_id, date, city.city_id), date, cinema.cinema_id)
 				screenings.each { |s| movies += [s[:movie]] }
 			end
 			sleep rand(1..2)	
@@ -476,7 +476,7 @@ task :update_movie_info, [:id, :kinopoisk_id, :imdb_id, :trailers] => :environme
 			puts "Proposed kinopoisk title: #{k.title} [#{k.title_en}]".cyan 
 			begin
 				m.update_attribute(:kinopoisk_id, kinopoisk_id)
-				m.update_attribute(:description, k.description) unless k.description.to_s.empty?
+				m.update_attribute(:description, k.description) if (not k.description.to_s.empty?) and (not m.description.to_s.empty?)
 				m.update_attribute(:title_original, k.title_en) unless k.title_en.to_s.empty?
 				m.update_attribute(:director, k.directors.join(", ")) unless k.directors.to_s.empty?
 				m.update_attribute(:cast, k.actors.join(", ")) unless k.actors.to_s.empty?
