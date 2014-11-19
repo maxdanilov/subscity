@@ -59,9 +59,16 @@ class KassaParser
 				next if (not el.parent.parent.search(".caption").inner_html.include? HAS_SUBS) and (not fetch_all) 				
 														 # skip headlines of non-subs sessions
 														 # but download all screenings for given cinemas
+				if fetch_all
+					links = el.parent.parent.search('.sked a.sked_item') rescue []
+				else
+					el.parent.parent.search('.caption').each do |s|
+						links = s.parent.search('a.sked_item') if s.inner_html.include? HAS_SUBS rescue []
+					end
+				end
 
 				# looking up and then down to find the sessions info
-				el.parent.parent.search('.sked a.sked_item').each do |a|
+				links.each do |a|
 					session_id = get_session_id( a[:href] )
 					session_time = parse_time( a.inner_html, date)
 					# the night screenings are technically on the next day!
@@ -70,8 +77,8 @@ class KassaParser
 					results << { session: session_id , time: session_time, cinema: session_cinema_id, movie: session_movie }
 				end
 			end
-		rescue Exception => e
-			nil
+		#rescue Exception => e
+		#	nil
 		end
 		results
 	end

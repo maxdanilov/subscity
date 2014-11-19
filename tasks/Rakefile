@@ -670,5 +670,17 @@ end
 
 task :test => :environment do |task|
 	t = start_task(task)
+	#puts Screening.where("created_at > ? ", Time.now - 1.hour).count
+	#Screening.where("created_at > ? ", Time.now - 1.hour).each { |s| s.destroy }
+	#clear_cache_no_fill
+=begin
+	city_id = 2
+	date = Time.now.strip + 1.day
+	id = 56788
+	KassaParser.parse_sessions_HTML(KassaFetcher.fetch_sessions(id, date, city_id), date).each do |s|
+		#c = Screening.new(movie_id: id, cinema_id: s[:cinema], date_time: s[:time], screening_id: s[:session])
+		puts "#{s[:cinema]} #{s[:time]}"
+	end
+=end
 	stop_task(task, t)
 end
