@@ -1,8 +1,23 @@
-div.box-text
-	span Добро пожаловать на SubsCity! :)
-	/span Где можно посмотреть новые фильмы на языке оригинала?
-	div.divider
-	span Это удобное и всегда актуальное расписание показа фильмов на языке оригинала (с русскими субтитрами) в кинотеатрах Москвы и Санкт-Петербурга.
-	div.divider
-	span Билеты на выбранные сеансы вы можете купить онлайн с помощью сервиса Касса.Рамблер
+- vk_public = "subscity_msk"
+- vk_public = "subscity_spb" if @city.domain == "spb"
+- vk_url = "http://vk.com/#{vk_public}"
+div.about.container
+	table
+		tr.about
+			td.about.left
+				div.about.left.box-text
+					span 
+						strong Добро пожаловать на SubsCity! :)
+					/span Где можно посмотреть новые фильмы на языке оригинала?
+					div.divider
+					span Это удобное и всегда актуальное расписание показа фильмов на языке оригинала (с русскими субтитрами) в кинотеатрах Москвы и Санкт-Петербурга.
+					div.divider
+					span Билеты на выбранные сеансы вы можете купить онлайн с помощью сервиса Касса.Рамблер.
+					div.divider
+					div.divider
+					span 
+						| Подписывайтесь на страницу проекта #{link_to("ВКонтакте", vk_url, :class => "underdashed")} и не пропустите ни одного нового фильма в кино на языке оригинала.
+			td.about.right class="hidden"
+				div.about.right.hidden-sm.hidden-xs id="vk_groups"
+
 div.divider

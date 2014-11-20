@@ -156,6 +156,9 @@ html
 		javascript:
   			$.getScript("http://yandex.st/share/share.js");
 
+  		- if @show_about == true
+  			= partial 'partials/vk_widget'
+
 		/div.footer
 		/	div.containter
 		/		span.fa.fa-pencil
