@@ -14,6 +14,7 @@ class KassaFetcher
 	PAGE_SIZE = 20
 	#CITY_ID = 2
 	URL_FOR_PRICES = 'http://m.kassa.rambler.ru/place/hallplanajax'
+	READ_TIMEOUT = 5
 
 	JSON_HEADERS =	   {	"Connection" => "keep-alive",
 							"Accept" => "*/*",
@@ -22,7 +23,9 @@ class KassaFetcher
 							"Referer" => DOMAIN,
 							"Host" => HOST,
 							"Accept-Encoding" => "gzip,deflate,sdch",
-							"Accept-Language" => "ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4,de;q=0.2,fr;q=0.2" }
+							"Accept-Language" => "ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4,de;q=0.2,fr;q=0.2",
+							:read_timeout => READ_TIMEOUT
+						}
 	
 	STANDARD_HEADERS = {	
 							"Connection" => "keep-alive",
@@ -32,7 +35,8 @@ class KassaFetcher
 							"Host" => HOST,
 							"Cache-Control" => "max-age=0",
 							"Accept-Encoding" => "gzip, deflate, sdch", #attention - if this field is set, content needs to be ungzipped!
-							"Accept-Language" => "ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4,de;q=0.2,fr;q=0.2" 
+							"Accept-Language" => "ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4,de;q=0.2,fr;q=0.2",
+							:read_timeout => READ_TIMEOUT
 						}
 
 	JSON_HEADERS_WIDGET = { "Connection" => "keep-alive",
@@ -42,7 +46,8 @@ class KassaFetcher
 							"Referer" => WIDGET_DOMAIN,
 							"Host" => WIDGET_HOST,
 							"Accept-Encoding" => "gzip,deflate,sdch",
-							"Accept-Language" => "ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4,de;q=0.2,fr;q=0.2"
+							"Accept-Language" => "ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4,de;q=0.2,fr;q=0.2",
+							:read_timeout => READ_TIMEOUT
 						}
 
 	def self.fetch_data_json(url)

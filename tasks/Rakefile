@@ -191,7 +191,7 @@ task :update_movies => :environment do |task|
 			items.each do |item|
 				c = get_movie(item["objectId"])
 				if c.nil?
-					puts "Error fetching movie #{item["objectId"]}...".red
+					puts "Error occured fetching movie #{item["objectId"]}...".red
 					next
 				end
 				# in case poster is changed
@@ -214,11 +214,11 @@ task :update_movies => :environment do |task|
 					end
 					#add to db
 					if c.valid? and c.valid_genre? and (not c.russian?)
-						puts "Movie #{c.movie_id} was added to database:".yellow
 						#download poster
 						KassaFetcher.download_poster(c, true) unless c.poster.nil?
-						puts c
 						c.save
+						puts "Movie #{c.movie_id} was added to database:".yellow
+						puts c
 						updated_count += 1
 					end
 				end
@@ -413,6 +413,10 @@ task :cleanup_screenings => :environment do |task|
 	screenings = Screening.active_all
 	puts "Starting cleanup of #{screenings.count} screenings...".cyan
 	screenings.find_each do |s|
+		if s.session_data.nil?
+			puts "Error occured fetching fetching session #{s.screening_id}".red
+			next
+		end
 		if (not s.exists?) or (not s.has_correct_title?) or (s.actual_date_time != s.date_time)
 			puts "\tScreening #{s.screening_id} was excluded from database:".yellow
 			puts s
@@ -684,17 +688,5 @@ end
 
 task :test => :environment do |task|
 	t = start_task(task)
-	#puts Screening.where("created_at > ? ", Time.now - 1.hour).count
-	#Screening.where("created_at > ? ", Time.now - 1.hour).each { |s| s.destroy }
-	#clear_cache_no_fill
-=begin
-	city_id = 2
-	date = Time.now.strip + 1.day
-	id = 56788
-	KassaParser.parse_sessions_HTML(KassaFetcher.fetch_sessions(id, date, city_id), date).each do |s|
-		#c = Screening.new(movie_id: id, cinema_id: s[:cinema], date_time: s[:time], screening_id: s[:session])
-		puts "#{s[:cinema]} #{s[:time]}"
-	end
-=end
 	stop_task(task, t)
 end

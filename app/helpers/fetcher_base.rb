@@ -11,6 +11,8 @@ module FetcherBase
 			# since we can have a gzipped response:
 			data = Zlib::GzipReader.new(StringIO.new(data)).read if res.content_encoding == ['gzip']
 			data
+		rescue Net::ReadTimeout
+			nil
 		rescue Exception => e	
 			nil
 		end
@@ -22,7 +24,13 @@ module FetcherBase
 			path = URI(url).path
 			# convert params hash to query string
 			params = URI.encode_www_form(params)
-			Net::HTTP.new(domain, 80).post(path, params, headers).body
+			http = Net::HTTP.new(domain, 80)
+			# get timeout value from headers hash and put it inside http object
+			http.read_timeout = headers[:read_timeout] if headers.has_key? :read_timeout
+			headers.tap { |h| h.delete(:read_timeout) } rescue nil
+			http.post(path, params, headers).body
+		rescue Net::ReadTimeout
+			nil
 		rescue Exception => e
 			nil
 		end
