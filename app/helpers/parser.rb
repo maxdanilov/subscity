@@ -149,6 +149,7 @@ class KassaParser
 
 		genres = nil if genres.to_s.strip.empty?
 		
+		return nil if title == nil
 		{   :title => title, 
 			:title_original => title_original, 
 			:genres => genres, 

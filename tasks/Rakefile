@@ -191,7 +191,7 @@ task :update_movies => :environment do |task|
 			items.each do |item|
 				c = get_movie(item["objectId"])
 				if c.nil?
-					puts "Error occured fetching movie #{item["objectId"]}...".red
+					puts "Error occured fetching/parsing movie #{item["objectId"]}...".red
 					next
 				end
 				# in case poster is changed
@@ -208,9 +208,12 @@ task :update_movies => :environment do |task|
 				else
 					#movie name can be just changed!
 					if c.in_db? and !Movie.are_equal?(Movie.get_movie(c.movie_id), c)
+						#drop it'sscreenings
+						puts "Movie's #{c.movie_id} screenings were destroyed due to movie title change".red
+						Movie.get_movie(c.movie_id).screenings.destroy_all rescue nil
 						#drop the old one
 						Movie.get_movie(c.movie_id).destroy
-						puts "Movie #{c.movie_id} was destroyed".red
+						puts "Movie #{c.movie_id} was destroyed due to title change".red
 					end
 					#add to db
 					if c.valid? and c.valid_genre? and (not c.russian?)
@@ -413,10 +416,16 @@ task :cleanup_screenings => :environment do |task|
 	screenings = Screening.active_all
 	puts "Starting cleanup of #{screenings.count} screenings...".cyan
 	screenings.find_each do |s|
+		if s.nil?
+			"invalid screening: #{s.id}"
+			next
+		end
+
 		if s.session_data.nil?
 			puts "Error occured fetching fetching session #{s.screening_id}".red
 			next
 		end
+		
 		if (not s.exists?) or (not s.has_correct_title?) or (s.actual_date_time != s.date_time)
 			puts "\tScreening #{s.screening_id} was excluded from database:".yellow
 			puts s
@@ -688,5 +697,7 @@ end
 
 task :test => :environment do |task|
 	t = start_task(task)
+	c = get_movie(58031)
+	puts c
 	stop_task(task, t)
 end

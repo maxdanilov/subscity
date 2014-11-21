@@ -18,7 +18,7 @@ span
 		span.movie-plates id="movie-plates"
 			- @movies_active.each do |movie|
 				div.text-center style="width:100%;margin-top:10px;"
-					= movie.created_at.strftime("%d.%m.%Y %H:%M")
+					= movie.created_at.strftime("%d.%m.%Y %H:%M") rescue "???"
 				- ratings = @ratings.find { |r| r.movie_id == movie.movie_id}
 				= partial 'partials/movie_plate', :locals => { :movie => movie, :ratings => ratings }
 	div.divider
@@ -69,7 +69,7 @@ span
 
 						td  
 							| [#{s.movie_id}] 
-							== link_to_movie(movie)
+							== link_to_movie(movie) rescue "???"
 						td.text-center
 							| [#{s.price_min} - #{s.price_max}]
 						td.text-center
