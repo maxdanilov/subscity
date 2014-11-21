@@ -90,8 +90,8 @@
 			puts "[KP&IMDB] Some tests failed".red
 			retval = false
 		end
-	rescue
-		retval = false
+	#rescue
+	#	retval = false
 	end
 	retval
 end
@@ -169,8 +169,8 @@ def test_kassa
 			puts "[Kassa] Some tests failed".red
 			retval = false
 		end		
-	rescue
-		retval = false
+	#rescue
+	#	retval = false
 	end
 
 	retval

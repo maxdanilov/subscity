@@ -1,5 +1,5 @@
 require 'open-uri'
-require 'hpricot'
+require 'nokogiri'
 
 class Kinopoisk
 	def self.fetch_rating_xml(id)
@@ -15,7 +15,7 @@ class Kinopoisk
 		url = "http://www.imdb.com/title/tt#{imdb_id.to_s.rjust(8, "0")}/"
 		error = false
 		begin
-			doc = Hpricot(open(url))
+			doc = Nokogiri::HTML(open(url))
 			rating = doc.at("[@itemprop=ratingValue]").inner_text.to_f rescue nil
 			votes = doc.at("[@itemprop=ratingCount]").inner_text.gsub(/[^0-9]/, '').to_i rescue nil
 		rescue
@@ -29,7 +29,7 @@ class Kinopoisk
 		data = Kinopoisk.fetch_rating_xml(kinopoisk_id);
 		error = false;
 		begin
-			doc = Hpricot(data)
+			doc = Nokogiri::XML(data)
 			rating = doc.at("kp_rating").inner_text.to_f
 			votes = doc.at("kp_rating")["num_vote"].to_i
 			#imdb_rating = doc.at("imdb_rating").inner_text.to_f rescue nil

@@ -13,7 +13,7 @@ module FetcherBase
 			data
 		rescue Net::ReadTimeout
 			nil
-		rescue Exception => e	
+		rescue => e	
 			nil
 		end
 	end
@@ -31,7 +31,7 @@ module FetcherBase
 			http.post(path, params, headers).body
 		rescue Net::ReadTimeout
 			nil
-		rescue Exception => e
+		rescue => e
 			nil
 		end
 	end

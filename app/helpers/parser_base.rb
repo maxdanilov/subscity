@@ -18,7 +18,7 @@ module ParserBase
 	def parse_json(data)
 		begin
 			return JSON.parse(data)
-		rescue Exception => e
+		rescue => e
 			{}
 		end
 	end
