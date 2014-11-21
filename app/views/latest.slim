@@ -25,18 +25,18 @@ span
 	span id="tab-screenings"
 		div.table-responsive
 			table.table.table-bordered.table-condensed.table-curved.table-striped.medium-font
-				tr
-					th.col-md-1.text-center
+				tr.font-bold
+					td.col-md-1.text-center
 						| Сеанс
-					th.col-md-1.text-center
+					td.col-md-1.text-center
 						| Дата
-					th.col-md-2.text-center
+					td.col-md-2.text-center
 						| Кинотеатр
-					th.col-md-2.text-center
+					td.col-md-2.text-center
 						| Фильм
-					th.col-md-1.text-center
+					td.col-md-1.text-center
 						| Цены
-					th.col-md-1.text-center
+					td.col-md-1.text-center
 						| Создано
 				- datePrev = 0
 				- @screenings.each do |s|
