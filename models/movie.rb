@@ -56,12 +56,20 @@ class Movie < ActiveRecord::Base
 		screenings.active.in_city(city_id).order(:date_time)
 	end
 
+	def get_screenings_all(city_id)
+		screenings.active_all.in_city(city_id).order(:date_time)
+	end
+
 	def get_next_screening(city_id)
 		get_screenings(city_id).first
 	end
 
-	def get_sorted_screenings(city_id)
-		screenings_all = get_screenings(city_id)
+	def get_sorted_screenings(city_id, active_all = false)
+		if active_all == true
+			screenings_all = get_screenings_all(city_id)
+		else
+			screenings_all = get_screenings(city_id)
+		end
 		cinemas_all = Cinema.all
 		r = Hash.new
 		# format is like this: r["2014-02-17"][cinema] -> array of screenings
@@ -78,16 +86,24 @@ class Movie < ActiveRecord::Base
 		r
 	end
 
-	def cinemas_count(city_id)
+	def cinemas_count(city_id, active_all = false)
 		#cinemas = Array.new
 		#screenings.active.in_city(city_id).each { |s| cinemas |= [s.cinema_id] }
 		#cinemas.size
 		#screenings.active.in_city(city_id).select(:cinema_id).uniq.count # slower
-		screenings.active.in_city(city_id).pluck(:cinema_id).uniq.count
+		if active_all == true
+			screenings.active_all.in_city(city_id).pluck(:cinema_id).uniq.count
+		else
+			screenings.active.in_city(city_id).pluck(:cinema_id).uniq.count
+		end
 	end
 
-	def screenings_count(city_id)
-		screenings.active.in_city(city_id).count
+	def screenings_count(city_id, active_all = false)
+		if active_all == true
+			return screenings.active_all.in_city(city_id).count
+		else
+			return screenings.active.in_city(city_id).count
+		end
 	end
 
 	def to_s

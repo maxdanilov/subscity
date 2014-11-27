@@ -30,14 +30,14 @@ time datetime = "#{format_date_url(@date)}"
 		table.table.table-bordered.table-condensed.table-curved.table-striped.table-no-inside-borders
 			- cinemas.each do |cinema, screenings|
 				tr.row-entity
-					td.col-sm-4.col-xs-10
+					td.col-sm-4.col-xs-11
 						div.cinema-name
 							= link_to_cinema(cinema)
 						- unless cinema.metro.to_s.empty?
 							span.medium-font.location
 								| м. 
 								= cinema.metro
-					td.col-sm-8.col-xs-2
+					td.col-sm-8.col-xs-1
 						table
 							tbody
 								- screenings.to_a.each_slice(10).to_a.each do |screening_set|	

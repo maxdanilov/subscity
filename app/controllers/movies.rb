@@ -109,16 +109,21 @@ Subscity::App.controllers :movies do
             case content_type
                 when :html
                     cache(request.cache_key, :expires => CACHE_TTL) do
+                        show_all_screenings = SETTINGS[:movie_show_all_screenings]
                         @movie = Movie.find(params[:id])
                         @ratings = Rating.where(:movie_id => @movie.movie_id).first rescue nil
                         @city = City.get_by_domain(request.subdomains.first)
-                        @screenings = @movie.get_sorted_screenings(@city.city_id) # @movie.screenings
+                        @screenings = @movie.get_sorted_screenings(@city.city_id, show_all_screenings) # @movie.screenings
                         @cinemas = Cinema.all
 
-                        @screening_count = @movie.screenings_count(@city.city_id)
-                        @cinemas_count = @movie.cinemas_count(@city.city_id)
+                        @screening_count = @movie.screenings_count(@city.city_id, show_all_screenings)
+                        @cinemas_count = @movie.cinemas_count(@city.city_id, show_all_screenings)
 
-                        screenings_flat = @movie.screenings.active
+                        if show_all_screenings
+                            screenings_flat = @movie.get_screenings @city.city_id #@movie.screenings.active
+                        else
+                            screenings_flat = @movie.get_screenings_all @city.city_id
+                        end
                         @price_min = screenings_flat.map{ |s| s.price_min}.compact.min rescue nil
                         @price_max = screenings_flat.map{ |s| s.price_max}.compact.max rescue nil
                         @title = @movie.title

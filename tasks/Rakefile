@@ -99,7 +99,8 @@ task :update_screenings_movie, [:id] => :environment do |task, args|
 	movie_not_in_base = Movie.where(:movie_id => id).first.nil?
 	unless id == 0 or movie_not_in_base
 		puts "Fetching screenings for movie: ".green
-		puts Movie.where(:movie_id => id).first
+		m = Movie.where(:movie_id => id).first
+		puts m
 		# iterate through cities
 		City.active.pluck(:city_id).each do |city_id|
 			# first we parse all the available dates for given movie
@@ -107,7 +108,8 @@ task :update_screenings_movie, [:id] => :environment do |task, args|
 			# then iterate through them to fetch all sessions 
 			dates.each_with_index do |date, index|
 				#puts "Diff: #{difference_in_days(date, Time.now.strip)}"
-				if (difference_in_days(date, Time.now.strip) > SETTINGS[:screenings_fetch_span])				
+				# if the movie has some screenings added, we can add new ones no matter how distant in the future they are
+				if (m.get_screenings_all(city_id).count == 0 and difference_in_days(date, Time.now.strip) > SETTINGS[:screenings_fetch_span])				
 					puts "-> [#{index + 1} / #{dates.size}] Skipping screenings for #{date}"
 					next
 				end
@@ -503,7 +505,7 @@ task :update_movie_info, [:id, :kinopoisk_id, :imdb_id, :trailers] => :environme
 			puts "Proposed kinopoisk title: #{k.title} [#{k.title_en}]".cyan 
 			begin
 				m.update_attribute(:kinopoisk_id, kinopoisk_id)
-				m.update_attribute(:description, k.description) if (not k.description.to_s.empty?) and (not m.description.to_s.empty?)
+				m.update_attribute(:description, k.description) if (not k.description.to_s.empty?)# and (not m.description.to_s.empty?)
 				m.update_attribute(:title_original, k.title_en) unless k.title_en.to_s.empty?
 				m.update_attribute(:director, k.directors.join(", ")) unless k.directors.to_s.empty?
 				m.update_attribute(:cast, k.actors.join(", ")) unless k.actors.to_s.empty?
@@ -697,7 +699,5 @@ end
 
 task :test => :environment do |task|
 	t = start_task(task)
-	c = get_movie(58031)
-	puts c
 	stop_task(task, t)
 end

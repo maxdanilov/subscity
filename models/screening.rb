@@ -22,8 +22,12 @@ class Screening < ActiveRecord::Base
 
 	scope :in_city, ->(city_id) { joins(:cinema).where("city_id = ?", city_id) }
 
-	def self.get_sorted_screenings(date, city_id)
-		screenings_all = Screening.active.on_date(date).in_city(city_id).order(:date_time)
+	def self.get_sorted_screenings(date, city_id, active_all = false)
+		if active_all == true
+			screenings_all = Screening.active_all.on_date(date).in_city(city_id).order(:date_time)
+		else
+			screenings_all = Screening.active.on_date(date).in_city(city_id).order(:date_time)
+		end
 		cinemas_all = Cinema.all
 		movies_all = Movie.all.select { |m| not m.russian? }
 		r = Hash.new

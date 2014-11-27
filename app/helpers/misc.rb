@@ -67,6 +67,7 @@ def language(lang)
 			'Bulgarian' => 'болгарский',
 			'Catalan' => 'каталанский',
 			'Chinese' => 'китайский',
+			'Croatian' => 'хорватский',
 			'Creole' => 'креольский',
 			'Czech' => 'чешский',
 			'Danish' => 'датский',

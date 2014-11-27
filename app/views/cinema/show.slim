@@ -67,7 +67,7 @@ table.table.table-condensed.table-curved.table-striped.table-bordered
 		table.table.table-bordered.table-condensed.table-curved.table-striped.table-no-inside-borders
 			- movies.each do |movie, screenings|
 				tr.row-entity
-					td.col-sm-5.col-xs-10
+					td.col-sm-5.col-xs-11
 						div.movie-title							
 							== link_to_movie(movie)
 							|  
@@ -80,7 +80,7 @@ table.table.table-condensed.table-curved.table-striped.table-bordered
 								| #{movie.age_restriction}+
 						- unless movie.title_original.nil?
 							div.movie-title-original.medium-font = format_title(movie.title_original)
-					td.col-sm-7.col-xs-2
+					td.col-sm-7.col-xs-1
 						table
 							- screenings.to_a.each_slice(10).to_a.each do |screening_set|	
 								tr

@@ -11,8 +11,12 @@ class Cinema < ActiveRecord::Base
 		@forman_url ||= format_cinema_url(self)
 	end
 
-	def get_sorted_screenings
-		screenings_all = Screening.active.where(:cinema_id => cinema_id).order(:date_time)
+	def get_sorted_screenings(active_all = false)
+		if active_all == true
+			screenings_all = Screening.active_all.where(:cinema_id => cinema_id).order(:date_time)
+		else
+			screenings_all = Screening.active.where(:cinema_id => cinema_id).order(:date_time)
+		end
 		movies_all = Movie.all.select { |m| not m.russian? }
 		r = Hash.new
 		# format is like this: r["2014-02-17"][cinema] -> array of screenings
