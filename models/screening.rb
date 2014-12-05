@@ -16,7 +16,7 @@ class Screening < ActiveRecord::Base
 	scope :on_date, ->(date) { where(:date_time => time_range_on_day(date)) }
 	scope :no_prices, -> { where(:price_max => nil) }
 
-	scope :active, -> { where('date_time > ? AND date_time < ?', Time.now, Time.now + SETTINGS[:screenings_show_span].days) }
+	scope :active, -> { where('date_time > ? AND date_time < ?', Time.now, Time.now.strip + 1.day + 2.hours + SETTINGS[:screenings_show_span].days) }
 	scope :active_all, -> { where('date_time > ?', Time.now) }
 	scope :inactive, -> { where('date_time <= ?', Time.now) }
 
