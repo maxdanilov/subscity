@@ -7,7 +7,7 @@ h1.text-center.capitalize.like-navbar
 	|  
 	- title = @movie.title
 	- unless @movie.title_original.to_s.empty?
-		- title += " (#{@movie.title_original})"
+		- title += "<br>(#{@movie.title_original})"
 	== link_to_movie @movie, title
 	div.divider
 	= image_tag poster_file, :class => 'poster'
@@ -50,7 +50,7 @@ form method="post"
 			/ Poster
 			tr.movie-edit
 				td.col-xs-3.text-right
-					label for="movie_poster" Новый постер (url)
+					label for="movie_poster" Новый постер (url) <br> (delete для удаления)
 				td.col-xs-9
 					input id="movie_poster" name="new_poster" type="text" value = ""
 					/| #{@movie.poster}
@@ -127,7 +127,10 @@ form method="post"
 			/ Kinopoisk
 			tr.movie-edit
 				td.col-xs-3.text-right
-					= link_to "http://kinopoisk.ru/film/#{@movie.kinopoisk_id}/", :class => "underdashed", :target => "_blank"
+					- if @movie.kinopoisk_id.to_i != 0
+						= link_to "http://kinopoisk.ru/film/#{@movie.kinopoisk_id}/", :class => "underdashed", :target => "_blank"
+							| Кинопоиск
+					- else
 						| Кинопоиск
 				td.col-xs-9
 					input id="movie_kinopoisk" name="kinopoisk_id" type="text" value = "#{@movie.kinopoisk_id}"
@@ -135,7 +138,10 @@ form method="post"
 			/ IMDB
 			tr.movie-edit
 				td.col-xs-3.text-right
-					= link_to "http://www.imdb.com/title/tt#{@movie.imdb_id.to_s.rjust(8, "0")}/", :class => "underdashed", :target => "_blank"
+					- if @movie.imdb_id.to_i != 0
+						= link_to "http://www.imdb.com/title/tt#{@movie.imdb_id.to_s.rjust(8, "0")}/", :class => "underdashed", :target => "_blank"
+							| IMDB
+					- else
 						| IMDB
 				td.col-xs-9
 					input id="movie_imdb" name="imdb_id" type="text" value = "#{@movie.imdb_id}"
@@ -143,7 +149,7 @@ form method="post"
 			/ Trailers
 			tr.movie-edit
 				td.col-xs-3.text-right
-					label for="movie_trailer" Трейлеры
+					label for="movie_trailer" Трейлеры <br> (оригинальный*русский)
 				td.col-xs-9
 					input id="movie_trailer" name="trailer" type="text" value = "#{@movie.trailer}"
 
