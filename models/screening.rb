@@ -63,6 +63,10 @@ class Screening < ActiveRecord::Base
 		title = KassaParser.screening_title(session_data)
 	end
 
+	def has_subs?
+		KassaParser.screening_has_subs?(session_data)
+	end
+
 	def has_correct_title?
 		title = actual_title
 		(movie.title.include? title or title.include? movie.title) rescue false

@@ -147,6 +147,18 @@ form method="post"
 				td.col-xs-9
 					input id="movie_trailer" name="trailer" type="text" value = "#{@movie.trailer}"
 
+			/ Fetch Mode
+							/select.movie size="1" name="movie[]"
+				    /<option selected value="-1"> -</option>
+			tr.movie-edit
+				td.col-xs-3.text-right
+					label for="movie_fetch_mode" Добавлять сеансы
+				td.col-xs-9
+					select size="1" name="fetch_mode" id="movie_fetch_mode"
+						option value="#{FETCH_MODE[:movie][:default]}" 	selected=("selected" if @movie.fetch_mode == FETCH_MODE[:movie][:default]) 	по умолчанию
+						option value="#{FETCH_MODE[:movie][:all]}" 		selected=("selected" if @movie.fetch_mode == FETCH_MODE[:movie][:all]) 		все
+						option value="#{FETCH_MODE[:movie][:subs]}" 	selected=("selected" if @movie.fetch_mode == FETCH_MODE[:movie][:subs]) 	только с субтитрами
+					
 			/ Created at
 			tr.movie-edit
 				td.col-xs-3.text-right

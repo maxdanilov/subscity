@@ -66,6 +66,7 @@ ActiveRecord::Schema.define(:version => 7) do
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
     t.string   "trailer"
+    t.integer  "fetch_mode"
   end
 
   create_table "screenings", :force => true do |t|

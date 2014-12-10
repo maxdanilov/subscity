@@ -45,7 +45,7 @@ class KassaParser
 		end
 	end
 
-	def self.parse_sessions_HTML(data, date, cinema_id = 0)
+	def self.parse_sessions_HTML(data, date, cinema_id = 0, movie_id = 0)
 		doc = Nokogiri::HTML(data)
 		results = []
 		begin
@@ -55,7 +55,11 @@ class KassaParser
 				session_cinema_id = cinema_id.to_i if session_cinema_id.to_i == 0
 				session_cinema = Cinema.where(:cinema_id => session_cinema_id).first
 				fetch_all = false
-				fetch_all = session_cinema.fetch_all unless session_cinema.nil?			
+				fetch_all = session_cinema.fetch_all unless session_cinema.nil?		
+				
+				fetch_mode_movie = Movie.get_movie(movie_id).fetch_mode rescue FETCH_MODE[:movie][:default]
+				fetch_all = true if fetch_mode_movie == FETCH_MODE[:movie][:all]
+
 				next if (not el.parent.parent.search(".caption").inner_html.include? HAS_SUBS) and (not fetch_all) 				
 														 # skip headlines of non-subs sessions
 														 # but download all screenings for given cinemas
@@ -73,7 +77,7 @@ class KassaParser
 					session_time = parse_time( a.inner_html, date)
 					# the night screenings are technically on the next day!
 					session_time += 1.day if session_time.hour.between? 0, 5
-					session_movie = get_movie_id( el.at("a")[:href] ) rescue nil
+					session_movie = get_movie_id( el.at("a")[:href] ) rescue nil					
 					results << { session: session_id , time: session_time, cinema: session_cinema_id, movie: session_movie }
 				end
 			end
@@ -204,6 +208,13 @@ class KassaParser
 		doc = Nokogiri::HTML(data) rescue nil
 		return false if doc.nil?
 		((doc.at("title").inner_text rescue nil) =~ NOT_FOUND_SCREENING).nil?
+	end
+
+	def self.screening_has_subs?(data)
+		doc = Nokogiri::HTML(data) rescue nil
+		return false if doc.nil?
+		title = doc.at("title").inner_text rescue ""
+		title.include? HAS_SUBS
 	end
 
 	def self.screening_title(data)

@@ -13,3 +13,9 @@ COOKIES_TTL = 86400 * 30 # in seconds
 CACHE_TTL = 1 * 3600 # in seconds
 CACHE_TTL_LONG = 2 * 3600
 LOG_FILE = File.dirname(__FILE__) + "/../tmp/performance.txt"
+
+FETCH_MODE_CINEMA = { :default => 0, :all => 1 }
+FETCH_MODE_MOVIE  = { :default => 0, :all => 1, :subs => 2 }	# default - fetch subbed screenings for not fetch_all cinemas and all for fetch_all cinemas
+																# all - fetch all screenings
+																# subs - fetch subbed only, no matter if the cinema is fetch_all
+FETCH_MODE = { :cinema => FETCH_MODE_CINEMA, :movie => FETCH_MODE_MOVIE }																
