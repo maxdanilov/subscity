@@ -36,6 +36,10 @@ class Movie < ActiveRecord::Base
 		return false
 	end
 
+	def hidden?
+		hide
+	end
+
 	def in_db?
 		Movie.where("movie_id = #{movie_id}").size > 0
 	end

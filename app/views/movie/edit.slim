@@ -93,7 +93,7 @@ form method="post"
 			/ Languages
 			tr.movie-edit
 				td.col-xs-3.text-right
-					label for="movie_language" Язык
+					label for="movie_language" Язык (англ.)
 				td.col-xs-9
 					input id="movie_language" name="languages" type="text" value = "#{@movie.languages}"
 
@@ -148,8 +148,6 @@ form method="post"
 					input id="movie_trailer" name="trailer" type="text" value = "#{@movie.trailer}"
 
 			/ Fetch Mode
-							/select.movie size="1" name="movie[]"
-				    /<option selected value="-1"> -</option>
 			tr.movie-edit
 				td.col-xs-3.text-right
 					label for="movie_fetch_mode" Добавлять сеансы
@@ -159,6 +157,15 @@ form method="post"
 						option value="#{FETCH_MODE[:movie][:all]}" 		selected=("selected" if @movie.fetch_mode == FETCH_MODE[:movie][:all]) 		все
 						option value="#{FETCH_MODE[:movie][:subs]}" 	selected=("selected" if @movie.fetch_mode == FETCH_MODE[:movie][:subs]) 	только с субтитрами
 					
+			/ Hide
+			tr.movie-edit
+				td.col-xs-3.text-right
+					label for="movie_hide" Скрыть фильм
+				td.col-xs-9.text-left
+					input name="hide" type="radio" value="true" checked=(@movie.hide == true ? 'checked' : false )  да 
+    				br
+    				input name="hide" type="radio" value="false" checked=(@movie.hide != true ? 'checked' : false )  нет 
+
 			/ Created at
 			tr.movie-edit
 				td.col-xs-3.text-right

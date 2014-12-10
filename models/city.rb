@@ -39,7 +39,7 @@ class City < ActiveRecord::Base
 	def get_movies
 		#Movie.joins(:screenings).merge(Screening.active.in_city(city_id)).uniq.select { |m| not m.russian? }
 		# this is faster (but 2 requests):
-		Movie.where(:movie_id => Screening.active.in_city(city_id).pluck(:movie_id).uniq).select { |m| not m.russian? }
+		Movie.where(:movie_id => Screening.active.in_city(city_id).pluck(:movie_id).uniq).select { |m| (!m.hidden?) and (!m.russian?) }
 	end
 
 	def get_cinemas
