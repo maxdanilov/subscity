@@ -14,6 +14,7 @@ time datetime = "#{format_date_url(@date)}"
 
 	- @screenings.each do |movie, cinemas|
 		h3.header-day.text-center 
+			- next if movie.hidden? or movie.russian?
 			== link_to_movie(movie)
 			|  
 			- unless movie.languages.to_s.empty?

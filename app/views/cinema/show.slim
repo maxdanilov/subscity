@@ -68,6 +68,7 @@ table.table.table-condensed.table-curved.table-striped.table-bordered
 			= link_to_date(day)
 		table.table.table-bordered.table-condensed.table-curved.table-striped.table-no-inside-borders
 			- movies.each do |movie, screenings|
+				- next if movie.hidden? or movie.russian?
 				tr.row-entity
 					td.col-sm-5.col-xs-11
 						div.movie-title							

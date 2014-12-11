@@ -92,6 +92,7 @@ def language(lang)
 			'Korean' => 'корейский',
 			'Latvian' => 'латышский',
 			'Ladino' => 'ладино',
+			'Latin' => 'латинский',
 			'Lingala' => 'лингала',
 			'Lithuanian' => 'литовский',
 			'Luxembourgish' => 'люксембуржский',
