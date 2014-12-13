@@ -5,13 +5,13 @@ def parse_date(date)
 end
 
 def time_range_on_day(time)
-	shift = 2.hours
+	shift = SETTINGS[:new_day_starts_at]
 	(time.strip + shift ... (time.next_day + 1.hour).strip + shift) #fuckup due to daylight savings
 end
 
 def date_for_screening(time)
-	shift_hours = 2 
-	time.hour >= shift_hours ? time.strip : time.previous_day.strip
+	shift = SETTINGS[:new_day_starts_at]
+	time.hour.hours + time.min.minutes >= shift ? time.strip : time.previous_day.strip
 end
 
 def show_time(time)
@@ -25,8 +25,6 @@ end
 
 def show_date(date, with_day_of_week = true)
 	date = date.to_time
-	#date.to_time.strftime("%^a, %d %B %Y")
-	#weekdays = ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС']
 	weekdays = ['понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота', 'воскресенье']
 	months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
 	return date.day.to_s + " " + months[date.month - 1] if with_day_of_week == false

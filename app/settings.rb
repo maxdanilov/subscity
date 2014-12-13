@@ -1,12 +1,13 @@
 DOMAIN_NAME = 'subscity.ru'
 
 SETTINGS =  {
-            	:screenings_show_span => 8,    		# in days
-            	:screenings_fetch_span => 8,   		# in days
-            	:movie_new_span => 7,				# in days
-            	:sell_tickets => false,          	# sell tix within site or redirect to kassa
-            	                                	# if sold within, 10% comission applied
-            	:movie_show_all_screenings => true 	# not only active, but active_all
+            	:screenings_show_span => 8,    				# in days
+            	:screenings_fetch_span => 8,   				# in days
+            	:movie_new_span => 7,						# in days
+            	:sell_tickets => false,          			# sell tix within site or redirect to kassa
+            	                                			# if sold within, 10% comission applied
+            	:movie_show_all_screenings => true,			# not only active, but active_all
+            	:new_day_starts_at => 2.hours + 30.minutes 	# new day begins at 02:30, not 00:00
         	}   
 
 COOKIES_TTL = 86400 * 30 # in seconds
