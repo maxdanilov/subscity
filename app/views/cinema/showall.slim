@@ -32,13 +32,13 @@ h1.text-center.capitalize.like-navbar
 									- movies.each do |movie, screenings_count|
 										tr
 											td
-												div.big-font
+												div.movie-title
 													== link_to_movie(movie)
 													- unless movie.languages.to_s.empty?
 														|  
 														span.label.label-bg.label-default.age-restriction 
 															span.fa.fa-volume-up.language-icon
-															/|  #{movie.languages.split(", ").first.upcase[0..2] rescue nil}
+															
 															|  #{language(movie.languages.split(", ").first) rescue nil}
 														|  
 													|  
@@ -46,4 +46,4 @@ h1.text-center.capitalize.like-navbar
 													|  
 													- unless movie.title_original.to_s.empty?
 														br
-														span.movie-title-original.small-font =format_title(movie.title_original)
+														span.movie-title-original.normal-font =format_title(movie.title_original)

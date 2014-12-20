@@ -120,6 +120,7 @@ html
 											= link_to "Москва", "#{'http://msk.' + request.main_domain}#{request.path}"
 										li
 											= link_to "Санкт-Петербург", "#{'http://spb.' + request.main_domain}#{request.path}"
+			= partial 'partials/undernavbar'
 			= partial 'partials/about' if @show_about == true
 			= yield
 

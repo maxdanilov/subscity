@@ -4,6 +4,6 @@ javascript:
 	var mq = window.matchMedia( "(min-width: 1023px)" );
 	if (mq.matches)				
 		$.getScript("http://vk.com/js/api/openapi.js").done(function( script, textStatus ) { 
-		VK.Widgets.Group("vk_groups", {mode: 2, wide: 1, width: "595", height: "300px", color1: "FFFFFFF", color2: "3C5A72", color3: "151418"}, #{vk_id});
+		VK.Widgets.Group("vk_groups", {mode: 2, wide: 1, width: "575", height: "300px", color1: "FFFFFFF", color2: "3C5A72", color3: "151418"}, #{vk_id});
 		setTimeout($("td.about.right").removeClass("hidden"), 1);
 		});		

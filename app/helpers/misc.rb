@@ -106,6 +106,7 @@ def language(lang)
 			'Russian' => 'русский',
 			'Scottish' => 'шотландский',
 			'Serbian' => 'сербский',
+			'Sicilian' => 'сицилийский',
 			'Slovenian' => 'словенский',
 			'Slovakian' => 'словацкий',
 			'Somali' => 'сомалийский',
@@ -203,6 +204,22 @@ end
 def hyphenate(text, lang)
 	h = Text::Hyphen.new(:language => lang.to_s, :left => 4, :right => 4)
 	text.split(" ").collect! { |w| h.visualise(w, "&shy;") }.join(" ")
+end
+
+def social_urls(city)
+	vk_public = "subscity_msk"
+	vk_public = "subscity_spb" if city.nil? or city.domain == "spb"
+
+	twitter = vk_public
+
+	facebook = "pages/SubsCity-%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0/615385045256506"
+	facebook = "pages/SubsCity-%D0%A1%D0%B0%D0%BD%D0%BA%D1%82-%D0%9F%D0%B5%D1%82%D0%B5%D1%80%D0%B1%D1%83%D1%80%D0%B3/1530087157230959" if city.nil? or city.domain == "spb"
+	
+	vk_url = "http://vk.com/#{vk_public}"
+	twitter_url = "http://twitter.com/#{twitter}"
+	facebook_url = "http://facebook.com/#{facebook}"
+
+	{:vk => vk_url, :fb => facebook_url, :twitter => twitter_url}
 end
 
 class String
