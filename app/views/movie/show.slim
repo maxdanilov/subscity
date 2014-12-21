@@ -24,8 +24,6 @@ table.table.table-bordered.table-condensed.table-striped.movie-info.table-curved
 		td.visible-xs colspan = "2"
 			span.movie-title 
 				= movie.title 
-				/- if admin?
-				/	= link_to " [e]", url_for(:movie_edit, :id => params[:id]), :class => "underdashed"
 				- unless movie.year.to_i == 0
 					|  (#{movie.year})
 			- unless movie.title_original.nil?
@@ -34,7 +32,7 @@ table.table.table-bordered.table-condensed.table-striped.movie-info.table-curved
 		td.text-center rowspan = "#{row_count}"
 			- if movie.poster_exists?
 				- poster_file = "posters/#{movie.movie_id}.jpg?#{movie.timestamp_poster}"
-			= image_tag poster_file, :class => 'poster'
+			= image_tag poster_file, :class => 'poster', :alt => "постер \"#{movie.title}\"", :title => "постер \"#{movie.title}\""
 			- unless @screening_count == 0
 				div.label.label-bg.label-default.normal-font.label-screenings-count.hidden-xs
 					span.fa.fa-film
@@ -60,8 +58,6 @@ table.table.table-bordered.table-condensed.table-striped.movie-info.table-curved
 		td.movie-title.col-xs-12.hidden-xs colspan = "1" 
 			span.movie-title 
 				= movie.title 
-				/- if admin?
-				/	= link_to " [e]", url_for(:movie_edit, :id => params[:id]), :class => "underdashed"
 				- unless movie.year.to_i == 0
 					|  (#{movie.year})
 				- unless movie.languages.to_s.empty?

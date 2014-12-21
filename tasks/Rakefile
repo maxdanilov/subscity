@@ -425,7 +425,7 @@ task :cleanup_screenings => :environment do |task|
 		end
 
 		if s.session_data.nil?
-			puts "Error occured fetching fetching session #{s.screening_id}".red
+			puts "Error occured fetching session #{s.screening_id}".red
 			next
 		end
 

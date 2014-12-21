@@ -54,7 +54,7 @@ every :day, :at => ['10:00', '14:00', '22:00'] do
 end
 
 #screenings
-every :day, :at => ['07:15', '11:20', '14:50', '17:40', '20:40'] do
+every :day, :at => ['07:05', '11:20', '14:50', '17:40', '20:40', '00:20'] do
 	my_rake "update_screenings", :output => 'logs/cron_screenings.log'
 end
 
