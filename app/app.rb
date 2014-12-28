@@ -43,7 +43,7 @@ module Subscity
 	            @cinema_count = @city.get_cinema_count
 	            @screening_counts = Hash.new(0)
 	            @next_screenings = {}
-	            @screenings_all = Screening.active.in_city(@city.city_id).order(:date_time).select([:movie_id, :date_time]).to_a
+	            @screenings_all = Screening.active_all.in_city(@city.city_id).order(:date_time).select([:movie_id, :date_time]).to_a
 	            @screenings_all.each do |s|
 	                movie = @movies.find { |m| m.movie_id == s.movie_id}
 	                next if movie.nil?
