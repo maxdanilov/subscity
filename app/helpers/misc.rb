@@ -18,7 +18,7 @@ end
 
 def format_price(price)
 	unless price.to_s.empty?
-		price.to_s + " р."
+		price.to_s
 	else
 		"."
 	end
@@ -26,9 +26,9 @@ end
 
 def format_price_range(min, max)
 	if min.to_i != max.to_i
-		"от #{min.to_i} до #{max.to_i} руб."
+		"от #{min.to_i} до #{max.to_i}"
 	else
-		"#{min.to_i} руб."
+		"#{min.to_i}"
 	end
 end
 
@@ -220,12 +220,4 @@ def social_urls(city)
 	facebook_url = "http://facebook.com/#{facebook}"
 
 	{:vk => vk_url, :fb => facebook_url, :twitter => twitter_url}
-end
-
-class String
-	def is_russian?
-		letters = ('а'..'я').to_a + ('А'..'Я').to_a
-		letters.each { |l| return true if self.include? l }
-		false
-	end
 end

@@ -8,11 +8,12 @@
 | http://#{@city.domain}.#{domain_name}#{url(:movies, :index, @movie.format_url)}
 | #{newline * 2}
 | #{@movie.get_description}
-| #{newline * 2}
+| #{newline}
 - unless @ratings.nil?
-	- if @ratings[:imdb_rating].to_i != 0
+	- if @ratings[:imdb_rating].to_f >= 7.0
+		| #{newline}
 		| IMDB: [#{@ratings[:imdb_rating].round(1)}]
-	- if @ratings[:kinopoisk_rating].to_i != 0
+	- if @ratings[:kinopoisk_rating].to_f >= 7.0
 		| #{newline}
 		| КиноПоиск: [#{@ratings[:kinopoisk_rating].round(1)}]
 
@@ -25,7 +26,14 @@
 	| #{newline}
 - unless @movie.languages.to_s.empty?
 	| Язык: #{languages_format(@movie.languages).mb_chars.downcase.to_s}
+	| #{newline}	
+- unless @movie.director.to_s.empty?
 	| #{newline}
+	| Режиссер: #{@movie.director}
+	| #{newline}
+- unless @movie.cast.to_s.empty?
+	| В ролях: #{@movie.cast}
+	| #{newline}	
 | #{newline}
 - screenings = @movie.screenings.active_all.in_city(@city.city_id)
 - count = screenings.count
@@ -33,15 +41,17 @@
 - screenings.each {|s| dates << s.date}
 - dates.uniq!
 - if count > 0
-	- if count > 1
-		- if dates.count > 1
-			| В прокате с #{show_date(screenings.first.date, false) }
-		- else
-			| В прокате один день - #{show_date(screenings.first.date, false) }
-	- else count == 1
-		| Единственный показ - #{show_date(screenings.first.date, false) } 
-		| в кинотеатре "#{Cinema.where(:cinema_id => screenings.first.cinema_id).first.name}"
-	| #{newline * 2}
+	| В прокате с #{show_date(screenings.first.date, false) }
+/	- if count > 1
+/		- if dates.count > 1
+/			| В прокате с #{show_date(screenings.first.date, false) }
+/		- else
+/			| В прокате один день - #{show_date(screenings.first.date, false) }
+/	- else count == 1
+/		| Единственный показ - #{show_date(screenings.first.date, false) } 
+/		| в кинотеатре "#{Cinema.where(:cinema_id => screenings.first.cinema_id).first.name}"
+
+| #{newline * 2}
 
 | Расписание сеансов на языке оригинала и билеты:
 | #{newline}

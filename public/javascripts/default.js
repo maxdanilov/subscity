@@ -16,7 +16,7 @@ $(function() {
 		if ( val == PRICE_MAX)
 			return "любая";
 		else
-			return val + " руб."
+			return val + " <span class='fa fa-rub'></span>";//" руб."
 	}
 	
 	function hide(obj, speed)
@@ -97,10 +97,10 @@ $(function() {
 		max: PRICE_MAX,
 		step: PRICE_STEP,
 		slide: function( event, ui ) {
-			$("#ticket-price").text(format_price( ui.value));
+			$("#ticket-price").html(format_price( ui.value));
 		},
 		change: function( event, ui ) {
-			$("#ticket-price").text(format_price( ui.value));
+			$("#ticket-price").html(format_price( ui.value));
 			priceSliderValuePrev = priceSliderValue;
 			priceSliderValue = ui.value;
 			if (priceSliderValuePrev != priceSliderValue)

@@ -31,9 +31,9 @@ class Movie < ActiveRecord::Base
 	end
 
 	def russian?
-		return true if country == 'Россия'
-		return true if (languages == 'Russian' or languages == 'русский')
-		return false
+		return true if ['Россия', 'СССР'].include? country
+		return true if ['Russian', 'русский'].include? languages
+		false
 	end
 
 	def hidden?
@@ -51,10 +51,6 @@ class Movie < ActiveRecord::Base
 	def self.get_movie(id)
 		Movie.where("movie_id = #{id}").first
 	end
-
-	#def self.upd_thumbnail(url)
-	#	url.gsub("48x72", "144x212") # too small posters in mobile version
-	#end
 
 	def get_screenings(city_id)
 		screenings.active.in_city(city_id).order(:date_time)
