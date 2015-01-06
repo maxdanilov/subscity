@@ -36,6 +36,11 @@ class Movie < ActiveRecord::Base
 		false
 	end
 
+	def old?
+		return true if year.to_i != 0 and year.to_i < 1985
+		false
+	end
+
 	def hidden?
 		hide
 	end

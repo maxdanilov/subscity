@@ -219,7 +219,7 @@ task :update_movies => :environment do |task|
 						puts "Movie #{c.movie_id} was destroyed due to title change".red
 					end
 					#add to db
-					if c.valid? and c.valid_genre? and (not c.russian?)
+					if c.valid? and c.valid_genre? and (not c.russian?) and (not c.old?)
 						#download poster
 						KassaFetcher.download_poster(c, true) unless c.poster.nil?
 						c.save
@@ -282,7 +282,7 @@ task :update_movies_from_cinemas => :environment do |task|
 			next
 		end
 
-		if c.valid? and c.valid_genre? and (not c.russian?)		
+		if c.valid? and c.valid_genre? and (not c.russian?) and (not c.old?)
 			KassaFetcher.download_poster(c, true) unless c.poster.nil?
 			c.save
 			puts "Movie #{c.movie_id} was added to database:".yellow

@@ -4,7 +4,7 @@ Subscity::App.controllers :dates do
             unless @date.nil?
                 cache(request.cache_key, :expires => CACHE_TTL) do
                     @city = City.get_by_domain(request.subdomains.first)
-                    @screenings = Screening.get_sorted_screenings(@date, @city.city_id)
+                    @screenings = Screening.get_sorted_screenings(@date, @city.city_id, SETTINGS[:movie_show_all_screenings])
                     @movie = Movie.active
                     @cinemas = Cinema.all
                     @title = show_date(@date)

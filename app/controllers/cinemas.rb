@@ -13,7 +13,7 @@ Subscity::App.controllers :cinemas do
             cache(request.cache_key, :expires => CACHE_TTL) do
                 @cinema = Cinema.find(params[:id])
                 @city = City.get_by_domain(request.subdomains.first)
-                @screenings = @cinema.get_sorted_screenings
+                @screenings = @cinema.get_sorted_screenings(SETTINGS[:movie_show_all_screenings])
                 @movies = Movie.all
                 screenings_flat = @cinema.screenings.active
                 @price_min = screenings_flat.map {|s| s.price_min}.compact.min rescue nil
