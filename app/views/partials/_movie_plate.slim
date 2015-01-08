@@ -24,8 +24,9 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 							span.fa.fa-volume-up.language-icon
 							|  #{language(movie.languages.split(", ").first) rescue nil}
 						|  
-					div.label.label-bg.label-default.age-restriction 
-						| #{movie.age_restriction}+
+					- unless movie.age_restriction.nil?
+						div.label.label-bg.label-default.age-restriction 
+							| #{movie.age_restriction}+
 					- if defined? @new_movies and @new_movies.include? movie
 						|  
 						span.badge.new новый 
@@ -39,10 +40,6 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 
 				div.movie-screenings.hidden-xs
 					div.movie-screenings-count
-						/- if defined? @screening_counts
-						/	span.label.label-bg.label-default.normal-font
-						/		span.fa.fa-film  
-						/		|  #{format_screenings_count(@screening_counts[movie])} 
 					div.movie-next-screening
 						- if defined? @next_screenings[movie]			
 							- if defined? @screening_counts[movie] and @screening_counts[movie] == 1
@@ -75,11 +72,6 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 		table.table.table-bordered.table-condensed.table-striped.movie-description.hidden-xs.hidden
 			tbody	
 				tr.table-body
-					/- unless movie.genres.to_s.empty?
-					/	td.col-sm-4.vertical-middle
-					/		div
-					/			i.fa.fa-bookmark
-					/			|  #{movie.genres}
 					- unless movie.director.to_s.empty?
 						td.col-sm-4.vertical-middle
 							div

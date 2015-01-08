@@ -67,7 +67,8 @@ table.table.table-bordered.table-condensed.table-striped.movie-info.table-curved
 						|  #{language(movie.languages.split(", ").first) rescue nil}
 					|  
 				|  
-				<span class="label label-bg label-default age-restriction">#{movie.age_restriction}+</span>
+				- unless movie.age_restriction.nil?
+					<span class="label label-bg label-default age-restriction">#{movie.age_restriction}+</span>
 			- unless movie.title_original.nil?
 				div.movie-title-original = format_title(movie.title_original)
 		

@@ -67,6 +67,12 @@ module Subscity
 	        @ratings = Rating.all
 	        render 'latest', layout: :layout
 	    end
+
+	    get :clear do
+	    	auth_allow_for_role :admin     
+	    	FileCache.expire
+	    	""            
+	    end
 	    
 	    #error 404 do
 	    not_found do
