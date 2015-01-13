@@ -5,7 +5,7 @@ require 'time'
 class KassaParser
 	extend ParserBase
 
-	HAS_SUBS = "субтитр"
+	HAS_SUBS = "языке оригинала"
 	NOT_FOUND_SCREENING = /Сеанс не найден/
 	TITLE_DELIMITER = " на языке оригинала"
 	
