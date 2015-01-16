@@ -546,7 +546,7 @@ task :update_movie_info, [:id, :kinopoisk_id, :imdb_id, :trailers] => :environme
 					end
 				end
 
-				if m.poster.nil? and !k.poster.nil?
+				if m.poster.nil? and !k.poster.nil? and !m.poster_exists?
 					Kinopoisk.download_poster(m, true)
 				end
 

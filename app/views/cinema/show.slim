@@ -48,11 +48,11 @@ table.table.table-condensed.table-curved.table-striped.table-bordered
 		tr
 			 td 
 			 	div			 
-			 		span.fa.fa-rub.fa-lg.cinema-icon
-			 		|  	 		
+			 		span.fa.fa-ticket.fa-lg.cinema-icon
+			 		|  Билеты: 	 		
 			 		= format_price_range(@price_min, @price_max)
 			 		|  
-			 		span.fa.fa-rub
+			 		span.fa.fa-rub.price-rub-sign
 
 - if @screenings.count == 0
 	h2.text-center.like-navbar В ближайшее время сеансов на языке оригинала нет
@@ -64,7 +64,7 @@ table.table.table-condensed.table-curved.table-striped.table-bordered
 	= partial 'partials/filters'
 	
 	- @screenings.each do |day, movies|
-		- next if movies.size == 0
+		- next if movies.select {|m| !m.hidden?}.size == 0
 		/time datetime = "#{day}"
 		h3.header-day.text-center
 			= link_to_date(day)

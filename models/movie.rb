@@ -30,6 +30,10 @@ class Movie < ActiveRecord::Base
 		!(non_valid_genres.any? { |w| genres.include? w })
 	end
 
+	def night_nonstop?
+		title.mb_chars.downcase.to_s.strip.start_with? 'ночной нон-стоп'
+	end
+
 	def russian?
 		return true if ['Россия', 'СССР'].include? country
 		return true if ['Russian', 'русский'].include? languages
@@ -42,7 +46,7 @@ class Movie < ActiveRecord::Base
 	end
 
 	def hidden?
-		hide
+		hide or (night_nonstop? and !SETTINGS[:movie_show_night_nonstops])
 	end
 
 	def in_db?
