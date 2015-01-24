@@ -76,21 +76,20 @@ html
 									span.fa.fa-calendar.navbar-icon
 									span.navbar-link-text
 										| По дням 
-									b.caret
-									- moment_of_now = Time.now
-									- moment_of_now -= 1.day if Time.now.hour < 2
+									b.caret							
+									- today = date_for_screening(Time.now)
 									ul.dropdown-menu
 										li
-											time datetime = "#{format_date_url(moment_of_now)}"
-												= link_to "сегодня (#{show_date(moment_of_now)})", url(:dates, :index, format_date_url(moment_of_now))
+											time datetime = "#{format_date_url(today)}"
+												= link_to "сегодня (#{show_date(today)})", url(:dates, :index, format_date_url(today))
 										li
-											time datetime = "#{format_date_url(moment_of_now + 1.day)}"
-												= link_to "завтра (#{show_date(moment_of_now + 1.day)})", url(:dates, :index, format_date_url(moment_of_now + 1.day))
+											time datetime = "#{format_date_url(today + 1.day)}"
+												= link_to "завтра (#{show_date(today + 1.day)})", url(:dates, :index, format_date_url(today + 1.day))
 										li.divider
 										- (2..7).each do |x|
 											li
-												time datetime = "#{format_date_url(moment_of_now + x.day)}"
-													= link_to "#{show_date(moment_of_now + x.day)}", url(:dates, :index, format_date_url(moment_of_now + x.day))
+												time datetime = "#{format_date_url(today + x.days)}"
+													= link_to "#{show_date(today + x.day)}", url(:dates, :index, format_date_url(today + x.days))
 							/li.big-font
 							/	= link_to "Обратная связь", "http://subscity.reformal.ru/"
 							li.big-font

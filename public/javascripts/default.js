@@ -16,7 +16,7 @@ $(function() {
 		if ( val == PRICE_MAX)
 			return "любая";
 		else
-			return val + " <span class='fa fa-rub'></span>";//" руб."
+			return val + " <span class='fa fa-rub price-rub-sign-big'></span>";//" руб."
 	}
 	
 	function hide(obj, speed)

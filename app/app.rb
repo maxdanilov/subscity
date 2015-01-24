@@ -73,6 +73,30 @@ module Subscity
 	    	FileCache.expire
 	    	""            
 	    end
+
+	    get :sitemap, :provides => :xml do
+	    	cache(request.cache_key, :expires => SITEMAP_TTL) do
+		    	city = City.get_by_domain(request.subdomains.first)
+	            movies_active = city.get_movies.sort_by { |a| a.created_at }.reverse
+	            cinemas = city.get_sorted_cinemas
+				today = date_for_screening(Time.now)		
+
+		    	map = XmlSitemap::Map.new(request.subdomains.first + "." + domain_name, :time => Date.today) do |m|
+	  				m.add 'movies', :priority => 1.0, :period => :daily
+	  				m.add 'cinemas', :priority => 1.0, :period => :daily
+	  				movies_active.each do |movie|
+	  					m.add url_for(:movies, :index, :id => format_movie_url(movie)), :period => :daily, :priority => 0.8
+	  				end
+	  				cinemas.each do |cinema, movies|
+	  					m.add url_for(:cinemas, :index, :id => format_cinema_url(cinema)), :period => :daily, :priority => 0.6
+	  				end
+					(0..7).each do |n|
+						m.add url(:dates, :index, format_date_url(today + n.days)), :period => :daily, :priority => 0.6
+					end
+				end
+				map.render
+			end
+		end
 	    
 	    #error 404 do
 	    not_found do
