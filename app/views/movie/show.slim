@@ -30,6 +30,7 @@ table.table.table-bordered.table-condensed.table-striped.movie-info.table-curved
 				div.movie-title-original = format_title(movie.title_original)
 	tr
 		td.text-center rowspan = "#{row_count}"
+			div style="height:3px;"
 			- if movie.poster_exists?
 				- poster_file = "posters/#{movie.movie_id}.jpg?#{movie.timestamp_poster}"
 			= image_tag poster_file, :class => 'poster', :alt => "постер \"#{movie.title}\"", :title => "постер \"#{movie.title}\""

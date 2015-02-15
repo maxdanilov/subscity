@@ -211,7 +211,7 @@ task :update_movies => :environment do |task|
 				else
 					#movie name can be just changed!
 					if c.in_db? and !Movie.are_equal?(Movie.get_movie(c.movie_id), c)
-						#drop it'sscreenings
+						#drop its' screenings
 						puts "Movie's #{c.movie_id} screenings were destroyed due to movie title change".red
 						Movie.get_movie(c.movie_id).screenings.destroy_all rescue nil
 						#drop the old one
