@@ -77,6 +77,7 @@ def language(lang)
 			'Faroese' => 'фарерский',
 			'Finnish' => 'финский',
 			'French' => 'французский',
+			'Gaelic' => 'гаэльский',
 			'German' => 'немецкий',
 			'Georgian' => 'грузинский',
 			'Greek' => 'греческий',
