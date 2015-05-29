@@ -236,12 +236,12 @@ class KassaParser
 		month_name = tokens[2]
 		month = Time.now.month
 		months.each_with_index do |m, i|
-			next unless month_name.include? m
+			next unless month_name.include? m rescue nil
 			month = i + 1
 		end
 		time = tokens[4]
 		year = Time.now.year
-		year += 1 if Time.now.month > month
+		year += 1 if Time.now.month < month and month == 12
 		date = Time.local(year, month, day, 0, 0, 0)
 		date += 1.day if date_text.include? overnight
 		parse_time(time, date)

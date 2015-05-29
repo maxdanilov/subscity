@@ -8,13 +8,19 @@ SETTINGS =  {
             	                                			# if sold within, 10% comission applied
             	:movie_show_all_screenings => true,			# not only active, but active_all
                 :movie_show_night_nonstops => false,
-            	:new_day_starts_at => 2.hours + 30.minutes 	# new day begins at 02:30, not 00:00
+            	:new_day_starts_at => 2.hours + 30.minutes,	# new day begins at 02:30, not 00:00
+
+                :screenings_feed_end => 72.hours,
+                :screenings_feed_start => 1.hour,
+                :screenings_feed_max_count => 100
         	}   
 
 COOKIES_TTL = 86400 * 30 # in seconds
 SITEMAP_TTL = 12 * 3600 # in seconds
 CACHE_TTL = 1 * 3600 # in seconds
 CACHE_TTL_LONG = 2 * 3600
+CACHE_TTL_SCREENINGS_FEED = 1200 # in seconds
+
 LOG_FILE = File.dirname(__FILE__) + "/../tmp/performance.txt"
 
 FETCH_MODE_CINEMA = { :default => 0, :all => 1 }

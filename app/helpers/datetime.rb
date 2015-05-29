@@ -31,6 +31,11 @@ def show_date(date, with_day_of_week = true)
 	weekdays[date.wday - 1] + ", " + date.day.to_s + " " + months[date.month - 1]
 end
 
+def show_date_time_feed(date)
+	weekdays = ['понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота', 'воскресенье']
+	date.strftime("%d.%m.%Y") + " (" + weekdays[date.wday - 1] + ") в " + date.strftime("%R")
+end
+
 def difference_in_days(time1, time2)
 	diff = time2 - time1
 	diff = -diff if diff < 0
