@@ -3,7 +3,7 @@ xml.instruct! :xml, :version => "1.0"
     xml.channel do
       domain = "http://#{locals[:city].domain}.#{request.main_domain}"
       xml.title "SubsCity (#{locals[:city].name}) сеансы"
-      xml.description "#{locals[:screenings].size} Лента сеансов фильмов на языке оригинала (с субтитрами) в кинотеатрах Москвы и Санкт-Петербурга."
+      xml.description "Лента сеансов фильмов на языке оригинала (с субтитрами) в кинотеатрах Москвы и Санкт-Петербурга."
       xml.lastBuildDate Time.now.to_s(:rfc822)
       xml.link domain + url_for(:movies, :index)
       locals[:screenings].each do |screening|
