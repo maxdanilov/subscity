@@ -80,7 +80,7 @@ module Subscity
 	                cache(request.cache_key, :expires => CACHE_TTL_SCREENINGS_FEED) do
 	                    @city = City.get_by_domain(request.subdomains.first)
 	                    @cinemas = @city.get_cinemas
-	                    @movies = Movie.active
+	                    @movies = Movie.active.select { |m| (!m.hidden?) and (!m.russian?) }
 	                    @screenings = Screening.active_feed.in_city(@city.city_id).order("date_time ASC").limit(SETTINGS[:screenings_feed_max_count])
 	                    builder :screenings, :locals => { :movies => @movies, :city => @city, :screenings => @screenings, :cinemas => @cinemas }
 	            	end
