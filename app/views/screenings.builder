@@ -20,7 +20,7 @@ xml.instruct! :xml, :version => "1.0"
           xml.description do
             xml.cdata! description
           end
-          xml.pubDate screening.created_at.to_s(:rfc822)
+          xml.pubDate ""#screening.created_at.to_s(:rfc822)
           xml.enclosure :url => poster_url, :length => "", :type => 'image/jpeg'
           xml.link domain + url_for(:movies, :index, :id => format_movie_url(movie))
         end

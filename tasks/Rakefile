@@ -710,20 +710,5 @@ end
 
 task :test => :environment do |task|
 	t = start_task(task)
-=begin
-	id = 16663240
-	d = KassaFetcher.fetch_session(id, 2)
-	puts KassaParser.screening_date_time(d)
-	d1 = KassaFetcher.fetch_prices_full(id)
-	#puts d1
-	puts KassaParser.parse_prices_full(d1)
-=end
-	#Rake::Task[:update_screenings_movie].invoke(65289)
-	date = Time.now + 1.day
-	data = KassaFetcher.fetch_sessions(65289, date, 2)
-	KassaParser.parse_sessions_HTML(data, date, 0, 65289).each do |s|
-		puts s
-	end
-
 	stop_task(task, t)
 end
