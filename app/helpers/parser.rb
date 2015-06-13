@@ -55,20 +55,21 @@ class KassaParser
 				session_cinema_id = get_cinema_id ( el.at("a")[:href] )
 				session_cinema_id = cinema_id.to_i if session_cinema_id.to_i == 0
 				session_cinema = Cinema.where(:cinema_id => session_cinema_id).first
+
 				fetch_all = false
 				fetch_all = session_cinema.fetch_all unless session_cinema.nil?		
 				
 				fetch_mode_movie = Movie.get_movie(movie_id).fetch_mode rescue FETCH_MODE[:movie][:default]
 				fetch_all = true if fetch_mode_movie == FETCH_MODE[:movie][:all]
 
-				next if (not el.parent.parent.search(".caption").inner_html.include? HAS_SUBS) and (not fetch_all) 				
+				next if (not el.parent.parent.search(".caption").inner_text.include? HAS_SUBS) and (not fetch_all) 				
 														 # skip headlines of non-subs sessions
 														 # but download all screenings for given cinemas
 				if fetch_all
 					links = el.parent.parent.search('.sked a.sked_item') rescue []
 				else
 					el.parent.parent.search('.caption').each do |s|
-						links = s.parent.search('a.sked_item') if s.inner_html.include? HAS_SUBS rescue []
+						links = s.parent.search('a.sked_item') if s.inner_text.include? HAS_SUBS rescue []
 					end
 				end
 
