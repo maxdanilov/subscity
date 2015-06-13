@@ -593,7 +593,18 @@ end
 desc 'fill file cache'
 task :fill_cache => :environment do |task|
 	t = start_task(task)
-    pages = ["sitemap.xml", "movies.rss", "movies", "", "dates/#{format_date_url(Time.now)}", "dates/#{format_date_url(Time.now + 1.day)}", "screenings.rss"]
+    pages = [
+	    		"sitemap.xml", 
+	    		"movies", 
+	    		"", 
+	    		"dates/#{format_date_url(Time.now)}", 
+	    		"dates/#{format_date_url(Time.now + 1.day)}", 
+	    		"movies.rss", 
+	    		"screenings.rss", 
+	    		"dates/today.rss", 
+	    		"dates/tomorrow.rss",
+	    		"dates/overmorrow.rss"
+	    	]
     domains = City.active.pluck(:domain)
 
     domains.each do |d|

@@ -23,16 +23,22 @@ def show_time_rambler(time)
 	time.strftime("%d-%m-%Y-%H%M")
 end
 
+def weekdays
+	['понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота', 'воскресенье']
+end
+
 def show_date(date, with_day_of_week = true)
 	date = date.to_time
-	weekdays = ['понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота', 'воскресенье']
 	months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
 	return date.day.to_s + " " + months[date.month - 1] if with_day_of_week == false
 	weekdays[date.wday - 1] + ", " + date.day.to_s + " " + months[date.month - 1]
 end
 
+def show_date_feed(date)
+	"#{date.strftime('%d.%m')} (#{weekdays[date.wday - 1]})"
+end
+
 def show_date_time_feed(date)
-	weekdays = ['понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота', 'воскресенье']
 	"#{date.strftime('%d.%m')} (#{weekdays[date.wday - 1]}) в #{date.strftime('%R')}"
 end
 
