@@ -16,6 +16,7 @@ GEM
     bcrypt-ruby (3.1.2)
     builder (3.0.4)
     colorize (0.6.0)
+    htmlentities (4.3.3)
     http_router (0.11.0)
       rack (>= 1.0.0)
       url_mount (~> 0.2.1)
@@ -95,6 +96,7 @@ DEPENDENCIES
   activerecord (>= 3.1)
   bcrypt-ruby
   colorize
+  htmlentities
   httpclient
   imdb
   mysql2

@@ -35,7 +35,8 @@ class KassaParser
 
 	def self.parse_prices_full(data)
 		begin
-			doc = Nokogiri::HTML(data)
+			data = "<!DOCTYPE html><html>" + data + "</html>"
+			doc = Nokogiri::XML.parse(data)
 			max_price = min_price = nil
 			prices = (doc/"div.b-cinema-plan/div[@data]").map { |el| el[:data].split('|')[3].to_i rescue nil }
 			prices = prices.select {|x| x > 0}.compact.uniq.sort #occupied places have 0 price, kick them out before processing
@@ -46,7 +47,7 @@ class KassaParser
 	end
 
 	def self.parse_sessions_HTML(data, date, cinema_id = 0, movie_id = 0)
-		doc = Nokogiri::HTML(data)
+		doc = Nokogiri::XML.parse(data)
 		results = []
 		begin
 			(doc/".heading").each do |el|
@@ -123,7 +124,7 @@ class KassaParser
 	end
 
 	def self.parse_movie_HTML(data)
-		doc = Nokogiri::HTML(data) rescue nil
+		doc = Nokogiri::XML.parse(data) rescue nil
 		return nil if doc.nil?
 		title = (doc/"h1.item_title").first.inner_text rescue nil
 		genres = (doc/"div.item_data__type").first.inner_text rescue nil
@@ -176,7 +177,7 @@ class KassaParser
 
 	def self.parse_movie_dates(data)
 		# http://m.kassa.rambler.ru/movie/53046?date=2014.02.16&geoPlaceID=2&widgetid=16857
-		doc = Nokogiri::HTML(data)
+		doc = Nokogiri::XML.parse(data)
 		(doc/"option").map { |opt| Time.parse(get_first_regex_match(opt[:value], /date=([\d\.]+)/)) rescue Time.now.strip }
 	end
 
@@ -205,30 +206,30 @@ class KassaParser
 	end
 
 	def self.screening_exists?(data)
-		doc = Nokogiri::HTML(data) rescue nil
+		doc = Nokogiri::XML.parse(data) rescue nil
 		return false if doc.nil?
 		((doc.at("title").inner_text rescue nil) =~ NOT_FOUND_SCREENING).nil?
 	end
 
 	def self.screening_has_subs?(data)
-		doc = Nokogiri::HTML(data) rescue nil
+		doc = Nokogiri::XML.parse(data) rescue nil
 		return false if doc.nil?
 		title = doc.at("title").inner_text rescue ""
 		title.include? HAS_SUBS
 	end
 
 	def self.screening_title(data)
-		doc = Nokogiri::HTML(data) rescue nil
+		doc = Nokogiri::XML.parse(data) rescue nil
 		return "" if doc.nil?
 		title = doc.at("title").inner_text rescue ""
 		title.split(TITLE_DELIMITER).first
 	end
 
 	def self.screening_date_time(data)
-		#replace = ["сегодня", "завтра"]
+		replace = ["сегодня", "завтра"]
 		overnight = "в ночь с"
 		months = ["янв", "фев", "мар", "апр", "мая", "июн", "июл", "авг", "сен", "окт", "ноя", "дек"]		
-		doc = Nokogiri::HTML(data) rescue nil
+		doc = Nokogiri::XML.parse(data) rescue nil
 		return nil if doc.nil?
 		date_text = doc.at(".order-info dd:nth-of-type(3)").inner_text rescue ""
 		tokens = date_text.split " "

@@ -25,6 +25,7 @@ gem 'httpclient'
 gem 'imdb'
 gem "rmagick", "~>2.13.2", :require => 'RMagick'
 gem "youtube_search"
+gem "htmlentities"
 # Test requirements
 
 # Padrino Stable Gem

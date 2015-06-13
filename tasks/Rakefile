@@ -6,6 +6,7 @@ task :environment do
 	require 'imdb'
 	require 'RMagick'
 	require 'youtube_search'
+	require 'htmlentities'
 	#require 'active_support/core_ext'
 
 	# no color output if script is run by cron
@@ -651,8 +652,8 @@ end
 
 def movie_find_trailers(title_ru, title_en = nil, year = nil)
 	title_en ||= title_ru
-	ru = movie_find_trailer(title_ru, :ru, year)
-	en = movie_find_trailer(title_en, :en, year)
+	ru = movie_find_trailer(title_ru, :ru, year) rescue nil
+	en = movie_find_trailer(title_en, :en, year) rescue nil
 	return nil if en.nil? and ru.nil?
 	return ru if en.nil?
 	return en if ru.nil?
@@ -709,5 +710,13 @@ end
 
 task :test => :environment do |task|
 	t = start_task(task)
+=begin
+	id = 16663240
+	d = KassaFetcher.fetch_session(id, 2)
+	puts KassaParser.screening_date_time(d)
+	d1 = KassaFetcher.fetch_prices_full(id)
+	#puts d1
+	puts KassaParser.parse_prices_full(d1)
+=end
 	stop_task(task, t)
 end

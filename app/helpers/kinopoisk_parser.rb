@@ -16,6 +16,6 @@ module KinopoiskParser
   # Returns a nokogiri document or an error if fetch response status is not 200
   def self.parse(url)
     p = fetch url
-    p.status==200 ? Nokogiri::HTML(p.body.encode('utf-8')) : raise(NotFound)
+    p.status==200 ? Nokogiri::XML.parse(p.body.encode('utf-8')) : raise(NotFound)
   end
 end

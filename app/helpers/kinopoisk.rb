@@ -15,7 +15,7 @@ class Kinopoisk
 		url = "http://www.imdb.com/title/tt#{imdb_id.to_s.rjust(8, "0")}/"
 		error = false
 		begin
-			doc = Nokogiri::HTML(open(url))
+			doc = Nokogiri::XML.parse(open(url))
 			rating = doc.at("[@itemprop=ratingValue]").inner_text.to_f rescue nil
 			votes = doc.at("[@itemprop=ratingCount]").inner_text.gsub(/[^0-9]/, '').to_i rescue nil
 		rescue

@@ -106,7 +106,7 @@ module KinopoiskParser
 
     # Returns a string containing movie description
     def description
-      search_by_itemprop('description').gsub("\u0097", "—").gsub("\u0085", "...")
+      HTMLEntities.new.decode search_by_itemprop_html('description').gsub("&#x97;", "—").gsub("&#x85;", "…").gsub("</br>", "").gsub("<br><br>", "\n").gsub("<br>", " ")
     end
 
     # Returns an integer kinopoisk rating vote count
@@ -170,6 +170,10 @@ module KinopoiskParser
     def find_by_title(title)
       url = SEARCH_URL+"#{URI.escape(title).gsub("+", "%2B")}&first=yes"
       KinopoiskParser.fetch(url).headers['Location'].to_s.match(/\/(\d*)\/$/)[1]
+    end
+
+    def search_by_itemprop_html(name)
+      doc.search("[itemprop=#{name}]").inner_html
     end
 
     def search_by_itemprop(name)

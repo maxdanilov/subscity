@@ -33,7 +33,7 @@ end
 
 def show_date_time_feed(date)
 	weekdays = ['понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота', 'воскресенье']
-	date.strftime("%d.%m.%Y") + " (" + weekdays[date.wday - 1] + ") в " + date.strftime("%R")
+	"#{date.strftime('%d.%m')} (#{weekdays[date.wday - 1]}) в #{date.strftime('%R')}"
 end
 
 def difference_in_days(time1, time2)
