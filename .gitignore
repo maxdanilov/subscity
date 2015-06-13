@@ -13,3 +13,6 @@ public/images/posters/
 public/images/bgs/old/
 tasks/logs/*
 tmp
+._.DS_Store
+*/._.DS_Store
+app/views/._screenings.builder
