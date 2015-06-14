@@ -2,7 +2,7 @@
 time datetime = "#{format_date_url(@date)}"
 	h1.text-center.capitalize.like-navbar 
 		span.fa.fa-calendar
-		|  #{show_date(@date)}
+		|  #{show_date(@date, true, true)}
 - if @screenings.count == 0
 	h2.text-center.like-navbar Сеансов на языке оригинала нет
 - else

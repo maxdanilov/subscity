@@ -12,16 +12,17 @@ xml.instruct! :xml, :version => "1.0"
         title = movie.title
         title += " (#{format_title(movie.title_original)})" unless movie.title_original.to_s.empty?
         poster_url = domain + "/images/posters/#{movie.movie_id}.jpg"
-        description = "#{show_date locals[:date]}."
+        description = "#{show_date(locals[:date], true, true)}."
         cinemas.each do |cinema, screenings|
           description += "<br/>«#{movie.title}» в кинотеатре «#{cinema.name}» в #{screenings.map {|s| show_time(s.date_time) }.join ', '}."
         end
+        description += "<br/><img src=\"#{poster_url}\">"
         xml.item do
           xml.title title
           xml.description do
             xml.cdata! description
           end
-          xml.pubDate movie.created_at.to_s(:rfc822)
+          xml.pubDate ""#movie.created_at.to_s(:rfc822)
           xml.enclosure :url => poster_url, :length => "", :type => 'image/jpeg'
           xml.link domain + url_for(:movies, :index, :id => format_movie_url(movie))
         end

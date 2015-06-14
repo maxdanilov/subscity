@@ -27,11 +27,13 @@ def weekdays
 	['понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота', 'воскресенье']
 end
 
-def show_date(date, with_day_of_week = true)
+def show_date(date, with_day_of_week = true, capital = false)
 	date = date.to_time
 	months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
 	return date.day.to_s + " " + months[date.month - 1] if with_day_of_week == false
-	weekdays[date.wday - 1] + ", " + date.day.to_s + " " + months[date.month - 1]
+	val = weekdays[date.wday - 1] + ", " + date.day.to_s + " " + months[date.month - 1]
+	val = val.mb_chars.capitalize.to_s if capital
+	val
 end
 
 def show_date_feed(date)
