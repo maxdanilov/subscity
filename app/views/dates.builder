@@ -7,7 +7,7 @@ xml.instruct! :xml, :version => "1.0"
       xml.lastBuildDate Time.now.to_s(:rfc822)
       xml.link domain + url_for(:movies, :index)
       locals[:screenings].each do |movie, cinemas|
-        next if movie.nil? or cinemas.nil?
+        next if movie.nil? or cinemas.nil? or movie.hidden? or movie.russian?
 
         title = movie.title
         title += " (#{format_title(movie.title_original)})" unless movie.title_original.to_s.empty?
