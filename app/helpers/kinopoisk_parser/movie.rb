@@ -26,7 +26,8 @@ module KinopoiskParser
 
     # Returns a string containing title in russian
     def title
-      @title ||= doc.search('.moviename-big').xpath('text()').text.strip.gsub("\u00a0"," ")
+      #@title ||= doc.search('.moviename-big').xpath('text()').text.strip.gsub("\u00a0"," ")
+      @title ||= doc.search('title').text.strip.gsub("\u00a0"," ")
     end
 
     # Returns an integer imdb rating vote count
@@ -106,7 +107,9 @@ module KinopoiskParser
 
     # Returns a string containing movie description
     def description
-      HTMLEntities.new.decode search_by_itemprop_html('description').gsub("&#x97;", "—").gsub("&#x85;", "…").gsub("</br>", "").gsub("<br><br>", "\n").gsub("<br>", " ")
+      desc = HTMLEntities.new.decode doc.at('.brand_words').inner_html.encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '')
+      desc = desc.gsub("&#x97;", "—").gsub("&#x85;", "...").gsub("</br>", "").gsub("<br><br>", "\n").gsub("<br>", " ")
+      desc.split("<tr>").first.strip
     end
 
     # Returns an integer kinopoisk rating vote count

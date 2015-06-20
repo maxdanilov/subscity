@@ -523,6 +523,8 @@ task :update_movie_info, [:id, :kinopoisk_id, :imdb_id, :trailers] => :environme
 				m.update_attribute(:year, k.year) if m.year.nil?
 				m.update_attribute(:genres, k.genres.join(", ")) unless k.genres.to_a.empty?
 
+				puts k.description
+
 				unless imdb_id.zero?
 					m.update_attribute(:imdb_id, imdb_id) 
 					begin
