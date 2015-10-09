@@ -4,6 +4,7 @@
 	|  / #{@movie.title_original}
 - unless @movie.year.to_i == 0
 	|  (#{@movie.year})
+|  на языке оригинала в кино
 | #{newline }
 | http://#{@city.domain}.#{domain_name}#{url(:movies, :index, @movie.format_url)}
 | #{newline * 2}
