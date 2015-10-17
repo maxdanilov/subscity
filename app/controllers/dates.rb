@@ -19,7 +19,7 @@ Subscity::App.controllers :dates do
                         cache(request.cache_key, :expires => CACHE_TTL) do
                             @city = City.get_by_domain(request.subdomains.first)
                             @screenings = Screening.get_sorted_screenings(@date, @city.city_id, SETTINGS[:movie_show_all_screenings])
-                            @movie = Movie.active
+                            @movies = Movie.active
                             @cinemas = Cinema.all
                             @title = show_date(@date)
                             render 'date/show', layout: :layout
@@ -28,9 +28,9 @@ Subscity::App.controllers :dates do
                         cache(request.cache_key, :expires => CACHE_TTL_SCREENINGS_FEED) do
                             @city = City.get_by_domain(request.subdomains.first)
                             @screenings = Screening.get_sorted_screenings(@date, @city.city_id, SETTINGS[:movie_show_all_screenings])
-                            @movie = Movie.active
+                            @movies = Movie.active
                             @cinemas = Cinema.all
-                            builder :dates, :locals => { :movies => @movie, :city => @city, :screenings => @screenings, :cinemas => @cinemas, :date => @date }
+                            builder :dates, :locals => { :movies => @movies, :city => @city, :screenings => @screenings, :cinemas => @cinemas, :date => @date }
                         end
                 end
             else
