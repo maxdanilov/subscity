@@ -15,6 +15,15 @@ html
 		meta name="Description" content="Всегда актуальное расписание фильмов на языке оригинала (с русскими субтитрами) в кинотеатрах Москвы и Санкт-Петербурга"
 		meta name="Keywords" content="где посмотреть фильм с субтитрами, киносеансы для слабослышащих, фильмы на языке оригинала, фильмы с субтитрами, кино с субтитрами, фильмы без перевода, фильмы с русскими субтитрами, расписание, кинотеатры, кино, билеты, цены, Москва, Санкт-Петербург, movies with subtitles, movies with subs, schedule, cinemas, theatres, tickets, price, Moscow, Saint-Petersburg"
 		
+		/ Facebook meta tags
+		meta property="og:url" content="#{request.url}"
+		meta property="og:title" content="#{title}"
+		meta property="og:description" content="Всегда актуальное расписание фильмов на языке оригинала (с русскими субтитрами) в кинотеатрах Москвы и Санкт-Петербурга"
+		- if defined? @movie and !@movie.nil?
+			- if @movie.poster_exists?
+				- poster_file = "posters/#{@movie.movie_id}.jpg?#{@movie.timestamp_poster}"
+				meta property="og:image" content="http://#{domain_name}/images/#{poster_file}"		
+
 		- if SETTINGS[:sell_tickets] == true
 			/ Key tag for kassa widget
 			<rb:rich key="9565b54e-cb2e-4063-a15d-d9962e8c49dd" xmlns:rb="http://kassa.rambler.ru"></rb:rich>

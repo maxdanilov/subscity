@@ -19,6 +19,10 @@
 - row_count += 1 unless movie.cast.to_s.empty?
 - row_count += 1 if movie.has_description?
 
+- poster_file = "transparent.png"
+- if movie.poster_exists?
+	- poster_file = "posters/#{movie.movie_id}.jpg?#{movie.timestamp_poster}"
+
 table.table.table-bordered.table-condensed.table-striped.movie-info.table-curved
 	tr
 		td.visible-xs colspan = "2"
@@ -31,8 +35,6 @@ table.table.table-bordered.table-condensed.table-striped.movie-info.table-curved
 	tr
 		td.text-center rowspan = "#{row_count}"
 			div style="height:3px;"
-			- if movie.poster_exists?
-				- poster_file = "posters/#{movie.movie_id}.jpg?#{movie.timestamp_poster}"
 			= image_tag poster_file, :class => 'poster', :alt => "постер \"#{movie.title}\"", :title => "постер \"#{movie.title}\""
 			- unless @screening_count == 0
 				div.label.label-bg.label-default.normal-font.label-screenings-count.hidden-xs
