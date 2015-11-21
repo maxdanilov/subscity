@@ -116,6 +116,7 @@ def language(lang)
 			'Swahili' => 'суахили',
 			'Swedish' => 'шведский',
 			'Swiss German' => 'немецкий (швейцарский диалект)',
+			'Tamil' => 'тамильский',
 			'Telugu' => 'телугу',
 			'Turkish' => 'турецкий',
 			'Urdu' => 'урду',
