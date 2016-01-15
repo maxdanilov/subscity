@@ -721,8 +721,14 @@ task :test_parsers => :environment do |task|
 	stop_task(task, t)
 end
 
+task :backup => :environment do |task|
+        t = start_task(task)
+        sh "../backupdb.sh"
+        stop_task(task, t)
+end
+
 task :test => :environment do |task|
-	t = start_task(task)
-	stop_task(task, t)
+        t = start_task(task)
+        stop_task(task, t)
 end
 

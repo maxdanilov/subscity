@@ -23,6 +23,11 @@ job_type :my_rake, 'cd :path && rake :task :output'
 
 set :output, 'logs/cron.log'
 
+# send DB backup to email
+every :day, :at => ['00:00'] do
+	my_rake "backup", :output => 'logs/cron.log'
+end
+
 #check if all parsers are still working right
 every :day, :at => ['03:00'] do
 	my_rake "test_parsers", :output => 'logs/cron_tests.log'
