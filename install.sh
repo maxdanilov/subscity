@@ -5,8 +5,9 @@
 
 RUBY_VERSION="2.3.0"
 INSTALL_DIR="/root/subscity/"
-INSTALL_DIR_ROOT="/root/"
-
+INSTALL_DIR_ROOT="/var/www/"
+INSTALL_DIR="${INSTALL_DIR_ROOT}subscity/"
+usermod -a -G www-data root
 #installing extra packages
 
 sudo apt-get update
