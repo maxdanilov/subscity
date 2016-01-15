@@ -6,8 +6,6 @@ db/backup
 db/backup.sh
 db/*.dat
 log
-public/images/posters/
 public/images/bgs/old/
-tasks/logs/*
 tmp
 .*
