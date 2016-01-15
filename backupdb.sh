@@ -36,6 +36,6 @@ mysqldump -u $DB_USER -p$DB_PASS --databases $DB_NAME > ${BACKUPPATH}/${BACKUPFI
 gzip -c ${BACKUPPATH}/${BACKUPFILE} > ${BACKUPPATH}/${BACKUPFILECOMPRESSED}
 
 # mail
-echo "backup" | mutt -s "subscity backup" -a ${BACKUPPATH}/${BACKUPFILECOMPRESSED} -- ${DB_EMAIL}
+echo "backup" | mutt -s "backup ${BACKUPFILECOMPRESSED}" -a ${BACKUPPATH}/${BACKUPFILECOMPRESSED} -- ${DB_EMAIL}
 rm ${BACKUPPATH}/${BACKUPFILECOMPRESSED}
 rm ${BACKUPPATH}/${BACKUPFILE}
