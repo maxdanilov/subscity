@@ -2,11 +2,9 @@
 *.txt
 .*.jp*g
 google*
-config/.token.rb
 db/backup
 db/backup.sh
 db/*.dat
-db/.*
 log
 public/images/posters/
 public/images/bgs/old/
