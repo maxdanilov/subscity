@@ -2,10 +2,14 @@
 *.txt
 .*.jp*g
 google*
+config/.token.rb
 db/backup
 db/backup.sh
 db/*.dat
+db/.credentials.rb
 log
+public/images/posters/
 public/images/bgs/old/
+tasks/logs/*
 tmp
 .*
