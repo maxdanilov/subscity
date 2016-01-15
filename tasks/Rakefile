@@ -721,9 +721,22 @@ task :test_parsers => :environment do |task|
 	stop_task(task, t)
 end
 
+desc 'run a DB backup script'
 task :backup => :environment do |task|
         t = start_task(task)
         sh "../backupdb.sh"
+        stop_task(task, t)
+end
+
+desc 'download missing posters for movies'
+task :movies_download_posters => :environment do |task|
+        t = start_task(task)
+	Movie.all.each do |m|
+		next if m.poster.nil?
+		next if m.poster_exists?
+		puts m.title + " " + m.poster
+		m.download_poster(m.poster)
+	end
         stop_task(task, t)
 end
 
@@ -731,4 +744,3 @@ task :test => :environment do |task|
         t = start_task(task)
         stop_task(task, t)
 end
-
