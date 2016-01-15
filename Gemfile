@@ -32,7 +32,7 @@ gem 'translit'
 gem 'stringex'
 gem 'imdb'
 gem 'text-hyphen'
-gem "rmagick", "~>2.13.2", :require => 'RMagick'
+gem "rmagick"
 gem "youtube_search"
 gem 'encrypted_cookie'
 gem 'sinatra-synchrony'
