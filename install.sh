@@ -30,10 +30,12 @@ sudo apt-get install phpmyadmin
 php5enmod mcrypt
 # change phpmyadmin URL
 sed -i 's/Alias \/phpmyadmin/Alias \/pad4/g' /etc/phpmyadmin/apache.conf
-echo "" > /var/www/html/index.html 
-# enabling reverse proxy modules
-a2enmod proxy
-a2enmod proxy_http
+echo "" > /var/www/html/index.html
+# enabling apache modules
+a2enmod proxy proxy_http headers deflate mime expires
+# copying apache config and enabling site
+cp ${INSTALL_DIR_ROOT}/config/apache.site.conf /etc/apache2/sites-available/subscity.conf
+a2ensite subscity
 service apache2 restart
 
 wget http://mysqltuner.pl/ -O ${INSTALL_DIR_ROOT}mysqltuner.pl
@@ -45,7 +47,7 @@ wget http://mysqltuner.pl/ -O ${INSTALL_DIR_ROOT}mysqltuner.pl
 
 # gems and dependencies
 sudo apt-get install mailutils mutt
-sudo apt-get install libgmp3-dev 
+sudo apt-get install libgmp3-dev
 sudo apt-get install libmagickwand-dev imagemagick libmagickcore-dev graphicsmagick-libmagick-dev-compat
 
 #gem install eventmachine sqlite3 rmagick
