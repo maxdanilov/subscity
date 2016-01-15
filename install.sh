@@ -34,7 +34,7 @@ echo "" > /var/www/html/index.html
 # enabling apache modules
 a2enmod proxy proxy_http headers deflate mime expires
 # copying apache config and enabling site
-cp ${INSTALL_DIR_ROOT}/config/apache.site.conf /etc/apache2/sites-available/subscity.conf
+cp ${INSTALL_DIR}/config/apache.site.conf /etc/apache2/sites-available/subscity.conf
 a2ensite subscity
 service apache2 restart
 
