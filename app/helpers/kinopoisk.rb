@@ -59,16 +59,16 @@ class Kinopoisk
 	end
 
 	def self.update_ratings(c)
-		puts "\tUpdating rating #{c.kinopoisk_id}..."#.yellow
+		puts "\tUpdating rating #{c.kinopoisk_id}..."
 		result = Kinopoisk.get_ratings(c.kinopoisk_id, c.imdb_id) rescue nil
 		
 		unless result.nil? or result[:error] == true
 			r = nil
 			if Rating.exists?(:movie_id => c.movie_id)
-				puts "\t\t Updating a record..."#.magenta
+				puts "\t\t Updating a record..."
 				r = Rating.where(:movie_id => c.movie_id).first
 			else
-				puts "\t\t Creating a record...".magenta
+				puts "\t\t Creating a record..."
 				r = Rating.new(	:movie_id => c.movie_id)
 			end
 

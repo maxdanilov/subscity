@@ -35,7 +35,9 @@ table style="display: inline-table;" class = ("table-curved rating " + ("mobile-
 				span
 					- if votes < 1000
 						|  #{votes.to_i}
-					- elsif votes > 100000
+					- elsif votes >= 1000000
+						|  #{(votes / 1000000.0).round(2)}M
+					- elsif votes >= 100000
 						|  #{(votes / 1000.0).to_i}K
 					- else
 						|  #{(votes / 1000.0).round(1)}K 
