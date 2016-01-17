@@ -33,7 +33,7 @@
 	| Режиссер: #{@movie.director}
 	| #{newline}
 - unless @movie.cast.to_s.empty?
-	| В ролях: #{@movie.cast}
+	| В ролях: #{@movie.cast.gsub("\r", "").split("\n").join(", ")}
 	| #{newline}	
 | #{newline}
 - screenings = @movie.screenings.active_all.in_city(@city.city_id)
