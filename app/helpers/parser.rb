@@ -120,6 +120,12 @@ class KassaParser
 				'фильмы-биографии' => 'биография',
 				'экранизации классической литературы' => nil
 			}
+
+		# exclude years from genre list
+		(1985..2030).each do |x|
+			hash[x.to_s + ' г.'] = nil
+		end
+
 		return hash[g] if hash.has_key? g
 		g
 	end

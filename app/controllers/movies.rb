@@ -52,6 +52,8 @@ Subscity::App.controllers :movies do
                     end
                 end
 
+                # ratings update
+                Kinopoisk.update_ratings(m)
                 # poster update
                 m.download_poster(params[:new_poster], true) unless params[:new_poster].empty?
                 # poster delete
