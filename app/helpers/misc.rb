@@ -179,7 +179,11 @@ def format_date_url(date)
 end
 
 def format_movie_url(m)
-	"#{m.id.to_s} #{Translit.convert(m.title, :english)}".to_url
+	if m.title_original.to_s.empty?
+		return "#{m.id.to_s} #{Translit.convert(m.title, :english)}".to_url
+	else
+		return "#{m.id.to_s} #{Translit.convert(m.title_original, :english)}".to_url
+	end
 end
 
 def format_cinema_url(m)
