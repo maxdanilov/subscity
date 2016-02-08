@@ -3,7 +3,7 @@ require_relative 'fetcher_base'
 class KassaFetcher
 	extend FetcherBase
 
-	DOMAIN = "http://m.kassa.rambler.ru/"
+	DOMAIN = "https://m.kassa.rambler.ru/"
 	DOMAIN_DESKTOP = "https://kassa.rambler.ru/"
 	HOST = "m.kassa.rambler.ru"
 	WIDGET_HOST = "widget.kassa.rambler.ru"
@@ -170,3 +170,4 @@ class KassaFetcher
 	public_class_method :fetch_prices
 	public_class_method :fetch_prices_full
 end
+
