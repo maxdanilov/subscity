@@ -201,9 +201,10 @@ class KassaParser
 	end
 
 	def self.get_cinema_id(link)
-		# http://m.kassa.rambler.ru/place/2729?geoPlaceID=2&widgetid=16857
+		# https://m.kassa.rambler.ru/place/2729?geoPlaceID=2&widgetid=16857
+		# https://m.kassa.rambler.ru/msk/cinema/kinoklub-fitil-2729?WidgetID=16857&geoPlaceID=2
 		# => 2729
-		get_first_regex_match_integer(link, /place\/(\d+)/)
+		get_first_regex_match_integer(link, /cinema\/.*\-(\d+)/)
 	end
 
 	def self.parse_time(time, date)
