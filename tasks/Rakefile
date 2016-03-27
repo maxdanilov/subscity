@@ -608,7 +608,7 @@ task :fill_cache => :environment do |task|
 
     domains.each do |d|
     	pages.each do |p|
-    		url = "http://" + d + "." + domain_name + "/" + p
+		url = "https://" + d + "." + domain_name + "/" + p
     		puts "Fetching #{url} ...".yellow
     		begin
     			open(url, 'r', :read_timeout => 5).read
