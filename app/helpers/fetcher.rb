@@ -95,7 +95,6 @@ class KassaFetcher
 	end
 
 	def self.url_for_cinema(cinema_id, date = nil, place_id)
-		# http://m.kassa.rambler.ru/place/1907?geoPlaceID=2&widgetid=16857
 		# http://m.kassa.rambler.ru/place/1907?date=2014.03.12&geoPlaceID=2&widgetid=16857
 		date = Time.now if date.nil?
 		DOMAIN + "place/" + cinema_id.to_s + "?date=" + date.strftime("%Y.%m.%d") + "&geoPlaceID=" + place_id.to_s + "&widgetid=" + WIDGET_ID.to_s
@@ -118,7 +117,7 @@ class KassaFetcher
 	end
 
 	def self.url_for_movie(movie_id)
-		# http://kassa.rambler.ru/movie/45849
+		# https://kassa.rambler.ru/movie/45849
 		DOMAIN_DESKTOP + "movie/" + movie_id.to_s
 	end
 

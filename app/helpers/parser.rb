@@ -183,25 +183,24 @@ class KassaParser
 	end
 
 	def self.parse_movie_dates(data)
-		# http://m.kassa.rambler.ru/movie/53046?date=2014.02.16&geoPlaceID=2&widgetid=16857
+		# https://m.kassa.rambler.ru/spb/movie/59237?date=2016.03.28&WidgetID=16857&geoPlaceID=3
 		doc = Nokogiri::XML.parse(data)
 		(doc/"option").map { |opt| Time.parse(get_first_regex_match(opt[:value], /date=([\d\.]+)/)) rescue Time.now.strip }
 	end
 
 	def self.get_session_id(link)
-		#http://m.kassa.rambler.ru/place/hallplan?sessionid=9637961&geoPlaceID=2&widgetid=16857
-		# => 9637961
+		# https://m.kassa.rambler.ru/spb/place/hallplan?sessionid=20977908&WidgetID=16857&geoPlaceID=3
+		# => 20977908
 		get_first_regex_match_integer(link, /sessionid=(\d+)/)
 	end
 
 	def self.get_movie_id(link)
-		#http://m.kassa.rambler.ru/movie/51945?geoplaceid=2&widgetid=16857
+		# https://m.kassa.rambler.ru/msk/movie/51945?geoplaceid=2&widgetid=16857
 		# => 51945
 		get_first_regex_match_integer(link, /movie\/(\d+)/)
 	end
 
 	def self.get_cinema_id(link)
-		# https://m.kassa.rambler.ru/place/2729?geoPlaceID=2&widgetid=16857
 		# https://m.kassa.rambler.ru/msk/cinema/kinoklub-fitil-2729?WidgetID=16857&geoPlaceID=2
 		# => 2729
 		get_first_regex_match_integer(link, /cinema\/.*\-(\d+)/)
