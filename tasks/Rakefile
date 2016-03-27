@@ -254,9 +254,9 @@ task :update_movies_from_cinemas => :environment do |task|
 		total = city.get_cinemas.count
 		city.get_cinemas.each_with_index do |cinema, index|
 			puts "[#{index + 1} / #{total}] Processing cinema #{cinema.name} (#{city.name}) ...".magenta
-			dates = KassaParser.parse_movie_dates(KassaFetcher.fetch_cinema(cinema.cinema_id, nil, city.city_id))
+			dates = KassaParser.parse_movie_dates(KassaFetcher.fetch_cinema(cinema.cinema_id, nil, city.city_id, city.domain))
 			dates.each do |date|
-				screenings = KassaParser.parse_sessions_HTML(KassaFetcher.fetch_cinema(cinema.cinema_id, date, city.city_id), date, cinema.cinema_id)
+				screenings = KassaParser.parse_sessions_HTML(KassaFetcher.fetch_cinema(cinema.cinema_id, date, city.city_id, city.domain), date, cinema.cinema_id)
 				screenings.each { |s| movies += [s[:movie]] }
 			end
 			sleep rand(1..2)	
@@ -307,12 +307,14 @@ task :update_cinemas => :environment do |task|
 	items_count = 0
 	page_count = 0
 	
-	City.active.pluck(:city_id).each do |city_id|
+	City.active.select([:city_id, :domain]).each do |city|
+		city_id = city.city_id
+		city_name = city.domain
 		items_count = 0
 		page_count = 0
 
 		loop do 
-			parsed = KassaParser.parse_json(KassaFetcher.fetch_cinemas(page_count * page_size, page_size, city_id))
+			parsed = KassaParser.parse_json(KassaFetcher.fetch_cinemas(page_count * page_size, page_size, city_id, city_name))
 			items = parsed["Items"]
 			items.each do |item|
 				c = Cinema.new(cinema_id: item["PlaceID"], city_id: city_id, name: item["Name"], address: item["Address"], metro: item["Metro"])
