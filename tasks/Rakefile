@@ -183,16 +183,17 @@ task :update_movies => :environment do |task|
 	items_count = 0
 	page_count = 0
 
-	#mark all movies in the base as inactive
+	# mark all movies in the base as inactive
 	Movie.all.each { |m| m.update_attribute(:active, false) }
 	
-	City.active.pluck(:city_id).each do |city_id|
-
+	City.active.select([:city_id, :domain]).each do |city|
+		city_id = city.city_id
+		city_name = city.domain
 		items_count = 0
 		page_count = 0
 
 		loop do 
-			parsed = KassaParser.parse_json(KassaFetcher.fetch_movies(page_count * page_size, page_size, city_id))
+			parsed = KassaParser.parse_json(KassaFetcher.fetch_movies(page_count * page_size, page_size, city_id, city_name))
 			items = parsed["Items"]
 			items.each do |item|
 				c = get_movie(item["objectId"])
@@ -201,30 +202,22 @@ task :update_movies => :environment do |task|
 					next
 				end
 				
-				# in case poster is changed
-				#if c.in_db? and Movie.get_movie(c.movie_id).poster != c.poster and Movie.are_equal?(Movie.get_movie(c.movie_id), c)
-				#	puts "poster for #{c.movie_id} has changed!".yellow
-				#	#puts c
-				#	KassaFetcher.download_poster(c, true) unless c.poster.nil?
-				#	Movie.get_movie(c.movie_id).update_attribute(:poster, c.poster)
-				#end
-
 				if c.in_db? and Movie.are_equal?(Movie.get_movie(c.movie_id), c)
-					#mark as active in db
+					# mark as active in db
 					Movie.get_movie(c.movie_id).update_attribute(:active, true)
 				else
-					#movie name can be just changed!
+					# movie name can be just changed!
 					if c.in_db? and !Movie.are_equal?(Movie.get_movie(c.movie_id), c)
 						#drop its' screenings
 						puts "Movie's #{c.movie_id} screenings were destroyed due to movie title change".red
 						Movie.get_movie(c.movie_id).screenings.destroy_all rescue nil
-						#drop the old one
+						# drop the old one
 						Movie.get_movie(c.movie_id).destroy
 						puts "Movie #{c.movie_id} was destroyed due to title change".red
 					end
-					#add to db
+					# add to db
 					if c.valid? and c.valid_genre? and (not c.russian?) and (not c.old?)
-						#download poster
+						# download poster
 						KassaFetcher.download_poster(c, true) unless c.poster.nil?
 						c.save
 						puts "Movie #{c.movie_id} was added to database:".yellow

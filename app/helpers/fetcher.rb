@@ -77,7 +77,7 @@ class KassaFetcher
 	end
 
 	def self.params_for_availability(screening_id)
-		{'sessionid' => screening_id.to_s}
+		{ 'sessionid' => screening_id.to_s }
 	end
 
 	def self.params_for_prices(screening_id)
@@ -100,9 +100,9 @@ class KassaFetcher
 		DOMAIN + "place/" + cinema_id.to_s + "?date=" + date.strftime("%Y.%m.%d") + "&geoPlaceID=" + place_id.to_s + "&widgetid=" + WIDGET_ID.to_s
 	end
 	
-	def self.url_for_movies(start, length = PAGE_SIZE, placeid)
-	    # http://m.kassa.rambler.ru/creation/topcreations/17?start=0&pagesize=20&geoplaceid=2&widgetid=16857
-		DOMAIN + "creation/topcreations/17?start=" + start.to_s + "&pagesize=" + length.to_s + "&geoplaceid=" + placeid.to_s + "&widgetid=" + WIDGET_ID.to_s
+	def self.url_for_movies(start, length = PAGE_SIZE, place_id, place_name)
+	    # https://m.kassa.rambler.ru/spb/creation/topcreations/17?start=20&pagesize=10&WidgetID=16857&GeoPlaceID=3
+		DOMAIN + place_name.to_s + "/creation/topcreations/17?start=" + start.to_s + "&pagesize=" + length.to_s + "&geoplaceid=" + place_id.to_s + "&widgetid=" + WIDGET_ID.to_s
 	end
 
 	def self.url_for_sessions(movie_id, date = nil, place_id, place_name)
@@ -125,8 +125,8 @@ class KassaFetcher
 		fetch_data_html(url_for_session(session_id, place_id))
 	end
 
-	def self.fetch_movies(start, length = PAGE_SIZE, place_id)
-		fetch_data_json(url_for_movies(start, length, place_id))
+	def self.fetch_movies(start, length = PAGE_SIZE, place_id, place_name)
+		fetch_data_json(url_for_movies(start, length, place_id, place_name))
 	end
 	
 	def self.fetch_cinemas(start, length = PAGE_SIZE, place_id)
