@@ -122,7 +122,7 @@ class Movie < ActiveRecord::Base
 		"\tKinopoisk, IMDB: #{kinopoisk_id}, #{imdb_id}\n" +
 		"\t#{year}; #{country}; #{genres}; Age: #{age_restriction}\n" +
 		"\tDirector: #{director}\n" +
-		"\tCast: #{cast}\n" +
+		"\tCast: #{cast.to_s.gsub("\r", "").split("\n").join(", ")}\n" +
 		"\tDuration: #{duration}\n" +
 		"\tPoster: #{poster}\n" +
 		"\tCreated: #{created_at}\n" +
