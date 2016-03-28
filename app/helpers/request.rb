@@ -62,7 +62,7 @@ module Sinatra
     end
 
     def url_without_subdomain
-        # http://msk.subscity.ru/movies/555 => http://subscity.ru/movies/555
+        # https://msk.subscity.ru/movies/555 => https://subscity.ru/movies/555
         'https://' + domain_name + path
     end
   end

@@ -110,7 +110,7 @@ html
 												span.share-text-top
 													| Поделиться: 
 											td
-												= partial 'partials/share', :locals => { :link => "#{'http://' + request.host}" }
+												= partial 'partials/share', :locals => { :link => "#{'//' + request.host}" }
 
 						ul.nav.navbar-nav.navbar-right
 							li.big-font.hidden-xs.rss-icon

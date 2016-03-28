@@ -6,7 +6,7 @@
 	|  (#{@movie.year})
 |  на языке оригинала в кино
 | #{newline }
-| http://#{@city.domain}.#{domain_name}#{url(:movies, :index, @movie.format_url)}
+| https://#{@city.domain}.#{domain_name}#{url(:movies, :index, @movie.format_url)}
 | #{newline * 2}
 | #{@movie.get_description}
 | #{newline}
@@ -56,12 +56,12 @@
 
 | Расписание сеансов на языке оригинала и билеты:
 | #{newline}
-| http://#{@city.domain}.#{domain_name}#{url(:movies, :index, @movie.format_url)}
+| https://#{@city.domain}.#{domain_name}#{url(:movies, :index, @movie.format_url)}
 | #{newline}
 | --------------
 | #{newline * 2}
 - if @movie.poster_exists?
-	- poster_file = "http://#{domain_name}/images/posters/#{@movie.movie_id}.jpg"
+	- poster_file = "https://#{domain_name}/images/posters/#{@movie.movie_id}.jpg"
 	| 
 	| #{poster_file}
 

@@ -56,7 +56,7 @@ table.table.table-bordered.table-condensed.table-striped.movie-info.table-curved
 			div
 				i.fa.fa-share-alt
 				|  Поделиться:
-			= partial 'partials/share', :locals => {:link => request.url_without_subdomain, :title => "Фильм #{@title} в кино на языке оригинала", :description => @movie.get_description.to_s, :image => "http://" + domain_name + "/images/" + poster_file}
+			= partial 'partials/share', :locals => {:link => request.url_without_subdomain, :title => "Фильм #{@title} в кино на языке оригинала", :description => @movie.get_description.to_s, :image => "//" + domain_name + "/images/" + poster_file}
 
 		td.movie-title.col-xs-12.hidden-xs colspan = "1" 
 			span.movie-title 
