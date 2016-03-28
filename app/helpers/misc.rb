@@ -220,9 +220,9 @@ def social_urls(city)
 	facebook = "subscity.spb" if city.nil? or city.domain == "spb"
 	twitter = vk_public
 
-	vk_url = "http://vk.com/#{vk_public}"
-	twitter_url = "http://twitter.com/#{twitter}"
-	facebook_url = "http://fb.com/#{facebook}"
+	vk_url = "//vk.com/#{vk_public}"
+	twitter_url = "//twitter.com/#{twitter}"
+	facebook_url = "//fb.com/#{facebook}"
 
 	{:vk => vk_url, :fb => facebook_url, :twitter => twitter_url}
 end
