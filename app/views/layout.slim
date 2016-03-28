@@ -163,7 +163,8 @@ html
 		/ Yandex.Share async
 		/ 'http://yastatic.net/share/share.js'
 		javascript:
-			$.getScript("//yandex.st/share/share.js");
+			$.getScript("//yastatic.net/es5-shims/0.0.2/es5-shims.min.js");
+			$.getScript("//yastatic.net/share2/share.js");
 
   		- if @show_about == true
   			= partial 'partials/vk_widget'
