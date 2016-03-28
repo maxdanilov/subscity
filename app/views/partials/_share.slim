@@ -1,13 +1,10 @@
-- networks = "vkontakte,facebook,twitter" 
-/ gplus excluded
-- lang = "ru"
 - unless defined? title
 	- title = "SubsCity.Ru"
 - unless defined? description
 	- description = "Расписание показа фильмов в кинотеатрах Москвы и Петербурга на языке оригинала"
 - unless defined? image
-	- image = "https://subscity.ru/favicon.png"
+	- image = "//subscity.ru/favicon.png"
 - unless defined? link
 	- link = request.url
 
-div.ya-share2 data-services="#{networks}" data-lang="#{lang}" data-description="#{description}" data-title="#{title}" data-image="#{image}" data-url="#{link}" data-counter=""
+div.share42init data-url="#{link}" data-title="#{title}" data-image="#{image}" data-description="#{description}" data-path="//subscity.ru/javascripts/" data-icons-file="icons.png" style="padding-left: 4px;"
