@@ -9,12 +9,12 @@ html
 
 		<!--[if lt IE 9]>
 	<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    	<![endif]-->
-		
+		<![endif]-->
+
 		meta name="viewport" content="width=device-width, initial-scale=1"
 		meta name="Description" content="Всегда актуальное расписание фильмов на языке оригинала (с русскими субтитрами) в кинотеатрах Москвы и Санкт-Петербурга"
 		meta name="Keywords" content="где посмотреть фильм с субтитрами, киносеансы для слабослышащих, фильмы на языке оригинала, фильмы с субтитрами, кино с субтитрами, фильмы без перевода, фильмы с русскими субтитрами, расписание, кинотеатры, кино, билеты, цены, Москва, Санкт-Петербург, movies with subtitles, movies with subs, schedule, cinemas, theatres, tickets, price, Moscow, Saint-Petersburg"
-		
+
 		/ Facebook meta tags
 		meta property="og:url" content="#{request.url}"
 		meta property="og:title" content="#{title}"
@@ -31,14 +31,14 @@ html
 
 		= favicon_tag '/favicon.png', :type => 'image/png', :rel => 'icon'
 		= favicon_tag '/favicon.ico', :rel => 'shortcut icon'
-		
+
 		/ Bootstrap
 		= stylesheet_link_tag '//yastatic.net/bootstrap/3.1.1/css/bootstrap.min.css'
 		/ Optional theme
 		= stylesheet_link_tag '//yastatic.net/bootstrap/3.1.1/css/bootstrap-theme.min.css'
 		/ PT Sans font
 		= stylesheet_link_tag 'https://fonts.googleapis.com/css?family=PT+Sans:400,700&subset=latin,cyrillic'
-		/, :media => "min-width: 768px" 
+		/, :media => "min-width: 768px"
 		/ jquery UI CSS
 		= stylesheet_link_tag 'jquery-ui-1.11.2.custom/jquery-ui.min'
 		/ custom CSS
@@ -61,18 +61,18 @@ html
 								| S
 								span.semi-transparent ubs
 								| C
-								span.semi-transparent ity								
-								/| ru 
+								span.semi-transparent ity
+								/| ru
 							div.pretty-header.pulsing.site-name-short
 								| SC
 					div.navbar-collapse.collapse.no-transition
 						ul.nav.navbar-nav
-							li.big-font 
+							li.big-font
 								= link_to url(:movies, :index)
 									span.fa.fa-film.navbar-icon
 									span.navbar-link-text
 										| Фильмы
-							li.big-font 
+							li.big-font
 								= link_to url(:cinemas, :index)
 									span.fa.fa-map-marker.navbar-icon
 									span.navbar-link-text
@@ -81,8 +81,8 @@ html
 								= link_to "#", :class => "dropdown-toggle", "data-toggle" => "dropdown"
 									span.fa.fa-calendar.navbar-icon
 									span.navbar-link-text
-										| По дням 
-									b.caret							
+										| По дням
+									b.caret
 									- today = date_for_screening(Time.now)
 									ul.dropdown-menu
 										li
@@ -103,7 +103,7 @@ html
 											td.big-font.share-top
 												span.fa.fa-share-alt.navbar-icon
 												span.share-text-top
-													| Поделиться: 
+													| Поделиться:
 											td
 												= partial 'partials/share', :locals => { :link => "#{'//' + request.host}" }
 
@@ -114,9 +114,9 @@ html
 							li.dropdown
 								= link_to "#", :class => "dropdown-toggle", "data-toggle" => "dropdown"
 									span.city.navbar-link-text
-										| #{@city.name rescue City.get_by_domain(request.subdomains.first).name} 
+										| #{@city.name rescue City.get_by_domain(request.subdomains.first).name}
 									span.city-short.navbar-link-text
-										| #{@city.name_short rescue City.get_by_domain(request.subdomains.first).name} 
+										| #{@city.name_short rescue City.get_by_domain(request.subdomains.first).name}
 									b.caret
 									ul.dropdown-menu id="dropdown-cities-menu"
 										li
@@ -143,7 +143,7 @@ html
 
 		/ JQuery Unveil library
 		= javascript_include_tag 'jquery.unveil.min'
-		
+
 		/ Kassa ticket plan
 		- if SETTINGS[:sell_tickets] == true
 			= javascript_include_tag 'http://s2.kassa.rl0.ru/widget/js/ticketmanager.js'
@@ -154,6 +154,6 @@ html
 		= partial 'partials/google'
 		= partial 'partials/yandex'
 
-  		- if @show_about == true
-  			= partial 'partials/vk_widget'
+		- if @show_about == true
+			= partial 'partials/vk_widget'
 

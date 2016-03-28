@@ -96,7 +96,7 @@ desc 'updates screenings for given movie (by id)'
 task :update_screenings_movie, [:id] => :environment do |task, args|
 	t = start_task(task)
 	id = args[:id].to_i
-	updated = 0	
+	updated = 0
 	movie_not_in_base = Movie.where(:movie_id => id).first.nil?
 	unless id == 0 or movie_not_in_base
 		puts "Fetching screenings for movie: ".green
@@ -108,11 +108,11 @@ task :update_screenings_movie, [:id] => :environment do |task, args|
 			city_name = city.domain
 			# first we parse all the available dates for given movie
 			dates = KassaParser.parse_movie_dates(KassaFetcher.fetch_sessions(id, nil, city_id, city_name))
-			# then iterate through them to fetch all sessions 
+			# then iterate through them to fetch all sessions
 			dates.each_with_index do |date, index|
 				#puts "Diff: #{difference_in_days(date, Time.now.strip)}"
 				# if the movie has some screenings added, we can add new ones no matter how distant in the future they are
-				if (m.get_screenings_all(city_id).count == 0 and difference_in_days(date, Time.now.strip) > SETTINGS[:screenings_fetch_span])				
+				if (m.get_screenings_all(city_id).count == 0 and difference_in_days(date, Time.now.strip) > SETTINGS[:screenings_fetch_span])
 					puts "-> [#{index + 1} / #{dates.size}] Skipping screenings for #{date}"
 					next
 				end
@@ -145,7 +145,7 @@ task :cleanup_movies => :environment do |task|
 	count = 0
 	Movie.where("kinopoisk_id IS NULL AND imdb_id IS NULL AND description IS NULL").each do |m|
 		next if m.screenings.count > 0
-		puts "removing [#{m.id}] #{m.title} (poster: #{m.poster_exists?})"	
+		puts "removing [#{m.id}] #{m.title} (poster: #{m.poster_exists?})"
 		File.delete(m.poster_filename) if m.poster_exists?
 		m.destroy
 		count += 1
@@ -159,15 +159,15 @@ def get_movie(id)
 	data = KassaParser.parse_movie_HTML(KassaFetcher.fetch_movie(id))
 	m = nil
 	begin
-		m = Movie.new(	movie_id: id, 
-					title: data[:title], 
-					title_original: data[:title_original], 
-					age_restriction: data[:age_restriction], 
-					country: data[:country], 
-					year: data[:year], 
-					genres: data[:genres], 
-					poster: data[:poster], 
-					active: true, 
+		m = Movie.new(	movie_id: id,
+					title: data[:title],
+					title_original: data[:title_original],
+					age_restriction: data[:age_restriction],
+					country: data[:country],
+					year: data[:year],
+					genres: data[:genres],
+					poster: data[:poster],
+					active: true,
 					duration: data[:duration] )
 	rescue
 	end
@@ -185,14 +185,14 @@ task :update_movies => :environment do |task|
 
 	# mark all movies in the base as inactive
 	Movie.all.each { |m| m.update_attribute(:active, false) }
-	
+
 	City.active.select([:city_id, :domain]).each do |city|
 		city_id = city.city_id
 		city_name = city.domain
 		items_count = 0
 		page_count = 0
 
-		loop do 
+		loop do
 			parsed = KassaParser.parse_json(KassaFetcher.fetch_movies(page_count * page_size, page_size, city_id, city_name))
 			items = parsed["Items"]
 			items.each do |item|
@@ -201,7 +201,7 @@ task :update_movies => :environment do |task|
 					puts "Error occured fetching/parsing movie #{item["objectId"]}...".red
 					next
 				end
-				
+
 				if c.in_db? and Movie.are_equal?(Movie.get_movie(c.movie_id), c)
 					# mark as active in db
 					Movie.get_movie(c.movie_id).update_attribute(:active, true)
@@ -226,13 +226,13 @@ task :update_movies => :environment do |task|
 					end
 				end
 			end
-			
+
 			items_count += items.size
 			fetched_count += items.size
 			total_count ||= parsed["TotalCount"]
-			
+
 			page_count += 1
-			
+
 			break if items_count >= total_count
 			sleep rand(1..1.5)
 		end
@@ -242,7 +242,7 @@ task :update_movies => :environment do |task|
 
 	Rake::Task[:update_movies_from_cinemas].reenable
 	Rake::Task[:update_movies_from_cinemas].invoke
-	
+
 	stop_task(task, t)
 end
 
@@ -259,7 +259,7 @@ task :update_movies_from_cinemas => :environment do |task|
 				screenings = KassaParser.parse_sessions_HTML(KassaFetcher.fetch_cinema(cinema.cinema_id, date, city.city_id, city.domain), date, cinema.cinema_id)
 				screenings.each { |s| movies += [s[:movie]] }
 			end
-			sleep rand(1..2)	
+			sleep rand(1..2)
 		end
 	end
 	movies = movies.compact.uniq.sort
@@ -297,23 +297,23 @@ task :update_movies_from_cinemas => :environment do |task|
 	stop_task(task, t)
 end
 
-desc 'update cinemas list' 
+desc 'update cinemas list'
 task :update_cinemas => :environment do |task|
 	t = start_task(task)
 	page_size = KassaFetcher::PAGE_SIZE
-	
+
 	updated_count = 0
 	fetched_count = 0
 	items_count = 0
 	page_count = 0
-	
+
 	City.active.select([:city_id, :domain]).each do |city|
 		city_id = city.city_id
 		city_name = city.domain
 		items_count = 0
 		page_count = 0
 
-		loop do 
+		loop do
 			parsed = KassaParser.parse_json(KassaFetcher.fetch_cinemas(page_count * page_size, page_size, city_id, city_name))
 			items = parsed["Items"]
 			items.each do |item|
@@ -327,13 +327,13 @@ task :update_cinemas => :environment do |task|
 					updated_count += 1
 				end
 			end
-			
+
 			items_count += items.size
 			fetched_count += items.size
 			total_count ||= parsed["TotalCount"]
-			
+
 			page_count += 1
-			
+
 			break if items_count >= total_count
 			sleep rand(1.0..2.0)
 		end
@@ -348,9 +348,9 @@ task :update_movie_ratings => :environment do |task|
 	t = start_task(task)
 	total = Movie.active.count
 	Movie.active.each_with_index do |m, index|
-		next if m.kinopoisk_id.nil? 
+		next if m.kinopoisk_id.nil?
 		puts "\t[#{index+1}/#{total}] Updating rating #{m.kinopoisk_id} [#{m.movie_id}][#{m.title}]...".yellow
-		
+
 		Kinopoisk.update_ratings(m)
 		sleep rand(0.5..1)
 	end
@@ -373,7 +373,7 @@ task :update_screenings_prices => :environment do |task|
 		counter += 1
 
 		if s.available?
-			
+
 			max_price, min_price = s.get_prices
 			if (!max_price.nil? and !min_price.nil?)
 				s.price_min, s.price_max = min_price, max_price
@@ -384,7 +384,7 @@ task :update_screenings_prices => :environment do |task|
 			else
 				puts "\t[#{counter}/#{fetched_count}] Screening #{s.screening_id} was not updated with prices".red
 			end
-				
+
 		else
 			puts "\t[#{counter}/#{fetched_count}] Screening #{s.screening_id} is not available".red
 		end
@@ -435,7 +435,7 @@ task :cleanup_screenings => :environment do |task|
 			s.destroy
 			next
 		end
-		
+
 		if (not s.exists?) or (not s.has_correct_title?) or (s.actual_date_time != s.date_time)
 			puts "\tScreening #{s.screening_id} was excluded from database:".yellow
 			puts s
@@ -510,7 +510,7 @@ task :update_movie_info, [:id, :kinopoisk_id, :imdb_id, :trailers] => :environme
 			puts m
 
 			k = KinopoiskParser::Movie.new kinopoisk_id
-			puts "Proposed kinopoisk title: #{k.title} [#{k.title_en}]".cyan 
+			puts "Proposed kinopoisk title: #{k.title} [#{k.title_en}]".cyan
 			begin
 				m.update_attribute(:kinopoisk_id, kinopoisk_id)
 				m.update_attribute(:description, k.description) if (not k.description.to_s.empty?)# and (not m.description.to_s.empty?)
@@ -523,11 +523,11 @@ task :update_movie_info, [:id, :kinopoisk_id, :imdb_id, :trailers] => :environme
 				puts k.description
 
 				unless imdb_id.zero?
-					m.update_attribute(:imdb_id, imdb_id) 
+					m.update_attribute(:imdb_id, imdb_id)
 					begin
 						movie = Imdb::Movie.new(m.imdb_id.to_s)
 						langs = movie.languages.reject { |x| x == "None"}.join(", ")
-						puts "#{movie.title} [#{langs}] [#{movie.plot_summary}]"												
+						puts "#{movie.title} [#{langs}] [#{movie.plot_summary}]"
 						m.update_attribute(:languages, langs)
 						if m.title_original.to_s.empty? and !movie.title.empty?
 							m.update_attribute(:title_original, movie.title)
@@ -551,7 +551,7 @@ task :update_movie_info, [:id, :kinopoisk_id, :imdb_id, :trailers] => :environme
 					Kinopoisk.download_poster(m, true)
 				end
 
-				Kinopoisk.update_ratings(m) unless m.kinopoisk_id.nil? 
+				Kinopoisk.update_ratings(m) unless m.kinopoisk_id.nil?
 
 				puts "Updated movie looks like this:".green
 				puts m
@@ -576,48 +576,48 @@ end
 desc 'clear file cache, no fill'
 task :clear_cache_no_fill => :environment do |task|
 	t = start_task(task)
-    clear_cache_no_fill
-    stop_task(task, t)
+	clear_cache_no_fill
+	stop_task(task, t)
 end
 
 desc 'clear file cache and fill'
 task :clear_cache => :environment do |task|
 	t = start_task(task)
-    clear_cache_no_fill
-    Rake::Task[:fill_cache].reenable
-    Rake::Task[:fill_cache].invoke
-    stop_task(task, t)
+	clear_cache_no_fill
+	Rake::Task[:fill_cache].reenable
+	Rake::Task[:fill_cache].invoke
+	stop_task(task, t)
 end
 
 desc 'fill file cache'
 task :fill_cache => :environment do |task|
 	t = start_task(task)
-    pages = [
-	    		"sitemap.xml", 
-	    		"movies", 
-	    		"", 
-	    		"dates/#{format_date_url(date_for_screening(Time.now))}", 
-	    		"dates/#{format_date_url(date_for_screening(Time.now + 1.day))}", 
-	    		"movies.rss", 
-	    		"screenings.rss", 
-	    		"dates/today.rss", 
-	    		"dates/tomorrow.rss",
-	    		"dates/overmorrow.rss"
-	    	]
-    domains = City.active.pluck(:domain)
+	pages = [
+				"sitemap.xml",
+				"movies",
+				"",
+				"dates/#{format_date_url(date_for_screening(Time.now))}",
+				"dates/#{format_date_url(date_for_screening(Time.now + 1.day))}",
+				"movies.rss",
+				"screenings.rss",
+				"dates/today.rss",
+				"dates/tomorrow.rss",
+				"dates/overmorrow.rss"
+			]
+	domains = City.active.pluck(:domain)
 
-    domains.each do |d|
-    	pages.each do |p|
+	domains.each do |d|
+		pages.each do |p|
 		url = "https://" + d + "." + domain_name + "/" + p
-    		puts "Fetching #{url} ...".yellow
-    		begin
-    			open(url, 'r', :read_timeout => 5).read
-    		rescue
-    			puts "  Failed to fetch. Server is not running?".red
-    		end
-    	end
-    end
-    stop_task(task, t)
+			puts "Fetching #{url} ...".yellow
+			begin
+				open(url, 'r', :read_timeout => 5).read
+			rescue
+				puts "  Failed to fetch. Server is not running?".red
+			end
+		end
+	end
+	stop_task(task, t)
 end
 
 def movie_auto_fill_info(id)
@@ -650,7 +650,7 @@ def movie_find_trailer(title, lang = :ru, year = nil)
 	trailer_key = "trailer"
 	trailer_key = "трейлер" if lang == :ru
 	query = [title, year, trailer_key].join " "
-	
+
 	id = nil
 	YoutubeSearch.search(query).first(10).each do |v|
 		next if v["duration"].to_i > max_duration or not prepare_title.call(v["title"]).include? trailer_key or not prepare_title.call(v["title"]).include? prepare_title.call(title)
@@ -720,24 +720,24 @@ end
 
 desc 'run a DB backup script'
 task :backup => :environment do |task|
-        t = start_task(task)
-        sh "../backupdb.sh"
-        stop_task(task, t)
+	t = start_task(task)
+	sh "../backupdb.sh"
+	stop_task(task, t)
 end
 
 desc 'download missing posters for movies'
 task :movies_download_posters => :environment do |task|
-        t = start_task(task)
+	t = start_task(task)
 	Movie.all.each do |m|
 		next if m.poster.nil?
 		next if m.poster_exists?
 		puts m.title + " " + m.poster
 		m.download_poster(m.poster)
 	end
-        stop_task(task, t)
+	stop_task(task, t)
 end
 
 task :test => :environment do |task|
-        t = start_task(task)
-        stop_task(task, t)
+	t = start_task(task)
+	stop_task(task, t)
 end
