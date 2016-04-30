@@ -235,7 +235,7 @@ class KassaParser
 	def self.screening_date_time(data)
 		replace = ["сегодня", "завтра"]
 		overnight = "в ночь с"
-		months = ["янв", "фев", "мар", "апр", "мая", "июн", "июл", "авг", "сен", "окт", "ноя", "дек"]		
+		months = ["янв", "фев", "мар", "апр", "май", "июн", "июл", "авг", "сен", "окт", "ноя", "дек"]
 		doc = Nokogiri::XML.parse(data) rescue nil
 		return nil if doc.nil?
 		date_text = doc.at(".order-info dd:nth-of-type(3)").inner_text rescue ""
