@@ -104,6 +104,7 @@ def language(lang)
 			'Mandarin' => 'китайский',
 			'Navajo' => 'навахо',
 			'Norwegian' => 'норвежский',
+			'Pashto' => 'пушту',
 			'Polish' => 'польский',
 			'Portuguese' => 'португальский',
 			'Romanian' => 'румынский',
