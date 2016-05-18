@@ -75,6 +75,7 @@ def language(lang)
 			'Dutch' => 'голландский',
 			'Estonian' => 'эстонский',
 			'Faroese' => 'фарерский',
+			'Farsi' => 'фарси',
 			'Finnish' => 'финский',
 			'French' => 'французский',
 			'Gaelic' => 'гаэльский',
@@ -86,6 +87,7 @@ def language(lang)
 			'Hindi' => 'хинди',
 			'Hungarian' => 'венгерский',
 			'Icelandic' => 'исландский',
+			'Iranian' => 'фарси',
 			'Irish' => 'ирландский',
 			'Irish Gaelic' => 'ирландский',
 			'Italian' => 'итальянский',
@@ -125,7 +127,7 @@ def language(lang)
 			'Wolof' => 'волоф',
 			'Yiddish' => 'идиш'
 		}
-	
+
 	l[lang] || lang
 end
 
@@ -204,7 +206,7 @@ def link_to_movie(movie, text = nil)
 	"<a class='underdashed' href='#{url(:movies, :index, movie.format_url)}'>#{hyphenate(text, :ru)}</a>"
 end
 
-def link_to_date(day)	
+def link_to_date(day)
 	link_to(show_date(day), url(:dates, :index, day), :class => 'underdashed')
 end
 
