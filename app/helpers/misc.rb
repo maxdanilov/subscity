@@ -102,6 +102,7 @@ def language(lang)
 			'Lithuanian' => 'литовский',
 			'Luxembourgish' => 'люксембуржский',
 			'Macedonian' => 'македонский',
+			'Malay' => 'малайский',
 			'Mandarin' => 'китайский',
 			'Navajo' => 'навахо',
 			'Norwegian' => 'норвежский',
