@@ -42,13 +42,18 @@ class Kinopoisk
 	end
 
 	def self.get_ratings(kinopoisk_id, imdb_id)
-		kp = get_kinopoisk_rating(kinopoisk_id) rescue nil
+		if kinopoisk_id.to_i == 0
+			kp = { :error => false }
+		else
+			kp = get_kinopoisk_rating(kinopoisk_id) rescue nil
+		end
+
 		if imdb_id.to_i == 0
 			imdb = { :error => false }
 		else
 			imdb = get_imdb_rating(imdb_id) rescue nil
 		end
-		
+
 		error = (kp[:error] or imdb[:error]) rescue true
 		kinopoisk_rating = kp[:rating] rescue nil
 		kinopoisk_votes = kp[:votes] rescue nil
@@ -61,7 +66,7 @@ class Kinopoisk
 	def self.update_ratings(c)
 		puts "\tUpdating rating #{c.kinopoisk_id}..."
 		result = Kinopoisk.get_ratings(c.kinopoisk_id, c.imdb_id) rescue nil
-		
+
 		unless result.nil? or result[:error] == true
 			r = nil
 			if Rating.exists?(:movie_id => c.movie_id)

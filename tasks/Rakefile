@@ -348,8 +348,8 @@ task :update_movie_ratings => :environment do |task|
 	t = start_task(task)
 	total = Movie.active.count
 	Movie.active.each_with_index do |m, index|
-		next if m.kinopoisk_id.nil?
-		puts "\t[#{index+1}/#{total}] Updating rating #{m.kinopoisk_id} [#{m.movie_id}][#{m.title}]...".yellow
+		next if m.kinopoisk_id.nil? and m.imdb_id.nil?
+		puts "\t[#{index+1}/#{total}] Updating rating for [#{m.movie_id}][#{m.title}]...".yellow
 
 		Kinopoisk.update_ratings(m)
 		sleep rand(0.5..1)
