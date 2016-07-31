@@ -5,7 +5,7 @@ class Kinopoisk
 	def self.fetch_rating_xml(id)
 		# http://rating.kinopoisk.ru/535244.xml
 		begin
-			open('http://rating.kinopoisk.ru/' + id.to_s + '.xml').read
+			open('https://rating.kinopoisk.ru/' + id.to_s + '.xml').read
 		rescue
 			return nil
 		end
