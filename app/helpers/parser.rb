@@ -122,7 +122,7 @@ class KassaParser
 			}
 
 		# exclude years from genre list
-		(1985..2030).each do |x|
+		(1980..2030).each do |x|
 			hash[x.to_s + ' г.'] = nil
 		end
 
