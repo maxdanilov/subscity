@@ -71,7 +71,7 @@ class Screening < ActiveRecord::Base
 
 	def has_correct_title?
 		title = actual_title
-		(movie.title.include? title or title.include? movie.title) rescue false
+		(movie.title.mb_chars.downcase.to_s.include? title.mb_chars.downcase.to_s or title.mb_chars.downcase.to_s.include? movie.title.mb_chars.downcase.to_s) rescue false
 	end
 
 	def available?
