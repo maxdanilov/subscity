@@ -1,5 +1,6 @@
-Subscity::App.controllers :movies do
+require 'json'
 
+Subscity::App.controllers :movies do
     # bulk movie updating
 
     get :update, :map => "/movies/update" do
@@ -75,7 +76,7 @@ Subscity::App.controllers :movies do
 
     # movies showing
 
-    get :index, :provides => [:html, :rss] do
+    get :index, :provides => [:html, :rss, :json] do
         case content_type
             when :html
                 cache(request.cache_key, :expires => CACHE_TTL_LONG) do
@@ -102,6 +103,12 @@ Subscity::App.controllers :movies do
                     @city = City.get_by_domain(request.subdomains.first)
                     @movies_active = @city.get_movies.sort_by { |a| a.created_at }.reverse
                     builder :feed, :locals => { :movies => @movies_active, :city => @city}
+                end
+            when :json
+                cache(request.cache_key, :expires => CACHE_TTL) do
+                    @city = City.get_by_domain(request.subdomains.first)
+                    @movies_active = @city.get_movies.sort_by { |a| a.created_at }.reverse
+                    return JSON.pretty_generate(@movies_active.as_json)
                 end
         end
     end
