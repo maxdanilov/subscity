@@ -25,6 +25,22 @@ Subscity::App.controllers :cinemas do
         end
     end
 
+    get :screenings, :with => :id, :id => /\d+.*/, :provides => [:json] do
+        cache(request.cache_key, :expires => CACHE_TTL_LONG) do
+            cinema = Cinema.find(params[:id]) rescue nil
+            unless cinema
+                return "{}"
+            end
+
+            city = City.get_by_domain(request.subdomains.first)
+            screenings_all = Screening.active_all.where(:cinema_id => cinema.cinema_id).order(:date_time)
+            movies = city.get_movies.to_a
+            json_data = screenings_all.as_json(:except => ['cinema_id', 'created_at', 'updated_at', 'id']).
+                        map { |v| v['movie_id'] = movies.find{|m| m.movie_id == v['movie_id'] }.id rescue nil ; v }
+            JSON.pretty_generate(json_data)
+        end
+    end
+
     get :index, :with => :id, :id => /\d+.*/ do
         begin
             cache(request.cache_key, :expires => CACHE_TTL) do

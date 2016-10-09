@@ -1,17 +1,10 @@
 SubsCity JSON API
 ===================
 
-<!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
-
-	- [Movies List](#movies-list)
-	- [Cinemas List](#cinemas-list)
-
-<!-- /TOC -->
-
 ## Movies List
 
-https://msk.subscity.ru/movies.json
-https://spb.subscity.ru/movies.json
+* https://msk.subscity.ru/movies.json
+* https://spb.subscity.ru/movies.json
 
 ```JSON
 [
@@ -43,8 +36,8 @@ https://spb.subscity.ru/movies.json
 
 ## Cinemas List
 
-https://msk.subscity.ru/cinemas.json
-https://spb.subscity.ru/cinemas.json
+* https://msk.subscity.ru/cinemas.json
+* https://spb.subscity.ru/cinemas.json
 
 ```JSON
 [
@@ -65,6 +58,30 @@ https://spb.subscity.ru/cinemas.json
     ]
   },
 
+  ...
+]
+```
+
+## Cinemas Screening List
+
+* https://msk.subscity.ru/cinemas/screenings/<id>.json
+
+```JSON
+[
+  {
+    "date_time": "2016-10-10T10:00:00+03:00",
+    "movie_id": 25415,
+    "price_max": 250,
+    "price_min": 200,
+    "screening_id": 24211337
+  },
+  {
+    "date_time": "2016-10-10T11:40:00+03:00",
+    "movie_id": 24070,
+    "price_max": 250,
+    "price_min": 200,
+    "screening_id": 24211338
+  },
   ...
 ]
 ```
