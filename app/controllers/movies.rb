@@ -121,8 +121,14 @@ Subscity::App.controllers :movies do
 
             city = City.get_by_domain(request.subdomains.first)
             cinemas = city.get_sorted_cinemas.keys
-            screenings_all = movie.get_screenings_all(city.city_id)
-            json_data = screenings_all.as_json(:except => ['created_at', 'updated_at', 'id', 'movie_id']).
+
+            if SETTINGS[:movie_show_all_screenings]
+                screenings = movie.get_screenings_all(city.city_id)
+            else
+                screenings = movie.get_screenings(city.city_id)
+            end
+            
+            json_data = screenings.as_json(:except => ['created_at', 'updated_at', 'id', 'movie_id']).
                         map { |v| v['cinema_id'] = cinemas.find { |c| c.cinema_id == v['cinema_id'] }.id rescue nil ;
                                   v }
             JSON.pretty_generate(json_data)

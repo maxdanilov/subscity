@@ -31,9 +31,13 @@ Subscity::App.controllers :cinemas do
             return "[]" unless cinema
 
             city = City.get_by_domain(request.subdomains.first)
-            screenings_all = Screening.active_all.where(:cinema_id => cinema.cinema_id).order(:date_time)
+            if SETTINGS[:movie_show_all_screenings]
+                screenings = Screening.active_all.where(:cinema_id => cinema.cinema_id).order(:date_time)
+            else
+                screenings = Screening.active.where(:cinema_id => cinema.cinema_id).order(:date_time)
+            end
             movies = city.get_movies.to_a
-            json_data = screenings_all.as_json(:except => ['cinema_id', 'created_at', 'updated_at', 'id']).
+            json_data = screenings.as_json(:except => ['cinema_id', 'created_at', 'updated_at', 'id']).
                         map { |v| v['movie_id'] = movies.find{|m| m.movie_id == v['movie_id'] }.id rescue nil ; v }
             JSON.pretty_generate(json_data)
         end

@@ -59,6 +59,7 @@ SubsCity JSON API
   },
 
   ...
+
 ]
 ```
 
@@ -82,7 +83,9 @@ SubsCity JSON API
     "price_min": null,
     "screening_id": 24211338
   },
+
   ...
+
 ]
 ```
 
@@ -99,6 +102,8 @@ SubsCity JSON API
     "price_min": 200,
     "screening_id": 24211338
   },
+
   ...
+  
 ]
 ```
