@@ -1,10 +1,27 @@
+require 'json'
+
 Subscity::App.controllers :cinemas do
-    get :index do
-        cache(request.cache_key, :expires => CACHE_TTL_LONG) do
-            @city = City.get_by_domain(request.subdomains.first)
-            @cinemas = @city.get_sorted_cinemas
-            @title = "Кинотеатры"
-            render 'cinema/showall', layout: :layout
+    get :index, :provides => [:html, :json] do
+        case content_type
+            when :html
+                cache(request.cache_key, :expires => CACHE_TTL_LONG) do
+                    @city = City.get_by_domain(request.subdomains.first)
+                    @cinemas = @city.get_sorted_cinemas
+                    @title = "Кинотеатры"
+                    render 'cinema/showall', layout: :layout
+                end
+            when :json
+                cache(request.cache_key, :expires => CACHE_TTL_LONG) do
+                    city = City.get_by_domain(request.subdomains.first)
+                    cinemas = city.get_sorted_cinemas
+                    json_data = cinemas.map { |k, v| k.as_json(:except => ['fetch_all', 'created_at',
+                                                                          'updated_at', 'cinema_id',
+                                                                          'city_id']).
+                        merge({'movies_count' =>  v.length,
+                               'movies' => v.map{ |k, v| k.id } })
+                    }
+                    return JSON.pretty_generate(json_data)
+                end
         end
     end
 
