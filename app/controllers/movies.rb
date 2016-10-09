@@ -105,7 +105,7 @@ Subscity::App.controllers :movies do
                     builder :feed, :locals => { :movies => @movies_active, :city => @city}
                 end
             when :json
-                cache(request.cache_key, :expires => CACHE_TTL) do
+                cache(request.cache_key, :expires => CACHE_TTL_API) do
                     @city = City.get_by_domain(request.subdomains.first)
                     @movies_active = @city.get_movies.sort_by { |a| a.created_at }.reverse
                     return JSON.pretty_generate(@movies_active.as_json(:except => ['active',
@@ -115,7 +115,7 @@ Subscity::App.controllers :movies do
     end
 
     get :screenings, :with => :id, :id => /\d+.*/, :provides => [:json] do
-        cache(request.cache_key, :expires => CACHE_TTL) do
+        cache(request.cache_key, :expires => CACHE_TTL_API) do
             movie = Movie.find(params[:id]) rescue nil
             return "[]" unless movie
 

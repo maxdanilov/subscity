@@ -11,7 +11,7 @@ Subscity::App.controllers :cinemas do
                     render 'cinema/showall', layout: :layout
                 end
             when :json
-                cache(request.cache_key, :expires => CACHE_TTL_LONG) do
+                cache(request.cache_key, :expires => CACHE_TTL_API) do
                     city = City.get_by_domain(request.subdomains.first)
                     cinemas = city.get_sorted_cinemas
                     json_data = cinemas.map { |k, v| k.as_json(:except => ['fetch_all', 'created_at',
@@ -26,7 +26,7 @@ Subscity::App.controllers :cinemas do
     end
 
     get :screenings, :with => :id, :id => /\d+.*/, :provides => [:json] do
-        cache(request.cache_key, :expires => CACHE_TTL_LONG) do
+        cache(request.cache_key, :expires => CACHE_TTL_API) do
             cinema = Cinema.find(params[:id]) rescue nil
             return "[]" unless cinema
 

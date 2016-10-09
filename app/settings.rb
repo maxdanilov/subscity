@@ -19,6 +19,7 @@ COOKIES_TTL = 86400 * 30 # in seconds
 SITEMAP_TTL = 12 * 3600 # in seconds
 CACHE_TTL = 1 * 3600 # in seconds
 CACHE_TTL_LONG = 2 * 3600
+CACHE_TTL_API = 900 # in seconds
 CACHE_TTL_SCREENINGS_FEED = 1200 # in seconds
 
 LOG_FILE = File.dirname(__FILE__) + "/../tmp/performance.txt"

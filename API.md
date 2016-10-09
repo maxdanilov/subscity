@@ -1,6 +1,8 @@
 SubsCity JSON API
 ===================
 
+All calls results are cached for 15 minutes.
+
 ## Movies List
 
 * https://msk.subscity.ru/movies.json
@@ -89,6 +91,8 @@ SubsCity JSON API
 ]
 ```
 
+*NB* `screening_id` field is Rambler.Kassa's screening ID.
+
 ## Movie Screenings List
 
 * https://msk.subscity.ru/movies/screenings/[id].json
@@ -107,3 +111,6 @@ SubsCity JSON API
   
 ]
 ```
+
+*NB* `screening_id` field is Rambler.Kassa's screening ID.
+
