@@ -44,8 +44,8 @@ All call results are cached for up to 15 minutes.
 
 ## Movie Screenings List
 
-* https://msk.subscity.ru/movies/screenings/[id].json
-* https://spb.subscity.ru/movies/screenings/[id].json
+* https://msk.subscity.ru/movies/screenings/[movie_id].json
+* https://spb.subscity.ru/movies/screenings/[movie_id].json
 
 ```JSON
 [
@@ -95,8 +95,8 @@ All call results are cached for up to 15 minutes.
 
 ## Cinema Screenings List
 
-* https://msk.subscity.ru/cinemas/screenings/[id].json
-* https://spb.subscity.ru/cinemas/screenings/[id].json
+* https://msk.subscity.ru/cinemas/screenings/[cinema_id].json
+* https://spb.subscity.ru/cinemas/screenings/[cinema_id].json
 
 ```JSON
 [
