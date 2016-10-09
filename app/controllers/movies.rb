@@ -114,6 +114,21 @@ Subscity::App.controllers :movies do
         end
     end
 
+    get :screenings, :with => :id, :id => /\d+.*/, :provides => [:json] do
+        cache(request.cache_key, :expires => CACHE_TTL) do
+            movie = Movie.find(params[:id]) rescue nil
+            return "[]" unless movie
+
+            city = City.get_by_domain(request.subdomains.first)
+            cinemas = city.get_sorted_cinemas.keys
+            screenings_all = movie.get_screenings_all(city.city_id)
+            json_data = screenings_all.as_json(:except => ['created_at', 'updated_at', 'id', 'movie_id']).
+                        map { |v| v['cinema_id'] = cinemas.find { |c| c.cinema_id == v['cinema_id'] }.id rescue nil ;
+                                  v }
+            JSON.pretty_generate(json_data)
+        end
+    end
+
     get :index, :with => :id, :id => /\d+.*/, :provides => [:html, :txt] do
         begin
             case content_type

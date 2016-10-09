@@ -85,3 +85,20 @@ SubsCity JSON API
   ...
 ]
 ```
+
+## Movie Screenings List
+
+* https://msk.subscity.ru/movies/screenings/[id].json
+
+```JSON
+[
+  {
+    "cinema_id": 28,
+    "date_time": "2016-10-10T11:40:00+03:00",
+    "price_max": 250,
+    "price_min": 200,
+    "screening_id": 24211338
+  },
+  ...
+]
+```

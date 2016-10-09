@@ -28,9 +28,7 @@ Subscity::App.controllers :cinemas do
     get :screenings, :with => :id, :id => /\d+.*/, :provides => [:json] do
         cache(request.cache_key, :expires => CACHE_TTL_LONG) do
             cinema = Cinema.find(params[:id]) rescue nil
-            unless cinema
-                return "{}"
-            end
+            return "[]" unless cinema
 
             city = City.get_by_domain(request.subdomains.first)
             screenings_all = Screening.active_all.where(:cinema_id => cinema.cinema_id).order(:date_time)
