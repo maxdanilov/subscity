@@ -1,7 +1,13 @@
 SubsCity JSON API
 ===================
 
-All calls results are cached for 15 minutes.
+All call results are cached for up to 15 minutes.
+
+* [Movies List](#movies-list)
+* [Movie Screenings List](#movie-screenings-list)
+* [Cinemas List](#cinemas-list)
+* [Cinema Screenings List](#cinema-screenings-list)
+* [Date Screenings List](#date-screenings-list)
 
 ## Movies List
 
@@ -36,6 +42,28 @@ All calls results are cached for 15 minutes.
 ]
 ```
 
+## Movie Screenings List
+
+* https://msk.subscity.ru/movies/screenings/[id].json
+* https://spb.subscity.ru/movies/screenings/[id].json
+
+```JSON
+[
+  {
+    "cinema_id": 28,
+    "date_time": "2016-10-10T11:40:00+03:00",
+    "price_max": 250,
+    "price_min": 200,
+    "screening_id": 24211338
+  },
+
+  ...
+
+]
+```
+
+**NB**: `screening_id` field is Rambler.Kassa's screening ID.
+
 ## Cinemas List
 
 * https://msk.subscity.ru/cinemas.json
@@ -68,6 +96,7 @@ All calls results are cached for 15 minutes.
 ## Cinema Screenings List
 
 * https://msk.subscity.ru/cinemas/screenings/[id].json
+* https://spb.subscity.ru/cinemas/screenings/[id].json
 
 ```JSON
 [
@@ -91,26 +120,29 @@ All calls results are cached for 15 minutes.
 ]
 ```
 
-*NB* `screening_id` field is Rambler.Kassa's screening ID.
+**NB**: `screening_id` field is Rambler.Kassa's screening ID.
 
-## Movie Screenings List
+## Date Screenings List
 
-* https://msk.subscity.ru/movies/screenings/[id].json
+* https://msk.subscity.ru/dates/screenings/[YYYY]-[MM]-[DD].json
+* https://spb.subscity.ru/dates/screenings/[YYYY]-[MM]-[DD].json
 
 ```JSON
 [
   {
-    "cinema_id": 28,
-    "date_time": "2016-10-10T11:40:00+03:00",
-    "price_max": 250,
-    "price_min": 200,
-    "screening_id": 24211338
+    "cinema_id": 23,
+    "date_time": "2016-10-10T09:15:00+03:00",
+    "movie_id": 24070,
+    "price_max": 100,
+    "price_min": 100,
+    "screening_id": 24077100,
   },
 
   ...
-  
+
 ]
 ```
 
-*NB* `screening_id` field is Rambler.Kassa's screening ID.
+**NB**: `screening_id` field is Rambler.Kassa's screening ID.
 
+**NB**: Screenings belong to the day if they start between 02:31 AM of this day and 02:30 AM of the following one.
