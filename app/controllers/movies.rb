@@ -4,7 +4,7 @@ Subscity::App.controllers :movies do
     # bulk movie updating
 
     get :update, :map => "/movies/update" do
-        auth_allow_for_role :admin 
+        auth_allow_for_role :admin
         @movies = Movie.all
         @title = "[e] Фильмы"
         render 'movie/update', layout: :layout
@@ -24,7 +24,7 @@ Subscity::App.controllers :movies do
     # particular movie editing
 
     get :edit, :map => "/movies/:id/edit" do
-        auth_allow_for_role :admin 
+        auth_allow_for_role :admin
         id = params[:id].to_i rescue 0
         if id > 0
             begin
@@ -49,7 +49,7 @@ Subscity::App.controllers :movies do
                     if m.has_attribute? k
                         v.gsub!(/\D/, '') if Movie.columns_hash[k].type == :integer
                         v = nil if v.empty? and [:text, :string].include? Movie.columns_hash[k].type
-                        m.update_attribute(k, v) 
+                        m.update_attribute(k, v)
                     end
                 end
 
@@ -83,7 +83,7 @@ Subscity::App.controllers :movies do
                     @city = City.get_by_domain(request.subdomains.first)
                     @movies = @city.get_movies.to_a
                     @movies = @movies.sort_by { |a| a.title.mb_chars.downcase.to_s }
-                    @new_movies = @movies.select {|a| (Time.now - a.created_at) <= SETTINGS[:movie_new_span].days}                       
+                    @new_movies = @movies.select {|a| (Time.now - a.created_at) <= SETTINGS[:movie_new_span].days}
                     @cinema_count = @city.get_cinema_count
                     @screening_counts = Hash.new(0)
                     @next_screenings = {}
@@ -108,7 +108,8 @@ Subscity::App.controllers :movies do
                 cache(request.cache_key, :expires => CACHE_TTL) do
                     @city = City.get_by_domain(request.subdomains.first)
                     @movies_active = @city.get_movies.sort_by { |a| a.created_at }.reverse
-                    return JSON.pretty_generate(@movies_active.as_json)
+                    return JSON.pretty_generate(@movies_active.as_json(:except => ['active',
+                      'fetch_mode', 'hide', 'movie_id', 'updated_at']))
                 end
         end
     end
@@ -143,7 +144,7 @@ Subscity::App.controllers :movies do
                         render 'movie/show', layout: :layout
                     end
                 when :txt
-                    auth_allow_for_role :admin                 
+                    auth_allow_for_role :admin
                     @city = City.get_by_domain(request.subdomains.first)
                     @movie = Movie.find(params[:id]) rescue nil
                     @ratings = Rating.where(:movie_id => @movie.movie_id).first rescue nil
