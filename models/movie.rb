@@ -129,6 +129,21 @@ class Movie < ActiveRecord::Base
 		"\tUpdated: #{updated_at}\n"
 	end
 
+	def trailer_original
+		return nil if trailer.nil?
+		trailer.split("*")[0]
+	end
+
+	def trailer_russian
+		return nil if trailer.nil?
+		trailer.split("*")[1]
+	end
+
+	def poster_url
+		return nil unless poster_exists?
+		"https://" + DOMAIN_NAME + "/images/posters/" + movie_id.to_s + ".jpg"
+	end
+
 	def poster_filename
 		File.dirname(__FILE__) + "/../public/images/posters/" + movie_id.to_s + ".jpg" 
 	end

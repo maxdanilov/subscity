@@ -106,10 +106,16 @@ Subscity::App.controllers :movies do
                 end
             when :json
                 cache(request.cache_key, :expires => CACHE_TTL_API) do
-                    @city = City.get_by_domain(request.subdomains.first)
-                    @movies_active = @city.get_movies.sort_by { |a| a.created_at }.reverse
-                    return JSON.pretty_generate(@movies_active.as_json(:except => ['active',
-                      'fetch_mode', 'hide', 'movie_id', 'updated_at']))
+                    city = City.get_by_domain(request.subdomains.first)
+                    movies_active = city.get_movies.sort_by { |a| a.created_at }.reverse
+                    json_data = movies_active.map{ |m|
+                        j = m.as_json(:except => ['active', 'fetch_mode', 'hide', 'movie_id',
+                                                  'updated_at', 'poster', 'trailer']);
+                        j['trailer_original'] = m.trailer_original;
+                        j['trailer_russian'] = m.trailer_russian;
+                        j['poster'] = m.poster_url;
+                        j.sort.to_h }
+                    JSON.pretty_generate(json_data)
                 end
         end
     end
