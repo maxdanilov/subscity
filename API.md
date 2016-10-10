@@ -16,20 +16,34 @@ All call results are cached for up to 15 minutes.
 
 ```JSON
 [
-  {
+{
 	"age_restriction": 16,
-	"cast": "Джозеф Гордон-Левитт\r\nШейлин Вудли\r\nСкотт Иствуд\r\nНиколас Кейдж\r\nТимоти Олифант\r\nЗакари Куинто\r\nЛоган Маршалл-Грин\r\nДжоэли Ричардсон\r\nРис Иванс\r\nБен Шнетцер",
-	"country": "США, Германия, Франция",
+	"cast": [
+	  "Джозеф Гордон-Левитт",
+	  "Шейлин Вудли",
+	  "Скотт Иствуд"
+	],
+	"countries": [
+	  "США",
+	  "Германия",
+	  "Франция"
+	],
 	"created_at": "2016-09-09T05:55:55+03:00",
 	"description": "Он мечтал продолжить семейную традицию и посвятить свою жизнь служению Родине.",
-	"description_english": "",
-	"director": "Оливер Стоун",
+	"description_english": null,
+	"directors": [
+	  "Оливер Стоун"
+	],
 	"duration": 140,
-	"genres": "триллер, драма",
+	"genres": [
+	  "триллер"
+	],
 	"id": 24070,
 	"imdb_id": 3774114,
 	"kinopoisk_id": 843831,
-	"languages": "английский, французский",
+	"languages": [
+	  "английский"
+	],
 	"poster": "https://subscity.ru/images/posters/62395.jpg",
 	"title": "Сноуден",
 	"title_original": "Snowden",
