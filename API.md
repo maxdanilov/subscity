@@ -16,43 +16,43 @@ All call results are cached for up to 15 minutes.
 
 ```JSON
 [
-{
-	"age_restriction": 16,
-	"cast": [
-	  "Джозеф Гордон-Левитт",
-	  "Шейлин Вудли",
-	  "Скотт Иствуд"
-	],
-	"countries": [
-	  "США",
-	  "Германия",
-	  "Франция"
-	],
-	"created_at": "2016-09-09T05:55:55+03:00",
-	"description": "Он мечтал продолжить семейную традицию и посвятить свою жизнь служению Родине.",
-	"description_english": null,
-	"directors": [
-	  "Оливер Стоун"
-	],
-	"duration": 140,
-	"genres": [
-	  "триллер"
-	],
-	"id": 24070,
-	"imdb_id": 3774114,
-	"kinopoisk_id": 843831,
-	"languages": [
-	  "английский"
-	],
-	"poster": "https://subscity.ru/images/posters/62395.jpg",
-	"title": "Сноуден",
-	"title_original": "Snowden",
-	"trailer_original": "QlSAiI3xMh4",
-	"trailer_russian": "f93Wttq02zI",
-	"year": 2016
-  },
+	{
+		"age_restriction": 16,
+		"cast": [
+		  "Джозеф Гордон-Левитт",
+		  "Шейлин Вудли",
+		  "Скотт Иствуд"
+		],
+		"countries": [
+		  "США",
+		  "Германия",
+		  "Франция"
+		],
+		"created_at": "2016-09-09T05:55:55+03:00",
+		"description": "Он мечтал продолжить семейную традицию и посвятить свою жизнь служению Родине.",
+		"description_english": null,
+		"directors": [
+		  "Оливер Стоун"
+		],
+		"duration": 140,
+		"genres": [
+		  "триллер"
+		],
+		"id": 24070,
+		"imdb_id": 3774114,
+		"kinopoisk_id": 843831,
+		"languages": [
+		  "английский"
+		],
+		"poster": "https://subscity.ru/images/posters/62395.jpg",
+		"title": "Сноуден",
+		"title_original": "Snowden",
+		"trailer_original": "QlSAiI3xMh4",
+		"trailer_russian": "f93Wttq02zI",
+		"year": 2016
+	  },
 
-  ...
+	...
 
 ]
 ```
@@ -77,7 +77,7 @@ All call results are cached for up to 15 minutes.
 ]
 ```
 
-**NB**: `screening_id` field is Rambler.Kassa's screening ID.
+**NB**: `screening_id` field is a Rambler.Kassa's screening ID.
 
 ## Cinemas List
 
@@ -135,7 +135,7 @@ All call results are cached for up to 15 minutes.
 ]
 ```
 
-**NB**: `screening_id` field is Rambler.Kassa's screening ID.
+**NB**: `screening_id` field is a Rambler.Kassa's screening ID.
 
 ## Date Screenings List
 
@@ -158,6 +158,6 @@ All call results are cached for up to 15 minutes.
 ]
 ```
 
-**NB**: `screening_id` field is Rambler.Kassa's screening ID.
+**NB**: `screening_id` field is a Rambler.Kassa's screening ID.
 
 **NB**: Screenings belong to the day if they start between 02:31 AM of this day and 02:30 AM of the following one.
