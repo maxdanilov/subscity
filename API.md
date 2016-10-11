@@ -106,17 +106,24 @@ All call results are cached for up to 15 minutes.
   {
 	"address": "Покровка, 47/24",
 	"id": 28,
-	"metro": "Красные Ворота, Курская",
-	"name": "35ММ",
-	"phone": "+7 (495) 917 17 48",
-	"url": "http://www.kino35mm.ru",
-	"movies_count": 5,
+	"metro": [
+	  "Красные Ворота",
+	  "Курская"
+	],
 	"movies": [
 	  25636,
 	  24367,
 	  25415,
 	  24070,
 	  25666
+	],
+	"movies_count": 5,
+	"name": "35ММ",
+	"phones": [
+	  "+7 (495) 917 17 48"
+	],
+	"urls": [
+	  "http://www.kino35mm.ru"
 	]
   },
 

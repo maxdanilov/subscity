@@ -14,12 +14,7 @@ Subscity::App.controllers :cinemas do
                 cache(request.cache_key, :expires => CACHE_TTL_API) do
                     city = City.get_by_domain(request.subdomains.first)
                     cinemas = city.get_sorted_cinemas
-                    json_data = cinemas.map { |k, v| k.as_json(:except => ['fetch_all', 'created_at',
-                                                                          'updated_at', 'cinema_id',
-                                                                          'city_id']).
-                        merge({'movies_count' =>  v.length,
-                               'movies' => v.map{ |k, v| k.id } })
-                    }
+                    json_data = cinemas.map { |c, m| c.render_json(m) }
                     return JSON.pretty_generate(json_data)
                 end
         end

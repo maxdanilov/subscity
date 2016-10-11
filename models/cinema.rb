@@ -33,4 +33,13 @@ class Cinema < ActiveRecord::Base
 		r
 	end
 
+	def render_json(movies)
+		data = as_json(:only => ['address', 'id', 'name'])
+		data['phones'] = phone.to_s.empty? ? nil : phone.split(", ")
+		data['urls'] = url.to_s.empty? ? nil : url.split(", ")
+		data['metro'] = metro.to_s.empty? ? nil : metro.split(", ")
+		data['movies_count'] = movies.length rescue 0
+        data['movies'] = movies.map { |m, v| m.id } rescue []
+		data.sort.to_h
+	end
 end
