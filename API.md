@@ -107,13 +107,13 @@ All call results are cached for up to 15 minutes.
 	"id": 28,
 	"location": {
 	  "address": "Покровка, 47/24",
+	  "metro": [
+		"Красные Ворота",
+		"Курская"
+	  ],
 	  "latitude": "55.763611",
 	  "longitude": "37.654027"
 	},
-	"metro": [
-	  "Красные Ворота",
-	  "Курская"
-	],
 	"movies": [
 	  25636,
 	  24367,

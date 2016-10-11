@@ -37,11 +37,11 @@ class Cinema < ActiveRecord::Base
 		data = as_json(:only => ['id', 'name'])
 		data['phones'] = phone.to_s.empty? ? nil : phone.split(", ")
 		data['urls'] = url.to_s.empty? ? nil : url.split(", ")
-		data['metro'] = metro.to_s.empty? ? nil : metro.split(", ")
 		data['movies_count'] = movies.length rescue 0
 		data['movies'] = movies.map { |m, v| m.id } rescue []
 		data['location'] = {
 			'address': address,
+			'metro': metro.to_s.empty? ? nil : metro.split(", "),
 			'latitude': latitude,
 			'longitude': longitude
 		}
