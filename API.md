@@ -45,12 +45,18 @@ All call results are cached for up to 15 minutes.
 		  "английский"
 		],
 		"poster": "https://subscity.ru/images/posters/62395.jpg",
+		"screenings": {
+		  "next": "2016-10-12T10:00:00+03:00",
+		  "count": 7
+		},
 		"title": "Сноуден",
 		"title_original": "Snowden",
-		"trailer_original": "QlSAiI3xMh4",
-		"trailer_russian": "f93Wttq02zI",
+		"trailers": {
+		  "original": "QlSAiI3xMh4",
+		  "russian": "f93Wttq02zI"
+		},
 		"year": 2016
-	  },
+	},
 
 	...
 
