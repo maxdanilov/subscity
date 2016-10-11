@@ -213,6 +213,11 @@ class Movie < ActiveRecord::Base
 		kp_votes = rating.kinopoisk_votes rescue nil
 		imdb_votes = rating.imdb_votes rescue nil
 
+		imdb_rating = nil if imdb_rating.to_i == 0
+		kp_rating = nil if kp_rating.to_i == 0
+		imdb_votes = nil if imdb_votes.to_i == 0
+		kp_votes = nil if kp_votes.to_i == 0
+
 		return {
 					'imdb':
 						{
