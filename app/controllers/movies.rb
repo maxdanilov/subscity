@@ -122,11 +122,7 @@ Subscity::App.controllers :movies do
 
                     json_data = movies.map{ |m|
                         rating = ratings.find { |r| r.movie_id == m.movie_id } rescue nil
-                        r = m.render_json(rating)
-                        r['screenings'] = {
-                                            'count' => screening_counts[m],
-                                            'next' => next_screenings[m].date_time
-                                          }
+                        r = m.render_json(rating, screening_counts[m], next_screenings[m].date_time)
                         r.sort.to_h
                     }
 

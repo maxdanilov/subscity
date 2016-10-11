@@ -181,18 +181,18 @@ class Movie < ActiveRecord::Base
 		end
 	end
 
-	def render_json(rating)
+	def render_json(rating, screenings_count, next_screening)
 		json_data = as_json(:only => ['age_restriction', 'created_at', 'duration', 'id',
 									  'year'])
 		json_data['description'] = description.to_s.empty? ? nil : description
 		json_data['title'] = {
-								'original' => title_original,
-								'russian' => title
-							 }
+			'original' => title_original,
+			'russian' => title
+		}
 		json_data['trailer'] = {
-									'original' => trailer_original,
-									'russian' => trailer_russian
-							   }
+			'original' => trailer_original,
+			'russian' => trailer_russian
+		}
 		json_data['poster'] = poster_url;
 		json_data['cast'] = cast.to_s.empty? ? nil : cast.split(/,\ |\r\n|,\r\n/)
 		json_data['directors'] = director.to_s.empty? ? nil : director.split(/,\ /)
@@ -200,6 +200,10 @@ class Movie < ActiveRecord::Base
 		json_data['genres'] = genres.to_s.empty? ? nil : genres.split(/,\ /)
 		json_data['languages'] = languages.to_s.empty? ? nil : languages.split(/,\ /)
 		json_data['rating'] = render_rating_json(rating)
+		json_data['screenings'] = {
+			'count' => screenings_count,
+			'next' => next_screening
+		}
 		json_data.sort.to_h
 	end
 
