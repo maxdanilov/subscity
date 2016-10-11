@@ -104,8 +104,12 @@ All call results are cached for up to 15 minutes.
 ```JSON
 [
   {
-	"address": "Покровка, 47/24",
 	"id": 28,
+	"location": {
+	  "address": "Покровка, 47/24",
+	  "latitude": "55.763611",
+	  "longitude": "37.654027"
+	},
 	"metro": [
 	  "Красные Ворота",
 	  "Курская"

@@ -32,6 +32,8 @@ ActiveRecord::Schema.define(:version => 7) do
     t.boolean  "fetch_all"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.decimal  "longitude",
+    t.decomal  "latitude"
   end
 
   create_table "cities", :force => true do |t|
