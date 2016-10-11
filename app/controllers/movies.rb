@@ -118,11 +118,15 @@ Subscity::App.controllers :movies do
                         screening_counts[movie] += 1
                         next_screenings[movie] = s unless next_screenings.has_key? movie
                     end
+                    ratings = Rating.where(:movie_id => movies.map(&:movie_id));
 
                     json_data = movies.map{ |m|
-                        r = m.render_json
-                        r['screenings'] = { "next" => next_screenings[m].date_time,
-                                            "count" => screening_counts[m] }
+                        rating = ratings.find { |r| r.movie_id == m.movie_id } rescue nil
+                        r = m.render_json(rating)
+                        r['screenings'] = {
+                                            'count' => screening_counts[m],
+                                            'next' => next_screenings[m].date_time
+                                          }
                         r.sort.to_h
                     }
 

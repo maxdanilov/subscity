@@ -181,20 +181,47 @@ class Movie < ActiveRecord::Base
 		end
 	end
 
-	def render_json
-		json_data = as_json(:except => ['active', 'fetch_mode', 'hide', 'movie_id',
-										'updated_at', 'poster', 'trailer', 'country',
-										'cast', 'genres', 'languages', 'director'])
+	def render_json(rating)
+		json_data = as_json(:only => ['age_restriction', 'created_at', 'duration', 'id',
+									  'year'])
 		json_data['description'] = description.to_s.empty? ? nil : description
-		json_data['description_english'] = description_english.to_s.empty? ? nil : description_english
-		json_data['trailers'] = { 	"original" => trailer_original,
-									"russian" => trailer_russian	}
+		json_data['title'] = {
+								'original' => title_original,
+								'russian' => title
+							 }
+		json_data['trailer'] = {
+									'original' => trailer_original,
+									'russian' => trailer_russian
+							   }
 		json_data['poster'] = poster_url;
 		json_data['cast'] = cast.to_s.empty? ? nil : cast.split(/,\ |\r\n|,\r\n/)
 		json_data['directors'] = director.to_s.empty? ? nil : director.split(/,\ /)
 		json_data['countries'] = country.to_s.empty? ? nil : country.split(/,\ /)
 		json_data['genres'] = genres.to_s.empty? ? nil : genres.split(/,\ /)
 		json_data['languages'] = languages.to_s.empty? ? nil : languages.split(/,\ /)
+		json_data['rating'] = render_rating_json(rating)
 		json_data.sort.to_h
+	end
+
+	def render_rating_json(rating)
+		kp_rating = rating.kinopoisk_rating.round(1) rescue nil
+		imdb_rating = rating.imdb_rating.round(1) rescue nil
+		kp_votes = rating.kinopoisk_votes rescue nil
+		imdb_votes = rating.imdb_votes rescue nil
+
+		return {
+					'imdb':
+						{
+							'id': imdb_id,
+							'rating': imdb_rating,
+							'votes': imdb_votes
+						},
+					'kinopoisk':
+						{
+							'id': kinopoisk_id,
+							'rating': kp_rating,
+							'votes': kp_votes
+						}
+				}
 	end
 end

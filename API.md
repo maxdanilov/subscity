@@ -30,7 +30,6 @@ All call results are cached for up to 15 minutes.
 		],
 		"created_at": "2016-09-09T05:55:55+03:00",
 		"description": "Он мечтал продолжить семейную традицию и посвятить свою жизнь служению Родине.",
-		"description_english": null,
 		"directors": [
 		  "Оливер Стоун"
 		],
@@ -39,19 +38,31 @@ All call results are cached for up to 15 minutes.
 		  "триллер"
 		],
 		"id": 24070,
-		"imdb_id": 3774114,
-		"kinopoisk_id": 843831,
 		"languages": [
 		  "английский"
 		],
 		"poster": "https://subscity.ru/images/posters/62395.jpg",
-		"screenings": {
-		  "next": "2016-10-12T10:00:00+03:00",
-		  "count": 7
+		"rating": {
+		  "imdb": {
+			"id": 3774114,
+			"rating": 7.4,
+			"votes": 9427
+		  },
+		  "kinopoisk": {
+			"id": 843831,
+			"rating": 7.2,
+			"votes": 5464
+		  }
 		},
-		"title": "Сноуден",
-		"title_original": "Snowden",
-		"trailers": {
+		"screenings": {
+		  "count": 7,
+		  "next": "2016-10-12T10:00:00+03:00"
+		},
+		"title": {
+		  "original": "Snowden",
+		  "russian": "Сноуден"
+		},
+		"trailer": {
 		  "original": "QlSAiI3xMh4",
 		  "russian": "f93Wttq02zI"
 		},
