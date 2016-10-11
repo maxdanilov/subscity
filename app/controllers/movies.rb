@@ -107,8 +107,25 @@ Subscity::App.controllers :movies do
             when :json
                 cache(request.cache_key, :expires => CACHE_TTL_API) do
                     city = City.get_by_domain(request.subdomains.first)
-                    movies_active = city.get_movies.sort_by { |a| a.created_at }.reverse
-                    json_data = movies_active.map{ |m| m.render_json }
+                    movies = city.get_movies.sort_by { |a| a.created_at }.reverse
+
+                    screening_counts = Hash.new(0)
+                    next_screenings = {}
+                    screenings_all = Screening.active_all.in_city(city.city_id).order(:date_time).select([:movie_id, :date_time]).to_a
+                    screenings_all.each do |s|
+                        movie = movies.find { |m| m.movie_id == s.movie_id} rescue nil
+                        next if movie.nil?
+                        screening_counts[movie] += 1
+                        next_screenings[movie] = s unless next_screenings.has_key? movie
+                    end
+
+                    json_data = movies.map{ |m|
+                        r = m.render_json
+                        r['screenings'] = { "next" => next_screenings[m].date_time,
+                                            "count" => screening_counts[m] }
+                        r.sort.to_h
+                    }
+
                     JSON.pretty_generate(json_data)
                 end
         end
