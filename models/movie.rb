@@ -153,7 +153,7 @@ class Movie < ActiveRecord::Base
 	end
 
 	def timestamp_poster
-  		(File.mtime(poster_filename).to_i.to_s) rescue ""
+		(File.mtime(poster_filename).to_i.to_s) rescue ""
 	end
 
 	def thumbnail_poster
@@ -170,14 +170,31 @@ class Movie < ActiveRecord::Base
 		return if url.nil?
 		if (!poster_exists? or force_rewrite)
 			begin
-			   	open(url) do |f|
-				   	File.open(poster_filename, "wb") do |file|
-				    	file.puts f.read
-				   	end
+				open(url) do |f|
+					File.open(poster_filename, "wb") do |file|
+						file.puts f.read
+					end
 				end
 				thumbnail_poster
 			rescue
 			end
 		end
+	end
+
+	def render_json
+		json_data = as_json(:except => ['active', 'fetch_mode', 'hide', 'movie_id',
+										'updated_at', 'poster', 'trailer', 'country',
+										'cast', 'genres', 'languages', 'director']);
+		json_data['description'] = description.to_s.empty? ? nil : description;
+		json_data['description_english'] = description_english.to_s.empty? ? nil : description_english;
+		json_data['trailer_original'] = trailer_original;
+		json_data['trailer_russian'] = trailer_russian;
+		json_data['poster'] = poster_url;
+		json_data['cast'] = cast.to_s.empty? ? nil : cast.split(/,\ |\r\n|,\r\n/);
+		json_data['directors'] = director.to_s.empty? ? nil : director.split(/,\ /);
+		json_data['countries'] = country.to_s.empty? ? nil : country.split(/,\ /);
+		json_data['genres'] = genres.to_s.empty? ? nil : genres.split(/,\ /);
+		json_data['languages'] = languages.to_s.empty? ? nil : languages.split(/,\ /);
+		json_data.sort.to_h
 	end
 end

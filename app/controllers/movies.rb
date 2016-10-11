@@ -106,24 +106,9 @@ Subscity::App.controllers :movies do
                 end
             when :json
                 cache(request.cache_key, :expires => CACHE_TTL_API) do
-                    # TODO move the as_json logic into the model
                     city = City.get_by_domain(request.subdomains.first)
                     movies_active = city.get_movies.sort_by { |a| a.created_at }.reverse
-                    json_data = movies_active.map{ |m|
-                        j = m.as_json(:except => ['active', 'fetch_mode', 'hide', 'movie_id',
-                                                  'updated_at', 'poster', 'trailer', 'country',
-                                                  'cast', 'genres', 'languages', 'director']);
-                        j['description'] = m.description.to_s.empty? ? nil : m.description;
-                        j['description_english'] = m.description_english.to_s.empty? ? nil : m.description_english;
-                        j['trailer_original'] = m.trailer_original;
-                        j['trailer_russian'] = m.trailer_russian;
-                        j['poster'] = m.poster_url;
-                        j['cast'] = m.cast.to_s.empty? ? nil : m.cast.split(/,\ |\r\n|,\r\n/);
-                        j['directors'] = m.director.to_s.empty? ? nil : m.director.split(/,\ /);
-                        j['countries'] = m.country.to_s.empty? ? nil : m.country.split(/,\ /);
-                        j['genres'] = m.genres.to_s.empty? ? nil : m.genres.split(/,\ /);
-                        j['languages'] = m.languages.to_s.empty? ? nil : m.languages.split(/,\ /);
-                        j.sort.to_h }
+                    json_data = movies_active.map{ |m| m.render_json }
                     JSON.pretty_generate(json_data)
                 end
         end
