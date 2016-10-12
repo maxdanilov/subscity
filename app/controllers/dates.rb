@@ -21,7 +21,7 @@ Subscity::App.controllers :dates do
             screenings = Screening.active_all.on_date(date).in_city(city.city_id).order(:date_time)
             movies = city.get_movies.to_a
             cinemas = city.get_sorted_cinemas.keys
-            json_data = screenings.as_json(:except => ['id', 'created_at', 'updated_id']).
+            json_data = screenings.as_json(:except => ['id', 'created_at', 'updated_at']).
                     map{ |v| v['movie_id'] = movies.find{ |m| m.movie_id == v['movie_id'] }.id rescue nil ;
                              v['cinema_id'] = cinemas.find{ |c| c.cinema_id == v['cinema_id'] }.id rescue nil ;
                              v}
