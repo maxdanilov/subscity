@@ -20,6 +20,21 @@ Subscity::App.controllers :cinemas do
         end
     end
 
+    get :metrics, :provides => [:json] do
+        cache(request.cache_key, :expires => CACHE_TTL_API) do
+            city = City.get_by_domain(request.subdomains.first)
+            cinemas = city.get_sorted_cinemas.keys rescue 0
+            metrics = {}
+            metrics['count'] = cinemas.length
+            metrics['no_geolocation'] = cinemas.select { |c| c.longitude.to_s.empty? or c.latitude.to_s.empty?}.length
+            metrics['no_address'] = cinemas.select { |c| c.address.to_s.empty? }.length
+            metrics['no_metro'] = cinemas.select { |c| c.metro.to_s.empty? }.length
+            metrics['no_phone'] = cinemas.select { |c| c.phone.to_s.empty? }.length
+            metrics['no_url'] = cinemas.select { |c| c.url.to_s.empty? }.length
+            return JSON.pretty_generate(metrics)
+        end
+    end
+
     get :screenings, :with => :id, :id => /\d+.*/, :provides => [:json] do
         cache(request.cache_key, :expires => CACHE_TTL_API) do
             cinema = Cinema.find(params[:id]) rescue nil
