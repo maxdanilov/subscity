@@ -196,6 +196,7 @@ task :update_movies => :environment do |task|
 			parsed = KassaParser.parse_json(KassaFetcher.fetch_movies(page_count * page_size, page_size, city_id, city_name))
 			items = parsed["Items"]
 			items.each do |item|
+				puts "Parsing movie #{item["objectId"]}"
 				c = get_movie(item["objectId"])
 				if c.nil?
 					puts "Error occured fetching/parsing movie #{item["objectId"]}...".red
