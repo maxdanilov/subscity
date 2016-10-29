@@ -160,15 +160,15 @@ def get_movie(id)
 	m = nil
 	begin
 		m = Movie.new(	movie_id: id,
-					title: data[:title],
-					title_original: data[:title_original],
-					age_restriction: data[:age_restriction],
-					country: data[:country],
-					year: data[:year],
-					genres: data[:genres],
-					poster: data[:poster],
-					active: true,
-					duration: data[:duration] )
+						title: data[:title],
+						title_original: data[:title_original],
+						age_restriction: data[:age_restriction],
+						country: data[:country],
+						year: data[:year],
+						genres: data[:genres],
+						poster: data[:poster],
+						active: true,
+						duration: data[:duration] )
 	rescue
 	end
 	m

@@ -134,14 +134,15 @@ class KassaParser
 		doc = Nokogiri::XML.parse(data) rescue nil
 		return nil if doc.nil?
 		title = (doc/"h1.item_title").first.inner_text rescue nil
-		genres = (doc/"div.item_data__type").first.inner_text rescue nil
+		genres = (doc/"h3.item_title3").first.inner_text.strip.split("\n")[0].strip rescue nil
+		age_restriction = (doc/"h3.item_title3").first.inner_text.strip.split("\n")[1].strip.to_i rescue nil
+
 		title_original = (doc/"h2.item_title2").first.inner_text.split("—")[0].strip rescue nil
 		year = (doc/"h2.item_title2").first.inner_text.split("—")[1].strip rescue nil
 
 		extra_info = (doc/"div.item_data__years").first.inner_text.split(',') rescue []
 		country = extra_info[0..-2].select {|x| x.to_i == 0}.join(',').strip rescue nil
 		duration = extra_info[-1].split(' ')[0].to_i rescue nil
-		age_restriction = extra_info[-1].split(' ')[2].to_i rescue nil
 
 		poster = (doc/"div.item_img > img").first[:src] rescue nil
 		poster = nil if poster =~ /empty/
@@ -155,7 +156,7 @@ class KassaParser
 
 		unless genres.to_s.empty?
 			genres_new = []
-			genres.split(", ").each { |g| genres_new << kinopoisk_genre(g) }
+			genres.split(",").each { |g| genres_new << kinopoisk_genre(g.strip) }
 			genres = genres_new.compact.join(", ")
 		end
 
