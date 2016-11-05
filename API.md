@@ -111,8 +111,8 @@ All call results are cached for up to 15 minutes.
 		"Красные Ворота",
 		"Курская"
 	  ],
-	  "latitude": "55.763611",
-	  "longitude": "37.654027"
+	  "latitude": 55.763611,
+	  "longitude": 37.654027
 	},
 	"movies": [
 	  25636,
