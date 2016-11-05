@@ -42,8 +42,8 @@ class Cinema < ActiveRecord::Base
 		data['location'] = {
 			'address': address,
 			'metro': metro.to_s.empty? ? nil : metro.split(", "),
-			'latitude': latitude,
-			'longitude': longitude
+			'latitude': latitude.nil? ? latitude : latitude.to_f,
+			'longitude': longitude.nil? ? longitude : longitude.to_f
 		}
 		data.sort.to_h
 	end
