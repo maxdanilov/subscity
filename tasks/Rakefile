@@ -168,7 +168,8 @@ def get_movie(id)
 						genres: data[:genres],
 						poster: data[:poster],
 						active: true,
-						duration: data[:duration] )
+						duration: data[:duration],
+						fetch_mode: FETCH_MODE[:movie][:subs] )
 	rescue
 	end
 	m
