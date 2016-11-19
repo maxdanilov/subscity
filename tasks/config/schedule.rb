@@ -44,7 +44,7 @@ every :day, :at => ['05:55', '10:05', '14:05', '19:00', '23:00'] do
 end
 
 #kinopoisk ratings
-every :day, :at => ['06:10', '10:15', '14:20', '19:10', '00:10'] do
+every :day, :at => ['06:10'] do
 	my_rake "update_movie_ratings", :output => 'logs/cron.log'
 end
 
