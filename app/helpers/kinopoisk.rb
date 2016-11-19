@@ -5,7 +5,7 @@ class Kinopoisk
 	def self.fetch_rating_xml(id)
 		# http://rating.kinopoisk.ru/535244.xml
 		begin
-			open('https://rating.kinopoisk.ru/' + id.to_s + '.xml').read
+			open('https://rating.kinopoisk.ru/' + id.to_s + '.xml', :read_timeout => 4).read
 		rescue
 			return nil
 		end
@@ -15,7 +15,7 @@ class Kinopoisk
 		url = "http://www.imdb.com/title/tt#{imdb_id.to_s.rjust(8, "0")}/"
 		error = false
 		begin
-			doc = Nokogiri::XML.parse(open(url))
+			doc = Nokogiri::XML.parse(open(url, :read_timeout => 4))
 			rating = doc.at("[@itemprop=ratingValue]").inner_text.to_f rescue nil
 			votes = doc.at("[@itemprop=ratingCount]").inner_text.gsub(/[^0-9]/, '').to_i rescue nil
 		rescue
