@@ -349,12 +349,9 @@ desc 'update movies ratings from kinopoisk data'
 task :update_movie_ratings => :environment do |task|
 	t = start_task(task)
 
-	cities = City.all
-	movies = []
-	City.all.each do |c|
-		movies = movies + c.get_movies.to_a
-	end
+	movies = City.all.inject([]) { |movies, city| movies + city.get_movies.to_a } 
 	movies = movies.uniq.shuffle
+
 	movies.each_with_index do |m, index|
 		next if m.kinopoisk_id.nil? and m.imdb_id.nil?
 		puts "\t[#{index+1}/#{movies.count}] Updating rating for [#{m.movie_id}][#{m.title}]...".yellow
