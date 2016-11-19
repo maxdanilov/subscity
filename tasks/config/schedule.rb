@@ -28,11 +28,6 @@ every :day, :at => ['00:00'] do
 	my_rake "backup", :output => 'logs/cron.log'
 end
 
-#check if all parsers are still working right
-every :day, :at => ['03:00'] do
-	my_rake "test_parsers", :output => 'logs/cron_tests.log'
-end
-
 #clean obsolete movies
 every :day, :at => ['03:30'] do
 	my_rake "cleanup_movies", :output => 'logs/cron_movies.log'
@@ -46,11 +41,6 @@ end
 #kinopoisk ratings
 every :day, :at => ['06:10', '14:20', '22:15'] do
 	my_rake "update_movie_ratings", :output => 'logs/cron.log'
-end
-
-#kinopoisk info
-every :day, :at => ['04:00', '17:00'] do
-	my_rake "update_movies_info", :output => 'logs/cron.log'
 end
 
 #cinemas

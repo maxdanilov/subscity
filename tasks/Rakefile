@@ -5,7 +5,6 @@ task :environment do
 	require 'active_record'
 	require 'imdb'
 	require 'RMagick'
-	require 'youtube_search'
 	require 'htmlentities'
 	#require 'active_support/core_ext'
 
@@ -74,13 +73,6 @@ task :update_screenings => :environment do |task, args|
 		Rake::Task[:update_screenings_movie].invoke(m.movie_id)
 		Rake::Task[:update_screenings_movie].reenable
 		sleep rand(2..3)
-	end
-
-	Movie.all.each do |m|
-		next if m.kinopoisk_id.to_i != 0 or m.has_description?
-		next if m.screenings.count == 0
-		puts "Auto filling info for (#{m.id}) [#{m.movie_id}] #{m.title}".green
-		movie_auto_fill_info(m.id)
 	end
 
 	Rake::Task[:update_screenings_prices].reenable
@@ -457,123 +449,6 @@ task :cleanup_screenings => :environment do |task|
 	stop_task(task, t)
 end
 
-def update_movie_trailer(id, video_id)
-	id = id.to_i
-	video_id = video_id.gsub('http://www.youtube.com/watch?v=','').gsub('youtube','').to_s
-	unless id.zero?
-		unless Movie.exists?(id)
-			puts "Error: movie with id = #{id} wasn't found.".red
-		else
-			m = Movie.where(:id => id).first
-			m.update_attribute(:trailer, video_id)
-		end
-	else
-		puts "Error: movie id should be > 0".red
-	end
-end
-
-desc 'update youtube trailer info'
-task :update_movie_trailer, [:id, :video_id] => :environment do |task, args|
-	t = start_task(task)
-	update_movie_trailer(args[:id], args[:video_id])
-	stop_task(task, t)
-end
-
-desc 'force update of all active movies with kinopoisk and imdb data'
-task :update_movies_info => :environment do |task, args|
-	t = start_task(task)
-	Movie.active.each do |m|
-		next if m.screenings.count == 0
-		imdb_id = m.imdb_id.to_s
-		kinopoisk_id = m.kinopoisk_id.to_s
-		unless kinopoisk_id == 0
-			Rake::Task[:update_movie_info].reenable
-			Rake::Task[:update_movie_info].invoke(m.id.to_s, kinopoisk_id, imdb_id)
-		end
-	end
-	Rake::Task[:clear_cache].reenable
-	Rake::Task[:clear_cache].invoke
-	Rake::Task[:fill_cache].invoke
-	stop_task(task, t)
-end
-
-desc 'force update of given movie with kinopoisk data and trailer info'
-task :update_movie_info, [:id, :kinopoisk_id, :imdb_id, :trailers] => :environment do |task, args|
-	t = start_task(task)
-	id = args[:id].to_i
-	kinopoisk_id = args[:kinopoisk_id].to_i rescue 0
-	imdb_id = args[:imdb_id].gsub(/\D/, '').to_i rescue 0
-	trailers = args[:trailers].to_s
-
-	puts "input data: id = #{id}, kinopoisk = #{kinopoisk_id}, imdb = #{imdb_id}, trailer = #{trailers}"
-
-	unless id.zero? or kinopoisk_id.zero?
-		unless Movie.exists?(id)
-			puts "Error: movie with id = #{id} wasn't found.".red
-		else
-			m = Movie.where(:id => id).first
-			puts m
-
-			k = KinopoiskParser::Movie.new kinopoisk_id
-			puts "Proposed kinopoisk title: #{k.title} [#{k.title_en}]".cyan
-			begin
-				m.update_attribute(:kinopoisk_id, kinopoisk_id)
-				m.update_attribute(:description, k.description) if (not k.description.to_s.empty?)# and (not m.description.to_s.empty?)
-				m.update_attribute(:title_original, k.title_en) unless k.title_en.to_s.empty?
-				m.update_attribute(:director, k.directors.join(", ")) unless k.directors.to_s.empty?
-				m.update_attribute(:cast, k.actors.join(", ")) unless k.actors.to_s.empty?
-				m.update_attribute(:year, k.year) if m.year.nil?
-				m.update_attribute(:genres, k.genres.join(", ")) unless k.genres.to_a.empty?
-
-				puts k.description
-
-				unless imdb_id.zero?
-					m.update_attribute(:imdb_id, imdb_id)
-					begin
-						movie = Imdb::Movie.new(m.imdb_id.to_s)
-						langs = movie.languages.reject { |x| x == "None"}.join(", ")
-						puts "#{movie.title} [#{langs}] [#{movie.plot_summary}]"
-						m.update_attribute(:languages, langs)
-						if m.title_original.to_s.empty? and !movie.title.empty?
-							m.update_attribute(:title_original, movie.title)
-						end
-
-						#if m.description.to_s.empty? and !movie.plot_summary.empty?
-						if !movie.plot_summary.empty?
-							m.update_attribute(:description_english, movie.plot_summary)
-						end
-
-						if m.title_original.to_s.empty? and !movie.title.empty?
-							m.update_attribute(:title_original, movie.title)
-						end
-
-					rescue
-						puts "Error occured while fetching language for movie #{m.movie_id}".red
-					end
-				end
-
-				if m.poster.nil? and !k.poster.nil? and !m.poster_exists?
-					Kinopoisk.download_poster(m, true)
-				end
-
-				Kinopoisk.update_ratings(m) unless m.kinopoisk_id.nil?
-
-				puts "Updated movie looks like this:".green
-				puts m
-
-				update_movie_trailer(id, trailers) unless trailers.empty?
-				puts "clearing cache..."
-				clear_cache_no_fill
-			rescue
-				puts "An error occured while updating".red
-			end
-		end
-	else
-		puts "Error: Input parameters can't be zero: id = #{id}, kinopoisk_id = #{kinopoisk_id}".red
-	end
-	stop_task(task, t)
-end
-
 def clear_cache_no_fill
 	FileCache.expire
 end
@@ -622,104 +497,6 @@ task :fill_cache => :environment do |task|
 			end
 		end
 	end
-	stop_task(task, t)
-end
-
-def movie_auto_fill_info(id)
-	m = Movie.where(:id => id).first rescue nil
-	return if m.nil? or m.kinopoisk_id.to_i != 0
-	ids = movie_find_id(m.title)
-	kinopoisk_id = ids[:kinopoisk]
-	imdb_id = ids[:imdb]
-	if kinopoisk_id.nil?
-		return if m.title_original.nil? or m.title_original.strip.empty?
-		ids = movie_find_id(m.title_original)
-		kinopoisk_id = ids[:kinopoisk]
-		imdb_id = ids[:imdb]
-		return if kinopoisk_id.nil?
-	end
-	# fetch primary data
-	Rake::Task[:update_movie_info].reenable
-	Rake::Task[:update_movie_info].invoke(m.id.to_s, kinopoisk_id.to_s, imdb_id.to_s)
-	# now we can try to update trailers
-	m = Movie.where(:id => id).first rescue nil
-	return if m.nil? or not m.trailer.to_s.empty?
-	trailers = movie_find_trailers(m.title.to_s, m.title_original.to_s)
-	m.update_attribute(:trailer, trailers) unless trailers.nil?
-end
-
-def movie_find_trailer(title, lang = :ru, year = nil)
-	prepare_title = -> (t) { t.mb_chars.downcase.to_s.strip.gsub(/[:.–—-]/, "").gsub("  ", " ") }
-	return nil if prepare_title.call(title).empty?
-	max_duration = 240
-	trailer_key = "trailer"
-	trailer_key = "трейлер" if lang == :ru
-	query = [title, year, trailer_key].join " "
-
-	id = nil
-	YoutubeSearch.search(query).first(10).each do |v|
-		next if v["duration"].to_i > max_duration or not prepare_title.call(v["title"]).include? trailer_key or not prepare_title.call(v["title"]).include? prepare_title.call(title)
-		id = v["video_id"]
-		break
-	end
-	id
-end
-
-def movie_find_trailers(title_ru, title_en = nil, year = nil)
-	title_en ||= title_ru
-	ru = movie_find_trailer(title_ru, :ru, year) rescue nil
-	en = movie_find_trailer(title_en, :en, year) rescue nil
-	return nil if en.nil? and ru.nil?
-	return ru if en.nil?
-	return en if ru.nil?
-	return "#{en}*#{ru}"
-end
-
-def movie_find_id(title, year = nil)
-
-	query = [title, year].join " "
-	prepare_title = -> (t) { t.mb_chars.downcase.to_s.strip.gsub(/[:.–—-]/, "").gsub("  ", " ") }
-	compare_titles = -> (t1, t2) { prepare_title.call(t1) == prepare_title.call(t2) }
-	begin
-		m = KinopoiskParser::Movie.new query
-		title_en = m.title_en rescue ""
-		title_en = m.title if title_en.empty?
-		kinopoiskID = m.id
-		kinopoiskID = nil if not compare_titles.call(m.title, title) and not compare_titles.call(m.title_en, title)
-		kinopoiskID = kinopoiskID.to_i unless kinopoiskID.nil?
-	rescue
-		kinopoiskID = nil
-	end
-
-	query = [title_en, year].join " "
-
-	if kinopoiskID != nil
-		begin
-			imdbID = Imdb::Search.new(query).movies[0].id
-			title_original = Imdb::Movie.new(imdbID).title
-			imdbID nil if not compare_titles.call(title_original, title) and not compare_titles.call(title_original, title_en)
-			imdbID = imdbID.to_i unless imdbID.nil?
-		rescue
-			imdbID = nil
-		end
-	else
-		imdbID = nil
-	end
-	return {:kinopoisk => kinopoiskID, :imdb => imdbID}
-end
-
-task :test_parsers => :environment do |task|
-	t = start_task(task)
-
-	result = []
-	[:test_kassa, :test_kinopoisk_imdb].each { |f| result << send(f) }
-
-	unless result.include? false
-		puts "[OK]".green unless result.include? false
-	else
-		puts "[!!]".red
-	end
-
 	stop_task(task, t)
 end
 

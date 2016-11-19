@@ -1,28 +1,6 @@
 require 'json'
 
 Subscity::App.controllers :movies do
-    # bulk movie updating
-
-    get :update, :map => "/movies/update" do
-        auth_allow_for_role :admin
-        @movies = Movie.all
-        @title = "[e] Фильмы"
-        render 'movie/update', layout: :layout
-    end
-
-    post :update, :map => "/movies/update" do
-        if admin?
-            #cmd = "cd #{File.dirname(__FILE__)}/../../tasks && rake update_movie_info[#{params[:id]},#{params[:kinopoisk_id]},#{params[:imdb_id]}] >> /home/nas/rake.log 2>&1"
-            cmd = "cd #{File.dirname(__FILE__)}/../../tasks && rake update_movie_info[#{params[:id]},#{params[:kinopoisk_id]},#{params[:imdb_id]},#{params[:trailers]}]"
-            result = `#{cmd}`
-            "#{result}"
-        else
-            render 'errors/404', layout: :layout
-        end
-    end
-
-    # particular movie editing
-
     get :edit, :map => "/movies/:id/edit" do
         auth_allow_for_role :admin
         id = params[:id].to_i rescue 0
