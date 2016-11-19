@@ -1,11 +1,15 @@
 require 'open-uri'
 require 'nokogiri'
+require 'timeout'
 
 class Kinopoisk
 	def self.fetch_rating_xml(id)
 		# http://rating.kinopoisk.ru/535244.xml
+		# for some reason, open's :read_timeout won't work:
 		begin
-			open('https://rating.kinopoisk.ru/' + id.to_s + '.xml', :read_timeout => 4).read
+			Timeout.timeout(5) do
+				open('https://rating.kinopoisk.ru/' + id.to_s + '.xml').read
+			end
 		rescue
 			return nil
 		end
@@ -15,7 +19,10 @@ class Kinopoisk
 		url = "http://www.imdb.com/title/tt#{imdb_id.to_s.rjust(8, "0")}/"
 		error = false
 		begin
-			doc = Nokogiri::XML.parse(open(url, :read_timeout => 4))
+			# for some reason, open's :read_timeout won't work:
+			Timeout.timeout(5) do
+				doc = Nokogiri::XML.parse(open(url))
+			end
 			rating = doc.at("[@itemprop=ratingValue]").inner_text.to_f rescue nil
 			votes = doc.at("[@itemprop=ratingCount]").inner_text.gsub(/[^0-9]/, '').to_i rescue nil
 		rescue
