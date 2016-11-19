@@ -62,20 +62,19 @@ class Kinopoisk
 			imdb = get_imdb_rating(imdb_id) rescue nil
 		end
 
-		error = (kp[:error] or imdb[:error]) rescue true
 		kinopoisk_rating = kp[:rating] rescue nil
 		kinopoisk_votes = kp[:votes] rescue nil
 		imdb_rating = imdb[:rating] rescue nil
 		imdb_votes = imdb[:votes] rescue nil
 
-		{:error => error, :kinopoisk => {:rating => kinopoisk_rating, :votes => kinopoisk_votes}, :imdb => {:rating => imdb_rating, :votes => imdb_votes}}
+		{:kinopoisk => {:rating => kinopoisk_rating, :votes => kinopoisk_votes}, :imdb => {:rating => imdb_rating, :votes => imdb_votes}}
 	end
 
 	def self.update_ratings(c)
 		puts "\tUpdating rating #{c.kinopoisk_id}..."
 		result = Kinopoisk.get_ratings(c.kinopoisk_id, c.imdb_id) rescue nil
 
-		unless result.nil? or result[:error] == true
+		unless result.nil?
 			r = nil
 			if Rating.exists?(:movie_id => c.movie_id)
 				puts "\t\t Updating a record..."
@@ -85,10 +84,10 @@ class Kinopoisk
 				r = Rating.new(	:movie_id => c.movie_id)
 			end
 
-			r[:kinopoisk_rating] = result[:kinopoisk][:rating].to_f
-			r[:kinopoisk_votes] = result[:kinopoisk][:votes].to_i
-			r[:imdb_rating] = result[:imdb][:rating].to_f
-			r[:imdb_votes] = result[:imdb][:votes].to_i
+			r[:kinopoisk_rating] = result[:kinopoisk][:rating].to_f unless result[:kinopoisk][:rating].nil?
+			r[:kinopoisk_votes] = result[:kinopoisk][:votes].to_i unless result[:kinopoisk][:rating].nil?
+			r[:imdb_rating] = result[:imdb][:rating].to_f unless result[:imdb][:rating].nil?
+			r[:imdb_votes] = result[:imdb][:votes].to_i unless result[:imdb][:rating].nil?
 			r.save
 			puts "\t\t Update result: #{result}..."
 		else
