@@ -33,12 +33,11 @@ table style="display: inline-table;" class = ("table-curved rating " + ("mobile-
 			span.label-votes
 				span.fa.fa-user.small-font
 				span
-					- if votes < 1000
+					- if votes.to_i < 1000
 						|  #{votes.to_i}
-					- elsif votes >= 1000000
-						|  #{(votes / 1000000.0).round(2)}M
-					- elsif votes >= 100000
-						|  #{(votes / 1000.0).to_i}K
+					- elsif votes.to_i >= 1000000
+						|  #{(votes.to_i / 1000000.0).round(2)}M
+					- elsif votes.to_i >= 100000
+						|  #{(votes.to_i / 1000.0).to_i}K
 					- else
-						|  #{(votes / 1000.0).round(1)}K 
-				
+						|  #{(votes.to_i / 1000.0).round(1)}K
