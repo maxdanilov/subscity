@@ -6,33 +6,33 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 					span.fa.fa-plus
 
 			div.text-center.movie-poster-mobile
-				= link_to url(:movies, :index, format_movie_url(movie))					
-					- if movie.poster_exists?							
+				= link_to url(:movies, :index, format_movie_url(movie))
+					- if movie.poster_exists?
 						= image_tag "transparent.png", :class => 'poster', :'data-src' => "/images/posters/#{movie.movie_id}.jpg?#{movie.timestamp_poster}", :alt => "постер \"#{movie.title}\"", :title => "постер \"#{movie.title}\""
 					- else
 						= image_tag "transparent.png", :class => 'poster'
 
 			div.movie-titles
-				div.movie-title 
+				div.movie-title
 					== link_to_movie(movie)
 					- unless movie.year.to_i == 0
 						span.hidden-xs
 							|  (#{movie.year})
-					|  
+					|
 					- unless movie.languages.to_s.empty?
-						span.label.label-bg.label-default.age-restriction 
+						span.label.label-bg.label-default.age-restriction
 							span.fa.fa-volume-up.language-icon
 							|  #{language(movie.languages.split(", ").first) rescue nil}
-						|  
+						|
 					- unless movie.age_restriction.nil?
-						div.label.label-bg.label-default.age-restriction 
+						div.label.label-bg.label-default.age-restriction
 							| #{movie.age_restriction}+
 					- if defined? @new_movies and @new_movies.include? movie
-						|  
-						span.badge.new новый 
+						|
+						span.badge.new новый
 				- unless movie.title_original.nil?
 					div.movie-title-original = format_title(movie.title_original)
-			
+
 				- unless movie.genres.to_s.empty?
 					div.hidden-xs.movie-genres
 						i.fa.fa-bookmark.movie-icon
@@ -41,36 +41,36 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 				div.movie-screenings.hidden-xs
 					div.movie-screenings-count
 					div.movie-next-screening
-						- if defined? @next_screenings[movie]			
+						- if defined? @next_screenings[movie]
 							- if defined? @screening_counts[movie] and @screening_counts[movie] == 1
-								| единственный сеанс: 
+								| единственный сеанс:
 							- else
-								| ближайший сеанс:  
+								| ближайший сеанс:
 							span.label.label-bg.label-default.normal-font
 								span.fa.fa-calendar
 								|  #{format_next_screening @next_screenings[movie].date_time}
 
 			- unless (movie.kinopoisk_id.nil? and movie.imdb_id.nil?) or ratings.nil?
 				div.text-center.rating-plates
-					- unless movie.imdb_id.nil? or ratings.nil? or ratings.imdb_rating.nil?
+					- unless movie.imdb_id.nil? or ratings.nil?
 						div.rating-plate-imdb
-							= partial 'partials/rating_plate', :locals => { :movie => movie, :type => :imdb, :rating => ratings.imdb_rating, :votes => ratings.imdb_votes, :mobile_first => true }							
+							= partial 'partials/rating_plate', :locals => { :movie => movie, :type => :imdb, :rating => ratings.imdb_rating, :votes => ratings.imdb_votes, :mobile_first => true }
 					- unless movie.kinopoisk_id.nil? or ratings.nil?
 						div.rating-plate-kinopoisk
 							= partial 'partials/rating_plate', :locals => { :movie => movie, :type => :kinopoisk, :rating => ratings.kinopoisk_rating, :votes => ratings.kinopoisk_votes, :mobile_first => true }
 		div.movie-plate-row
 			div.movie-next-screening-mobile
-				- if defined? @next_screenings		
-					- if defined? @screening_counts[movie] and @screening_counts[movie] == 1			
-						| единственный сеанс  
-					- else					
-						| ближайший сеанс  
+				- if defined? @next_screenings
+					- if defined? @screening_counts[movie] and @screening_counts[movie] == 1
+						| единственный сеанс
+					- else
+						| ближайший сеанс
 					span.label.label-bg.label-default.normal-font
 						span.fa.fa-calendar
 						|  #{format_next_screening @next_screenings[movie].date_time}
 	div.movie-description
 		table.table.table-bordered.table-condensed.table-striped.movie-description.hidden-xs.hidden
-			tbody	
+			tbody
 				tr.table-body
 					- unless movie.director.to_s.empty?
 						td.col-sm-4.vertical-middle
@@ -80,13 +80,13 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 					- unless movie.country.to_s.empty? or movie.country == '-'
 						td.col-sm-4.text-center.vertical-middle
 							div
-								i.fa.fa-globe.movie-icon			
+								i.fa.fa-globe.movie-icon
 								|  #{movie.country}
 					- unless movie.duration.to_i == 0 or movie.duration.to_i > 1900
 						td.col-sm-3.text-center.vertical-middle
 							div
 								i.fa.fa-clock-o.movie-icon
-								|  #{movie.duration} мин.	
+								|  #{movie.duration} мин.
 				- unless movie.cast.to_s.empty?
 					tr.table-body
 						td.col-sm-12 colspan = "4"
@@ -99,5 +99,5 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 						td.col-sm-12 colspan = "4"
 							div.justified
 								i.fa.fa-book.movie-icon
-								|  
+								|
 								== movie.get_description_formatted
