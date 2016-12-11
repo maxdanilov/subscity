@@ -18,17 +18,17 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 					- unless movie.year.to_i == 0
 						span.hidden-xs
 							|  (#{movie.year})
-					|
+					| &nbsp;
 					- unless movie.languages.to_s.empty?
 						span.label.label-bg.label-default.age-restriction
 							span.fa.fa-volume-up.language-icon
 							|  #{language(movie.languages.split(", ").first) rescue nil}
-						|
+						| &nbsp;
 					- unless movie.age_restriction.nil?
 						div.label.label-bg.label-default.age-restriction
 							| #{movie.age_restriction}+
 					- if defined? @new_movies and @new_movies.include? movie
-						|
+						| &nbsp;
 						span.badge.new новый
 				- unless movie.title_original.nil?
 					div.movie-title-original = format_title(movie.title_original)
@@ -45,7 +45,7 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 							- if defined? @screening_counts[movie] and @screening_counts[movie] == 1
 								| единственный сеанс:
 							- else
-								| ближайший сеанс:
+								| ближайший сеанс:&nbsp;
 							span.label.label-bg.label-default.normal-font
 								span.fa.fa-calendar
 								|  #{format_next_screening @next_screenings[movie].date_time}

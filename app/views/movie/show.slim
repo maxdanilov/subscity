@@ -64,12 +64,12 @@ table.table.table-bordered.table-condensed.table-striped.movie-info.table-curved
 				- unless movie.year.to_i == 0
 					|  (#{movie.year})
 				- unless movie.languages.to_s.empty?
-					|
+					| &nbsp;
 					span.label.label-bg.label-default.age-restriction
 						span.fa.fa-volume-up.language-icon
 						|  #{language(movie.languages.split(", ").first) rescue nil}
 					|
-				|
+				| &nbsp;
 				- unless movie.age_restriction.nil?
 					<span class="label label-bg label-default age-restriction">#{movie.age_restriction}+</span>
 			- unless movie.title_original.nil?
