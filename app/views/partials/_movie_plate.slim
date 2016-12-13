@@ -43,7 +43,7 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 					div.movie-next-screening
 						- if defined? @next_screenings[movie]
 							- if defined? @screening_counts[movie] and @screening_counts[movie] == 1
-								| единственный сеанс:
+								| единственный сеанс:&nbsp;
 							- else
 								| ближайший сеанс:&nbsp;
 							span.label.label-bg.label-default.normal-font
