@@ -15,6 +15,7 @@ Subscity::App.controllers :cinemas do
                     city = City.get_by_domain(request.subdomains.first)
                     cinemas = city.get_sorted_cinemas
                     json_data = cinemas.map { |c, m| c.render_json(m) }
+                    content_type :json, 'charset' => 'utf-8'
                     return JSON.pretty_generate(json_data)
                 end
         end
@@ -31,6 +32,7 @@ Subscity::App.controllers :cinemas do
             metrics['no_metro'] = cinemas.select { |c| c.metro.to_s.empty? }.length
             metrics['no_phone'] = cinemas.select { |c| c.phone.to_s.empty? }.length
             metrics['no_url'] = cinemas.select { |c| c.url.to_s.empty? }.length
+            content_type :json, 'charset' => 'utf-8'
             return JSON.pretty_generate(metrics)
         end
     end
