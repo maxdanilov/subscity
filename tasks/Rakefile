@@ -341,7 +341,7 @@ desc 'update movies ratings from kinopoisk data'
 task :update_movie_ratings => :environment do |task|
 	t = start_task(task)
 
-	movies = City.all.inject([]) { |movies, city| movies + city.get_movies.to_a }
+	movies = City.all.inject([]) { |movies, city| movies + city.get_movies.to_a } 
 	movies = movies.uniq.shuffle
 
 	movies.each_with_index do |m, index|
@@ -437,13 +437,6 @@ task :cleanup_screenings => :environment do |task|
 			puts "\tScreening #{s.screening_id} was excluded from database:".yellow
 			puts s
 
-			deleted += 1
-			s.destroy
-		end
-
-		if not s.available?
-			puts "\tScreening #{s.screening_id} was excluded from database since it's not available:".yellow
-			puts s
 			deleted += 1
 			s.destroy
 		end
