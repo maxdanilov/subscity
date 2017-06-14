@@ -10,7 +10,7 @@ class KassaFetcher
 	WIDGET_DOMAIN = "https://widget.kassa.rambler.ru"
 	USER_AGENT = "Opera/12.02 (Android 4.1; Linux; Opera Mobi/ADR-1111101157; U; en-US) Presto/2.9.201 Version/12.02"
 	WIDGET_ID = 16857
-	
+
 	PAGE_SIZE = 20
 	#CITY_ID = 2
 	URL_FOR_PRICES = 'http://m.kassa.rambler.ru/place/hallplanajax'
@@ -26,8 +26,8 @@ class KassaFetcher
 							"Accept-Language" => "ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4,de;q=0.2,fr;q=0.2",
 							:read_timeout => READ_TIMEOUT
 						}
-	
-	STANDARD_HEADERS = {	
+
+	STANDARD_HEADERS = {
 							"Connection" => "keep-alive",
 							"Accept" => "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
 							"User-Agent" => USER_AGENT,
@@ -73,7 +73,7 @@ class KassaFetcher
 	end
 
 	def self.fetch_availability(screening_id)
-		fetch_data_post(url_for_availability, params_for_availability(screening_id), JSON_HEADERS)
+		fetch_data_html(url_for_availability(screening_id))
 	end
 
 	def self.params_for_availability(screening_id)
@@ -83,10 +83,10 @@ class KassaFetcher
 	def self.params_for_prices(screening_id)
 		{ 'sessionID' => screening_id, 'placeCount' => 1, 'widgetID' => WIDGET_ID }
 	end
-	
-	def self.url_for_availability
-		# post to http://m.kassa.rambler.ru/place/placecount?sessionid=9857931
-		DOMAIN + "place/placecount"#"?sessionid=" + screening_id.to_s
+
+	def self.url_for_availability(screening_id)
+		# https://m.kassa.rambler.ru/place/placecount?sessionid=28665397
+		DOMAIN + "place/placecount?sessionid=" + screening_id.to_s
 	end
 
 	def self.url_for_cinemas(start, length = PAGE_SIZE, place_id, place_name)
@@ -100,7 +100,7 @@ class KassaFetcher
 		date = Time.now if date.nil?
 		DOMAIN + place_name.to_s + "/cinema/cinema-" + cinema_id.to_s + "?date=" + date.strftime("%Y.%m.%d") + "&geoPlaceID=" + place_id.to_s + "&WidgetID=" + WIDGET_ID.to_s
 	end
-	
+
 	def self.url_for_movies(start, length = PAGE_SIZE, place_id, place_name)
 	    # https://m.kassa.rambler.ru/spb/creation/topcreations/17?start=20&pagesize=10&WidgetID=16857&GeoPlaceID=3
 		DOMAIN + place_name.to_s + "/creation/topcreations/17?start=" + start.to_s + "&pagesize=" + length.to_s + "&GeoPlaceID=" + place_id.to_s + "&WidgetID=" + WIDGET_ID.to_s
@@ -129,7 +129,7 @@ class KassaFetcher
 	def self.fetch_movies(start, length = PAGE_SIZE, place_id, place_name)
 		fetch_data_json(url_for_movies(start, length, place_id, place_name))
 	end
-	
+
 	def self.fetch_cinemas(start, length = PAGE_SIZE, place_id, place_name)
 		fetch_data_json(url_for_cinemas(start, length, place_id, place_name))
 	end
