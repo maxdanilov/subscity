@@ -8,10 +8,10 @@ class KassaParser
 	HAS_SUBS = "языке оригинала"
 	NOT_FOUND_SCREENING = /Сеанс не найден/
 	TITLE_DELIMITER = " на языке оригинала"
-	
+
 	def self.parse_prices(data)
 		parsed = parse_json(data)
-		
+
 		fee = 1.1 # Kassa's fee is 10% (if applied)
 		min_price = 10 ** 9 # inf for poor people
 		max_price = 0
@@ -41,7 +41,7 @@ class KassaParser
 			prices = (doc/"div.b-cinema-plan/div[@data]").map { |el| el[:data].split('|')[3].to_i rescue nil }
 			prices = prices.select {|x| x > 0}.compact.uniq.sort #occupied places have 0 price, kick them out before processing
 			max_price, min_price = prices.last, prices.first
-		rescue 
+		rescue
 			[nil, nil]
 		end
 	end
@@ -79,7 +79,7 @@ class KassaParser
 					session_time = parse_time( a.inner_html, date)
 					# the night screenings are technically on the next day!
 					session_time += 1.day if session_time.hour.between? 0, 5
-					session_movie = get_movie_id( el.at("a")[:href] ) rescue nil					
+					session_movie = get_movie_id( el.at("a")[:href] ) rescue nil
 					results << { session: session_id , time: session_time, cinema: session_cinema_id, movie: session_movie }
 				end
 			end
@@ -160,11 +160,11 @@ class KassaParser
 		end
 
 		genres = nil if genres.to_s.strip.empty?
-		
+
 		return nil if title == nil
-		{   :title => title, 
-			:title_original => title_original, 
-			:genres => genres, 
+		{   :title => title,
+			:title_original => title_original,
+			:genres => genres,
 			:country => country,
 			:year => year,
 			:duration => duration,

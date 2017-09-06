@@ -3,7 +3,7 @@ Subscity::App.controllers :auth do
         if is_authenticated?
             redirect(url(:index))
         else
-            render 'auth/login', layout: :layout    
+            render 'auth/login', layout: :layout
         end
     end
 

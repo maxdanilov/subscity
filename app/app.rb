@@ -21,7 +21,7 @@ module Subscity
 			:expire_after => COOKIES_TTL,
 	  		:secret => settings.session_secret
 
-	    # caching 
+	    # caching
 	    register Padrino::Cache
 	    enable :caching
 	    Padrino.cache = Padrino::Cache.new(:File, :dir => FileCache.dir)
@@ -39,7 +39,7 @@ module Subscity
 	            @city = City.get_by_domain(request.subdomains.first)
 	            @movies = @city.get_movies.to_a
 	            @movies = @movies.sort_by { |a| a.title.mb_chars.downcase.to_s }
-	            @new_movies = @movies.select {|a| (Time.now - a.created_at) <= SETTINGS[:movie_new_span].days}                       
+	            @new_movies = @movies.select {|a| (Time.now - a.created_at) <= SETTINGS[:movie_new_span].days}
 	            @cinema_count = @city.get_cinema_count
 	            @screening_counts = Hash.new(0)
 	            @next_screenings = {}
@@ -57,21 +57,21 @@ module Subscity
 	        end
 	    end
 
-	    get :latest do  
-	    	auth_allow_for_role :admin                  
-	        @screenings = Screening.active_all.order("created_at DESC, screening_id DESC").to_a      
-	        @cities = City.all.to_a                         
-	        @cinemas = Cinema.all.to_a                         
-	        @movies = Movie.all.to_a            
-	        @movies_active = Movie.where(:movie_id => Screening.active.pluck(:movie_id).uniq).order('created_at DESC')                         
+	    get :latest do
+	    	auth_allow_for_role :admin
+	        @screenings = Screening.active_all.order("created_at DESC, screening_id DESC").to_a
+	        @cities = City.all.to_a
+	        @cinemas = Cinema.all.to_a
+	        @movies = Movie.all.to_a
+	        @movies_active = Movie.where(:movie_id => Screening.active.pluck(:movie_id).uniq).order('created_at DESC')
 	        @ratings = Rating.all
 	        render 'latest', layout: :layout
 	    end
 
 	    get :clear do
-	    	auth_allow_for_role :admin     
+	    	auth_allow_for_role :admin
 	    	FileCache.expire
-	    	""            
+	    	""
 	    end
 
 	    get :screenings, :provides => [:rss] do
@@ -92,7 +92,7 @@ module Subscity
 		    	city = City.get_by_domain(request.subdomains.first)
 	            movies_active = city.get_movies.sort_by { |a| a.created_at }.reverse
 	            cinemas = city.get_sorted_cinemas
-				today = date_for_screening(Time.now)		
+				today = date_for_screening(Time.now)
 
 		    	map = XmlSitemap::Map.new(request.subdomains.first + "." + domain_name, :time => Date.today) do |m|
 	  				m.add 'movies', :priority => 1.0, :period => :daily
@@ -110,7 +110,7 @@ module Subscity
 				map.render
 			end
 		end
-	    
+
 	    #error 404 do
 	    not_found do
 	        render 'errors/404', layout: :layout

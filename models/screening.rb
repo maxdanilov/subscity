@@ -20,7 +20,7 @@ class Screening < ActiveRecord::Base
 	scope :active_all, -> { where('date_time > ?', Time.now) }
 	scope :inactive, -> { where('date_time <= ?', Time.now) }
 
-	scope :active_feed, -> { where('date_time > ? AND date_time < ?', Time.now + SETTINGS[:screenings_feed_start], Time.now + SETTINGS[:screenings_feed_end]) } 
+	scope :active_feed, -> { where('date_time > ? AND date_time < ?', Time.now + SETTINGS[:screenings_feed_start], Time.now + SETTINGS[:screenings_feed_end]) }
 
 	scope :in_city, ->(city_id) { joins(:cinema).where("city_id = ?", city_id) }
 

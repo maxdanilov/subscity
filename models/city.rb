@@ -31,7 +31,7 @@ class City < ActiveRecord::Base
 			end
 		end
 
-		@r = @r.sort_by {|k,v| k.name }.to_h # sort cinemas by name	
+		@r = @r.sort_by {|k,v| k.name }.to_h # sort cinemas by name
 		@r.each { |k,v| @r[k] = v.sort_by {|k,v| k.title}.to_h } # sort movies by title
 		@r
 	end

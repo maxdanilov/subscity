@@ -122,7 +122,7 @@ Subscity::App.controllers :movies do
             else
                 screenings = movie.get_screenings(city.city_id)
             end
-            
+
             json_data = screenings.as_json(:except => ['created_at', 'updated_at', 'id', 'movie_id']).
                         map { |v| v['cinema_id'] = cinemas.find { |c| c.cinema_id == v['cinema_id'] }.id rescue nil ;
                                   v }

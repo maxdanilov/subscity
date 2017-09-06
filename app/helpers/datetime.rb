@@ -15,7 +15,7 @@ def date_for_screening(time)
 end
 
 def show_time(time)
-	time.strftime("%R") 
+	time.strftime("%R")
 end
 
 def show_time_rambler(time)

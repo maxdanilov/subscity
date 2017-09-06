@@ -6,7 +6,7 @@ class Cinema < ActiveRecord::Base
 	validates :cinema_id,   presence: true, uniqueness: true
 	validates :name,  		presence: true
 	validates :city_id, 	presence: true
-	
+
 	def format_url
 		@forman_url ||= format_cinema_url(self)
 	end

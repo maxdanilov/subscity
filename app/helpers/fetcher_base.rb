@@ -3,17 +3,17 @@ require 'net/http'
 require 'uri'
 
 module FetcherBase
-	#def	fetch_data(url, headers = STANDARD_HEADERS)	
-	def	fetch_data(url, headers)	
+	#def	fetch_data(url, headers = STANDARD_HEADERS)
+	def	fetch_data(url, headers)
 		begin
 			res = open(url, headers)
-			data = res.read 
+			data = res.read
 			# since we can have a gzipped response:
 			data = Zlib::GzipReader.new(StringIO.new(data)).read if res.content_encoding == ['gzip']
 			data
 		rescue Net::ReadTimeout
 			nil
-		rescue => e	
+		rescue => e
 			nil
 		end
 	end

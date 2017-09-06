@@ -2,7 +2,7 @@ class Movie < ActiveRecord::Base
 	has_many :screenings, primary_key: "movie_id"
 	has_many :cinemas, through: :screenings, primary_key: "movie_id"
 	has_one :rating, primary_key: "movie_id"
-	
+
 	validates :title,  		presence: true
 	validates :movie_id, 	presence: true, uniqueness: true
 
@@ -54,7 +54,7 @@ class Movie < ActiveRecord::Base
 	end
 
 	def self.are_equal?(a, b)
-		prepare_title = -> (t) { t.mb_chars.downcase.to_s.gsub("(16+)", "").gsub("(18+)", "").strip }		
+		prepare_title = -> (t) { t.mb_chars.downcase.to_s.gsub("(16+)", "").gsub("(18+)", "").strip }
 		prepare_title.call(a.title) == prepare_title.call(b.title)
 	end
 
@@ -145,7 +145,7 @@ class Movie < ActiveRecord::Base
 	end
 
 	def poster_filename
-		File.dirname(__FILE__) + "/../public/images/posters/" + movie_id.to_s + ".jpg" 
+		File.dirname(__FILE__) + "/../public/images/posters/" + movie_id.to_s + ".jpg"
 	end
 
 	def poster_exists?

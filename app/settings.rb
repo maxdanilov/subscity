@@ -13,7 +13,7 @@ SETTINGS =  {
                 :screenings_feed_end => 72.hours,
                 :screenings_feed_start => 1.hour,
                 :screenings_feed_max_count => 100
-        	}   
+        	}
 
 COOKIES_TTL = 86400 * 30 # in seconds
 SITEMAP_TTL = 12 * 3600 # in seconds
@@ -28,4 +28,4 @@ FETCH_MODE_CINEMA = { :default => 0, :all => 1 }
 FETCH_MODE_MOVIE  = { :default => 0, :all => 1, :subs => 2 }	# default - fetch subbed screenings for not fetch_all cinemas and all for fetch_all cinemas
 																# all - fetch all screenings
 																# subs - fetch subbed only, no matter if the cinema is fetch_all
-FETCH_MODE = { :cinema => FETCH_MODE_CINEMA, :movie => FETCH_MODE_MOVIE }																
+FETCH_MODE = { :cinema => FETCH_MODE_CINEMA, :movie => FETCH_MODE_MOVIE }

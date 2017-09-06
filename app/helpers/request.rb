@@ -78,5 +78,5 @@ def redirect_globally(subdomain = nil, path = nil)
 end
 
 def pre_redirect
-    redirect_globally(request.get_subdomain, request.path) unless request.subdomain_valid? 
+    redirect_globally(request.get_subdomain, request.path) unless request.subdomain_valid?
 end
