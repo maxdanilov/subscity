@@ -27,14 +27,14 @@
 	| #{newline}
 - unless @movie.languages.to_s.empty?
 	| Язык: #{languages_format(@movie.languages).mb_chars.downcase.to_s}
-	| #{newline}	
+	| #{newline}
 - unless @movie.director.to_s.empty?
 	| #{newline}
 	| Режиссер: #{@movie.director}
 	| #{newline}
 - unless @movie.cast.to_s.empty?
 	| В ролях: #{@movie.cast.gsub("\r", "").split("\n").join(", ")}
-	| #{newline}	
+	| #{newline}
 | #{newline}
 - screenings = @movie.screenings.active_all.in_city(@city.city_id)
 - count = screenings.count
@@ -49,7 +49,7 @@
 /		- else
 /			| В прокате один день - #{show_date(screenings.first.date, false) }
 /	- else count == 1
-/		| Единственный показ - #{show_date(screenings.first.date, false) } 
+/		| Единственный показ - #{show_date(screenings.first.date, false) }
 /		| в кинотеатре "#{Cinema.where(:cinema_id => screenings.first.cinema_id).first.name}"
 
 | #{newline * 2}
@@ -62,7 +62,7 @@
 | #{newline * 2}
 - if @movie.poster_exists?
 	- poster_file = "https://#{domain_name}/images/posters/#{@movie.movie_id}.jpg"
-	| 
+	|
 	| #{poster_file}
 
 | #{newline * 2}
