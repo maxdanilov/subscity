@@ -17,7 +17,7 @@ class Movie < ActiveRecord::Base
 	end
 
 	def get_description
-		@get_descr ||= ( (description.nil?) ? description_english : description )
+		@get_descr ||= (description || description_english).to_s
 	end
 
 	def get_description_formatted
