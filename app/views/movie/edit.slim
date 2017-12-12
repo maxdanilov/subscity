@@ -2,9 +2,9 @@
 - if @movie.poster_exists?
 	- poster_file = "posters/#{@movie.movie_id}.jpg?#{@movie.timestamp_poster}"
 
-h1.text-center.capitalize.like-navbar 
+h1.text-center.capitalize.like-navbar
 	span.fa.fa-film
-	|  
+	|
 	- title = @movie.title
 	- unless @movie.title_original.to_s.empty?
 		- title += "<br>(#{@movie.title_original})"
@@ -26,7 +26,7 @@ form method="post"
 				td.col-xs-3.text-right
 					label for="movie_kassa_id" Касса ID
 				td.col-xs-9
-					span id="movie_kassa_id" type="text" 
+					span id="movie_kassa_id" type="text"
 						= link_to "#{@movie.movie_id}", "https://kassa.rambler.ru/movie/#{@movie.movie_id}", :class => "underdashed", :target => '_blank'
 			/ active field
 			tr.movie-edit
@@ -46,7 +46,7 @@ form method="post"
 					label for="movie_title_original" Оригинальное название
 				td.col-xs-9
 					input id="movie_title_origitnal" name="title_original" type="text" value = "#{@movie.title_original}"
-			
+
 			/ Poster
 			tr.movie-edit
 				td.col-xs-3.text-right
@@ -54,7 +54,7 @@ form method="post"
 				td.col-xs-9
 					input id="movie_poster" name="new_poster" type="text" value = ""
 					/| #{@movie.poster}
-			
+
 			/ Year
 			tr.movie-edit
 				td.col-xs-3.text-right
@@ -93,7 +93,7 @@ form method="post"
 			/ Languages
 			tr.movie-edit
 				td.col-xs-3.text-right
-					label for="movie_language" Язык (англ.)
+					label for="movie_language" Язык
 				td.col-xs-9
 					input id="movie_language" name="languages" type="text" value = "#{@movie.languages}"
 
@@ -162,15 +162,15 @@ form method="post"
 						option value="#{FETCH_MODE[:movie][:default]}" 	selected=("selected" if @movie.fetch_mode == FETCH_MODE[:movie][:default]) 	по умолчанию
 						option value="#{FETCH_MODE[:movie][:all]}" 		selected=("selected" if @movie.fetch_mode == FETCH_MODE[:movie][:all]) 		все
 						option value="#{FETCH_MODE[:movie][:subs]}" 	selected=("selected" if @movie.fetch_mode == FETCH_MODE[:movie][:subs]) 	только с субтитрами
-					
+
 			/ Hide
 			tr.movie-edit
 				td.col-xs-3.text-right
 					label for="movie_hide" Скрыть фильм
 				td.col-xs-9.text-left
-					input name="hide" type="radio" value="true" checked=(@movie.hide == true ? 'checked' : false )  да 
+					input name="hide" type="radio" value="true" checked=(@movie.hide == true ? 'checked' : false )  да
     				br
-    				input name="hide" type="radio" value="false" checked=(@movie.hide != true ? 'checked' : false )  нет 
+    				input name="hide" type="radio" value="false" checked=(@movie.hide != true ? 'checked' : false )  нет
 
 			/ Created at
 			tr.movie-edit
