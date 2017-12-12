@@ -113,7 +113,7 @@ task :update_screenings_movie, [:id] => :environment do |task, args|
 					c = Screening.new(movie_id: m.movie_id, cinema_id: s[:cinema], date_time: s[:time], screening_id: s[:session])
 					if c.valid?
 						if (!c.movie.nil?) and c.movie.fetch_mode == FETCH_MODE[:movie][:subs] and (!c.has_subs?)
-							puts "\tScreening not saved since it does not have subs and movive fetch mode requires them: ".red
+							puts "\tScreening not saved since it does not have subs and movie fetch mode requires them: ".red
 							puts c
 							next
 						end

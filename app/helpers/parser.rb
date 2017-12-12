@@ -218,11 +218,11 @@ class KassaParser
 		((doc.at("title").inner_text rescue nil) =~ NOT_FOUND_SCREENING).nil?
 	end
 
-	def self.screening_has_subs?(data)
+	def self.screening_has_subs?(data, skip_unavailable=true)
 		doc = Nokogiri::XML.parse(data) rescue nil
-		return false if doc.nil?
+		return (false or skip_unavailable) if doc.nil?
 		title = doc.at("title").inner_text rescue ""
-		title.include? HAS_SUBS
+		title.include? HAS_SUBS or skip_unavailable
 	end
 
 	def self.screening_title(data)
