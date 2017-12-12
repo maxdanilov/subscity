@@ -61,7 +61,7 @@ end
 
 desc 'update screenings for all movies in the DB (active ones)'
 task :update_screenings => :environment do |task, args|
-	#do this before because cinemas can change movies assigned to screenings while keeping screening id!
+	# do this before since cinemas can change movies assigned to screenings while keeping screening id!
 	Rake::Task[:cleanup_screenings].reenable
 	Rake::Task[:cleanup_screenings].invoke
 
@@ -70,7 +70,7 @@ task :update_screenings => :environment do |task, args|
 	Movie.active.each_with_index do |m, index|
 		puts "\t[#{index + 1 } / #{count_all}] Processing movie...".yellow
 		puts
-		Rake::Task[:update_screenings_movie].invoke(m.movie_id)
+		Rake::Task[:update_screenings_movie].invoke(m.id)
 		Rake::Task[:update_screenings_movie].reenable
 		sleep rand(2..3)
 	end
@@ -89,17 +89,17 @@ task :update_screenings_movie, [:id] => :environment do |task, args|
 	t = start_task(task)
 	id = args[:id].to_i
 	updated = 0
-	movie_not_in_base = Movie.where(:movie_id => id).first.nil?
-	unless id == 0 or movie_not_in_base
+	movie_not_in_base = Movie.where(:id => id).first.nil?
+	unless movie_not_in_base
 		puts "Fetching screenings for movie: ".green
-		m = Movie.where(:movie_id => id).first
+		m = Movie.where(:id => id).first
 		puts m
 		# iterate through cities
 		City.active.select([:city_id, :domain]).each do |city|
 			city_id = city.city_id
 			city_name = city.domain
 			# first we parse all the available dates for given movie
-			dates = KassaParser.parse_movie_dates(KassaFetcher.fetch_sessions(id, nil, city_id, city_name))
+			dates = KassaParser.parse_movie_dates(KassaFetcher.fetch_sessions(m.movie_id, nil, city_id, city_name))
 			# then iterate through them to fetch all sessions
 			dates.each_with_index do |date, index|
 				#puts "Diff: #{difference_in_days(date, Time.now.strip)}"
@@ -109,8 +109,8 @@ task :update_screenings_movie, [:id] => :environment do |task, args|
 					next
 				end
 				puts "-> [#{index + 1} / #{dates.size}] Fetching screenings for #{date}".green
-				KassaParser.parse_sessions_HTML(KassaFetcher.fetch_sessions(id, date, city_id, city_name), date, 0, id).each do |s|
-					c = Screening.new(movie_id: id, cinema_id: s[:cinema], date_time: s[:time], screening_id: s[:session])
+				KassaParser.parse_sessions_HTML(KassaFetcher.fetch_sessions(m.movie_id, date, city_id, city_name), date, 0, m.movie_id).each do |s|
+					c = Screening.new(movie_id: m.movie_id, cinema_id: s[:cinema], date_time: s[:time], screening_id: s[:session])
 					if c.valid?
 						next if (!c.movie.nil?) and c.movie.fetch_mode == FETCH_MODE[:movie][:subs] and (!c.has_subs?)
 						c.save
@@ -123,7 +123,7 @@ task :update_screenings_movie, [:id] => :environment do |task, args|
 			end
 		end
 	else
-		puts "Movie with given ID (#{id}) not found.".red
+		puts "Movie with id #{id} not found.".red
 	end
 
 	puts "#{updated} screenings added to the base".red
