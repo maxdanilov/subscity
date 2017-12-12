@@ -518,7 +518,7 @@ task :backup => :environment do |task|
 end
 
 desc 'download missing posters for movies'
-task :movies_download_posters => :environment do |task|
+task :download_posters => :environment do |task|
 	t = start_task(task)
 	Movie.all.each do |m|
 		next if m.poster.nil?
