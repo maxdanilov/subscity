@@ -6,9 +6,9 @@ config/.token.rb
 db/backup
 db/backup.sh
 db/.credentials.rb
+config/.token.rb
 log
 public/images/posters/
 public/images/bgs/old/
 tasks/logs/*
 tmp
-.*
