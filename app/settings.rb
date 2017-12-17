@@ -1,5 +1,5 @@
-PROTOCOL = ENV['SC_PROTOCOL'] || 'https'
-DOMAIN_NAME = ENV['SC_DOMAIN_NAME'] || 'subscity.ru'
+PROTOCOL = ENV['SC_PROTOCOL']
+DOMAIN_NAME = ENV['SC_DOMAIN_NAME']
 
 SETTINGS =  {
             	:screenings_show_span => 8,    				# in days
@@ -16,14 +16,12 @@ SETTINGS =  {
                 :screenings_feed_max_count => 100
         	}
 
-COOKIES_TTL = 86400 * 30 # in seconds
-SITEMAP_TTL = 12 * 3600 # in seconds
-CACHE_TTL = 1 * 3600 # in seconds
-CACHE_TTL_LONG = 2 * 3600
-CACHE_TTL_API = 900 # in seconds
-CACHE_TTL_SCREENINGS_FEED = 1200 # in seconds
-
-LOG_FILE = File.dirname(__FILE__) + "/../tmp/performance.txt"
+COOKIES_TTL = 86400 * 30 			# in seconds
+SITEMAP_TTL = 12 * 3600 			# in seconds
+CACHE_TTL = 1 * 3600 				# in seconds
+CACHE_TTL_LONG = 2 * 3600			# in seconds
+CACHE_TTL_API = 900 				# in seconds
+CACHE_TTL_SCREENINGS_FEED = 1200 	# in seconds
 
 FETCH_MODE_CINEMA = { :default => 0, :all => 1 }
 FETCH_MODE_MOVIE  = { :default => 0, :all => 1, :subs => 2 }	# default - fetch subbed screenings for not fetch_all cinemas and all for fetch_all cinemas

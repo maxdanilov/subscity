@@ -6,8 +6,6 @@ class City < ActiveRecord::Base
 
 	scope :active, -> { where(:active => true) }
 
-    LOG_FILE = File.dirname(__FILE__) + "/../tmp/performance.txt"
-
     def get_cinema_count
     	Screening.active.in_city(city_id).order(:date_time).pluck(:cinema_id).uniq.count
     end
