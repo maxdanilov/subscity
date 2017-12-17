@@ -36,7 +36,6 @@ gem 'thin'
 gem 'translit'
 gem 'xml-sitemap'
 gem 'whenever'
-gem 'youtube_search'
 
 #gem 'active_support'
 

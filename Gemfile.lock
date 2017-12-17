@@ -132,7 +132,6 @@ GEM
       rack
     xml-sitemap (1.3.3)
       builder (>= 2.0)
-    youtube_search (0.1.10)
 
 PLATFORMS
   ruby
@@ -160,7 +159,6 @@ DEPENDENCIES
   thin
   translit
   xml-sitemap
-  youtube_search
 
 BUNDLED WITH
    1.12.5
