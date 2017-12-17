@@ -40,8 +40,6 @@ GEM
       url_mount (~> 0.2.1)
     httpclient (2.3.4.1)
     i18n (0.6.9)
-    imdb (0.8.1)
-      nokogiri (>= 1.6.0)
     less (2.4.0)
       commonjs (~> 0.2.7)
     libv8 (3.16.14.3)
@@ -142,7 +140,6 @@ DEPENDENCIES
   colorize
   encrypted_cookie
   httpclient
-  imdb
   less
   mysql2 (~> 0.3.20)
   nokogiri
