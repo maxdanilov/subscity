@@ -1,21 +1,3 @@
-##
-# You can use other adapters like:
-#
-#   ActiveRecord::Base.configurations[:development] = {
-#     :adapter   => 'mysql2',
-#     :encoding  => 'utf8',
-#     :reconnect => true,
-#     :database  => 'your_database',
-#     :pool      => 5,
-#     :username  => 'root',
-#     :password  => '',
-#     :host      => 'localhost',
-#     :socket    => '/tmp/mysql.sock'
-#   }
-#
-
-require Padrino.root('db', '.credentials')
-
 ActiveRecord::Base.configurations[:development] = {
   #:adapter => 'sqlite3',
   #:database => Padrino.root('db', 'subscity_development.db'),
@@ -23,30 +5,29 @@ ActiveRecord::Base.configurations[:development] = {
   :adapter => 'mysql2',
   :encoding => 'utf8',
   :reconnect => true,
-  :database => DB_NAME,
+  :database => ENV['SC_DB_NAME'],
   :pool => 50,
   :wait_timeout => 1,
-  :username => DB_USER,
-  :password => DB_PASS,
-  :host => DB_HOST
+  :username => ENV['SC_DB_USER'],
+  :password => ENV['SC_DB_PASS'],
+  :host => ENV['SC_DB_HOST']
 }
 
 ActiveRecord::Base.configurations[:production] = {
   :adapter => 'mysql2',
   :encoding => 'utf8',
   :reconnect => true,
-  :database => DB_NAME,
+  :database => ENV['SC_DB_NAME'],
   :pool => 50,
   :wait_timeout => 1,
-  :username => DB_USER,
-  :password => DB_PASS,
-  :host => DB_HOST
+  :username => ENV['SC_DB_USER'],
+  :password => ENV['SC_DB_PASS'],
+  :host => ENV['SC_DB_HOST']
 }
 
 ActiveRecord::Base.configurations[:test] = {
   :adapter => 'sqlite3',
   :database => Padrino.root('db', 'subscity_test.db')
-
 }
 
 # Setup our logger

@@ -25,10 +25,10 @@
 # Setup global project settings for your apps. These settings are inherited by every subapp. You can
 # override these settings in the subapps as needed.
 #
-require './config/.token'
+
 Padrino.configure_apps do
   # enable :sessions
-  set :session_secret, COOKIES_SECRET
+  set :session_secret, ENV['SC_COOKIES_SECRET']
   #set :protection, true
   set :protection, :except => :path_traversal # 0.12 update
   set :protect_from_csrf, false #true - every post request was 403 cause of it

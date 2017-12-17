@@ -22,7 +22,6 @@ task :environment do
 	end
 
 	require 'open-uri'
-	require_relative './../db/.credentials'
 
 	ROOT_PATH = '../'
 	DIRS = [ROOT_PATH + 'app/helpers', ROOT_PATH + 'models']
@@ -35,12 +34,12 @@ task :environment do
 	ActiveRecord::Base::establish_connection( :adapter => 'mysql2',
 											  :encoding => 'utf8',
 											  :reconnect => true,
-											  :database => DB_NAME,
+											  :database => ENV['SC_DB_NAME'],
 											  :pool => 50,
 											  :wait_timeout => 1,
-											  :username => DB_USER,
-											  :password => DB_PASS,
-											  :host => DB_HOST )
+											  :username => ENV['SC_DB_USER'],
+											  :password => ENV['SC_DB_PASS'],
+											  :host => ENV['SC_DB_HOST'] )
 
 	I18n.enforce_available_locales = false
 	puts "Init complete".green

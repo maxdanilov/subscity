@@ -8,10 +8,8 @@ WORKDIR subscity
 RUN bundle install
 
 EXPOSE 3000
-ENV env production
+ENV SC_ENV production
 
-COPY db/.credentials.example db/.credentials.rb
-COPY config/.token.rb.example config/.token.rb
 COPY . .
 
-CMD padrino start -h 0.0.0.0 -a thin -e ${env}
+CMD padrino start -h 0.0.0.0 -a thin -e ${SC_ENV}
