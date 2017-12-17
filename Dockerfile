@@ -7,10 +7,11 @@ ADD Gemfile* subscity/
 WORKDIR subscity
 RUN bundle install
 
-COPY . .
+EXPOSE 3000
+ENV env production
+
 COPY db/.credentials.example db/.credentials.rb
 COPY config/.token.rb.example config/.token.rb
-EXPOSE 3000
+COPY . .
 
-ENTRYPOINT ["padrino"]
-CMD ["start", "-h", "0.0.0.0", "-a", "thin", "-e", "production"]
+CMD padrino start -h 0.0.0.0 -a thin -e ${env}

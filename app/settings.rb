@@ -1,4 +1,5 @@
-DOMAIN_NAME = 'subscity.ru'
+PROTOCOL = ENV['SC_PROTOCOL'] || 'https'
+DOMAIN_NAME = ENV['SC_DOMAIN_NAME'] || 'subscity.ru'
 
 SETTINGS =  {
             	:screenings_show_span => 8,    				# in days

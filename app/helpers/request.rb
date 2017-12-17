@@ -63,7 +63,7 @@ module Sinatra
 
     def url_without_subdomain
         # https://msk.subscity.ru/movies/555 => https://subscity.ru/movies/555
-        'https://' + domain_name + path
+        protocol + "://" + domain_name + path
     end
   end
 end
@@ -72,9 +72,13 @@ def domain_name
     DOMAIN_NAME
 end
 
+def protocol
+    PROTOCOL
+end
+
 def redirect_globally(subdomain = nil, path = nil)
     subdomain += "." unless subdomain.nil?
-    redirect('https://'+ subdomain.to_s + domain_name + path.to_s)
+    redirect(protocol + '://'+ subdomain.to_s + domain_name + path.to_s)
 end
 
 def pre_redirect
