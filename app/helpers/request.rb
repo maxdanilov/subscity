@@ -24,32 +24,8 @@ module Sinatra
         (subdomains.join(".") + path_info).gsub("/", "_").gsub(".", "_")
     end
 
-    def geoip
-      @geo_ip ||= GeoIP.new(File.dirname(__FILE__) + '/../../db/GeoLiteCity.dat').city(ip)
-    end
-
-    def get_city
-      c = geoip
-
-      city = c.city_name rescue nil
-      region_name = c.region_name rescue nil
-      country_code = c.country_code2 rescue nil
-      cities = City.active.all
-      cities.each do |c|
-        # "Moscow; 48 RU"
-        cur_city, cur_region = c.geoip.split(";")
-        cur_region_name, cur_country_code = cur_region.split(" ")
-        cur_city.strip!
-        cur_region_name.strip!
-        cur_country_code.strip!
-        return c if ((city == cur_city or region_name == cur_region_name) and cur_country_code == country_code)
-      end
-
-      cities.first rescue nil
-    end
-
     def get_subdomain
-      get_city.domain rescue 'msk'
+      'msk' # a fallback domain
     end
 
     def subdomain_exits?(subdomain)

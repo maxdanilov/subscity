@@ -7,7 +7,6 @@ module Subscity
 	    register Padrino::Mailer
 	    register Padrino::Helpers
 	    require 'json'
-	    require 'geocoder'
 	    require 'active_support/core_ext'
 	    require 'translit'
 	    require 'stringex'
