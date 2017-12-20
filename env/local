@@ -3,8 +3,8 @@ SC_PROTOCOL=http
 SC_DOMAIN_NAME=local.host:3000
 
 SC_DB_NAME=subscity
-SC_DB_USER=user
+SC_DB_USER=root
 SC_DB_PASS=password
-SC_DB_HOST=localhost
+SC_DB_HOST=mysql
 SC_DB_EMAIL=user@domain.tld
 SC_COOKIES_SECRET=deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef
