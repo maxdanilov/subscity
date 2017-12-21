@@ -511,7 +511,7 @@ end
 desc 'run a DB backup script'
 task :backup => :environment do |task|
 	t = start_task(task)
-	sh "../backupdb.sh"
+	sh "../scripts/backupdb.sh"
 	stop_task(task, t)
 end
 
