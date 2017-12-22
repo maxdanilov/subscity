@@ -39,26 +39,30 @@ module Sinatra
 
     def url_without_subdomain
         # https://msk.subscity.ru/movies/555 => https://subscity.ru/movies/555
-        "#{protocol}://#{domain_name}#{path}"
+        "#{full_domain_name}#{path}"
     end
   end
 end
 
 def domain_name
-    DOMAIN_NAME
+  DOMAIN_NAME
 end
 
 def protocol
-    PROTOCOL
+  PROTOCOL
 end
 
 def port
-    PORT
+  PORT
+end
+
+def full_domain_name(subdomain=nil)
+  port_suffix = [80, 443].include? port.to_i ? "" : ":#{port}"
+  "#{protocol}://#{[subdomain, domain_name].select { |i| !i.nil? }.join('.')}#{port_suffix}"
 end
 
 def redirect_globally(subdomain = nil, path = nil)
-    subdomain += "." unless subdomain.nil?
-    redirect("#{protocol}://#{subdomain.to_s}#{domain_name}:#{port}#{path.to_s}")
+    redirect("#{full_domain_name(subdomain)}#{path}")
 end
 
 def pre_redirect

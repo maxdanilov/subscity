@@ -9,3 +9,4 @@ SC_DB_PASS=password
 SC_DB_HOST=mysql
 SC_DB_EMAIL=user@domain.tld
 SC_COOKIES_SECRET=deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef
+SC_DISABLE_CACHING=true

@@ -141,11 +141,11 @@ class Movie < ActiveRecord::Base
 
 	def poster_url
 		return nil unless poster_exists?
-		"https://" + DOMAIN_NAME + "/images/posters/" + movie_id.to_s + ".jpg"
+		"#{full_domain_name}/images/posters/#{movie_id}.jpg"
 	end
 
 	def poster_filename
-		File.dirname(__FILE__) + "/../public/images/posters/" + movie_id.to_s + ".jpg"
+		"#{File.dirname(__FILE__)}/../public/images/posters/#{movie_id}.jpg"
 	end
 
 	def poster_exists?
@@ -153,7 +153,7 @@ class Movie < ActiveRecord::Base
 	end
 
 	def timestamp_poster
-		(File.mtime(poster_filename).to_i.to_s) rescue ""
+		"#{File.mtime(poster_filename).to_i}" rescue ""
 	end
 
 	def thumbnail_poster

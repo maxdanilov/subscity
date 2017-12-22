@@ -21,8 +21,8 @@ module Subscity
 	  		:secret => settings.session_secret
 
 	    # caching
-	    register Padrino::Cache
-	    enable :caching
+		register Padrino::Cache
+		enable :caching if ENV['SC_DISABLE_CACHING'] != "true"
 	    Padrino.cache = Padrino::Cache.new(:File, :dir => FileCache.dir)
 
 	    set :reload, false            # Reload application files (default in development)
