@@ -25,7 +25,7 @@ module Sinatra
     end
 
     def get_subdomain
-      'msk' # a fallback domain
+      'msk' # a fallback subdomain
     end
 
     def subdomain_exits?(subdomain)
@@ -39,7 +39,7 @@ module Sinatra
 
     def url_without_subdomain
         # https://msk.subscity.ru/movies/555 => https://subscity.ru/movies/555
-        protocol + "://" + domain_name + path
+        "#{protocol}://#{domain_name}#{path}"
     end
   end
 end
@@ -58,7 +58,7 @@ end
 
 def redirect_globally(subdomain = nil, path = nil)
     subdomain += "." unless subdomain.nil?
-    redirect(protocol + '://'+ subdomain.to_s + domain_name + path.to_s)
+    redirect("#{protocol}://#{subdomain.to_s}#{domain_name}:#{port}#{path.to_s}")
 end
 
 def pre_redirect
