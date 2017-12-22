@@ -1,5 +1,6 @@
 PROTOCOL = ENV['SC_PROTOCOL']
 DOMAIN_NAME = ENV['SC_DOMAIN_NAME']
+PORT = ENV['SC_PORT']
 
 SETTINGS =  {
             	:screenings_show_span => 8,    				# in days

@@ -52,6 +52,10 @@ def protocol
     PROTOCOL
 end
 
+def port
+    PORT
+end
+
 def redirect_globally(subdomain = nil, path = nil)
     subdomain += "." unless subdomain.nil?
     redirect(protocol + '://'+ subdomain.to_s + domain_name + path.to_s)

@@ -1,6 +1,7 @@
 SC_ENV=development
 SC_PROTOCOL=http
-SC_DOMAIN_NAME=local.host:3000
+SC_DOMAIN_NAME=local.host
+SC_PORT=3000
 
 SC_DB_NAME=subscity
 SC_DB_USER=root
