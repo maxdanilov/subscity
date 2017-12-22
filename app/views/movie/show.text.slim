@@ -1,12 +1,12 @@
 - newline = "\r\n"
 | #{@movie.title}
 - unless @movie.title_original.to_s.empty?
-	|  / #{@movie.title_original}
+	|  / #{@movie.title_original.gsub("'", "’")}
 - unless @movie.year.to_i == 0
 	|  (#{@movie.year})
 |  на языке оригинала в кино
 | #{newline }
-| https://#{@city.domain}.#{domain_name}#{url(:movies, :index, @movie.format_url)}
+| #{full_domain_name(@city.domain)}#{url(:movies, :index, @movie.format_url)}
 | #{newline * 2}
 | #{@movie.get_description}
 | #{newline}
@@ -43,29 +43,19 @@
 - dates.uniq!
 - if count > 0
 	| В прокате с #{show_date(screenings.first.date, false) }
-/	- if count > 1
-/		- if dates.count > 1
-/			| В прокате с #{show_date(screenings.first.date, false) }
-/		- else
-/			| В прокате один день - #{show_date(screenings.first.date, false) }
-/	- else count == 1
-/		| Единственный показ - #{show_date(screenings.first.date, false) }
-/		| в кинотеатре "#{Cinema.where(:cinema_id => screenings.first.cinema_id).first.name}"
 
 | #{newline * 2}
 
 | Расписание сеансов на языке оригинала и билеты:
 | #{newline}
-| https://#{@city.domain}.#{domain_name}#{url(:movies, :index, @movie.format_url)}
+| #{full_domain_name(@city.domain)}#{url(:movies, :index, @movie.format_url)}
 | #{newline}
 | --------------
 | #{newline * 2}
 - if @movie.poster_exists?
-	- poster_file = "https://#{domain_name}/images/posters/#{@movie.movie_id}.jpg"
 	|
-	| #{poster_file}
-
-| #{newline * 2}
+	| #{@movie.poster_url}
+	| #{newline * 2}
 - unless @movie.trailer.to_s.empty?
 	- @movie.trailer.split("*").each do |t|
 		| http://www.youtube.com/watch?v=#{t}

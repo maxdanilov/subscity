@@ -38,7 +38,6 @@ module Sinatra
     end
 
     def url_without_subdomain
-        # https://msk.subscity.ru/movies/555 => https://subscity.ru/movies/555
         "#{full_domain_name}#{path}"
     end
   end
@@ -57,7 +56,7 @@ def port
 end
 
 def full_domain_name(subdomain=nil)
-  port_suffix = [80, 443].include? port.to_i ? "" : ":#{port}"
+  port_suffix = [80, 443].include?(port.to_i) ? "" : ":#{port}"
   "#{protocol}://#{[subdomain, domain_name].select { |i| !i.nil? }.join('.')}#{port_suffix}"
 end
 
