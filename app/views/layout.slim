@@ -22,8 +22,8 @@ html
 		meta property="og:description" content="Всегда актуальное расписание фильмов на языке оригинала (с русскими субтитрами) в кинотеатрах Москвы и Санкт-Петербурга"
 		- if defined? @movie and !@movie.nil?
 			- if @movie.poster_exists?
-				- poster_file = "posters/#{@movie.movie_id}.jpg?#{@movie.timestamp_poster}"
-				meta property="og:image" content="//#{domain_name}/images/#{poster_file}"
+				- poster_file = "#{@movie.poster_url}?#{@movie.timestamp_poster}"
+				meta property="og:image" content="#{@movie.poster_url}"
 
 		- if SETTINGS[:sell_tickets] == true
 			/ Key tag for kassa widget

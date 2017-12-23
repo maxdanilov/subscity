@@ -85,7 +85,7 @@ class Movie < ActiveRecord::Base
 		# format is like this: r["2014-02-17"][cinema] -> array of screenings
 		screenings_all.each do |s|
 			r[s.date.to_s] ||= {}
-			cinema = cinemas_all.find { |c| c.cinema_id == s.cinema_id}#.name
+			cinema = cinemas_all.find { |c| c.cinema_id == s.cinema_id}
 			unless cinema.nil?
 				r[s.date.to_s][cinema] ||= []
 				r[s.date.to_s][cinema] << s
@@ -97,10 +97,6 @@ class Movie < ActiveRecord::Base
 	end
 
 	def cinemas_count(city_id, active_all = false)
-		#cinemas = Array.new
-		#screenings.active.in_city(city_id).each { |s| cinemas |= [s.cinema_id] }
-		#cinemas.size
-		#screenings.active.in_city(city_id).select(:cinema_id).uniq.count # slower
 		if active_all == true
 			screenings.active_all.in_city(city_id).pluck(:cinema_id).uniq.count
 		else
@@ -141,11 +137,11 @@ class Movie < ActiveRecord::Base
 
 	def poster_url
 		return nil unless poster_exists?
-		"#{full_domain_name}/images/posters/#{movie_id}.jpg"
+		"#{full_domain_name}/images/posters/#{id}.jpg"
 	end
 
 	def poster_filename
-		"#{File.dirname(__FILE__)}/../public/images/posters/#{movie_id}.jpg"
+		"#{File.dirname(__FILE__)}/../public/images/posters/#{id}.jpg"
 	end
 
 	def poster_exists?

@@ -1,14 +1,6 @@
 - movie = @movie
 - ratings = @ratings
 - poster_file = "transparent.png"
-/h1.text-center.capitalize.like-navbar
-/	span
-/		=movie.title
-/		|
-/		span.label.label-bg.label-default style="top:-3px; position:relative;"
-/			| #{movie.age_restriction}+
-/	- unless movie.title_original.nil?
-/		div.movie-title-original.big-font = metroovie.title_original
 
 - row_count = 1
 - row_count += 1 unless movie.genres.to_s.empty?
@@ -19,9 +11,8 @@
 - row_count += 1 unless movie.cast.to_s.empty?
 - row_count += 1 if movie.has_description?
 
-- poster_file = "transparent.png"
 - if movie.poster_exists?
-	- poster_file = "posters/#{movie.movie_id}.jpg?#{movie.timestamp_poster}"
+	- poster_file = "#{movie.poster_url}?#{movie.timestamp_poster}"
 
 table.table.table-bordered.table-condensed.table-striped.movie-info.table-curved
 	tr

@@ -1,6 +1,6 @@
 - poster_file = "transparent.png"
 - if @movie.poster_exists?
-	- poster_file = "posters/#{@movie.movie_id}.jpg?#{@movie.timestamp_poster}"
+	- poster_file = "#{@movie.poster_url}?#{@movie.timestamp_poster}"
 
 h1.text-center.capitalize.like-navbar
 	span.fa.fa-film
