@@ -32,7 +32,6 @@ def current_role
 end
 
 def admin?
-	#ADMIN_IP == request.ip
 	return true if is_role? :admin
 	false
 end
