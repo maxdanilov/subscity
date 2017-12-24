@@ -11,11 +11,11 @@ EXPOSE 3000
 ENV SC_ENV=production
 
 COPY . .
-RUN cd tasks && whenever --update-crontab
 
 ENV TZ=Europe/Moscow
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 COPY scripts/dockerfiles/.bashrc /etc/bash.bashrc
 
-CMD padrino start -h 0.0.0.0 -a thin -e ${SC_ENV}
+ENTRYPOINT [ "/bin/sh" ]
+CMD [ "scripts/entrypoint.sh" ]
