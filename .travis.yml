@@ -6,10 +6,31 @@ node_js:
   - "6"
 
 services:
+  - mysql
   - docker
 
-before_install:
+addons:
+  hosts:
+    - local.host
+    - msk.local.host
+    - spb.local.host
+
+install:
   - npm install -g uglify-js less less-plugin-clean-css
+
+before_script:
+  - mysql -u root -e "CREATE DATABASE subscity"
 
 script:
   - ./scripts/build.sh
+  - ./scripts/run.sh travis
+  - sleep 5
+  - docker exec -it subscity-app /bin/bash -c "cd /subscity && rake ar:schema:load && padrino run db/seed_cities.rb"
+  - docker exec -it subscity-app /bin/bash -c "cd /subscity/tasks && rake clear_cache"
+  - curl -sI 'http://local.host:3000' | grep -q 'http://msk.local.host:3000'
+  - curl -sL 'http://msk.local.host:3000' | grep -q 'vk.com/subscity_msk'
+  - curl -sL 'http://msk.local.host:3000/stylesheets/design.css' | grep -q 'color'
+  - curl -sL 'http://spb.local.host:3000/javascripts/default.min.js' | grep -q 'function'
+
+after_script:
+  - docker stop subscity-app
