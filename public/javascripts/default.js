@@ -369,8 +369,3 @@ $(function() {
 	});
 
 });
-
-function rambler(cinemaId, movieId, time) {
-	ticketManager.hallPlanV2(cinemaId, movieId, time);
-	return false;
-}
