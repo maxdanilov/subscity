@@ -10,7 +10,6 @@ docker rm ${NAME} 2> /dev/null
 docker run -d \
     --name ${NAME} \
     --env-file env/${ENV} \
-    --link mysql-subscity:mysql \
     --mount type=bind,source="$(pwd)",target=/subscity \
     -p ${PORT}:${PORT} \
     subscity
