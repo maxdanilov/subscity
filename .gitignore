@@ -9,6 +9,7 @@ db/.credentials.rb
 config/.token.rb
 log
 public/images/posters/
+public/stylesheets/*.css
 public/images/bgs/old/
 tasks/logs/*
 tmp

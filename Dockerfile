@@ -23,4 +23,4 @@ RUN update-exim4.conf
 COPY scripts/dockerfiles/.bashrc /etc/bash.bashrc
 
 ENTRYPOINT [ "/bin/sh" ]
-CMD [ "scripts/entrypoint.sh" ]
+CMD [ "scripts/dockerfiles/entrypoint.sh" ]
