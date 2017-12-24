@@ -38,7 +38,6 @@ ActiveRecord::Schema.define(:version => 7) do
 
   create_table "cities", :force => true do |t|
     t.boolean  "active"
-    t.string   "geoip"
     t.string   "domain"
     t.integer  "city_id"
     t.string   "name"

@@ -1,2 +1,4 @@
-*.sh
 *.md
+scripts/legacy/*
+public/less/*
+public/default.js

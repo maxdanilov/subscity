@@ -395,12 +395,6 @@ task :update_screenings_prices => :environment do |task|
 	stop_task(task, t)
 end
 
-desc 'seed cities table'
-task :seed_cities => :environment do |task|
-	City.new(:city_id => 2, :name => "Москва", :geoip => "Moscow; 48 RU", :domain => "msk", :active => true).save
-	City.new(:city_id => 3, :name => "Санкт-Петербург", :geoip => "Saint Petersburg; 66 RU", :domain => "spb", :active => false).save
-end
-
 desc 'delete all obsolete screenings'
 task :cleanup_screenings => :environment do |task|
 	t = start_task(task)
