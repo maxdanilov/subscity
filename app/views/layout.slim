@@ -25,9 +25,6 @@ html
 				- poster_file = "#{@movie.poster_url}?#{@movie.timestamp_poster}"
 				meta property="og:image" content="#{@movie.poster_url}"
 
-		- if SETTINGS[:sell_tickets] == true
-			/ Key tag for kassa widget
-			<rb:rich key="9565b54e-cb2e-4063-a15d-d9962e8c49dd" xmlns:rb="https://kassa.rambler.ru"></rb:rich>
 		= feed_tag(:rss, url(:movies, :index, :format => :rss), :title => "SubsCity (#{@city.name rescue City.get_by_domain(request.subdomains.first).name})")
 
 		= favicon_tag '/favicon.png', :type => 'image/png', :rel => 'icon'
@@ -144,10 +141,6 @@ html
 
 		/ JQuery Unveil library
 		= javascript_include_tag 'jquery.unveil.min'
-
-		/ Kassa ticket plan
-		- if SETTINGS[:sell_tickets] == true
-			= javascript_include_tag 'http://s2.kassa.rl0.ru/widget/js/ticketmanager.js'
 
 		/ Font awesome icons
 		= stylesheet_link_tag '//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css'

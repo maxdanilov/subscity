@@ -6,8 +6,6 @@ SETTINGS =  {
             	:screenings_show_span => 8,    				# in days
             	:screenings_fetch_span => 5,   				# in days
             	:movie_new_span => 9,						# in days
-            	:sell_tickets => false,          			# sell tix within site or redirect to kassa
-            	                                			# if sold within, 10% comission applied
             	:movie_show_all_screenings => true,			# not only active, but active_all
                 :movie_show_night_nonstops => false,
             	:new_day_starts_at => 2.hours + 30.minutes,	# new day begins at 02:30, not 00:00

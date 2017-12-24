@@ -1,11 +1,8 @@
 - text_buy_online ="Купить билет онлайн"
 - text_min_price = "Минимальная цена билета"
 
-- if SETTINGS[:sell_tickets] == false
-	a.btn.btn-default.navbar-btn.price-button.cell-screening-desktop href="https://kassa.rambler.ru/place/#{cinema.cinema_id}?date=#{day.to_time.strftime("%Y.%m.%d")}" target="_blank" title="#{text_buy_online}"
-		= show_time(screening.date_time)
-- else
-	<a class="btn btn-default navbar-btn price-button cell-screening-desktop" href="#" onclick="return rambler(#{screening.cinema_id}, #{screening.movie_id}, '#{show_time_rambler(screening.date_time)}')" title="#{text_buy_online}">#{show_time(screening.date_time)}</a>
+a.btn.btn-default.navbar-btn.price-button.cell-screening-desktop href="https://kassa.rambler.ru/place/#{cinema.cinema_id}?date=#{day.to_time.strftime("%Y.%m.%d")}" target="_blank" title="#{text_buy_online}"
+	= show_time(screening.date_time)
 
 a.btn.btn-default.navbar-btn.price-button.cell-screening-mobile href="http://m.kassa.rambler.ru/place/hallplan?sessionid=#{screening.screening_id}&widgetid=16857&insertstatistic=False" title="#{text_buy_online}"
 	= show_time(screening.date_time)
