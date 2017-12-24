@@ -1,11 +1,8 @@
 desc 'load all models and require modules for ActiveRecord'
 task :environment do
-	#require 'padrino'
 	gem 'activerecord', '<4'
 	require 'active_record'
-	require 'RMagick'
 	require 'htmlentities'
-	#require 'active_support/core_ext'
 
 	# no color output if script is run by cron
 	if STDOUT.tty?
@@ -16,7 +13,8 @@ task :environment do
 				self
 			end
 
-			[:black, :red, :green, :yellow, :blue, :magenta, :cyan, :white, :default, :light_black, :light_red, :light_green, :light_yellow, :light_blue, :light_magenta, :light_cyan, :light_white].each{|a| alias_method a, :color}
+			%i[black red green yellow blue magenta cyan white default light_black light_red,
+			light_green light_yellow light_blue light_magenta light_cyan light_white].each{|a| alias_method a, :color}
 		end
 	end
 
@@ -30,15 +28,15 @@ task :environment do
 
 	require ROOT_PATH + "app/settings" rescue nil
 
-	ActiveRecord::Base::establish_connection( :adapter => 'mysql2',
-											  :encoding => 'utf8',
-											  :reconnect => true,
-											  :database => ENV['SC_DB_NAME'],
-											  :pool => 50,
-											  :wait_timeout => 1,
-											  :username => ENV['SC_DB_USER'],
-											  :password => ENV['SC_DB_PASS'],
-											  :host => ENV['SC_DB_HOST'] )
+	ActiveRecord::Base::establish_connection(adapter: 'mysql2',
+											 encoding: 'utf8',
+											 reconnect: true,
+											 database: ENV['SC_DB_NAME'],
+											 pool: 50,
+											 wait_timeout: 1,
+											 username: ENV['SC_DB_USER'],
+											 password: ENV['SC_DB_PASS'],
+											 host: ENV['SC_DB_HOST'] )
 
 	I18n.enforce_available_locales = false
 	puts "Init complete".green
