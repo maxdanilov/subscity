@@ -34,3 +34,10 @@ script:
 
 after_script:
   - docker stop subscity-app
+
+after_success:
+  - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+  - docker tag subscity $DOCKER_USERNAME/subscity:${TRAVIS_BRANCH}-$(echo ${TRAVIS_COMMIT} | awk '{print substr($0,0,7)}')
+  - docker tag subscity $DOCKER_USERNAME/subscity:${TRAVIS_BRANCH}-latest
+  - docker push $DOCKER_USERNAME/subscity:${TRAVIS_BRANCH}-$(echo ${TRAVIS_COMMIT} | awk '{print substr($0,0,7)}')
+  - docker push $DOCKER_USERNAME/subscity:${TRAVIS_BRANCH}-latest
