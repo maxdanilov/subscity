@@ -7,6 +7,7 @@ services:
     image: "${IMAGE:-subscity}"
     container_name: subscity-app
     restart: always
+    pid: "host" # otherwise cron jobs not working...
     stop_signal: SIGKILL
     ports:
       - "3000:3000"
