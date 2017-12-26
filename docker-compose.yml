@@ -1,0 +1,15 @@
+---
+version: "3.4"
+services:
+  subscity:
+    image: "maximdanilov/subscity:${BRANCH}-latest"
+    restart: always
+    ports:
+      - "3000:3000"
+    env_file:
+      - env/${ENV}
+    network_mode: "${NET}"
+    volumes:
+      - type: bind
+        source: ./public/images/posters/
+        target: /subscity/public/images/posters/

@@ -19,4 +19,5 @@ docker run -d \
     --mount type=bind,source="$(pwd)",target=/subscity \
     -p ${PORT}:${PORT} \
     ${NETWORK_MODE} \
+    --restart always \
     subscity
