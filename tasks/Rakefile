@@ -55,6 +55,19 @@ def stop_task(task, t)
 	puts
 end
 
+desc 'rollover log files'
+task rollover_logs: :environment do |task|
+	t = start_task(task)
+	history_length = 5 # days
+	Dir.chdir("logs") do
+		for i in history_length.downto(1)
+			system "rename 's/\.#{i-1}$/\.#{i}/' *.#{i-1}"
+		end
+		system "rename 's/\.log$/\.0/' *.log"
+	end
+	stop_task(task, t)
+end
+
 desc 'update screenings for all movies in the DB (active ones)'
 task :update_screenings => :environment do |task, args|
 	# do this before since cinemas can change movies assigned to screenings while keeping screening id!

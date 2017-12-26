@@ -4,6 +4,11 @@ job_type :job, 'cd :path && rake :task :output'
 
 set :output, 'logs/cron.log'
 
+# rollover old logs
+every :day, at: ['03:00'] do
+	job 'rollover_logs', output: nil
+end
+
 # send DB backup to email
 every :day, at: ['00:00'] do
 	job 'backup', output: 'logs/cron.log'

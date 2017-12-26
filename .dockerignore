@@ -2,3 +2,5 @@
 scripts/legacy/*
 public/less/*
 public/default.js
+.git
+.gitignore

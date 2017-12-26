@@ -4,7 +4,7 @@ services:
   subscity:
     build:
       context: .
-    image: "${IMAGE:-subscity}"
+    image: "${IMAGE:-subscity:latest}"
     container_name: subscity-app
     restart: always
     stop_signal: SIGKILL
@@ -14,9 +14,10 @@ services:
       - env/${ENV:-local}
     network_mode: "${NET:-bridge}"
     volumes:
+      - ./tasks/logs/:/subscity/tasks/logs/
       - ./public/images/posters/:/subscity/public/images/posters/
     healthcheck:
-      test: ["CMD", "wget", "-q", "http://localhost:3000"]
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3000 &> /dev/null"]
       interval: 2m
       timeout: 10s
       retries: 3
