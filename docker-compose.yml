@@ -4,7 +4,7 @@ services:
   subscity:
     build:
       context: .
-    image: "${IMAGE:-subscity:latest}"
+    image: "${IMAGE:-subscity}"
     container_name: subscity-app
     restart: always
     stop_signal: SIGKILL
