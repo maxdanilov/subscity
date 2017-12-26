@@ -9,7 +9,7 @@ db/.credentials.rb
 config/.token.rb
 log
 public/images/posters/
-public/stylesheets/*.css
+public/stylesheets/design*.css
 public/images/bgs/old/
 public/javascripts/default.min.js
 tasks/logs/*
