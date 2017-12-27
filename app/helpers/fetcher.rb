@@ -68,7 +68,7 @@ class KassaFetcher
 
 	def self.fetch_prices_full(screening_id)
 		# https://widget.kassa.rambler.ru/place/hallplanajax/9889099?widgetid=16043&clusterradius=61
-		url = WIDGET_DOMAIN + "/place/hallplanajax/#{screening_id}?widgetid=16043&clusterradius=61"
+		url = "#{WIDGET_DOMAIN}/place/hallplanajax/#{screening_id}?widgetid=16043&clusterradius=61"
 		fetch_data(url, JSON_HEADERS_WIDGET)
 	end
 
@@ -86,24 +86,24 @@ class KassaFetcher
 
 	def self.url_for_availability(screening_id)
 		# https://m.kassa.rambler.ru/place/placecount?sessionid=28665397
-		DOMAIN + "place/placecount?sessionid=" + screening_id.to_s
+		"#{DOMAIN}place/placecount?sessionid=#{screening_id}"
 	end
 
 	def self.url_for_cinemas(start, length = PAGE_SIZE, place_id, place_name)
 		# https://m.kassa.rambler.ru/spb/place/nearplaces/cinema?start=20&pagesize=10&WidgetID=16857&GeoPlaceID=3
-		DOMAIN + place_name.to_s + "/place/nearplaces/cinema?start=" + start.to_s + "&pagesize=" + length.to_s + "&GeoPlaceID=" + place_id.to_s + "&WidgetID=" + WIDGET_ID.to_s
+		"#{DOMAIN}#{place_name}/place/nearplaces/cinema?start=#{start}&pagesize=#{length}&GeoPlaceID=#{place_id}&WidgetID=#{WIDGET_ID}"
 	end
 
 	def self.url_for_cinema(cinema_id, date = nil, place_id, place_name)
 		# https://m.kassa.rambler.ru/place/1907?date=2014.03.12&geoPlaceID=2&widgetid=16857
 		# https://m.kassa.rambler.ru/msk/cinema/cinema-1907?date=2016.03.28&WidgetID=16857&geoPlaceID=2
 		date = Time.now if date.nil?
-		DOMAIN + place_name.to_s + "/cinema/cinema-" + cinema_id.to_s + "?date=" + date.strftime("%Y.%m.%d") + "&geoPlaceID=" + place_id.to_s + "&WidgetID=" + WIDGET_ID.to_s
+		"#{DOMAIN}#{place_name}/cinema/cinema-#{cinema_id}?date=#{date.strftime('%Y.%m.%d')}&geoPlaceID=#{place_id}&WidgetID=#{WIDGET_ID}"
 	end
 
 	def self.url_for_movies(start, length = PAGE_SIZE, place_id, place_name)
-	    # https://m.kassa.rambler.ru/spb/creation/topcreations/17?start=20&pagesize=10&WidgetID=16857&GeoPlaceID=3
-		DOMAIN + place_name.to_s + "/creation/topcreations/17?start=" + start.to_s + "&pagesize=" + length.to_s + "&GeoPlaceID=" + place_id.to_s + "&WidgetID=" + WIDGET_ID.to_s
+		# https://m.kassa.rambler.ru/spb/creation/topcreations/17?start=20&pagesize=10&WidgetID=16857&GeoPlaceID=3
+		"#{DOMAIN}#{place_name}/creation/topcreations/17?start=#{start}&pagesize=#{length}&GeoPlaceID=#{place_id}&WidgetID=#{WIDGET_ID}"
 	end
 
 	def self.url_for_sessions(movie_id, date = nil, place_id, place_name)
@@ -114,12 +114,12 @@ class KassaFetcher
 
 	def self.url_for_session(session_id, place_id)
 		# http://m.kassa.rambler.ru/place/hallplan?sessionid=9637961&geoPlaceID=2&WidgetID=16857
-		DOMAIN + "place/hallplan?sessionid=" + session_id.to_s + "&geoPlaceID=" + place_id.to_s + "&WidgetID=" + WIDGET_ID.to_s
+		"#{DOMAIN}place/hallplan?sessionid=#{session_id}&geoPlaceID=#{place_id}&WidgetID=#{WIDGET_ID}"
 	end
 
 	def self.url_for_movie(movie_id)
 		# https://kassa.rambler.ru/movie/45849
-		DOMAIN_DESKTOP + "movie/" + movie_id.to_s
+		"#{DOMAIN_DESKTOP}movie/#{movie_id}"
 	end
 
 	def self.fetch_session(session_id, place_id)
@@ -139,7 +139,6 @@ class KassaFetcher
 	end
 
 	def self.fetch_sessions(movie_id, date = nil, place_id, place_name)
-		puts url_for_sessions(movie_id, date, place_id, place_name)
 		fetch_data_html(url_for_sessions(movie_id, date, place_id, place_name))
 	end
 
