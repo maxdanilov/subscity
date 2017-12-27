@@ -107,9 +107,9 @@ class KassaFetcher
 	end
 
 	def self.url_for_sessions(movie_id, date = nil, place_id, place_name)
-		# https://m.kassa.rambler.ru/spb/movie/53046?date=2014.02.10&WidgetID=16857&geoPlaceID=3
+		# https://m.kassa.rambler.ru/spb/movie/53046?date=2014.02.10&WidgetID=16857
 		date = Time.now if date.nil?
-		DOMAIN + place_name.to_s + "/movie/" + movie_id.to_s + "?date=" + date.strftime("%Y.%m.%d") + "&geoPlaceID=" + place_id.to_s + "&WidgetID=" + WIDGET_ID.to_s
+		"#{DOMAIN}#{place_name}/movie/#{movie_id}?date=#{date.strftime("%Y.%m.%d")}&WidgetID=#{WIDGET_ID}"
 	end
 
 	def self.url_for_session(session_id, place_id)
@@ -139,6 +139,7 @@ class KassaFetcher
 	end
 
 	def self.fetch_sessions(movie_id, date = nil, place_id, place_name)
+		puts url_for_sessions(movie_id, date, place_id, place_name)
 		fetch_data_html(url_for_sessions(movie_id, date, place_id, place_name))
 	end
 

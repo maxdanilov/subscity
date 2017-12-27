@@ -189,9 +189,9 @@ class KassaParser
 	end
 
 	def self.get_session_id(link)
-		# https://m.kassa.rambler.ru/spb/place/hallplan?sessionid=20977908&WidgetID=16857&geoPlaceID=3
-		# => 20977908
-		get_first_regex_match_integer(link, /sessionid=(\d+)/)
+		# https://w.kassa.rambler.ru/event/33040795/340fc69e-10f4-423e-a19c-1a5fd3ca94b6/http%3a%2f%2fm.kassa.rambler.ru%2fmsk%2fmovie%2f66499/
+		# => 33040795
+		get_first_regex_match_integer(link, /event\/(\d+)/)
 	end
 
 	def self.get_movie_id(link)
