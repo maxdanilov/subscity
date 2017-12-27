@@ -249,7 +249,7 @@ class KassaParser
 		end
 		time = tokens[4]
 		year = Time.now.year
-		year += 1 if Time.now.month < month and month == 12
+		year += 1 if Time.now.month > month
 		date = Time.local(year, month, day, 0, 0, 0)
 		date += 1.day if date_text.include? overnight
 		parse_time(time, date)
