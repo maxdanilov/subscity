@@ -16,9 +16,10 @@ GEM
     arel (3.0.3)
     bcrypt-ruby (3.1.2)
     builder (3.0.4)
+    byebug (9.1.0)
     chronic (0.10.2)
+    coderay (1.1.2)
     colorize (0.6.0)
-    commonjs (0.2.7)
     cookiejar (0.3.2)
     daemons (1.2.5)
     em-http-request (1.1.2)
@@ -44,6 +45,7 @@ GEM
     mail (2.5.5)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
+    method_source (0.9.0)
     mime-types (1.25.1)
     mini_portile2 (2.3.0)
     moneta (0.7.20)
@@ -82,6 +84,12 @@ GEM
       mail (~> 2.5.3)
       padrino-core (= 0.12.0)
     polyglot (0.3.5)
+    pry (0.11.3)
+      coderay (~> 1.1.0)
+      method_source (~> 0.9.0)
+    pry-byebug (3.5.1)
+      byebug (~> 9.1)
+      pry (~> 0.10)
     rack (1.6.8)
     rack-fiber_pool (0.9.3)
     rack-protection (1.5.2)
@@ -137,6 +145,8 @@ DEPENDENCIES
   mysql2 (~> 0.3.20)
   nokogiri
   padrino (= 0.12.0)
+  pry
+  pry-byebug
   rake
   rmagick
   sinatra-synchrony
