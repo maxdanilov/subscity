@@ -5,8 +5,11 @@ SC_PORT=3000
 
 SC_DB_NAME=subscity
 SC_DB_USER=root
-SC_DB_PASS=
+SC_DB_PASS=password
 SC_DB_HOST=127.0.0.1
 SC_DB_EMAIL=user@domain.tld
 SC_COOKIES_SECRET=deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef
 SC_DISABLE_CACHING=true
+
+MYSQL_ROOT_PASSWORD=password
+MYSQL_DATABASE=subscity

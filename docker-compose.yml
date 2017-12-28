@@ -1,16 +1,29 @@
 ---
 version: "2.3"
 services:
+  mysql:
+    image: "mysql:5.7.20"
+    container_name: subscity-db
+    network_mode: "${NET:-bridge}"
+    restart: always
+    ports:
+      - 3306:3306
+    env_file:
+      - env/${ENV:-local}
+    volumes:
+      - /var/lib/mysql:/var/lib/mysql
   subscity:
     build:
       context: .
     image: "${IMAGE:-subscity}"
     container_name: subscity-app
     restart: always
+    depends_on:
+      - mysql
     pid: "host" # otherwise cron jobs not working...
     stop_signal: SIGKILL
     ports:
-      - "3000:3000"
+      - 3000:3000
     env_file:
       - env/${ENV:-local}
     network_mode: "${NET:-bridge}"

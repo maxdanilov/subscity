@@ -10,3 +10,6 @@ SC_DB_HOST=docker.for.mac.localhost
 SC_DB_EMAIL=user@domain.tld
 SC_COOKIES_SECRET=deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef
 SC_DISABLE_CACHING=true
+
+MYSQL_ROOT_PASSWORD=password
+MYSQL_DATABASE=subscity

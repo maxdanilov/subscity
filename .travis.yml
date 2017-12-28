@@ -6,7 +6,6 @@ node_js:
   - "6"
 
 services:
-  - mysql
   - docker
 
 addons:
@@ -19,18 +18,19 @@ env:
   global:
     - ENV=travis
     - NET=host
-    - IMAGE=subscity
+    - IMAGE=maximdanilov/subscity:master-latest # FIXME
 
 install:
   - npm install -g uglify-js less less-plugin-clean-css
 
 before_script:
-  - mysql -u root -e "CREATE DATABASE subscity"
+  - sudo service mysql stop
+  - sudo rm -rf /var/lib/mysql
 
 script:
-  - ./scripts/build.sh
+  # - ./scripts/build.sh # FIXME
   - docker-compose up -d
-  - sleep 5
+  - sleep 30 # FIXME adaptive
   - docker exec -it subscity-app /bin/bash -c "cd /subscity && rake ar:schema:load && padrino run db/seed_cities.rb"
   - docker exec -it subscity-app /bin/bash -c "cd /subscity/tasks && rake clear_cache"
   - curl -sI 'http://local.host:3000' | grep -q 'http://msk.local.host:3000'
