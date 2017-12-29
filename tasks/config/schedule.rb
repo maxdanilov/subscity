@@ -10,7 +10,7 @@ every :day, at: ['03:00'] do
 end
 
 # send DB backup to email
-every :day, at: ['00:00'] do
+every :day, at: ['01:00'] do
 	job 'backup', output: 'logs/cron.log'
 end
 
@@ -35,7 +35,7 @@ every :day, at: ['10:00', '14:00', '22:00'] do
 end
 
 # screenings
-every :day, at: ['07:05', '11:20', '14:50', '17:40', '20:40', '23:50'] do
+every :day, at: ['07:05', '11:20', '14:50', '17:40', '20:40', '00:05'] do
 	job 'update_screenings', output: 'logs/cron_screenings.log'
 end
 
