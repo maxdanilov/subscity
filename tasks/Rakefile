@@ -76,7 +76,7 @@ task :update_screenings => :environment do |task, args|
 
 	t = start_task(task)
 	count_all = Movie.active.count
-	Movie.active.each_with_index do |m, index|
+	Movie.active.shuffle.each_with_index do |m, index|
 		puts "\t[#{index + 1 } / #{count_all}] Processing movie...".yellow
 		puts
 		Rake::Task[:update_screenings_movie].invoke(m.id)
@@ -258,7 +258,7 @@ task :update_movies_from_cinemas => :environment do |task|
 	t = start_task(task)
 	City.active.each do |city|
 		total = city.get_cinemas.count
-		city.get_cinemas.each_with_index do |cinema, index|
+		city.get_cinemas.shuffle.each_with_index do |cinema, index|
 			puts "[#{index + 1} / #{total}] Processing cinema #{cinema.name} (#{city.name}) ...".magenta
 			dates = KassaParser.parse_movie_dates(KassaFetcher.fetch_cinema(cinema.cinema_id, nil, city.city_id, city.domain))
 			dates.each do |date|
@@ -380,9 +380,7 @@ task :update_screenings_prices => :environment do |task|
 	counter = 0
 	screenings.find_each do |s|
 		counter += 1
-
 		if s.available?
-
 			max_price, min_price = s.get_prices
 			if (!max_price.nil? and !min_price.nil?)
 				s.price_min, s.price_max = min_price, max_price
@@ -393,7 +391,6 @@ task :update_screenings_prices => :environment do |task|
 			else
 				puts "\t[#{counter}/#{fetched_count}] Screening #{s.screening_id} was not updated with prices".red
 			end
-
 		else
 			puts "\t[#{counter}/#{fetched_count}] Screening #{s.screening_id} is not available".red
 		end
@@ -539,7 +536,7 @@ task :download_posters => :environment do |task|
 		c.get_movies.to_a.each do |m|
 			next if m.poster.nil?
 			next if m.poster_exists?
-			puts m.title + " " + m.poster
+			puts "#{m.title} #{m.poster}"
 			m.download_poster(m.poster)
 		end
 	end
