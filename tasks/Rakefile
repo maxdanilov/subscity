@@ -74,6 +74,9 @@ task :update_screenings => :environment do |task, args|
 	Rake::Task[:cleanup_screenings].reenable
 	Rake::Task[:cleanup_screenings].invoke
 
+	Rake::Task[:update_screenings_prices].reenable
+	Rake::Task[:update_screenings_prices].invoke
+
 	t = start_task(task)
 	count_all = Movie.active.count
 	Movie.active.shuffle.each_with_index do |m, index|
