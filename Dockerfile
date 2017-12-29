@@ -1,8 +1,7 @@
 FROM ruby:2.3-slim-jessie
 
-RUN apt-get update
-RUN apt-get install -y libmysqlclient-dev libmagickwand-dev imagemagick build-essential libsqlite3-dev cron
-RUN apt-get install -y nano git wget mysql-client mutt
+RUN apt-get update && apt-get install -y libmysqlclient-dev libmagickwand-dev imagemagick build-essential \
+    libsqlite3-dev cron nano git wget mysql-client mutt
 
 ENV TZ=Europe/Moscow
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
