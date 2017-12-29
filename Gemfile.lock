@@ -110,7 +110,6 @@ GEM
     slim (2.0.2)
       temple (~> 0.6.6)
       tilt (>= 1.3.3, < 2.1)
-    sqlite3 (1.3.11)
     stringex (2.5.2)
     temple (0.6.7)
     text-hyphen (1.4.1)
@@ -151,7 +150,6 @@ DEPENDENCIES
   rmagick
   sinatra-synchrony
   slim
-  sqlite3
   stringex
   text-hyphen
   thin

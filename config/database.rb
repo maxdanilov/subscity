@@ -1,7 +1,4 @@
 ActiveRecord::Base.configurations[:development] = {
-  #:adapter => 'sqlite3',
-  #:database => Padrino.root('db', 'subscity_development.db'),
-  #:timeout => 10000
   :adapter => 'mysql2',
   :encoding => 'utf8',
   :reconnect => true,
