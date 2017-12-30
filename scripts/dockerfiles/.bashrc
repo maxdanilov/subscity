@@ -6,4 +6,11 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
-export PS1="\[\033[0;31m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\] \$ "
+task() {
+    pushd $(pwd) > /dev/null
+    cd /subscity/tasks
+    rake "$1"
+    popd > /dev/null
+}
+
+export PS1="\[\033[01;31m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\] \$ "

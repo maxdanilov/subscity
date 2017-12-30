@@ -1,17 +1,5 @@
-*.sublime-*
-*.txt
 .*.jp*g
-google*
-config/.token.rb
-db/backup
-db/backup.sh
-db/.credentials.rb
-config/.token.rb
-log
 public/images/posters/
-public/stylesheets/design*.css
-public/images/bgs/old/
-public/javascripts/default.min.js
 tasks/logs/*
 tmp
 env/prod*

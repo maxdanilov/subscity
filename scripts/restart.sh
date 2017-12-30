@@ -4,4 +4,4 @@ set -e
 cd "${0%/*}/../"
 
 ./scripts/stop.sh
-./scripts/start.sh $1
+./scripts/start.sh "${1}"

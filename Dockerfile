@@ -1,3 +1,11 @@
+FROM mkenney/npm:node-8-alpine as asset-compiler
+WORKDIR /assets/
+RUN npm install -g uglify-js less less-plugin-clean-css
+COPY public/less/* ./
+COPY public/javascripts/default.js ./
+RUN lessc --clean-css design.less design.css
+RUN uglifyjs default.js --compress --mangle --output default.min.js
+
 FROM ruby:2.3-slim-jessie
 
 RUN apt-get update && apt-get install -y libmysqlclient-dev libmagickwand-dev imagemagick build-essential \
@@ -15,10 +23,11 @@ COPY scripts/dockerfiles/.bashrc /etc/bash.bashrc
 EXPOSE 3000
 ENV SC_ENV=production
 
-ADD Gemfile* subscity/
 WORKDIR subscity
+ADD Gemfile* ./
 RUN bundle install
-
+COPY --from=asset-compiler /assets/design.css public/stylesheets/
+COPY --from=asset-compiler /assets/default.min.js public/javascripts/
 COPY . .
 
 ENTRYPOINT [ "/bin/sh" ]
