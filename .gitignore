@@ -3,3 +3,4 @@ public/images/posters/
 tasks/logs/*
 tmp
 env/prod*
+public/google*html
