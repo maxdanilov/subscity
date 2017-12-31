@@ -1,6 +1,18 @@
 ---
 version: "2.3"
 services:
+  nginx:
+    image: "nginx:latest"
+    container_name: subscity-nginx
+    restart: "always"
+    network_mode: "${NET:-bridge}"
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./scripts/dockerfiles/sites-enabled:/etc/nginx/conf.d/
+      - ./public:/usr/share/nginx/html/subscity:ro
+    command: [nginx-debug, '-g', 'daemon off;']
   mysql:
     image: "mysql:5.7.20"
     container_name: subscity-db
@@ -24,6 +36,7 @@ services:
     restart: always
     depends_on:
       - mysql
+      - nginx
     pid: "host" # otherwise cron jobs not working...
     stop_signal: SIGKILL
     ports:
