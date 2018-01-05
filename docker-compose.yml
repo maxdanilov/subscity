@@ -9,10 +9,13 @@ services:
     ports:
       - 80:80
       - 443:443
+    env_file:
+      - env/${ENV:-local}
     volumes:
       - ./scripts/dockerfiles/sites-enabled:/etc/nginx/conf.d/
       - ./public:/usr/share/nginx/html/subscity:ro
-    command: [nginx-debug, '-g', 'daemon off;']
+      - ./scripts/dockerfiles/certs/${ENV:-local}:/etc/ssl/certs:ro
+    command: /bin/bash -c "envsubst < /etc/nginx/conf.d/subscity.tpl > /etc/nginx/conf.d/subscity.conf && nginx -g 'daemon off;'"
   mysql:
     image: "mysql:5.7.20"
     container_name: subscity-db
