@@ -28,7 +28,7 @@ script:
   - docker exec -it subscity-app /bin/bash -c "cd /subscity && rake ar:schema:load && padrino run db/seed_cities.rb"
   - docker exec -it subscity-app /bin/bash -c "cd /subscity/tasks && rake clear_cache"
 
-  - curl -sI 'http://local.host:3000' | grep -q 'http://msk.local.host:3000'
+  - curl -sI 'http://local.host:3000' | grep -q 'https://msk.local.host/'
   - curl -sL 'http://msk.local.host:3000' | grep -q 'vk.com/subscity_msk'
   - curl -sL 'http://msk.local.host:3000/stylesheets/design.css' | grep -q 'color'
   - curl -sL 'http://spb.local.host:3000/javascripts/default.min.js' | grep -q 'function'
