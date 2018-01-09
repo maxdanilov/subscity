@@ -15,10 +15,10 @@ ENV TZ=Europe/Moscow
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN echo "subscity" > /etc/mailname
-COPY scripts/dockerfiles/exim4.conf /etc/exim4/update-exim4.conf.conf
+COPY dockerfiles/exim4.conf /etc/exim4/update-exim4.conf.conf
 RUN update-exim4.conf
 
-COPY scripts/dockerfiles/.bashrc /etc/bash.bashrc
+COPY dockerfiles/.bashrc /etc/bash.bashrc
 
 EXPOSE 3000
 ENV SC_ENV=production
@@ -31,4 +31,4 @@ COPY --from=asset-compiler /assets/default.min.js public/javascripts/
 COPY . .
 
 ENTRYPOINT [ "/bin/sh" ]
-CMD [ "scripts/dockerfiles/entrypoint.sh" ]
+CMD [ "dockerfiles/entrypoint.sh" ]

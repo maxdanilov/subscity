@@ -4,6 +4,6 @@ tasks/logs/*
 tmp
 env/prod*
 public/google*html
-scripts/dockerfiles/sites-enabled/subscity.conf
-scripts/dockerfiles/certs/production
-scripts/dockerfiles/certs/production/
+dockerfiles/sites-enabled/subscity.conf
+dockerfiles/certs/production
+dockerfiles/certs/production/
