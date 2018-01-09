@@ -9,8 +9,7 @@ server {
     listen                                  443 ssl;
     listen                                  [::]:443 ssl;
     server_name                             ${SC_DOMAIN_NAME};
-    ssl_certificate                         /etc/ssl/certs/cert.pem;
-    ssl_trusted_certificate                 /etc/ssl/certs/chain.pem;
+    ssl_certificate                         /etc/ssl/certs/fullchain.pem;
     ssl_certificate_key                     /etc/ssl/certs/privkey.pem;
     return                                  301 https://msk.${DOLLAR}host${DOLLAR}request_uri;
 }
@@ -31,8 +30,7 @@ server {
     ssl_stapling                on;
 
     keepalive_timeout                       60;
-    ssl_certificate                         /etc/ssl/certs/cert.pem;
-    ssl_trusted_certificate                 /etc/ssl/certs/chain.pem;
+    ssl_certificate                         /etc/ssl/certs/fullchain.pem;
     ssl_certificate_key                     /etc/ssl/certs/privkey.pem;
     ssl_protocols                           SSLv3 TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers                             "RC4:HIGH:!aNULL:!MD5:!kEDH";
