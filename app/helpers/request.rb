@@ -40,6 +40,10 @@ module Sinatra
     def url_without_subdomain
         "#{full_domain_name}#{path}"
     end
+
+    def url_complete
+      "#{full_domain_name(subdomains.first)}#{path}"
+    end
   end
 end
 

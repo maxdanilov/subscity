@@ -5,6 +5,6 @@
 - unless defined? image
 	- image = "//subscity.ru/favicon.png"
 - unless defined? link
-	- link = request.url
+	- link = request.url_complete
 
 div.share42init data-url="#{link}" data-title="#{title}" data-image="#{image}" data-description="#{description}" data-path="//subscity.ru/javascripts/" data-icons-file="icons.png" style="padding-left: 4px;"
