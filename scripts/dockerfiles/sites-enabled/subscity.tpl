@@ -21,6 +21,10 @@ server {
     server_name     *.${SC_DOMAIN_NAME};
     access_log      off;
 
+    gzip            on;
+    gzip_disable    "msie6";
+    gzip_types      text/html application/javascript text/css application/octet-stream;
+
     ssl_session_cache           shared:SSL:10m;
     ssl_session_timeout         5m;
     ssl_prefer_server_ciphers   on;

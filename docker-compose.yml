@@ -9,6 +9,8 @@ services:
     ports:
       - 80:80
       - 443:443
+    environment:
+      - DOLLAR=$$
     env_file:
       - env/${ENV:-local}
     volumes:
