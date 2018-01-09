@@ -6,13 +6,13 @@ server {
 }
 
 server {
-    listen                  443 ssl;
-    listen                  [::]:443 ssl;
-    server_name             ${SC_DOMAIN_NAME};
-    ssl_certificate         /etc/ssl/certs/nginx.crt;
-    ssl_trusted_certificate /etc/ssl/certs/nginx.crt;
-    ssl_certificate_key     /etc/ssl/certs/nginx.key;
-    return              301 https://msk.${DOLLAR}host${DOLLAR}request_uri;
+    listen                                  443 ssl;
+    listen                                  [::]:443 ssl;
+    server_name                             ${SC_DOMAIN_NAME};
+    ssl_certificate                         /etc/ssl/certs/cert.pem;
+    ssl_trusted_certificate                 /etc/ssl/certs/chain.pem;
+    ssl_certificate_key                     /etc/ssl/certs/privkey.pem;
+    return                                  301 https://msk.${DOLLAR}host${DOLLAR}request_uri;
 }
 
 server {
@@ -27,15 +27,21 @@ server {
     ssl_stapling                on;
 
     keepalive_timeout                       60;
-    ssl_certificate                         /etc/ssl/certs/nginx.crt;
-    ssl_trusted_certificate                 /etc/ssl/certs/nginx.crt;
-    ssl_certificate_key                     /etc/ssl/certs/nginx.key;
+    ssl_certificate                         /etc/ssl/certs/cert.pem;
+    ssl_trusted_certificate                 /etc/ssl/certs/chain.pem;
+    ssl_certificate_key                     /etc/ssl/certs/privkey.pem;
     ssl_protocols                           SSLv3 TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers                             "RC4:HIGH:!aNULL:!MD5:!kEDH";
     add_header Strict-Transport-Security    'max-age=604800';
 
+    root    /usr/share/nginx/html/subscity/;
+
+    error_page  502 /maintenance.html;
+    location = /maintenance.html {
+        internal;
+    }
+
     location ~ ^/(images|fonts)/  {
-        root    /usr/share/nginx/html/subscity/;
         expires 2d;
     }
 
