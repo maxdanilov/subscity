@@ -172,6 +172,8 @@ class Movie < ActiveRecord::Base
 					end
 				end
 				thumbnail_poster
+				self.poster = url
+				self.save
 			rescue
 			end
 		end

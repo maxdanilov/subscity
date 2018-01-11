@@ -41,8 +41,6 @@ Subscity::App.controllers :movies do
                 end
 
                 FileCache.expire
-
-                #redirect(url_for(:movie_edit, :id => params[:id]))
                 redirect(url(request.path))
             rescue ActiveRecord::RecordNotFound => e
                 render 'errors/404', layout: :layout
