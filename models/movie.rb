@@ -156,7 +156,7 @@ class Movie < ActiveRecord::Base
 		return unless poster_exists?
 		img = Magick::Image::read(poster_filename)[0] rescue nil
 		return if img.nil?
-		max_width = 144
+		max_width = 288
 		ratio = img.rows * 1.0 / img.columns
 		img = img.thumbnail(max_width, max_width * ratio)
 		img.write poster_filename
