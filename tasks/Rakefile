@@ -502,7 +502,7 @@ task :fill_cache => :environment do |task|
 
 	domains.each do |d|
 		pages.each do |p|
-			url = "http://localhost:3000/#{p}" # run from inside the docker app itself
+			url = "http://#{d}.local.host:3000/#{p}" # run from inside the docker app itself
 			puts "Fetching #{url} ...".yellow
 			begin
 				open(url, 'r', :read_timeout => 5).read
