@@ -40,8 +40,6 @@ class Kinopoisk
 			doc = Nokogiri::XML(data)
 			rating = doc.at("kp_rating").inner_text.to_f
 			votes = doc.at("kp_rating")["num_vote"].to_i
-			#imdb_rating = doc.at("imdb_rating").inner_text.to_f rescue nil
-			#imdb_votes = doc.at("imdb_rating")["num_vote"].to_i rescue nil
 		rescue
 			rating, votes = nil
 			error = true;
@@ -50,18 +48,8 @@ class Kinopoisk
 	end
 
 	def self.get_ratings(kinopoisk_id, imdb_id)
-		if kinopoisk_id.to_i == 0
-			kp = { :error => false }
-		else
-			kp = get_kinopoisk_rating(kinopoisk_id) rescue nil
-		end
-
-		if imdb_id.to_i == 0
-			imdb = { :error => false }
-		else
-			imdb = get_imdb_rating(imdb_id) rescue nil
-		end
-
+		kp = kinopoisk_id.to_i == 0 ? : { :error => false } : get_kinopoisk_rating(kinopoisk_id) rescue nil
+		imdb = imdb_id.to_i == 0 ? { :error => false } : get_imdb_rating(imdb_id) rescue nil
 		kinopoisk_rating = kp[:rating] rescue nil
 		kinopoisk_votes = kp[:votes] rescue nil
 		imdb_rating = imdb[:rating] rescue nil
