@@ -32,7 +32,7 @@ Subscity::App.controllers :movies do
                 end
 
                 Kinopoisk.update_ratings(m)
-                m.download_poster(params[:new_poster], true) unless params[:new_poster].empty?
+                m.download_poster(params[:new_poster], true)
                 if params[:new_poster].downcase.strip == "delete"
                     File.delete m.poster_filename rescue nil
                 end

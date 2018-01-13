@@ -163,7 +163,7 @@ class Movie < ActiveRecord::Base
 	end
 
 	def download_poster(url, force_rewrite = false)
-		return if url.nil?
+		return if url.to_s.empty?
 		if (!poster_exists? or force_rewrite)
 			begin
 				open(url) do |f|

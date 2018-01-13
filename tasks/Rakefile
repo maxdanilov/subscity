@@ -3,6 +3,7 @@ task :environment do
 	gem 'activerecord', '<4'
 	require 'active_record'
 	require 'htmlentities'
+	require 'rmagick'
 
 	# no color output if script is run by cron
 	if STDOUT.tty?
@@ -227,8 +228,7 @@ task :update_movies => :environment do |task|
 					end
 					# add to db
 					if c.valid? and c.valid_genre? and (not c.russian?) and (not c.old?)
-						# download poster
-						KassaFetcher.download_poster(c, true) unless c.poster.nil?
+						c.download_poster(c.poster, true)
 						c.save
 						puts "Movie #{c.movie_id} was added to database:".yellow
 						puts c
@@ -290,7 +290,7 @@ task :update_movies_from_cinemas => :environment do |task|
 		end
 
 		if c.valid? and c.valid_genre? and (not c.russian?) and (not c.old?)
-			KassaFetcher.download_poster(c, true) unless c.poster.nil?
+			c.download_poster(c.poster, true)
 			c.save
 			puts "Movie #{c.movie_id} was added to database:".yellow
 			puts c

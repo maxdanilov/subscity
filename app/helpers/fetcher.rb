@@ -146,10 +146,6 @@ class KassaFetcher
 		fetch_data_html_no_headers(url_for_movie(movie_id))
 	end
 
-	def self.download_poster(c, force_rewrite = false)
-		c.download_poster(c.poster, force_rewrite)
-	end
-
 	#private_class_method :url_for_session
 	private_class_method :url_for_sessions
 	private_class_method :url_for_movies

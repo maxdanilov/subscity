@@ -48,7 +48,7 @@ class Kinopoisk
 	end
 
 	def self.get_ratings(kinopoisk_id, imdb_id)
-		kp = kinopoisk_id.to_i == 0 ? : { :error => false } : get_kinopoisk_rating(kinopoisk_id) rescue nil
+		kp = kinopoisk_id.to_i == 0 ? { :error => false } : get_kinopoisk_rating(kinopoisk_id) rescue nil
 		imdb = imdb_id.to_i == 0 ? { :error => false } : get_imdb_rating(imdb_id) rescue nil
 		kinopoisk_rating = kp[:rating] rescue nil
 		kinopoisk_votes = kp[:votes] rescue nil
@@ -90,12 +90,5 @@ class Kinopoisk
 
 	def self.has_poster? c
 		(not open(poster_url(c)).base_uri.request_uri.include? "no-poster") rescue false
-	end
-
-	def self.download_poster(c, force_rewrite = false)
-		return if c.kinopoisk_id.nil?
-		url = poster_url(c)
-		return unless has_poster? c
-		c.download_poster(url, force_rewrite)
 	end
 end
