@@ -8,7 +8,7 @@ NET="bridge"
 IMAGE="subscity"
 
 if [ "$ENV" = "production" ]; then
-    IMAGE="maximdanilov/subscity:$(git rev-parse --abbrev-ref HEAD)-latest"
+    IMAGE="maximdanilov/subscity:$(git rev-parse --abbrev-ref HEAD)"
     NET="host"
 fi
 
