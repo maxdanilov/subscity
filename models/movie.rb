@@ -135,14 +135,15 @@ class Movie < ActiveRecord::Base
 		trailer.split("*")[1]
 	end
 
-	def poster_url
+	def poster_url(timestamped = true)
 		return nil unless poster_exists?
-		"#{full_domain_name}#{poster_relative_url}"
+		"#{full_domain_name}#{poster_relative_url(timestamped)}"
 	end
 
-	def poster_relative_url
+	def poster_relative_url(timestamped = true)
 		return nil unless poster_exists?
-		"/images/posters/#{id}.jpg"
+		postfix = timestamped ? "?#{timestamp_poster}" : ""
+		"/images/posters/#{id}.jpg#{postfix}"
 	end
 
 	def poster_filename
