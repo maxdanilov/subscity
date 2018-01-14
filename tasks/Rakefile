@@ -150,7 +150,7 @@ end
 desc 'clean obsolete movies'
 task :cleanup_movies => :environment do |task|
 	t = start_task(task)
-	# clear any movies (including active!) without Kinopoisk, IMDB, description info and screenings (their posters as well)
+	# clear any movies (including active!) without Kinopoisk, IMDb, description info and screenings (their posters as well)
 	count = 0
 	Movie.where("kinopoisk_id IS NULL AND imdb_id IS NULL AND description IS NULL").each do |m|
 		next if m.screenings.count > 0

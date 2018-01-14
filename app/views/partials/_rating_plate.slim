@@ -1,11 +1,11 @@
 - mobile_first ||= false
 
 table style="display: inline-table;" class = ("table-curved rating " + ("mobile-rating" if mobile_first).to_s)
-	tr 
+	tr
 		td.rating-site colspan="2" style="border:none !important;"
 			- if type == :imdb
 				- url = "http://www.imdb.com/title/tt#{movie.imdb_id.to_s.rjust(8, "0")}/"
-				- title = "IMDB"		
+				- title = "IMDb"
 			- elsif type == :kinopoisk
 				- url = "http://www.kinopoisk.ru/film/#{movie.kinopoisk_id}/"
 				- mobile_url = "http://m.kinopoisk.ru/movie/#{movie.kinopoisk_id}/"
@@ -19,8 +19,8 @@ table style="display: inline-table;" class = ("table-curved rating " + ("mobile-
 				a.underdashed.hidden-xs href="#{url}" #{title}
 			- else
 				a.underdashed href="#{url}" #{title}
-	tr 
-		td.value 
+	tr
+		td.value
 			= link_to url
 				span.label.label-bg.label-rating.btn-block
 					span.fa.fa-star.small-font
@@ -29,7 +29,7 @@ table style="display: inline-table;" class = ("table-curved rating " + ("mobile-
 							| #{(rating).round(1).to_s}
 						- else
 							|  —&nbsp;
-		td.users		
+		td.users
 			span.label-votes
 				span.fa.fa-user.small-font
 				span

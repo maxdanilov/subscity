@@ -115,7 +115,7 @@ class Movie < ActiveRecord::Base
 	def to_s
 		"\tMovie: [#{movie_id}][#{id}] #{title} (#{title_original})\n" +
 		"\tActive: #{active}\n" +
-		"\tKinopoisk, IMDB: #{kinopoisk_id}, #{imdb_id}\n" +
+		"\tKinopoisk, IMDb: #{kinopoisk_id}, #{imdb_id}\n" +
 		"\t#{year}; #{country}; #{genres}; Age: #{age_restriction}\n" +
 		"\tDirector: #{director}\n" +
 		"\tCast: #{cast.to_s.gsub("\r", "").split("\n").join(", ")}\n" +

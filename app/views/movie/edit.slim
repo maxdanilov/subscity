@@ -135,14 +135,14 @@ form method="post"
 				td.col-xs-9
 					input id="movie_kinopoisk" name="kinopoisk_id" type="text" value = "#{@movie.kinopoisk_id}"
 
-			/ IMDB
+			/ IMDb
 			tr.movie-edit
 				td.col-xs-3.text-right
 					- if @movie.imdb_id.to_i != 0
 						= link_to "http://www.imdb.com/title/tt#{@movie.imdb_id.to_s.rjust(8, "0")}/", :class => "underdashed", :target => "_blank"
-							| IMDB
+							| IMDb
 					- else
-						| IMDB
+						| IMDb
 				td.col-xs-9
 					input id="movie_imdb" name="imdb_id" type="text" value = "#{@movie.imdb_id}"
 

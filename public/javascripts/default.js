@@ -161,7 +161,7 @@ $(function() {
 		return ( $(a).attr("attr_title").toLowerCase());
 	}
 
-	function getAttrIMDB(a) {
+	function getAttrIMDb(a) {
 		return ( $(a).attr("attr-imdb").toLowerCase());
 	}
 
@@ -174,7 +174,7 @@ $(function() {
 	});
 
 	$("#button-sort-imdb").click(function() {
-		clickSortButton(this, "sort-imdb", movieCompareByIMDB);
+		clickSortButton(this, "sort-imdb", movieCompareByIMDb);
 	});
 
 	$("#button-sort-kinopoisk").click(function() {
@@ -252,7 +252,7 @@ $(function() {
 		$("#button-movies").removeClass("active");
 	});
 
-	function movieCompareByIMDB(a,b) {
+	function movieCompareByIMDb(a,b) {
 		var fields = ["attr-imdb", "attr-kinopoisk"];
 
 		var contentA = parseFloat( $(a).attr(fields[0]));

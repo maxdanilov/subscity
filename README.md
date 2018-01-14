@@ -6,6 +6,6 @@ SubsCity
 Self-updating online schedule of subtitled screenings in Russian cinemas.
 
 Based on [Padrino](http://padrinorb.com) framework.
-Using [Rambler Kassa](http://kassa.rambler.ru) as screenings database, [IMDB](http://imdb.com) and [KinoPoisk](http://kinopoisk.ru) as movies' info databases.
+Using [Rambler Kassa](http://kassa.rambler.ru) as screenings database, [IMDb](http://imdb.com) and [KinoPoisk](http://kinopoisk.ru) as movies' info databases.
 
 Visit [SubsCity.ru](https://subscity.ru) to see in action.

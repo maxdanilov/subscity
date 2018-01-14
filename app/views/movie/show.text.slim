@@ -13,7 +13,7 @@
 - unless @ratings.nil?
 	- if @ratings[:imdb_rating].to_f >= 7.0
 		| #{newline}
-		| IMDB: [#{@ratings[:imdb_rating].round(1)}]
+		| IMDb: [#{@ratings[:imdb_rating].round(1)}]
 	- if @ratings[:kinopoisk_rating].to_f >= 7.0
 		| #{newline}
 		| КиноПоиск: [#{@ratings[:kinopoisk_rating].round(1)}]
