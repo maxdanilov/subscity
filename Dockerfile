@@ -6,8 +6,7 @@ COPY public/javascripts/default.js ./
 RUN lessc --clean-css design.less design.css
 RUN uglifyjs default.js --compress --mangle --output default.min.js
 
-FROM ruby:2.3-slim-jessie
-
+FROM ruby:2.3-slim-jessie AS base
 RUN apt-get update && apt-get install -y libmysqlclient-dev libmagickwand-dev imagemagick build-essential \
     libsqlite3-dev cron nano git wget mysql-client mutt
 
@@ -20,14 +19,16 @@ RUN update-exim4.conf
 
 COPY dockerfiles/.bashrc /etc/bash.bashrc
 
-EXPOSE 3000
-ENV SC_ENV=production
-
+FROM base AS base-gems
 WORKDIR subscity
 ADD Gemfile* ./
 RUN bundle install
 COPY --from=asset-compiler /assets/design.css public/stylesheets/
 COPY --from=asset-compiler /assets/default.min.js public/javascripts/
+
+FROM base-gems
+EXPOSE 3000
+ENV SC_ENV=production
 COPY . .
 
 ENTRYPOINT [ "/bin/sh" ]
