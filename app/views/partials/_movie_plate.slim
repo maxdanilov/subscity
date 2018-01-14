@@ -8,7 +8,7 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 			div.text-center.movie-poster-mobile
 				= link_to url(:movies, :index, format_movie_url(movie))
 					- if movie.poster_exists?
-						= image_tag "transparent.png", :class => 'poster', :'data-src' => "#{movie.poster_url}?#{movie.timestamp_poster}", :alt => "постер \"#{movie.title}\"", :title => "постер \"#{movie.title}\""
+						= image_tag "transparent.png", :class => 'poster', :'data-src' => "#{movie.poster_relative_url}?#{movie.timestamp_poster}", :alt => "постер \"#{movie.title}\"", :title => "постер \"#{movie.title}\""
 					- else
 						= image_tag "transparent.png", :class => 'poster'
 

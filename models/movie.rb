@@ -137,7 +137,12 @@ class Movie < ActiveRecord::Base
 
 	def poster_url
 		return nil unless poster_exists?
-		"#{full_domain_name}/images/posters/#{id}.jpg"
+		"#{poster_relative_url}/images/posters/#{id}.jpg"
+	end
+
+	def poster_relative_url
+		return nil unless poster_exists?
+		"/images/posters/#{id}.jpg"
 	end
 
 	def poster_filename
