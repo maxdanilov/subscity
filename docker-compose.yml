@@ -2,7 +2,7 @@
 version: "2.3"
 services:
   nginx:
-    image: "nginx:latest"
+    image: "nginx:1.13.8"
     container_name: subscity-nginx
     restart: "always"
     network_mode: "${NET:-bridge}"
