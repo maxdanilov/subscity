@@ -13,8 +13,8 @@ html
 		<![endif]-->
 
 		meta name="viewport" content="width=device-width, initial-scale=1"
-		meta name="Description" content="Всегда актуальное расписание фильмов на языке оригинала (с русскими субтитрами) в кинотеатрах Москвы и Санкт-Петербурга"
-		meta name="Keywords" content="где посмотреть фильм с субтитрами, киносеансы для слабослышащих, фильмы на языке оригинала, фильмы с субтитрами, кино с субтитрами, фильмы без перевода, фильмы с русскими субтитрами, расписание, кинотеатры, кино, билеты, цены, Москва, Санкт-Петербург, movies with subtitles, movies with subs, schedule, cinemas, theatres, tickets, price, Moscow, Saint-Petersburg"
+		meta name="description" content="Всегда актуальное расписание фильмов на языке оригинала (с русскими субтитрами) в кинотеатрах Москвы и Санкт-Петербурга"
+		meta name="keywords" content="где посмотреть фильм с субтитрами, киносеансы для слабослышащих, фильмы на языке оригинала, фильмы с субтитрами, кино с субтитрами, фильмы без перевода, фильмы с русскими субтитрами, расписание, кинотеатры, кино, билеты, цены, Москва, Санкт-Петербург, movies with subtitles, movies with subs, schedule, cinemas, theatres, tickets, price, Moscow, Saint-Petersburg"
 
 		/ Facebook meta tags
 		meta property="og:url" content="#{request.url_complete}"
@@ -23,6 +23,8 @@ html
 		- if defined? @movie and !@movie.nil?
 			- if @movie.poster_exists?
 				meta property="og:image" content="#{@movie.poster_relative_url}"
+		- else
+			meta property="og:image" content="favicon.png"
 
 		= feed_tag(:rss, url(:movies, :index, :format => :rss), :title => "SubsCity (#{@city.name rescue City.get_by_domain(request.subdomains.first).name})")
 
