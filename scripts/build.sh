@@ -2,4 +2,4 @@
 set -e
 
 cd "${0%/*}/../"
-docker build . -t subscity
+docker build . -t subscity $@

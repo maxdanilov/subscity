@@ -16,13 +16,15 @@ env:
     - ENV=travis
     - NET=host
     - IMAGE=subscity
+    - IMAGE_NAME=${DOCKER_USERNAME}/${IMAGE}:${TRAVIS_BRANCH}
 
 before_script:
   - sudo service mysql stop
   - sudo rm -rf /var/lib/mysql
 
 script:
-  - ./scripts/build.sh
+  - docker pull ${IMAGE_NAME}-latest || echo "couldn't pull docker cache"
+  - ./scripts/build.sh --cache-from ${IMAGE_NAME}-latest
   - docker-compose up -d
   - until nc -z 127.0.0.1 3306; do sleep 3; echo "Waiting for DB to come up..."; done
   - docker exec -it subscity-app /bin/bash -c "cd /subscity && rake ar:schema:load && padrino run db/seed_cities.rb"
@@ -44,8 +46,8 @@ after_script:
   - docker-compose stop
 
 after_success:
-  - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-  - docker tag subscity $DOCKER_USERNAME/subscity:${TRAVIS_BRANCH}-$(echo ${TRAVIS_COMMIT} | awk '{print substr($0,0,7)}')
-  - docker tag subscity $DOCKER_USERNAME/subscity:${TRAVIS_BRANCH}-latest
-  - docker push $DOCKER_USERNAME/subscity:${TRAVIS_BRANCH}-$(echo ${TRAVIS_COMMIT} | awk '{print substr($0,0,7)}')
-  - docker push $DOCKER_USERNAME/subscity:${TRAVIS_BRANCH}-latest
+  - docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}"
+  - docker tag subscity ${IMAGE_NAME}-$(echo ${TRAVIS_COMMIT} | awk '{print substr($0,0,7)}')
+  - docker tag subscity ${IMAGE_NAME}-latest
+  - docker push ${IMAGE_NAME}-$(echo ${TRAVIS_COMMIT} | awk '{print substr($0,0,7)}')
+  - docker push ${IMAGE_NAME}-latest
