@@ -6,6 +6,7 @@ set -e
 # -d subscity.ru -d www.subscity.ru -d msk.subscity.ru -d spb.subscity.ru
 
 cd "${0%/*}/../"
-letsencrypt renew
+docker-compose stop nginx
+letsencrypt renew --standalone
 cp -L /etc/letsencrypt/live/subscity.ru/*.pem dockerfiles/certs/production/
-docker-compose restart nginx
+docker-compose start nginx
