@@ -119,9 +119,9 @@ html
 									b.caret
 									ul.dropdown-menu id="dropdown-cities-menu"
 										li
-											= link_to "Москва", "#{'//msk.' + request.main_domain}#{request.path}"
+											= link_to "Москва", "#{full_domain_name('msk')}#{request.path}"
 										li
-											= link_to "Санкт-Петербург", "#{'//spb.' + request.main_domain}#{request.path}"
+											= link_to "Санкт-Петербург", "#{full_domain_name('spb')}#{request.path}"
 			= partial 'partials/undernavbar'
 			= partial 'partials/about' if @show_about == true
 			= yield
