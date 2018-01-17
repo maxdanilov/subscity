@@ -1,6 +1,6 @@
 Subscity::App.controllers :auth do
     get :login, :map => "/login" do
-        if is_authenticated?
+        if authenticated?
             redirect(url(:index))
         else
             render 'auth/login', layout: :layout
@@ -10,7 +10,7 @@ Subscity::App.controllers :auth do
     post :login, :map => "/login" do
         if params[:email] && params[:password] && account = Account.authenticate(params[:email], params[:password])
             login(account)
-            redirect(url(get_redirect_path))
+            redirect(url(redirect_path))
         else
             redirect(url(:auth, :login))
         end
