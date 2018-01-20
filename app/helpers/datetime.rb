@@ -46,7 +46,7 @@ end
 
 def difference_in_days(time1, time2)
   diff = time2 - time1
-  diff = -diff if diff < 0
+  diff = -diff if diff.negative?
   (diff / 86_400).to_i
 end
 
