@@ -3,36 +3,25 @@ require 'net/http'
 require 'uri'
 
 module FetcherBase
-	#def	fetch_data(url, headers = STANDARD_HEADERS)
-	def	fetch_data(url, headers)
-		begin
-			res = open(url, headers)
-			data = res.read
-			# since we can have a gzipped response:
-			data = Zlib::GzipReader.new(StringIO.new(data)).read if res.content_encoding == ['gzip']
-			data
-		rescue Net::ReadTimeout
-			nil
-		rescue => e
-			nil
-		end
-	end
+  def	fetch_data(url, headers)
+    res = open(url, headers)
+    data = res.read
+    # since we can have a gzipped response:
+    data = Zlib::GzipReader.new(StringIO.new(data)).read if res.content_encoding == ['gzip']
+    data
+  rescue
+    nil
+  end
 
-	def fetch_data_post(url, params, headers = nil)
-		begin
-			domain = URI(url).host
-			path = URI(url).path
-			# convert params hash to query string
-			params = URI.encode_www_form(params)
-			http = Net::HTTP.new(domain, 80)
-			# get timeout value from headers hash and put it inside http object
-			http.read_timeout = headers[:read_timeout] if headers.has_key? :read_timeout
-			headers.tap { |h| h.delete(:read_timeout) } rescue nil
-			http.post(path, params, headers).body
-		rescue Net::ReadTimeout
-			nil
-		rescue => e
-			nil
-		end
-	end
+  def fetch_data_post(url, params, headers = nil)
+    domain = URI(url).host
+    path = URI(url).path
+    params = URI.encode_www_form(params) # convert params hash to query string
+    http = Net::HTTP.new(domain, 80)
+    http.read_timeout = headers[:read_timeout] if headers.key? :read_timeout
+    headers.tap { |h| h.delete(:read_timeout) } rescue nil
+    http.post(path, params, headers).body
+  rescue
+    nil
+  end
 end
