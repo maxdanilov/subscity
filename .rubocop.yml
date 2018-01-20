@@ -8,3 +8,7 @@ Style/RescueStandardError:
   Enabled: false
 Metrics/AbcSize:
   Enabled: false
+Metrics/MethodLength:
+  Max: 75
+Style/FormatStringToken:
+  Enabled: false
