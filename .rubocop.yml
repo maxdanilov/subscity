@@ -12,3 +12,5 @@ Metrics/MethodLength:
   Max: 75
 Style/FormatStringToken:
   Enabled: false
+Metrics/ClassLength:
+  Max: 130
