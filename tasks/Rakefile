@@ -123,7 +123,7 @@ task :update_screenings_movie, [:id] => :environment do |task, args|
 					next
 				end
 				puts "-> [#{index + 1} / #{dates.size}] Fetching screenings for #{date}".green
-				KassaParser.parse_sessions_HTML(KassaFetcher.fetch_sessions(m.movie_id, date, city_id, city_name), date, 0, m.movie_id).each do |s|
+				KassaParser.parse_sessions_html(KassaFetcher.fetch_sessions(m.movie_id, date, city_id, city_name), date, 0, m.movie_id).each do |s|
 					c = Screening.new(movie_id: m.movie_id, cinema_id: s[:cinema], date_time: s[:time], screening_id: s[:session])
 					if c.valid?
 						if (!c.movie.nil?) and c.movie.fetch_mode == FETCH_MODE[:movie][:subs] and (!c.has_subs?)
@@ -165,7 +165,7 @@ task :cleanup_movies => :environment do |task|
 end
 
 def get_movie(id)
-	data = KassaParser.parse_movie_HTML(KassaFetcher.fetch_movie(id))
+	data = KassaParser.parse_movie_html(KassaFetcher.fetch_movie(id))
 	m = nil
 	begin
 		m = Movie.new(	movie_id: id,
@@ -266,7 +266,7 @@ task :update_movies_from_cinemas => :environment do |task|
 			puts "[#{index + 1} / #{total}] Processing cinema #{cinema.name} (#{city.name}) ...".magenta
 			dates = KassaParser.parse_movie_dates(KassaFetcher.fetch_cinema(cinema.cinema_id, nil, city.city_id, city.domain))
 			dates.each do |date|
-				screenings = KassaParser.parse_sessions_HTML(KassaFetcher.fetch_cinema(cinema.cinema_id, date, city.city_id, city.domain), date, cinema.cinema_id)
+				screenings = KassaParser.parse_sessions_html(KassaFetcher.fetch_cinema(cinema.cinema_id, date, city.city_id, city.domain), date, cinema.cinema_id)
 				screenings.each { |s| movies += [s[:movie]] }
 			end
 			sleep rand(1..2)

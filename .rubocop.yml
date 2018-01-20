@@ -13,12 +13,14 @@ Metrics/MethodLength:
 Style/FormatStringToken:
   Enabled: false
 Metrics/ClassLength:
-  Max: 130
+  Max: 210
 Style/FrozenStringLiteralComment:
   Enabled: false
 Metrics/PerceivedComplexity:
-  Max: 9
+  Enabled: false
 Metrics/CyclomaticComplexity:
-  Max: 9
+  Enabled: false
+Style/ParallelAssignment:
+  Enabled: false
 AllCops:
   TargetRubyVersion: 2.3
