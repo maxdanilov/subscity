@@ -3,92 +3,92 @@ require 'nokogiri'
 require 'timeout'
 
 class Kinopoisk
-	def self.fetch_rating_xml(id)
-		# http://rating.kinopoisk.ru/535244.xml
-		# for some reason, open's :read_timeout won't work:
-		begin
-			Timeout.timeout(5) do
-				open('https://rating.kinopoisk.ru/' + id.to_s + '.xml').read
-			end
-		rescue
-			return nil
-		end
-	end
+  def self.fetch_rating_xml(id)
+    # http://rating.kinopoisk.ru/535244.xml
+    # for some reason, open's :read_timeout won't work:
+    Timeout.timeout(5) do
+      open("https://rating.kinopoisk.ru/#{id}.xml").read
+    end
+  rescue
+    return nil
+  end
 
-	def self.get_imdb_rating(imdb_id)
-		url = "http://www.imdb.com/title/tt#{imdb_id.to_s.rjust(8, "0")}/"
-		error = false
-		rating, votes = nil
-		begin
-			# for some reason, open's :read_timeout won't work:
-			Timeout.timeout(5) do
-				doc = Nokogiri::XML.parse(open(url))
-				rating = doc.at("[@itemprop=ratingValue]").inner_text.to_f rescue nil
-				votes = doc.at("[@itemprop=ratingCount]").inner_text.gsub(/[^0-9]/, '').to_i rescue nil
-			end
-		rescue
-			rating, votes = nil
-			error = true;
-		end
-		{:error => error, :rating => rating, :votes => votes}
-	end
+  def self.get_imdb_rating(imdb_id)
+    url = "http://www.imdb.com/title/tt#{imdb_id.to_s.rjust(8, '0')}/"
+    error = false
+    rating, votes = nil
+    begin
+      # for some reason, open's :read_timeout won't work:
+      Timeout.timeout(5) do
+        doc = Nokogiri::XML.parse(open(url))
+        rating = doc.at('[@itemprop=ratingValue]').inner_text.to_f rescue nil
+        votes = doc.at('[@itemprop=ratingCount]').inner_text.gsub(/[^0-9]/, '').to_i rescue nil
+      end
+    rescue
+      rating, votes = nil
+      error = true
+    end
+    { error: error, rating: rating, votes: votes }
+  end
 
-	def self.get_kinopoisk_rating(kinopoisk_id)
-		data = Kinopoisk.fetch_rating_xml(kinopoisk_id);
-		error = false;
-		begin
-			doc = Nokogiri::XML(data)
-			rating = doc.at("kp_rating").inner_text.to_f
-			votes = doc.at("kp_rating")["num_vote"].to_i
-		rescue
-			rating, votes = nil
-			error = true;
-		end
-		{:error => error, :rating => rating, :votes => votes}
-	end
+  def self.get_kinopoisk_rating(kinopoisk_id)
+    data = Kinopoisk.fetch_rating_xml(kinopoisk_id)
+    error = false
+    begin
+      doc = Nokogiri::XML(data)
+      rating = doc.at('kp_rating').inner_text.to_f
+      votes = doc.at('kp_rating')['num_vote'].to_i
+    rescue
+      rating, votes = nil
+      error = true
+    end
+    { error: error, rating: rating, votes: votes }
+  end
 
-	def self.get_ratings(kinopoisk_id, imdb_id)
-		kp = kinopoisk_id.to_i == 0 ? { :error => false } : get_kinopoisk_rating(kinopoisk_id) rescue nil
-		imdb = imdb_id.to_i == 0 ? { :error => false } : get_imdb_rating(imdb_id) rescue nil
-		kinopoisk_rating = kp[:rating] rescue nil
-		kinopoisk_votes = kp[:votes] rescue nil
-		imdb_rating = imdb[:rating] rescue nil
-		imdb_votes = imdb[:votes] rescue nil
+  def self.get_ratings(kinopoisk_id, imdb_id)
+    kp = kinopoisk_id.to_i.zero? ? { error: false } : get_kinopoisk_rating(kinopoisk_id) rescue nil
+    imdb = imdb_id.to_i.zero? ? { error: false } : get_imdb_rating(imdb_id) rescue nil
+    kinopoisk_rating = kp[:rating] rescue nil
+    kinopoisk_votes = kp[:votes] rescue nil
+    imdb_rating = imdb[:rating] rescue nil
+    imdb_votes = imdb[:votes] rescue nil
 
-		{:kinopoisk => {:rating => kinopoisk_rating, :votes => kinopoisk_votes}, :imdb => {:rating => imdb_rating, :votes => imdb_votes}}
-	end
+    { kinopoisk: { rating: kinopoisk_rating, votes: kinopoisk_votes },
+      imdb: { rating: imdb_rating, votes: imdb_votes } }
+  end
 
-	def self.update_ratings(c)
-		puts "\tUpdating rating #{c.kinopoisk_id}..."
-		result = Kinopoisk.get_ratings(c.kinopoisk_id, c.imdb_id) rescue nil
+  def self.update_ratings(c)
+    puts "\tUpdating rating #{c.kinopoisk_id}..."
+    result = Kinopoisk.get_ratings(c.kinopoisk_id, c.imdb_id) rescue nil
 
-		unless result.nil?
-			r = nil
-			if Rating.exists?(:movie_id => c.movie_id)
-				puts "\t\t Updating a record..."
-				r = Rating.where(:movie_id => c.movie_id).first
-			else
-				puts "\t\t Creating a record..."
-				r = Rating.new(	:movie_id => c.movie_id)
-			end
+    if result.nil?
+      puts "\t\t An error occured for #{c.kinopoisk_id}..."
+    else
+      r = nil
+      if Rating.exists?(movie_id: c.movie_id)
+        puts "\t\t Updating a record..."
+        r = Rating.where(movie_id: c.movie_id).first
+      else
+        puts "\t\t Creating a record..."
+        r = Rating.new(movie_id: c.movie_id)
+      end
 
-			r[:kinopoisk_rating] = result[:kinopoisk][:rating].to_f unless result[:kinopoisk][:rating].nil?
-			r[:kinopoisk_votes] = result[:kinopoisk][:votes].to_i unless result[:kinopoisk][:rating].nil?
-			r[:imdb_rating] = result[:imdb][:rating].to_f unless result[:imdb][:rating].nil?
-			r[:imdb_votes] = result[:imdb][:votes].to_i unless result[:imdb][:rating].nil?
-			r.save
-			puts "\t\t Update result: #{result}..."
-		else
-			puts "\t\t An error occured for #{c.kinopoisk_id}..."
-		end
-	end
+      unless result[:kinopoisk][:rating].nil?
+        r[:kinopoisk_rating] = result[:kinopoisk][:rating].to_f
+        r[:kinopoisk_votes] = result[:kinopoisk][:votes].to_i
+      end
 
-	def self.poster_url c
-		return "" if c.kinopoisk_id.nil?
-		"http://st.kp.yandex.net/images/film_iphone/iphone360_#{c.kinopoisk_id}.jpg"
-	end
+      unless result[:imdb][:rating].nil?
+        r[:imdb_rating] = result[:imdb][:rating].to_f
+        r[:imdb_votes] = result[:imdb][:votes].to_i
+      end
 
-	def self.has_poster? c
-		(not open(poster_url(c)).base_uri.request_uri.include? "no-poster") rescue false
-	end
+      r.save
+      puts "\t\t Update result: #{result}..."
+    end
+  end
+
+  def self.poster_url(c)
+    c.kinopoisk_id.nil? ? '' : "http://st.kp.yandex.net/images/film_iphone/iphone360_#{c.kinopoisk_id}.jpg"
+  end
 end
