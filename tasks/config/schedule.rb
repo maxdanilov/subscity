@@ -6,40 +6,40 @@ set :output, 'logs/cron.log'
 
 # rollover old logs
 every :day, at: ['03:00'] do
-	job 'rollover_logs', output: nil
+  job 'rollover_logs', output: nil
 end
 
 # send DB backup to email
 every :day, at: ['01:00'] do
-	job 'backup', output: 'logs/cron.log'
+  job 'backup', output: 'logs/cron.log'
 end
 
 # clean obsolete movies
 every :day, at: ['03:30'] do
-	job 'cleanup_movies', output: 'logs/cron_movies.log'
+  job 'cleanup_movies', output: 'logs/cron_movies.log'
 end
 
 # movies
 every :day, at: ['05:55', '10:05', '14:05', '19:00', '23:00'] do
-	job 'update_movies', output: 'logs/cron_movies.log'
+  job 'update_movies', output: 'logs/cron_movies.log'
 end
 
 # kinopoisk ratings
 every :day, at: ['06:10', '14:20', '22:15'] do
-	job 'update_movie_ratings', output: 'logs/cron.log'
+  job 'update_movie_ratings', output: 'logs/cron.log'
 end
 
 # cinemas
 every :day, at: ['10:00', '14:00', '22:00'] do
-	job 'update_cinemas', output: 'logs/cron_cinemas.log'
+  job 'update_cinemas', output: 'logs/cron_cinemas.log'
 end
 
 # screenings
 every :day, at: ['07:05', '11:20', '14:50', '17:40', '20:40', '00:05'] do
-	job 'update_screenings', output: 'logs/cron_screenings.log'
+  job 'update_screenings', output: 'logs/cron_screenings.log'
 end
 
 # clear cache
 every :day, at: ['02:00'] do
-	job 'clear_cache', output: 'logs/cron.log'
+  job 'clear_cache', output: 'logs/cron.log'
 end
