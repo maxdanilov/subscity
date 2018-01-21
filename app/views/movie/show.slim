@@ -1,5 +1,3 @@
-- movie = @movie
-- ratings = @ratings
 - poster_file = "transparent.png"
 
 - row_count = 1
@@ -26,28 +24,28 @@ table.table.table-bordered.table-condensed.table-striped.movie-info.table-curved
 	tr
 		td.text-center rowspan = "#{row_count}"
 			div style="height:3px;"
-			= image_tag poster_file, :class => 'poster', :alt => "постер \"#{movie.title}\"", :title => "постер \"#{movie.title}\""
-			- unless @screening_count == 0
+			= image_tag poster_file, class: 'poster', alt: "постер \"#{movie.title}\"", title: "постер \"#{movie.title}\""
+			- unless screening_count == 0
 				div.label.label-bg.label-default.normal-font.label-screenings-count.hidden-xs
 					span.fa.fa-film
-					|  #{format_screenings_count(@screening_count)}
+					|  #{format_screenings_count(screening_count)}
 				div.label.label-bg.label-default.normal-font.label-cinemas-count.hidden-xs
 					span.fa.fa-map-marker
-					|  #{format_cinemas_count(@cinemas_count)}
+					|  #{format_cinemas_count(cinemas_count)}
 				div.divider
 
 			- unless movie.imdb_id.nil? or ratings.nil?
-				= partial 'partials/rating_plate', :locals => { :movie => @movie, :type => :imdb, :rating => ratings.imdb_rating, :votes => ratings.imdb_votes }
+				= partial 'partials/rating_plate', locals: { movie: movie, type: :imdb, rating: ratings.imdb_rating, votes: ratings.imdb_votes }
 				- unless movie.kinopoisk_id.nil?
 					div.divider
 			- unless movie.kinopoisk_id.nil? or ratings.nil?
-				= partial 'partials/rating_plate', :locals => { :movie => @movie, :type => :kinopoisk, :rating => ratings.kinopoisk_rating, :votes => ratings.kinopoisk_votes }
+				= partial 'partials/rating_plate', locals: { movie: movie, type: :kinopoisk, rating: ratings.kinopoisk_rating, votes: ratings.kinopoisk_votes }
 				div.divider
 
 			div
 				i.fa.fa-share-alt
 				|  Поделиться:
-			= partial 'partials/share', :locals => {:link => request.url_without_subdomain, :title => "Фильм #{@title} в кино на языке оригинала", :description => @movie.any_description.to_s, :image => "//" + domain_name + "/images/" + poster_file}
+			= partial 'partials/share', locals: {link: request.url_without_subdomain, title: "Фильм #{title} в кино на языке оригинала", description: movie.any_description.to_s, image: "//" + domain_name + "/images/" + poster_file}
 
 		td.movie-title.col-xs-12.hidden-xs colspan = "1"
 			span.movie-title
@@ -123,9 +121,9 @@ table.table.table-bordered.table-condensed.table-striped.movie-info.table-curved
 
 = partial 'partials/trailers', :locals => { :movie => movie }
 
-- if @screenings.count == 0
+- if screenings.count == 0
 	h2.text-center.like-navbar
-		| В ближайшее время в г. #{@city.name} сеансов на языке оригинала нет
+		| В ближайшее время в г. #{city.name} сеансов на языке оригинала нет
 - else
 	h2.text-center.like-navbar
 		span.fa.fa-ticket
@@ -133,7 +131,7 @@ table.table.table-bordered.table-condensed.table-striped.movie-info.table-curved
 
 	= partial 'partials/filters'
 
-	- @screenings.each do |day, cinemas|
+	- screenings.each do |day, cinemas|
 		/time datetime = "#{day}"
 		h3.header-day.text-center
 			= link_to_date(day)

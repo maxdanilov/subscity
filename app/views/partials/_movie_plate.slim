@@ -1,4 +1,4 @@
-div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-title="#{movie.title.strip}" attr-created="#{movie.created_at.to_i}" attr-imdb="#{ratings.imdb_rating.round(1) rescue -1}" attr-kinopoisk="#{ratings.kinopoisk_rating.round(1) rescue -1}" attr-kinopoisk-votes="#{ratings.kinopoisk_votes.to_i rescue 0}" attr-imdb-votes="#{ratings.imdb_votes.to_i rescue 0}" attr-language="#{language(movie.languages.split(", ").first) rescue nil}" attr-next-screening = "#{@next_screenings[movie].date_time.to_i rescue 0}"
+div.movie-plate attr-screenings="#{screening_counts[movie] rescue 0}" attr-title="#{movie.title.strip}" attr-created="#{movie.created_at.to_i}" attr-imdb="#{ratings.imdb_rating.round(1) rescue -1}" attr-kinopoisk="#{ratings.kinopoisk_rating.round(1) rescue -1}" attr-kinopoisk-votes="#{ratings.kinopoisk_votes.to_i rescue 0}" attr-imdb-votes="#{ratings.imdb_votes.to_i rescue 0}" attr-language="#{language(movie.languages.split(", ").first) rescue nil}" attr-next-screening = "#{next_screenings[movie].date_time.to_i rescue 0}"
 	div.movie-plate-table
 		div.movie-plate-row
 			div.text-center.show-button
@@ -27,7 +27,7 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 					- unless movie.age_restriction.nil?
 						div.label.label-bg.label-default.age-restriction
 							| #{movie.age_restriction}+
-					- if defined? @new_movies and @new_movies.include? movie
+					- if defined? new_movies and new_movies.include? movie
 						| &nbsp;
 						span.badge.new новый
 				- unless movie.title_original.nil?
@@ -41,14 +41,14 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 				div.movie-screenings.hidden-xs
 					div.movie-screenings-count
 					div.movie-next-screening
-						- if defined? @next_screenings[movie]
-							- if defined? @screening_counts[movie] and @screening_counts[movie] == 1
+						- if defined? next_screenings[movie]
+							- if defined? screening_counts[movie] and screening_counts[movie] == 1
 								| единственный сеанс:&nbsp;
 							- else
 								| ближайший сеанс:&nbsp;
 							span.label.label-bg.label-default.normal-font
 								span.fa.fa-calendar
-								|  #{format_next_screening @next_screenings[movie].date_time}
+								|  #{format_next_screening next_screenings[movie].date_time}
 
 			- unless (movie.kinopoisk_id.nil? and movie.imdb_id.nil?) or ratings.nil?
 				div.text-center.rating-plates
@@ -60,14 +60,14 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 							= partial 'partials/rating_plate', :locals => { :movie => movie, :type => :kinopoisk, :rating => ratings.kinopoisk_rating, :votes => ratings.kinopoisk_votes, :mobile_first => true }
 		div.movie-plate-row
 			div.movie-next-screening-mobile
-				- if defined? @next_screenings
-					- if defined? @screening_counts[movie] and @screening_counts[movie] == 1
+				- if defined? next_screenings
+					- if defined? screening_counts[movie] and screening_counts[movie] == 1
 						| единственный сеанс
 					- else
 						| ближайший сеанс
 					span.label.label-bg.label-default.normal-font
 						span.fa.fa-calendar
-						|  #{format_next_screening @next_screenings[movie].date_time}
+						|  #{format_next_screening next_screenings[movie].date_time}
 	div.movie-description
 		table.table.table-bordered.table-condensed.table-striped.movie-description.hidden-xs.hidden
 			tbody

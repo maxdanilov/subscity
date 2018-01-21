@@ -1,42 +1,42 @@
 - newline = "\r\n"
-| #{@movie.title}
-- unless @movie.title_original.to_s.empty?
-	|  / #{@movie.title_original.gsub("'", "’")}
-- unless @movie.year.to_i == 0
-	|  (#{@movie.year})
+| #{movie.title}
+- unless movie.title_original.to_s.empty?
+	|  / #{movie.title_original.gsub("'", "’")}
+- unless movie.year.to_i == 0
+	|  (#{movie.year})
 |  на языке оригинала в кино
 | #{newline }
-| #{full_domain_name(@city.domain)}#{url(:movies, :index, @movie.format_url)}
+| #{full_domain_name(city.domain)}#{url(:movies, :index, movie.format_url)}
 | #{newline * 2}
-| #{@movie.any_description}
+| #{movie.any_description}
 | #{newline}
-- unless @ratings.nil?
-	- if @ratings[:imdb_rating].to_f >= 7.0
+- unless ratings.nil?
+	- if ratings[:imdb_rating].to_f >= 7.0
 		| #{newline}
-		| IMDb: [#{@ratings[:imdb_rating].round(1)}]
-	- if @ratings[:kinopoisk_rating].to_f >= 7.0
+		| IMDb: [#{ratings[:imdb_rating].round(1)}]
+	- if ratings[:kinopoisk_rating].to_f >= 7.0
 		| #{newline}
-		| КиноПоиск: [#{@ratings[:kinopoisk_rating].round(1)}]
+		| КиноПоиск: [#{ratings[:kinopoisk_rating].round(1)}]
 
 | #{newline * 2}
-- unless @movie.genres.to_s.empty?
-	| Жанр: #{@movie.genres.mb_chars.downcase.to_s}
+- unless movie.genres.to_s.empty?
+	| Жанр: #{movie.genres.mb_chars.downcase.to_s}
 	| #{newline}
-- unless @movie.country.to_s.empty?
-	| Страна: #{@movie.country}
+- unless movie.country.to_s.empty?
+	| Страна: #{movie.country}
 	| #{newline}
-- unless @movie.languages.to_s.empty?
-	| Язык: #{languages_format(@movie.languages).mb_chars.downcase.to_s}
+- unless movie.languages.to_s.empty?
+	| Язык: #{languages_format(movie.languages).mb_chars.downcase.to_s}
 	| #{newline}
-- unless @movie.director.to_s.empty?
+- unless movie.director.to_s.empty?
 	| #{newline}
-	| Режиссер: #{@movie.director}
+	| Режиссер: #{movie.director}
 	| #{newline}
-- unless @movie.cast.to_s.empty?
-	| В ролях: #{@movie.cast.gsub("\r", "").split("\n").join(", ")}
+- unless movie.cast.to_s.empty?
+	| В ролях: #{movie.cast.gsub("\r", "").split("\n").join(", ")}
 	| #{newline}
 | #{newline}
-- screenings = @movie.screenings.active_all.in_city(@city.city_id)
+- screenings = movie.screenings.active_all.in_city(city.city_id)
 - count = screenings.count
 - dates = []
 - screenings.each {|s| dates << s.date}
@@ -48,15 +48,15 @@
 
 | Расписание сеансов на языке оригинала и билеты:
 | #{newline}
-| #{full_domain_name(@city.domain)}#{url(:movies, :index, @movie.format_url)}
+| #{full_domain_name(city.domain)}#{url(:movies, :index, movie.format_url)}
 | #{newline}
 | --------------
 | #{newline * 2}
-- if @movie.poster_exists?
+- if movie.poster_exists?
 	|
-	| #{@movie.poster_url}
+	| #{movie.poster_url}
 	| #{newline * 2}
-- unless @movie.trailer.to_s.empty?
-	- @movie.trailer.split("*").each do |t|
+- unless movie.trailer.to_s.empty?
+	- movie.trailer.split("*").each do |t|
 		| http://www.youtube.com/watch?v=#{t}
 		| #{newline}

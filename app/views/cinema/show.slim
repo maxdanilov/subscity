@@ -1,69 +1,69 @@
 table.table.table-condensed.table-curved.table-striped.table-bordered
 	tr
 		td
-			h2.cinema-title 
+			h2.cinema-title
 				span.fa.fa-film
-				|  
-				= @cinema.name
-	- unless @cinema.city_id.nil?
+				| &nbsp;
+				= cinema.name
+	- unless cinema.city_id.nil?
 		tr
 			td
 				div
 					span.fa.fa-map-marker.fa-lg.cinema-icon
-					|  
-					= @cinema.city.name
-					| , 
-					- unless @cinema.address.to_s.empty?
-						= @cinema.address
+					| &nbsp;
+					= cinema.city.name
+					| ,&nbsp;
+					- unless cinema.address.to_s.empty?
+						= cinema.address
 						|  [
-						a.underdashed href="http://maps.google.com/?q=#{@cinema.city.name}, кинотеатр #{@cinema.name}" target="_blank"
+						a.underdashed href="http://maps.google.com/?q=#{cinema.city.name}, кинотеатр #{cinema.name}" target="_blank"
 							| карта
 						| ]
-	- unless @cinema.metro.to_s.empty?
+	- unless cinema.metro.to_s.empty?
 		tr
 			td
 				div
 					span.fa.fa-map-marker.fa-lg.cinema-icon style="color:rgba( 0, 0, 0, 0);"
-					|  
-					| м. 
-					= @cinema.metro
-	- unless @cinema.url.to_s.empty?
+					| &nbsp;
+					| м.
+					= cinema.metro
+	- unless cinema.url.to_s.empty?
 		tr
 			td
 				div
-					span.fa.fa-link.fa-lg.cinema-icon	 		
-					|  
-					= link_to @cinema.url.gsub("http://", "").split("/").first.to_s, @cinema.url, :class => :underdashed
-	- unless @cinema.phone.to_s.empty?
+					span.fa.fa-link.fa-lg.cinema-icon
+					| &nbsp;
+					= link_to cinema.url.gsub("http://", "").split("/").first.to_s, cinema.url, :class => :underdashed
+	- unless cinema.phone.to_s.empty?
 		tr
-			 td 
+			 td
 			 	div
 			 		span.fa.fa-phone.fa-lg.cinema-icon
-					|  
-					- @cinema.phone.split(", ").each do |phone|
+					| &nbsp;
+					- cinema.phone.split(", ").each do |phone|
 						= link_to "#{phone}", "tel:#{phone}", :class => "underdashed"
-						|  
+						|
 
-	- unless @price_min.nil? or @price_max.nil?
+	- unless price_min.nil? or price_max.nil?
 		tr
-			 td 
-			 	div			 
+			 td
+			 	div
 			 		span.fa.fa-ticket.fa-lg.cinema-icon
-			 		|  Билеты: 	 		
-			 		= format_price_range(@price_min, @price_max)
-			 		|  
+			 		|  Билеты:
+			 		= format_price_range(price_min, price_max)
+			 		|
 			 		span.fa.fa-rub.price-rub-sign
 
-- if @screenings.count == 0
+- if screenings.count == 0
 	h2.text-center.like-navbar В ближайшее время сеансов на языке оригинала нет
 - else
-	h2.text-center.like-navbar 
+	h2.text-center.like-navbar
 		span.fa.fa-ticket
 		|  Сеансы на языке оригинала<br>(с русскими субтитрами)
 
 	= partial 'partials/filters'
-	
-	- @screenings.each do |day, movies|
+
+	- screenings.each do |day, movies|
 		- next if movies.select {|m| !m.hidden?}.size == 0
 		/time datetime = "#{day}"
 		h3.header-day.text-center
@@ -73,25 +73,25 @@ table.table.table-condensed.table-curved.table-striped.table-bordered
 				- next if movie.hidden? or movie.russian?
 				tr.row-entity
 					td.col-sm-5.col-xs-11
-						div.movie-title							
+						div.movie-title
 							== link_to_movie(movie)
-							|  
+							| &nbsp;
 							- unless movie.languages.to_s.empty?
-								span.label.label-bg.label-default.age-restriction.hidden-xs 
+								span.label.label-bg.label-default.age-restriction.hidden-xs
 									span.fa.fa-volume-up.language-icon
 									|  #{language(movie.languages.split(", ").first) rescue nil}
-								|  
+								| &nbsp;
 							span.label.label-small.label-default.age-restriction.hidden-xs
 								| #{movie.age_restriction}+
 						- unless movie.title_original.nil?
 							div.movie-title-original.medium-font = format_title(movie.title_original)
 					td.col-sm-7.col-xs-1
 						table
-							- screenings.to_a.each_slice(10).to_a.each do |screening_set|	
+							- screenings.to_a.each_slice(10).to_a.each do |screening_set|
 								tr
 									- screening_set.each do |screening|
 										td.text-center.cell-screenings attr-price=screening.price_min attr-time-of-day=time_of_day(screening.date_time) attr-time=screening.date_time.to_i
-											= partial 'partials/ticket_cell', :locals => { :screening => screening, :cinema => @cinema, :day => day }
+											= partial 'partials/ticket_cell', :locals => { :screening => screening, :cinema => cinema, :day => day }
 
 	h3.text-center.like-navbar.hidden id="nothing-found"
 		| Ничего не найдено. Смягчите условия поиска.

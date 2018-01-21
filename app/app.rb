@@ -36,30 +36,35 @@ module Subscity
 
     get :index do
       cache(request.cache_key, expires: CACHE_TTL_LONG) do
-        @city = City.get_by_domain(request.subdomains.first)
-        @movies = @city.movies.to_a
-        @movies = @movies.sort_by { |a| a.title.mb_chars.downcase.to_s }
-        @new_movies = @movies.select { |a| (Time.now - a.created_at) <= SETTINGS[:movie_new_span].days }
-        @cinema_count = @city.cinema_count
-        @screening_counts = Hash.new(0)
-        @next_screenings = {}
-        @screenings_all = Screening.active_all.in_city(@city.city_id).order(:date_time)
-                                   .select(%i[movie_id date_time]).to_a
-        @screenings_all.each do |s|
-          movie = @movies.find { |m| m.movie_id == s.movie_id }
+        city = City.get_by_domain(request.subdomains.first)
+        movies = city.movies.to_a
+        movies = movies.sort_by { |a| a.title.mb_chars.downcase.to_s }
+        new_movies = movies.select { |a| (Time.now - a.created_at) <= SETTINGS[:movie_new_span].days }
+        cinema_count = city.cinema_count
+        screening_counts = Hash.new(0)
+        next_screenings = {}
+        screenings_all = Screening.active_all.in_city(city.city_id).order(:date_time)
+                                  .select(%i[movie_id date_time]).to_a
+        screenings_all.each do |s|
+          movie = movies.find { |m| m.movie_id == s.movie_id }
           next if movie.nil?
-          @screening_counts[movie] += 1
-          @next_screenings[movie] = s unless @next_screenings.key? movie
+          screening_counts[movie] += 1
+          next_screenings[movie] = s unless next_screenings.key? movie
         end
-        @ratings = Rating.where(movie_id: @movies.map(&:movie_id))
-        @show_about = true
-        @title = "SubsCity :: Расписание сеансов на языке оригинала в кино (#{@city.name})"
-        render 'movie/showall', layout: :layout
+        ratings = Rating.where(movie_id: movies.map(&:movie_id))
+        show_about = true
+        title = "SubsCity :: Расписание сеансов на языке оригинала в кино (#{city.name})"
+        render 'movie/showall', layout: :layout, locals: {
+          movies: movies, ratings: ratings, title: title, cinema_count: cinema_count,
+          screening_counts: screening_counts, city: city, show_about: show_about,
+          new_movies: new_movies, next_screenings: next_screenings
+        }
       end
     end
 
     get :latest do
       auth_allow_for_role :admin
+      city = City.get_by_domain(request.subdomains.first)
       screenings = Screening.active_all.order('created_at DESC, screening_id DESC').to_a
       cities = City.all.to_a
       cinemas = Cinema.all.to_a
@@ -68,7 +73,7 @@ module Subscity
       ratings = Rating.all
       render 'latest', layout: :layout, locals: {
         movies: movies, movies_active: movies_active, ratings: ratings,
-        cities: cities, screenings: screenings, cinemas: cinemas
+        cities: cities, screenings: screenings, cinemas: cinemas, city: city
       }
     end
 

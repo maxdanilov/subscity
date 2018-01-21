@@ -1,23 +1,23 @@
-h1.text-center.capitalize.like-navbar 
+h1.text-center.capitalize.like-navbar
 	span.fa.fa-film
-	|  Фильмы на языке оригинала с русскими субтитрами (#{@city.name})
-- unless @movies.count == 0
+	|  Фильмы на языке оригинала с русскими субтитрами (#{city.name})
+- unless movies.count == 0
 	h4.text-center.capitalize.like-navbar.hidden-xs
 			div style="font-size:18px;"
-				| В прокате  
-				span.label.label-bg.label-default.age-restriction.big-font 
-					= @movies.count
-				|  #{format_movies_count(@movies.count, false)} в 
+				| В прокате&nbsp;
 				span.label.label-bg.label-default.age-restriction.big-font
-					= @cinema_count
-				|  #{format_in_cinemas_count(@cinema_count, false)} города
-	
+					= movies.count
+				|  #{format_movies_count(movies.count, false)} в&nbsp;
+				span.label.label-bg.label-default.age-restriction.big-font
+					= cinema_count
+				|  #{format_in_cinemas_count(cinema_count, false)} города
+
 = partial 'partials/filters_movies'
 
-- if @movies.count == 0
+- if movies.count == 0
 	h2.text-center.like-navbar В ближайшее время сеансов на языке оригинала нет
 - else
 	span.movie-plates id="movie-plates"
-		- @movies.each do |movie|
-			- ratings = @ratings.detect { |r| r.movie_id == movie.movie_id}
-			= partial 'partials/movie_plate', :locals => { :movie => movie, :ratings => ratings }
+		- movies.each do |movie|
+			- rating = ratings.detect { |r| r.movie_id == movie.movie_id}
+			= partial 'partials/movie_plate', locals: { movie: movie, ratings: rating, next_screenings: next_screenings, screening_counts: screening_counts }

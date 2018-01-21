@@ -20,7 +20,7 @@ span
 				div.text-center style="width:100%;margin-top:10px;"
 					= movie.created_at.strftime("%d.%m.%Y %H:%M") rescue "???"
 				- rating = ratings.find { |r| r.movie_id == movie.movie_id}
-				= partial 'partials/movie_plate', :locals => { :movie => movie, :ratings => rating }
+				= partial 'partials/movie_plate', :locals => { movie: movie, ratings: rating }
 	div.divider
 	span id="tab-screenings"
 		div.table-responsive

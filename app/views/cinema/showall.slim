@@ -1,8 +1,8 @@
 h1.text-center.capitalize.like-navbar
 	span.fa.fa-map-marker
-	|  Кинотеатры (#{@city.name})
-- if @cinemas.size == 0
-	h3.text-center id="nothing-found"				 		
+	|  Кинотеатры (#{city.name})
+- if cinemas.size == 0
+	h3.text-center id="nothing-found"
 		| Кинотеатров не найдено
 - else
 	div
@@ -14,15 +14,15 @@ h1.text-center.capitalize.like-navbar
 					td.text-center
 						h3 Фильмы на языке оригинала (с русскими субтитрами)
 			tbody
-				- @cinemas.each do |cinema, movies|
+				- cinemas.each do |cinema, movies|
 					tr
 						td.name.col-sm-4.col-xs-12
 							div.cinema-name
 								= link_to_cinema(cinema)
-								|  
+								| &nbsp;
 								div.label.label-bg.label-default.normal-font
 									span.fa.fa-film
-									|  #{format_movies_count(movies.size)} 
+									|  #{format_movies_count(movies.size)}
 							- unless cinema.metro.to_s.empty?
 								span.medium-font.location
 									| м. #{cinema.metro}
@@ -35,15 +35,15 @@ h1.text-center.capitalize.like-navbar
 												div.movie-title
 													== link_to_movie(movie)
 													- unless movie.languages.to_s.empty?
-														|  
-														span.label.label-bg.label-default.age-restriction 
+														| &nbsp;
+														span.label.label-bg.label-default.age-restriction
 															span.fa.fa-volume-up.language-icon
-															
+
 															|  #{language(movie.languages.split(", ").first) rescue nil}
-														|  
-													|  
+														|
+													| &nbsp;
 													<span class="label label-small label-default age-restriction">#{movie.age_restriction}+</span>
-													|  
+													|
 													- unless movie.title_original.to_s.empty?
 														br
 														span.movie-title-original.normal-font =format_title(movie.title_original)

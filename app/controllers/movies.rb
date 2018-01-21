@@ -6,9 +6,10 @@ Subscity::App.controllers :movies do
     id = params[:id].to_i rescue 0
     if id.positive?
       begin
-        @movie = Movie.find(id)
-        @title = '[e] ' << @movie.title
-        render 'movie/edit', layout: :layout
+        city = City.get_by_domain(request.subdomains.first)
+        movie = Movie.find(id)
+        title = '[e] ' << movie.title
+        render 'movie/edit', layout: :layout, locals: { movie: movie, title: title, city: city }
       rescue ActiveRecord::RecordNotFound
         render 'errors/404', layout: :layout
       end
@@ -47,30 +48,34 @@ Subscity::App.controllers :movies do
     case content_type
     when :html
       cache(request.cache_key, expires: CACHE_TTL_LONG) do
-        @city = City.get_by_domain(request.subdomains.first)
-        @movies = @city.movies.to_a
-        @movies = @movies.sort_by { |a| a.title.mb_chars.downcase.to_s }
-        @new_movies = @movies.select { |a| (Time.now - a.created_at) <= SETTINGS[:movie_new_span].days }
-        @cinema_count = @city.cinema_count
-        @screening_counts = Hash.new(0)
-        @next_screenings = {}
-        @screenings_all = Screening.active_all.in_city(@city.city_id).order(:date_time)
-                                   .select(%i[movie_id date_time]).to_a
-        @screenings_all.each do |s|
-          movie = @movies.find { |m| m.movie_id == s.movie_id }
+        city = City.get_by_domain(request.subdomains.first)
+        movies = city.movies.to_a
+        movies = movies.sort_by { |a| a.title.mb_chars.downcase.to_s }
+        new_movies = movies.select { |a| (Time.now - a.created_at) <= SETTINGS[:movie_new_span].days }
+        cinema_count = city.cinema_count
+        screening_counts = Hash.new(0)
+        next_screenings = {}
+        screenings_all = Screening.active_all.in_city(city.city_id).order(:date_time)
+                                  .select(%i[movie_id date_time]).to_a
+        screenings_all.each do |s|
+          movie = movies.find { |m| m.movie_id == s.movie_id }
           next if movie.nil?
-          @screening_counts[movie] += 1
-          @next_screenings[movie] = s unless @next_screenings.key? movie
+          screening_counts[movie] += 1
+          next_screenings[movie] = s unless next_screenings.key? movie
         end
-        @ratings = Rating.where(movie_id: @movies.map(&:movie_id))
-        @title = "Фильмы на языке оригинала в кино (#{@city.name})"
-        render 'movie/showall', layout: :layout
+        ratings = Rating.where(movie_id: movies.map(&:movie_id))
+        title = "Фильмы на языке оригинала в кино (#{city.name})"
+        render 'movie/showall', layout: :layout, locals: {
+          movies: movies, ratings: ratings, title: title, cinema_count: cinema_count,
+          screening_counts: screening_counts, city: city, show_about: false,
+          new_movies: new_movies, next_screenings: next_screenings
+        }
       end
     when :rss
       cache(request.cache_key, expires: CACHE_TTL) do
-        @city = City.get_by_domain(request.subdomains.first)
-        @movies_active = @city.movies.sort_by(&:created_at).reverse
-        builder :feed, locals: { movies: @movies_active, city: @city }
+        city = City.get_by_domain(request.subdomains.first)
+        movies_active = city.movies.sort_by(&:created_at).reverse
+        builder :feed, locals: { movies: movies_active, city: city }
       end
     when :json
       cache(request.cache_key, expires: CACHE_TTL_API) do
@@ -128,33 +133,37 @@ Subscity::App.controllers :movies do
       when :html
         cache(request.cache_key, expires: CACHE_TTL) do
           show_all_screenings = SETTINGS[:movie_show_all_screenings]
-          @movie = Movie.find(params[:id])
-          @ratings = Rating.where(movie_id: @movie.movie_id).first rescue nil
-          @city = City.get_by_domain(request.subdomains.first)
-          @screenings = @movie.get_sorted_screenings(@city.city_id, show_all_screenings)
-          @cinemas = Cinema.all
+          movie = Movie.find(params[:id])
+          ratings = Rating.where(movie_id: movie.movie_id).first rescue nil
+          city = City.get_by_domain(request.subdomains.first)
+          screenings = movie.get_sorted_screenings(city.city_id, show_all_screenings)
+          cinemas = Cinema.all
 
-          @screening_count = @movie.screenings_count(@city.city_id, show_all_screenings)
-          @cinemas_count = @movie.cinemas_count(@city.city_id, show_all_screenings)
+          screening_count = movie.screenings_count(city.city_id, show_all_screenings)
+          cinemas_count = movie.cinemas_count(city.city_id, show_all_screenings)
 
           screenings_flat = if show_all_screenings
-                              @movie.get_screenings @city.city_id
+                              movie.get_screenings city.city_id
                             else
-                              @movie.get_screenings_all @city.city_id
+                              movie.get_screenings_all city.city_id
                             end
-          @price_min = screenings_flat.map(&:price_min).compact.min rescue nil
-          @price_max = screenings_flat.map(&:price_max).compact.max rescue nil
-          @title = @movie.title
-          @title += " (#{@movie.title_original})" unless @movie.title_original.to_s.empty?
-          @title += ' на языке оригинала в кино'
-          render 'movie/show', layout: :layout
+          price_min = screenings_flat.map(&:price_min).compact.min rescue nil
+          price_max = screenings_flat.map(&:price_max).compact.max rescue nil
+          title = movie.title
+          title += " (#{movie.title_original})" unless movie.title_original.to_s.empty?
+          title += ' на языке оригинала в кино'
+          render 'movie/show', layout: :layout, locals: {
+            title: title, price_min: price_min, price_max: price_max, screening_count: screening_count,
+            cinemas_count: cinemas_count, cinemas: cinemas, city: city, screenings: screenings, ratings: ratings,
+            movie: movie
+          }
         end
       when :txt
         auth_allow_for_role :admin
-        @city = City.get_by_domain(request.subdomains.first)
-        @movie = Movie.find(params[:id]) rescue nil
-        @ratings = Rating.where(movie_id: @movie.movie_id).first rescue nil
-        render 'movie/show.text'
+        city = City.get_by_domain(request.subdomains.first)
+        movie = Movie.find(params[:id]) rescue nil
+        ratings = Rating.where(movie_id: movie.movie_id).first rescue nil
+        render 'movie/show.text', locals: { city: city, movie: movie, ratings: ratings }
       else
         render 'errors/404', layout: :layout
       end
