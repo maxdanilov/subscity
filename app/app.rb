@@ -60,13 +60,16 @@ module Subscity
 
     get :latest do
       auth_allow_for_role :admin
-      @screenings = Screening.active_all.order('created_at DESC, screening_id DESC').to_a
-      @cities = City.all.to_a
-      @cinemas = Cinema.all.to_a
-      @movies = Movie.all.to_a
-      @movies_active = Movie.where(movie_id: Screening.active.pluck(:movie_id).uniq).order('created_at DESC')
-      @ratings = Rating.all
-      render 'latest', layout: :layout
+      screenings = Screening.active_all.order('created_at DESC, screening_id DESC').to_a
+      cities = City.all.to_a
+      cinemas = Cinema.all.to_a
+      movies = Movie.all.to_a
+      movies_active = Movie.where(movie_id: Screening.active.pluck(:movie_id).uniq).order('created_at DESC')
+      ratings = Rating.all
+      render 'latest', layout: :layout, locals: {
+        movies: movies, movies_active: movies_active, ratings: ratings,
+        cities: cities, screenings: screenings, cinemas: cinemas
+      }
     end
 
     get :heartbeat, provides: :json do
@@ -96,12 +99,12 @@ module Subscity
       case content_type
       when :rss
         cache(request.cache_key, expires: CACHE_TTL_SCREENINGS_FEED) do
-          @city = City.get_by_domain(request.subdomains.first)
-          @cinemas = @city.cinemas
-          @movies = Movie.active.select { |m| !m.hidden? && !m.russian? }
-          @screenings = Screening.active_feed.in_city(@city.city_id).order('date_time ASC')
-                                 .limit(SETTINGS[:screenings_feed_max_count])
-          builder :screenings, locals: { movies: @movies, city: @city, screenings: @screenings, cinemas: @cinemas }
+          city = City.get_by_domain(request.subdomains.first)
+          cinemas = city.cinemas
+          movies = Movie.active.select { |m| !m.hidden? && !m.russian? }
+          screenings = Screening.active_feed.in_city(city.city_id).order('date_time ASC')
+                                .limit(SETTINGS[:screenings_feed_max_count])
+          builder :screenings, locals: { movies: movies, city: city, screenings: screenings, cinemas: cinemas }
         end
       end
     end

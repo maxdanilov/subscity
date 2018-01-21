@@ -1,6 +1,6 @@
-- no_prices = @screenings.count { |s| s.price_min == nil }
-- mid_price = @screenings.reduce(0) {|sum, s| sum + s.price_min.to_i} / @screenings.count {|s| s.price_min.nil? == false}
-div.big-font.centered-content Активных сеансов в базе: #{@screenings.count} (#{ no_prices } без цен)
+- no_prices = screenings.count { |s| s.price_min == nil }
+- mid_price = screenings.reduce(0) {|sum, s| sum + s.price_min.to_i} / screenings.count {|s| s.price_min.nil? == false}
+div.big-font.centered-content Активных сеансов в базе: #{screenings.count} (#{ no_prices } без цен)
 div.big-font.centered-content Средняя цена билета: #{mid_price} руб.
 div.divider
 table.text-center.filters.centered-content id="filters"
@@ -8,7 +8,7 @@ table.text-center.filters.centered-content id="filters"
 		tr
 			td
 				div.big-font.dark-shadowed
-					| Показать: 
+					| Показать:
 				div.btn-group
 					button.btn.btn-default.big-font.font-bold id="button-movies" type="button" фильмы
 					button.btn.btn-default.big-font.font-bold id="button-screenings" type="button" сеансы
@@ -16,11 +16,11 @@ table.text-center.filters.centered-content id="filters"
 span
 	span id="tab-movies" style="display:none;"
 		span.movie-plates id="movie-plates"
-			- @movies_active.each do |movie|
+			- movies_active.each do |movie|
 				div.text-center style="width:100%;margin-top:10px;"
 					= movie.created_at.strftime("%d.%m.%Y %H:%M") rescue "???"
-				- ratings = @ratings.find { |r| r.movie_id == movie.movie_id}
-				= partial 'partials/movie_plate', :locals => { :movie => movie, :ratings => ratings }
+				- rating = ratings.find { |r| r.movie_id == movie.movie_id}
+				= partial 'partials/movie_plate', :locals => { :movie => movie, :ratings => rating }
 	div.divider
 	span id="tab-screenings"
 		div.table-responsive
@@ -39,15 +39,15 @@ span
 					td.col-md-1.text-center
 						| Создано
 				- datePrev = 0
-				- @screenings.each do |s|
-					- cinema = @cinemas.find {|c| c.cinema_id == s.cinema_id}
-					- movie = @movies.find {|m| m.movie_id == s.movie_id}
+				- screenings.each do |s|
+					- cinema = cinemas.find {|c| c.cinema_id == s.cinema_id}
+					- movie = movies.find {|m| m.movie_id == s.movie_id}
 					- if cinema.nil?
 						tr
 							td
 								| #{s.cinema_id}
 						- next
-					- city = @cities.find {|city| city.city_id == cinema.city_id}
+					- city = cities.find {|city| city.city_id == cinema.city_id}
 
 					- if (s.created_at.to_i - datePrev.to_i).abs > 3600
 						tr
@@ -59,20 +59,18 @@ span
 						td.text-center
 							a.underdashed href="#{KassaFetcher.url_for_session(s.screening_id, cinema.city_id)}"
 								| #{s.screening_id}
-							
+
 						td.text-center
 							| #{s.date_time.strftime("%d.%m.%Y %H:%M")}
-						td 
-							| [#{city.domain}] 
-							/= link_to_cinema(cinema)
+						td
+							| [#{city.domain}]&nbsp;
 							= cinema.name
-
-						td  
-							| [#{s.movie_id}] 
+						td
+							| [#{s.movie_id}]&nbsp;
 							== link_to_movie(movie) rescue "???"
 						td.text-center
 							| [#{s.price_min} - #{s.price_max}]
 						td.text-center
 							| #{s.created_at.strftime("%d.%m.%Y %H:%M")}
-					
+
 					- datePrev = s.created_at
