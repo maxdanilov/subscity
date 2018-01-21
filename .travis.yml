@@ -21,8 +21,10 @@ env:
 before_script:
   - sudo service mysql stop
   - sudo rm -rf /var/lib/mysql
+  - gem install rubocop
 
 script:
+  - rubocop
   - docker pull ${IMAGE_NAME} || echo "couldn't pull docker cache"
   - ./scripts/build.sh --cache-from ${IMAGE_NAME}
   - docker-compose up -d
