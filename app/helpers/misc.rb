@@ -201,7 +201,7 @@ def hyphenate(text, lang)
 end
 
 def social_urls(city)
-  vk_url = "//vk.com/subscity_#{city.domain}"
-  fb_url = "//fb.com/subscity.#{city.domain}"
+  vk_url = "//vk.com/subscity_#{city&.domain || 'msk'}"
+  fb_url = "//fb.com/subscity.#{city&.domain || 'msk'}"
   { vk: vk_url, fb: fb_url }
 end
