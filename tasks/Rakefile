@@ -126,7 +126,7 @@ task :update_screenings_movie, [:id] => :environment do |task, args|
         KassaParser.parse_sessions_html(KassaFetcher.fetch_sessions(m.movie_id, date, city_id, city_name), date, 0, m.movie_id).each do |s|
           c = Screening.new(movie_id: m.movie_id, cinema_id: s[:cinema], date_time: s[:time], screening_id: s[:session])
           if c.valid?
-            if (!c.movie.nil?) and c.movie.fetch_mode == FETCH_MODE[:movie][:subs] and (!c.has_subs?)
+            if (!c.movie.nil?) and c.movie.fetch_mode == FETCH_MODE[:movie][:subs] and (!c.subs?)
               puts "\tScreening not saved since it does not have subs and movie fetch mode requires them: ".red
               puts c
               next
@@ -385,7 +385,7 @@ task :update_screenings_prices => :environment do |task|
   screenings.find_each do |s|
     counter += 1
     if s.available?
-      max_price, min_price = s.get_prices
+      max_price, min_price = s.prices
       if (!max_price.nil? and !min_price.nil?)
         s.price_min, s.price_max = min_price, max_price
         s.save
@@ -432,7 +432,7 @@ task :cleanup_screenings => :environment do |task|
       next
     end
 
-    if (!s.movie.nil?) and s.movie.fetch_mode == FETCH_MODE[:movie][:subs] and (!s.has_subs?)
+    if (!s.movie.nil?) and s.movie.fetch_mode == FETCH_MODE[:movie][:subs] and (!s.subs?)
       puts "Screening #{s.screening_id} was excluded from database cause it doesn't have subs:".yellow
       puts s
       deleted += 1
@@ -440,7 +440,7 @@ task :cleanup_screenings => :environment do |task|
       next
     end
 
-    if (not s.exists?) or (not s.has_correct_title?) or (s.actual_date_time != s.date_time)
+    if (not s.exists?) or (not s.correct_title?) or (s.actual_date_time != s.date_time)
       puts "\tScreening #{s.screening_id} was excluded from database:".yellow
       puts s
 
