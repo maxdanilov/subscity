@@ -27,11 +27,15 @@ Subscity::App.controllers :cinemas do
       cinemas = city.sorted_cinemas.keys rescue 0
       metrics = {}
       metrics['count'] = cinemas.length
-      metrics['no_geolocation'] = cinemas.select { |c| c.longitude.to_s.empty? || c.latitude.to_s.empty? }.length
-      metrics['no_address'] = cinemas.select { |c| c.address.to_s.empty? }.length
-      metrics['no_metro'] = cinemas.select { |c| c.metro.to_s.empty? }.length
-      metrics['no_phone'] = cinemas.select { |c| c.phone.to_s.empty? }.length
-      metrics['no_url'] = cinemas.select { |c| c.url.to_s.empty? }.length
+      metrics['empty_geolocation'] = cinemas.select { |c| c.longitude.to_s.empty? || c.latitude.to_s.empty? }.length
+      metrics['empty_address'] = cinemas.select { |c| c.address.to_s.empty? }.length
+      metrics['empty_metro'] = cinemas.select { |c| c.metro.to_s.empty? }.length
+      metrics['empty_phone'] = cinemas.select { |c| c.phone.to_s.empty? }.length
+      metrics['empty_url'] = cinemas.select { |c| c.url.to_s.empty? }.length
+      metrics['empty_anything'] = cinemas.select do |c|
+        c.longitude.to_s.empty? || c.latitude.to_s.empty? ||
+          c.url.to_s.empty? || c.phone.to_s.empty? || c.metro.to_s.empty? || c.address.to_s.empty?
+      end.length
       content_type :json, 'charset' => 'utf-8'
       return JSON.pretty_generate(metrics)
     end
