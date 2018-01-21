@@ -6,14 +6,14 @@ Subscity::App.controllers :cinemas do
     when :html
       cache(request.cache_key, expires: CACHE_TTL_LONG) do
         @city = City.get_by_domain(request.subdomains.first)
-        @cinemas = @city.get_sorted_cinemas
+        @cinemas = @city.sorted_cinemas
         @title = 'Кинотеатры'
         render 'cinema/showall', layout: :layout
       end
     when :json
       cache(request.cache_key, expires: CACHE_TTL_API) do
         city = City.get_by_domain(request.subdomains.first)
-        cinemas = city.get_sorted_cinemas
+        cinemas = city.sorted_cinemas
         json_data = cinemas.map { |c, m| c.render_json(m) }
         content_type :json, 'charset' => 'utf-8'
         return JSON.pretty_generate(json_data)
@@ -24,7 +24,7 @@ Subscity::App.controllers :cinemas do
   get :metrics, provides: [:json] do
     cache(request.cache_key, expires: CACHE_TTL_API) do
       city = City.get_by_domain(request.subdomains.first)
-      cinemas = city.get_sorted_cinemas.keys rescue 0
+      cinemas = city.sorted_cinemas.keys rescue 0
       metrics = {}
       metrics['count'] = cinemas.length
       metrics['no_geolocation'] = cinemas.select { |c| c.longitude.to_s.empty? || c.latitude.to_s.empty? }.length
@@ -48,7 +48,7 @@ Subscity::App.controllers :cinemas do
                    else
                      Screening.active.where(cinema_id: cinema.cinema_id).order(:date_time)
                    end
-      movies = city.get_movies.to_a
+      movies = city.movies.to_a
       data = screenings.as_json(except: %w[cinema_id created_at updated_at id]).map do |s|
         s['movie_id'] = movies.find { |m| m.movie_id == s['movie_id'] }.id rescue nil
         s

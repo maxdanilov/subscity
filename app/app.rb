@@ -36,10 +36,10 @@ module Subscity
 	    get :index do
 	        cache(request.cache_key, :expires => CACHE_TTL_LONG) do
 	            @city = City.get_by_domain(request.subdomains.first)
-	            @movies = @city.get_movies.to_a
+	            @movies = @city.movies.to_a
 	            @movies = @movies.sort_by { |a| a.title.mb_chars.downcase.to_s }
 	            @new_movies = @movies.select {|a| (Time.now - a.created_at) <= SETTINGS[:movie_new_span].days}
-	            @cinema_count = @city.get_cinema_count
+	            @cinema_count = @city.cinema_count
 	            @screening_counts = Hash.new(0)
 	            @next_screenings = {}
 	            @screenings_all = Screening.active_all.in_city(@city.city_id).order(:date_time).select([:movie_id, :date_time]).to_a
@@ -78,7 +78,7 @@ module Subscity
 	            when :rss
 	                cache(request.cache_key, :expires => CACHE_TTL_SCREENINGS_FEED) do
 	                    @city = City.get_by_domain(request.subdomains.first)
-	                    @cinemas = @city.get_cinemas
+	                    @cinemas = @city.cinemas
 	                    @movies = Movie.active.select { |m| (!m.hidden?) and (!m.russian?) }
 	                    @screenings = Screening.active_feed.in_city(@city.city_id).order("date_time ASC").limit(SETTINGS[:screenings_feed_max_count])
 	                    builder :screenings, :locals => { :movies => @movies, :city => @city, :screenings => @screenings, :cinemas => @cinemas }
@@ -89,8 +89,8 @@ module Subscity
 	    get :sitemap, :provides => :xml do
 	    	cache(request.cache_key, :expires => SITEMAP_TTL) do
 		    	city = City.get_by_domain(request.subdomains.first)
-	            movies_active = city.get_movies.sort_by { |a| a.created_at }.reverse
-	            cinemas = city.get_sorted_cinemas
+	            movies_active = city.movies.sort_by { |a| a.created_at }.reverse
+	            cinemas = city.sorted_cinemas
 				today = date_for_screening(Time.now)
 
 		    	map = XmlSitemap::Map.new(request.subdomains.first + "." + domain_name, :time => Date.today) do |m|

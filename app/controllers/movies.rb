@@ -48,10 +48,10 @@ Subscity::App.controllers :movies do
     when :html
       cache(request.cache_key, expires: CACHE_TTL_LONG) do
         @city = City.get_by_domain(request.subdomains.first)
-        @movies = @city.get_movies.to_a
+        @movies = @city.movies.to_a
         @movies = @movies.sort_by { |a| a.title.mb_chars.downcase.to_s }
         @new_movies = @movies.select { |a| (Time.now - a.created_at) <= SETTINGS[:movie_new_span].days }
-        @cinema_count = @city.get_cinema_count
+        @cinema_count = @city.cinema_count
         @screening_counts = Hash.new(0)
         @next_screenings = {}
         @screenings_all = Screening.active_all.in_city(@city.city_id).order(:date_time)
@@ -69,13 +69,13 @@ Subscity::App.controllers :movies do
     when :rss
       cache(request.cache_key, expires: CACHE_TTL) do
         @city = City.get_by_domain(request.subdomains.first)
-        @movies_active = @city.get_movies.sort_by(&:created_at).reverse
+        @movies_active = @city.movies.sort_by(&:created_at).reverse
         builder :feed, locals: { movies: @movies_active, city: @city }
       end
     when :json
       cache(request.cache_key, expires: CACHE_TTL_API) do
         city = City.get_by_domain(request.subdomains.first)
-        movies = city.get_movies.sort_by(&:created_at).reverse
+        movies = city.movies.sort_by(&:created_at).reverse
 
         screening_counts = Hash.new(0)
         next_screenings = {}
@@ -106,7 +106,7 @@ Subscity::App.controllers :movies do
       return '[]' unless movie
 
       city = City.get_by_domain(request.subdomains.first)
-      cinemas = city.get_sorted_cinemas.keys
+      cinemas = city.sorted_cinemas.keys
 
       screenings = if SETTINGS[:movie_show_all_screenings]
                      movie.get_screenings_all(city.city_id)

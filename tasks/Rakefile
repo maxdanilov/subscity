@@ -261,8 +261,8 @@ task :update_movies_from_cinemas => :environment do |task|
 	movies = []
 	t = start_task(task)
 	City.active.each do |city|
-		total = city.get_cinemas.count
-		city.get_cinemas.shuffle.each_with_index do |cinema, index|
+		total = city.cinemas.count
+		city.cinemas.shuffle.each_with_index do |cinema, index|
 			puts "[#{index + 1} / #{total}] Processing cinema #{cinema.name} (#{city.name}) ...".magenta
 			dates = KassaParser.parse_movie_dates(KassaFetcher.fetch_cinema(cinema.cinema_id, nil, city.city_id, city.domain))
 			dates.each do |date|
@@ -357,7 +357,7 @@ desc 'update movies ratings from kinopoisk data'
 task :update_movie_ratings => :environment do |task|
 	t = start_task(task)
 
-	movies = City.all.inject([]) { |movies, city| movies + city.get_movies.to_a }
+	movies = City.all.inject([]) { |movies, city| movies + city.movies.to_a }
 	movies = movies.uniq.shuffle
 
 	movies.each_with_index do |m, index|
@@ -537,7 +537,7 @@ desc 'download missing posters for active movies'
 task :download_posters => :environment do |task|
 	t = start_task(task)
 	City.all.each do |c|
-		c.get_movies.to_a.each do |m|
+		c.movies.to_a.each do |m|
 			next if m.poster.nil?
 			next if m.poster_exists?
 			puts "#{m.title} #{m.poster}"
