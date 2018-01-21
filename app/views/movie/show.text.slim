@@ -8,7 +8,7 @@
 | #{newline }
 | #{full_domain_name(@city.domain)}#{url(:movies, :index, @movie.format_url)}
 | #{newline * 2}
-| #{@movie.get_description}
+| #{@movie.any_description}
 | #{newline}
 - unless @ratings.nil?
 	- if @ratings[:imdb_rating].to_f >= 7.0

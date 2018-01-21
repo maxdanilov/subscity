@@ -10,7 +10,7 @@ xml.instruct! :xml, :version => "1.0"
       locals[:movies].each do |movie|
         title = movie.title
         title += " (#{format_title(movie.title_original)})" unless movie.title_original.to_s.empty?
-        description = movie.get_description_formatted.gsub("<br/>", "")
+        description = movie.description_formatted.gsub("<br/>", "")
         xml.item do
           xml.title title
           xml.description description

@@ -9,7 +9,7 @@
 - row_count += 1 unless movie.languages.to_s.empty?
 - row_count += 1 unless movie.director.to_s.empty?
 - row_count += 1 unless movie.cast.to_s.empty?
-- row_count += 1 if movie.has_description?
+- row_count += 1 if movie.description?
 
 - if movie.poster_exists?
 	- poster_file = "#{movie.poster_relative_url}"
@@ -47,7 +47,7 @@ table.table.table-bordered.table-condensed.table-striped.movie-info.table-curved
 			div
 				i.fa.fa-share-alt
 				|  Поделиться:
-			= partial 'partials/share', :locals => {:link => request.url_without_subdomain, :title => "Фильм #{@title} в кино на языке оригинала", :description => @movie.get_description.to_s, :image => "//" + domain_name + "/images/" + poster_file}
+			= partial 'partials/share', :locals => {:link => request.url_without_subdomain, :title => "Фильм #{@title} в кино на языке оригинала", :description => @movie.any_description.to_s, :image => "//" + domain_name + "/images/" + poster_file}
 
 		td.movie-title.col-xs-12.hidden-xs colspan = "1"
 			span.movie-title
@@ -107,19 +107,19 @@ table.table.table-bordered.table-condensed.table-striped.movie-info.table-curved
 					i.fa.fa-users.movie-icon
 					strong.hidden-xs  В ролях:
 					|  #{movie.cast.gsub("\r", "").split("\n").join(", ")}
-	- if movie.has_description?
+	- if movie.description?
 		tr
 			td.col-xs-12.movie-description.hidden-xs colspan = "2"
 				div.justified
 					i.fa.fa-book.movie-icon
 					| &nbsp;
-					== movie.get_description_formatted
+					== movie.description_formatted
 		tr
 			td.visible-xs colspan = "2"
 				div.justified
 					i.fa.fa-book.movie-icon
 					|
-					== movie.get_description_formatted
+					== movie.description_formatted
 
 = partial 'partials/trailers', :locals => { :movie => movie }
 

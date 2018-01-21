@@ -94,10 +94,10 @@ div.movie-plate attr-screenings="#{@screening_counts[movie] rescue 0}" attr-titl
 								i.fa.fa-users.movie-icon
 								|  #{movie.cast.gsub("\r", "").split("\n").join(", ")}
 
-				- if movie.has_description?
+				- if movie.description?
 					tr.table-body
 						td.col-sm-12 colspan = "4"
 							div.justified
 								i.fa.fa-book.movie-icon
 								| &nbsp;
-								== movie.get_description_formatted
+								== movie.description_formatted
