@@ -9,19 +9,19 @@ class Movie < ActiveRecord::Base
   scope :active, -> { where(active: true) }
 
   def format_url
-    @format_url ||= format_movie_url(self)
+    format_movie_url(self)
   end
 
   def description?
-    @has_descr ||= !any_description.to_s.empty?
+    !any_description.to_s.empty?
   end
 
   def any_description
-    @get_descr ||= (description || description_english).to_s
+    (description || description_english).to_s
   end
 
   def description_formatted
-    @get_descr_f ||= any_description.gsub("\r\n", "\n").gsub("\n\n", '<br/>').gsub("\n", '<br/>')
+    any_description.gsub("\r\n", "\n").gsub("\n\n", '<br/>').gsub("\n", '<br/>')
   end
 
   def valid_genre?

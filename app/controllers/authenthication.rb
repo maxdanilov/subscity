@@ -3,7 +3,8 @@ Subscity::App.controllers :auth do
     if authenticated?
       redirect(url(:index))
     else
-      render 'auth/login', layout: :layout
+      city = City.get_by_domain(request.subdomains.first)
+      render 'auth/login', layout: :layout, locals: { city: city }
     end
   end
 

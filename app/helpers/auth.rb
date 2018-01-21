@@ -4,11 +4,11 @@ end
 
 def current_user
   if authenticated?
-    @user ||= Account.find(current_user_id) rescue nil
+    user ||= Account.find(current_user_id) rescue nil
   else
-    @user = nil
+    user = nil
   end
-  @user
+  user
 end
 
 def current_user_id

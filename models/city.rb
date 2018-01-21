@@ -12,24 +12,24 @@ class City < ActiveRecord::Base
 
   # need to optimise, takes like 0.5 secs to run!
   def sorted_cinemas
-    @screenings_all = Screening.active.in_city(city_id).order(:date_time).to_a
-    @movies_all = movies.to_a
-    @cinemas_all = Cinema.where(city_id: city_id).to_a
+    screenings_all = Screening.active.in_city(city_id).order(:date_time).to_a
+    movies_all = movies.to_a
+    cinemas_all = Cinema.where(city_id: city_id).to_a
 
-    @r = {}
+    r = {}
     # format is like this: r[cinema][movie] = screenings count
-    @screenings_all.each do |s|
-      cinema = @cinemas_all.find { |c| c.cinema_id == s.cinema_id }
-      movie = @movies_all.find { |c| c.movie_id == s.movie_id }
+    screenings_all.each do |s|
+      cinema = cinemas_all.find { |c| c.cinema_id == s.cinema_id }
+      movie = movies_all.find { |c| c.movie_id == s.movie_id }
       next if cinema.nil? || movie.nil? || cinema.city_id != city_id
-      @r[cinema] ||= {}
-      @r[cinema][movie] ||= 0
-      @r[cinema][movie] += 1
+      r[cinema] ||= {}
+      r[cinema][movie] ||= 0
+      r[cinema][movie] += 1
     end
 
-    @r = @r.sort_by { |k, _v| k.name }.to_h # sort cinemas by name
-    @r.each { |k, v| @r[k] = v.sort_by { |k1, _v1| k1.title }.to_h } # sort movies by title
-    @r
+    r = r.sort_by { |k, _v| k.name }.to_h # sort cinemas by name
+    r.each { |k, v| r[k] = v.sort_by { |k1, _v1| k1.title }.to_h } # sort movies by title
+    r
   end
 
   def movies

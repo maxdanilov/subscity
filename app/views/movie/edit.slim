@@ -4,7 +4,7 @@
 
 h1.text-center.capitalize.like-navbar
 	span.fa.fa-film
-	|
+	| &nbsp;
 	- title = movie.title
 	- unless movie.title_original.to_s.empty?
 		- title += "<br>(#{movie.title_original})"
