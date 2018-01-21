@@ -23,6 +23,6 @@ Metrics/CyclomaticComplexity:
 Style/ParallelAssignment:
   Enabled: false
 Metrics/BlockLength:
-  Max: 70
+  Max: 150
 AllCops:
   TargetRubyVersion: 2.3
