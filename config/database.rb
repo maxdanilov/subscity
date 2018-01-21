@@ -1,36 +1,36 @@
 require 'active_record/connection_adapters/mysql2_adapter'
 
 class ActiveRecord::ConnectionAdapters::Mysql2Adapter
-  NATIVE_DATABASE_TYPES[:primary_key] = "int(11) auto_increment PRIMARY KEY"
+  NATIVE_DATABASE_TYPES[:primary_key] = 'int(11) auto_increment PRIMARY KEY'
 end
 
 ActiveRecord::Base.configurations[:development] = {
-  :adapter => 'mysql2',
-  :encoding => 'utf8',
-  :reconnect => true,
-  :database => ENV['SC_DB_NAME'],
-  :pool => 50,
-  :wait_timeout => 1,
-  :username => ENV['SC_DB_USER'],
-  :password => ENV['SC_DB_PASS'],
-  :host => ENV['SC_DB_HOST']
+  adapter: 'mysql2',
+  encoding: 'utf8',
+  reconnect: true,
+  database: ENV['SC_DB_NAME'],
+  pool: 50,
+  wait_timeout: 1,
+  username: ENV['SC_DB_USER'],
+  password: ENV['SC_DB_PASS'],
+  host: ENV['SC_DB_HOST']
 }
 
 ActiveRecord::Base.configurations[:production] = {
-  :adapter => 'mysql2',
-  :encoding => 'utf8',
-  :reconnect => true,
-  :database => ENV['SC_DB_NAME'],
-  :pool => 50,
-  :wait_timeout => 1,
-  :username => ENV['SC_DB_USER'],
-  :password => ENV['SC_DB_PASS'],
-  :host => ENV['SC_DB_HOST']
+  adapter: 'mysql2',
+  encoding: 'utf8',
+  reconnect: true,
+  database: ENV['SC_DB_NAME'],
+  pool: 50,
+  wait_timeout: 1,
+  username: ENV['SC_DB_USER'],
+  password: ENV['SC_DB_PASS'],
+  host: ENV['SC_DB_HOST']
 }
 
 ActiveRecord::Base.configurations[:test] = {
-  :adapter => 'sqlite3',
-  :database => Padrino.root('db', 'subscity_test.db')
+  adapter: 'sqlite3',
+  database: Padrino.root('db', 'subscity_test.db')
 }
 
 # Setup our logger
