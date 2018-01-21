@@ -13,7 +13,8 @@ class Screening < ActiveRecord::Base
   scope :before, ->(date) { where('date_time <= ?', date) }
   scope :today, -> { where(date_time: time_range_on_day(Time.now)) }
   scope :on_date, ->(date) { where(date_time: time_range_on_day(date)) }
-  scope :no_prices, -> { where(price_max: nil) }
+  scope :no_prices, -> { where(price_min: nil) }
+  scope :with_prices, -> { where('price_min > ?', 0) }
 
   scope :active, lambda {
     where('date_time > ? AND date_time <= ?', Time.now,

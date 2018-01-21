@@ -69,6 +69,23 @@ module Subscity
       render 'latest', layout: :layout
     end
 
+    get :heartbeat, provides: :json do
+      cache(request.cache_key, expires: CACHE_TTL_API) do
+        city = City.get_by_domain(request.subdomains.first)
+        last_screening_update = Screening.in_city(city.city_id).order('updated_at').last&.updated_at
+        last_price_update = Screening.in_city(city.city_id).with_prices.order('updated_at').last&.updated_at
+        data = {
+          city: city.domain,
+          screenings: Screening.in_city(city.city_id).active_all.count,
+          last_screening_update: last_screening_update,
+          last_price_update: last_price_update,
+          last_screening_update_hours_ago: ((Time.now - last_screening_update) / 3600).round(1),
+          last_price_update_hours_ago: ((Time.now - last_price_update) / 3600).round(1)
+        }
+        return JSON.pretty_generate(data)
+      end
+    end
+
     get :clear do
       auth_allow_for_role :admin
       FileCache.expire
