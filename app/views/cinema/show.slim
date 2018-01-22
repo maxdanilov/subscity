@@ -33,7 +33,7 @@ table.table.table-condensed.table-curved.table-striped.table-bordered
 				div
 					span.fa.fa-link.fa-lg.cinema-icon
 					| &nbsp;
-					= link_to cinema.url.gsub("http://", "").split("/").first.to_s, cinema.url, :class => :underdashed
+					= link_to cinema.url.split('://').last.split('/').first, cinema.url, :class => :underdashed
 	- unless cinema.phone.to_s.empty?
 		tr
 			 td
