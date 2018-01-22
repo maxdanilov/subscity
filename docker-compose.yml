@@ -61,5 +61,5 @@ services:
       retries: 3
       start_period: 30s
     cpu_count: 2
-    cpus: 0.9
+    cpus: 0.7
     mem_limit: 1536m
