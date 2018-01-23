@@ -14,6 +14,7 @@ services:
     env_file:
       - env/${ENV:-local}
     volumes:
+      - /var/log/nginx/:/var/log/nginx/
       - ./dockerfiles/sites-enabled:/tmp/
       - ./public:/usr/share/nginx/html/subscity:ro
       - ./dockerfiles/certs/${ENV:-local}:/etc/ssl/certs:ro
