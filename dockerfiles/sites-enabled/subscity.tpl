@@ -15,10 +15,11 @@ server {
 }
 
 server {
-    listen          443 ssl;
-    listen          [::]:443 ssl;
-    server_name     *.${SC_DOMAIN_NAME};
-    access_log      off;
+    listen                      443 ssl;
+    listen                      [::]:443 ssl;
+    server_name                 *.${SC_DOMAIN_NAME};
+    access_log                  /var/log/nginx/access.log;
+    proxy_max_temp_file_size    0;
 
     gzip            on;
     gzip_disable    "msie6";
