@@ -91,10 +91,9 @@ class KassaFetcher
     "#{DOMAIN}place/placecount?sessionid=#{screening_id}"
   end
 
-  def self.url_for_cinemas(start, length = PAGE_SIZE, place_id, place_name)
-    # https://m.kassa.rambler.ru/spb/place/nearplaces/cinema?start=20&pagesize=10&WidgetID=16857&GeoPlaceID=3
-    "#{DOMAIN}#{place_name}/place/nearplaces/cinema?start=#{start}&pagesize=#{length}&GeoPlaceID=#{place_id}" \
-      "&WidgetID=#{WIDGET_ID}"
+  def self.url_for_cinemas(start, length = PAGE_SIZE, place_name)
+    # https://m.kassa.rambler.ru/spb/place/nearplaces/17?start=20&pagesize=10&WidgetID=16857
+    "#{DOMAIN}#{place_name}/place/nearplaces/17?start=#{start}&pagesize=#{length}&WidgetID=#{WIDGET_ID}"
   end
 
   def self.url_for_cinema(cinema_id, date = nil, place_id, place_name)
@@ -135,8 +134,8 @@ class KassaFetcher
     fetch_data_json(url_for_movies(start, length, place_id, place_name))
   end
 
-  def self.fetch_cinemas(start, length = PAGE_SIZE, place_id, place_name)
-    fetch_data_json(url_for_cinemas(start, length, place_id, place_name))
+  def self.fetch_cinemas(start, length = PAGE_SIZE, _place_id, place_name)
+    fetch_data_json(url_for_cinemas(start, length, place_name))
   end
 
   def self.fetch_cinema(cinema_id, date = nil, place_id, place_name)
