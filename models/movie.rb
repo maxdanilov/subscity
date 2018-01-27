@@ -155,7 +155,7 @@ class Movie < ActiveRecord::Base
   end
 
   def timestamp_poster
-    File.mtime(poster_filename).to_s rescue ''
+    File.mtime(poster_filename).to_i.to_s rescue ''
   end
 
   def thumbnail_poster
