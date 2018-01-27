@@ -44,6 +44,10 @@ server {
         internal;
     }
 
+    location /robots.txt {
+        return 200 "User-agent: *\nDisallow:\n";
+    }
+
     location ~ ^/(images|fonts)/  {
         expires 2d;
     }
