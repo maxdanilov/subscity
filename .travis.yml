@@ -29,6 +29,7 @@ script:
   - ./scripts/build.sh --cache-from ${IMAGE_NAME}
   - docker-compose up -d
   - until nc -z 127.0.0.1 3306; do sleep 3; echo "Waiting for DB to come up..."; done
+  - docker exec -it subscity-app /bin/bash -c "cd /subscity && ./test"
   - docker exec -it subscity-app /bin/bash -c "cd /subscity && rake ar:schema:load && padrino run db/seed_cities.rb"
   - docker exec -it subscity-app /bin/bash -c "cd /subscity/tasks && rake clear_cache"
 
