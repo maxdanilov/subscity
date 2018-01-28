@@ -13,7 +13,7 @@ Metrics/MethodLength:
 Style/FormatStringToken:
   Enabled: false
 Metrics/ClassLength:
-  Max: 210
+  Max: 240
 Style/FrozenStringLiteralComment:
   Enabled: false
 Metrics/PerceivedComplexity:

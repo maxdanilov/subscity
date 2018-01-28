@@ -15,6 +15,7 @@ class TestKassaParser < Minitest::Test
   def test_parse_movie_html
     data = get_file_as_string('tests/fixtures/movie_91971.htm')
     result = @cls.parse_movie_html(data)
+    assert !result.nil?
     assert_equal result[:title], 'Три билборда на границе Эббинга, Миссури'
     assert_equal result[:title_original], 'Three Billboards Outside Ebbing, Missouri'
     assert_equal result[:duration], 115

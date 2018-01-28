@@ -125,29 +125,9 @@ class KassaParser
     g
   end
 
-  def self.parse_movie_html(data)
-    doc = Nokogiri::XML.parse(data) rescue nil
-    return nil if doc.nil?
-    title = (doc / 'h1.item_title').first.inner_text rescue nil
+  def self.parse_movie_genres(doc)
     genres = (doc / 'h3.item_title3').first.inner_text.strip.lines[0].strip.chomp(',') rescue nil
-    age_restriction = (doc / 'h3.item_title3').first.inner_text.strip.lines[-1].strip.to_i rescue nil
-
-    title_original = (doc / 'h2.item_title2').first.inner_text.split('—')[0].strip rescue nil
-    year = (doc / 'h2.item_title2').first.inner_text.split('—')[1].strip.to_i rescue nil
-
-    country = doc.css('span.dd')[1].inner_text.strip rescue nil
-    duration = doc.css('span.dd')[0].inner_text.split(' ')[0].to_i rescue nil
-
-    poster = (doc / 'div.item_img > img').first[:src] rescue nil
-    poster = nil if poster =~ /empty/
-
-    country = nil if country.to_s.strip == '-'
     genres = genres.mb_chars.downcase.to_s unless genres.nil?
-    title.strip! rescue nil
-    title_original.strip! rescue nil
-    year = nil if year.to_i.zero? || year.to_i < 1900
-    duration = nil if duration.to_i > 1900
-
     unless genres.to_s.empty?
       genres_new = []
       genres.split(',').each { |g| genres_new << kinopoisk_genre(g.strip) }
@@ -155,17 +135,57 @@ class KassaParser
     end
 
     genres = nil if genres.to_s.strip.empty?
+    genres
+  end
 
+  def self.parse_movie_title(doc)
+    (doc / 'h1.item_title').first.inner_text.strip rescue nil
+  end
+
+  def self.parse_movie_title_original(doc)
+    (doc / 'h2.item_title2').first.inner_text.split('—')[0].strip rescue nil
+  end
+
+  def self.parse_movie_age_restriction(doc)
+    (doc / 'h3.item_title3').first.inner_text.strip.lines[-1].strip.to_i rescue nil
+  end
+
+  def self.parse_movie_year(doc)
+    year = (doc / 'h2.item_title2').first.inner_text.strip.lines[-1].to_i rescue nil
+    year.to_i.zero? || year.to_i < 1900 ? nil : year
+  end
+
+  def self.parse_movie_poster(doc)
+    poster = (doc / 'div.item_img > img').first[:src] rescue nil
+    poster =~ /empty/ ? nil : poster
+  end
+
+  def self.parse_movie_duration(doc)
+    duration = doc.css('span.dd')[0].inner_text.split(' ')[0].to_i rescue nil
+    duration.to_i > 1900 ? nil : duration
+  end
+
+  def self.parse_movie_country(doc)
+    country = doc.css('span.dd')[1].inner_text.strip rescue nil
+    country.to_s.strip == '-' ? nil : country
+  end
+
+  def self.parse_movie_html(data)
+    doc = Nokogiri::XML.parse(data) rescue nil
+    return nil if doc.nil?
+
+    title = parse_movie_title(doc)
     return nil if title.nil?
+
     {
       title: title,
-      title_original: title_original,
-      genres: genres,
-      country: country,
-      year: year,
-      duration: duration,
-      age_restriction: age_restriction,
-      poster: poster
+      title_original: parse_movie_title_original(doc),
+      genres: parse_movie_genres(doc),
+      country: parse_movie_country(doc),
+      year: parse_movie_year(doc),
+      duration: parse_movie_duration(doc),
+      age_restriction: parse_movie_age_restriction(doc),
+      poster: parse_movie_poster(doc)
     }
   end
 
