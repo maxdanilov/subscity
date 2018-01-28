@@ -84,58 +84,10 @@ class KassaParser
     results
   end
 
-  # Kassa genres => Kinopoisk genres
-  def self.kinopoisk_genre(g)
-    hash = {
-      'боевики' => 'боевик',
-      'вестерны' => 'вестерн',
-      'военные фильмы' => 'военный',
-      'детективные фильмы' => 'детектив',
-      'дети' => 'детский',
-      'детские фильмы' => 'детский',
-      'документальное кино' => 'документальный',
-      'драматические фильмы' => 'драма',
-      'исторические фильмы' => 'история',
-      'комедии' => 'комедия',
-      'короткометражные фильмы' => 'короткометражный',
-      'криминальные фильмы' => 'криминал',
-      'мелодрамы' => 'мелодрама',
-      'музыкальные фильмы' => 'музыка',
-      'мультфильмы' => 'мультфильм',
-      'мюзиклы' => 'мюзикл',
-      'приключенческие фильмы' => 'приключения',
-      'романтические комедии' => 'комедия, мелодрама',
-      'семейное кино' => 'семейный',
-      'спортивные фильмы' => 'спорт',
-      'тв' => nil,
-      'трагикомедии' => 'трагикомедия',
-      'триллеры' => 'триллер',
-      'фантастические фильмы' => 'фантастика',
-      'фильмы ужасов' => 'ужасы',
-      'фильмы-биографии' => 'биография',
-      'экранизации классической литературы' => nil
-    }
-
-    # exclude years from genre list
-    (1980..2030).each do |x|
-      hash[x.to_s + ' г.'] = nil
-    end
-
-    return hash[g] if hash.key? g
-    g
-  end
-
   def self.parse_movie_genres(doc)
     genres = (doc / 'h3.item_title3').first.inner_text.strip.lines[0].strip.chomp(',') rescue nil
-    genres = genres.mb_chars.downcase.to_s unless genres.nil?
-    unless genres.to_s.empty?
-      genres_new = []
-      genres.split(',').each { |g| genres_new << kinopoisk_genre(g.strip) }
-      genres = genres_new.compact.join(', ')
-    end
-
-    genres = nil if genres.to_s.strip.empty?
-    genres
+    genres = genres.mb_chars.downcase.to_s.strip unless genres.nil?
+    genres.to_s.empty? ? nil : genres
   end
 
   def self.parse_movie_title(doc)
