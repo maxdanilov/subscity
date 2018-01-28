@@ -170,6 +170,14 @@ class KassaParser
     country.to_s.strip == '-' ? nil : country
   end
 
+  def self.parse_movie_director(doc)
+    doc.css('span.dd[itemprop=name]').first.inner_text.strip rescue nil
+  end
+
+  def self.parse_movie_actors(doc)
+    (doc / 'span.item_peop__actors').first.inner_text.strip rescue nil
+  end
+
   def self.parse_movie_html(data)
     doc = Nokogiri::XML.parse(data) rescue nil
     return nil if doc.nil?
@@ -178,14 +186,16 @@ class KassaParser
     return nil if title.nil?
 
     {
+      actors: parse_movie_actors(doc),
+      age_restriction: parse_movie_age_restriction(doc),
+      country: parse_movie_country(doc),
+      director: parse_movie_director(doc),
+      duration: parse_movie_duration(doc),
+      genres: parse_movie_genres(doc),
+      poster: parse_movie_poster(doc),
       title: title,
       title_original: parse_movie_title_original(doc),
-      genres: parse_movie_genres(doc),
-      country: parse_movie_country(doc),
-      year: parse_movie_year(doc),
-      duration: parse_movie_duration(doc),
-      age_restriction: parse_movie_age_restriction(doc),
-      poster: parse_movie_poster(doc)
+      year: parse_movie_year(doc)
     }
   end
 

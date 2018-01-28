@@ -24,5 +24,7 @@ class TestKassaParser < Minitest::Test
     assert_equal result[:country], 'США'
     assert_equal result[:genres], 'трагикомедия, криминальный'
     assert_equal result[:age_restriction], 18
+    assert_equal result[:actors], 'Калеб Ландри Джонс, Вуди Харрельсон, Эбби Корниш, Сэм Рокуэлл'
+    assert_equal result[:director], 'Мартин МакДонах'
   end
 end

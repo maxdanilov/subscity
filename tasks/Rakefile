@@ -172,17 +172,19 @@ def get_movie(id)
   m = nil
   begin
     m = Movie.new(
+      active: true,
+      age_restriction: data[:age_restriction],
+      cast: data[:actors],
+      country: data[:country],
+      director: data[:director],
+      duration: data[:duration],
+      fetch_mode: FETCH_MODE[:movie][:subs],
+      genres: data[:genres],
       movie_id: id,
+      poster: data[:poster],
       title: data[:title],
       title_original: data[:title_original],
-      age_restriction: data[:age_restriction],
-      country: data[:country],
-      year: data[:year],
-      genres: data[:genres],
-      poster: data[:poster],
-      active: true,
-      duration: data[:duration],
-      fetch_mode: FETCH_MODE[:movie][:subs]
+      year: data[:year]
     )
   rescue
     puts "Error getting movie #{id}"
