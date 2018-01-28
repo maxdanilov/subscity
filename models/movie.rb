@@ -137,7 +137,7 @@ class Movie < ActiveRecord::Base
 
   def poster_url(timestamped = true)
     return nil unless poster_exists?
-    "#{full_domain_name}#{poster_relative_url(timestamped)}"
+    "#{full_domain_name('msk')}#{poster_relative_url(timestamped)}"
   end
 
   def poster_relative_url(timestamped = true)
@@ -194,7 +194,7 @@ class Movie < ActiveRecord::Base
       'original' => trailer_original,
       'russian' => trailer_russian
     }
-    json_data['poster'] = poster_urls
+    json_data['poster'] = poster_url
     json_data['cast'] = cast.to_s.empty? ? nil : cast.split(/,\ |\r\n|,\r\n/)
     json_data['directors'] = director.to_s.empty? ? nil : director.split(/,\ /)
     json_data['countries'] = country.to_s.empty? ? nil : country.split(/,\ /)
