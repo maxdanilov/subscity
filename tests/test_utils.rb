@@ -6,3 +6,7 @@ def get_file_as_string(filename)
   end
   data
 end
+
+def get_fixture(filename)
+  get_file_as_string("tests/fixtures/#{filename}")
+end

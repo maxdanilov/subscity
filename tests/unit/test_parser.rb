@@ -1,6 +1,5 @@
 require 'minitest/autorun'
-require 'active_support/core_ext'
-require_relative '../utils'
+require_relative '../test_utils'
 require_relative '../../app/helpers/parser'
 
 class TestKassaParser < Minitest::Test
@@ -13,8 +12,9 @@ class TestKassaParser < Minitest::Test
   end
 
   def test_parse_movie_html
-    data = get_file_as_string('tests/fixtures/movie_91971.htm')
+    data = get_fixture('movie_91971.htm')
     result = @cls.parse_movie_html(data)
+
     assert !result.nil?
     assert_equal result[:title], 'Три билборда на границе Эббинга, Миссури'
     assert_equal result[:title_original], 'Three Billboards Outside Ebbing, Missouri'
@@ -31,5 +31,12 @@ class TestKassaParser < Minitest::Test
     'три билборда с посланием к авторитетному главе полиции Уильяму Уиллоуби. Когда в ситуацию оказывается ' \
     'втянут еще и заместитель шерифа, инфантильный маменькин сынок со склонностью к насилию, офицер Диксон, ' \
     'борьба между Милдред и властями города только усугубляется.'
+  end
+
+  def test_screening_date_time
+    data = get_fixture('session_33983268.htm')
+    result = @cls.screening_date_time(data)
+
+    assert_equal result, Time.new(2018, 2, 2, 11, 25)
   end
 end
