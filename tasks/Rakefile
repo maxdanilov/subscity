@@ -64,7 +64,7 @@ task rollover_logs: :environment do |task|
   history_length = 5 # days
   Dir.chdir('logs') do
     system "rm -f *.#{history_length}"
-    history_length.downto(i) do |i|
+    history_length.downto(1) do |i|
       system "rename 's/\.#{i - 1}$/\.#{i}/' *.#{i - 1}"
     end
     system "rename 's/\.log$/\.0/' *.log"
