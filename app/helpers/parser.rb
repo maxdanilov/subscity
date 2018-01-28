@@ -129,11 +129,11 @@ class KassaParser
     doc = Nokogiri::XML.parse(data) rescue nil
     return nil if doc.nil?
     title = (doc / 'h1.item_title').first.inner_text rescue nil
-    genres = (doc / 'h3.item_title3').first.inner_text.strip.split('\n')[0].strip rescue nil
-    age_restriction = (doc / 'h3.item_title3').first.inner_text.strip.split('\n')[1].strip.to_i rescue nil
+    genres = (doc / 'h3.item_title3').first.inner_text.strip.lines[0].strip.chomp(',') rescue nil
+    age_restriction = (doc / 'h3.item_title3').first.inner_text.strip.lines[-1].strip.to_i rescue nil
 
     title_original = (doc / 'h2.item_title2').first.inner_text.split('—')[0].strip rescue nil
-    year = (doc / 'h2.item_title2').first.inner_text.split('—')[1].strip rescue nil
+    year = (doc / 'h2.item_title2').first.inner_text.split('—')[1].strip.to_i rescue nil
 
     country = doc.css('span.dd')[1].inner_text.strip rescue nil
     duration = doc.css('span.dd')[0].inner_text.split(' ')[0].to_i rescue nil
