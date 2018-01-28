@@ -41,7 +41,7 @@ All call results are cached for up to 15 minutes.
 		"languages": [
 		  "английский"
 		],
-		"poster": "https://subscity.ru/images/posters/62395.jpg",
+		"poster": "https://msk.subscity.ru/images/posters/24070.jpg",
 		"rating": {
 		  "imdb": {
 			"id": 3774114,
@@ -188,4 +188,4 @@ All call results are cached for up to 15 minutes.
 
 **NB**: `screening_id` field is a Rambler.Kassa's screening ID.
 
-**NB**: Screenings belong to the day if they start between 02:31 AM of this day and 02:30 AM of the following one.
+**NB**: Screenings belong to a day if they start between 02:31 AM of this day and 02:30 AM of the following one.
