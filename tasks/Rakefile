@@ -169,13 +169,14 @@ end
 
 def get_movie(id)
   data = KassaParser.parse_movie_html(KassaFetcher.fetch_movie(id))
-  m = nil
+  movie = nil
   begin
-    m = Movie.new(
+    movie = Movie.new(
       active: true,
       age_restriction: data[:age_restriction],
       cast: data[:actors],
       country: data[:country],
+      description: data[:description],
       director: data[:director],
       duration: data[:duration],
       fetch_mode: FETCH_MODE[:movie][:subs],
@@ -189,7 +190,7 @@ def get_movie(id)
   rescue
     puts "Error getting movie #{id}"
   end
-  m
+  movie
 end
 
 desc 'update movies list'

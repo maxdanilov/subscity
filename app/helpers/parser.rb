@@ -178,6 +178,10 @@ class KassaParser
     (doc / 'span.item_peop__actors').first.inner_text.strip rescue nil
   end
 
+  def self.parse_movie_description(doc)
+    (doc / 'span.item_desc__text-full').first.inner_text.strip rescue nil
+  end
+
   def self.parse_movie_html(data)
     doc = Nokogiri::XML.parse(data) rescue nil
     return nil if doc.nil?
@@ -189,6 +193,7 @@ class KassaParser
       actors: parse_movie_actors(doc),
       age_restriction: parse_movie_age_restriction(doc),
       country: parse_movie_country(doc),
+      description: parse_movie_description(doc),
       director: parse_movie_director(doc),
       duration: parse_movie_duration(doc),
       genres: parse_movie_genres(doc),
