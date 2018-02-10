@@ -59,7 +59,7 @@ class Screening < ActiveRecord::Base
   end
 
   def session_data
-    @session_data ||= KassaFetcher.fetch_session(screening_id, cinema.city_id)
+    @session_data ||= KassaFetcher.fetch_session(screening_id)
   end
 
   def exists?
@@ -70,18 +70,16 @@ class Screening < ActiveRecord::Base
     KassaParser.screening_title(session_data)
   end
 
+  def kassa_movie_id
+    KassaParser.screening_movie_id(session_data)
+  end
+
   def subs?
     KassaParser.screening_has_subs?(session_data)
   end
 
-  def correct_title?
-    title = actual_title
-    ((movie.title.mb_chars.downcase.to_s.include? title.mb_chars.downcase.to_s) ||
-      (title.mb_chars.downcase.to_s.include? movie.title.mb_chars.downcase.to_s)) rescue false
-  end
-
-  def available?
-    KassaParser.parse_tickets_available?(KassaFetcher.fetch_availability(screening_id))
+  def correct_movie_id?
+    kassa_movie_id == movie.movie_id
   end
 
   def actual_date_time
@@ -89,7 +87,7 @@ class Screening < ActiveRecord::Base
   end
 
   def prices
-    KassaParser.parse_prices_full(KassaFetcher.fetch_prices_full(screening_id))
+    KassaParser.parse_prices(session_data)
   end
 
   def to_s

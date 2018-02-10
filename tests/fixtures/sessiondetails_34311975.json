@@ -1,0 +1,14 @@
+{
+    "id": 34311975,
+    "creation": {
+        "id": 91971,
+        "type": "Movie"
+    },
+    "formats": [
+        "twodimensional",
+        "russiansubtitles"
+    ],
+    "placeId": 337,
+    "startDateTime": "2018-02-10T20:10:00",
+    "minPrice": 500
+}

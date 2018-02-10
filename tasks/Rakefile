@@ -396,7 +396,7 @@ task update_screenings_prices: :environment do |task|
   counter = 0
   screenings.find_each do |s|
     counter += 1
-    if s.available?
+    if s.exists?
       max_price, min_price = s.prices
       if !max_price.nil? && !min_price.nil?
         s.price_min, s.price_max = min_price, max_price
@@ -409,7 +409,7 @@ task update_screenings_prices: :environment do |task|
         puts "\t[#{counter}/#{fetched_count}] Screening #{s.screening_id} was not updated with prices".red
       end
     else
-      puts "\t[#{counter}/#{fetched_count}] Screening #{s.screening_id} is not available".red
+      puts "\t[#{counter}/#{fetched_count}] Screening #{s.screening_id} does not exist".red
     end
     puts s
     sleep rand(0.5..1)
@@ -453,17 +453,12 @@ task cleanup_screenings: :environment do |task|
       next
     end
 
-    if !s.exists? || !s.correct_title? || (s.actual_date_time != s.date_time)
+    if !s.exists? || !s.correct_movie_id? || (s.actual_date_time != s.date_time)
       puts "\tScreening #{s.screening_id} was excluded from database:".yellow
+      puts "\t\t exists: #{s.exists?}, correct_movie_id: #{s.correct_movie_id?}"
+      puts "\t\t actual_date_time: #{s.actual_date_time}, date_time: #{s.date_time}"
       puts s
 
-      deleted += 1
-      s.destroy
-    end
-
-    unless s.available?
-      puts "\tScreening #{s.screening_id} was excluded from database since it's not available:".yellow
-      puts s
       deleted += 1
       s.destroy
     end

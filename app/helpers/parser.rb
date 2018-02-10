@@ -9,40 +9,6 @@ class KassaParser
   NOT_FOUND_SCREENING = /Сеанс не найден/
   TITLE_DELIMITER = ' на языке оригинала'.freeze
 
-  def self.parse_prices(data)
-    parsed = parse_json(data)
-
-    fee = 1.1 # Kassa's fee is 10% (if applied)
-    min_price = 10**9 # inf for poor people
-    max_price = 0
-
-    begin
-      parsed['OrderZones'].each do |order_zone|
-        order_zone['Orders'].each do |order|
-          price = order['Price']
-          price = (price / fee).round(0) if order['HasFee']
-          max_price = price if price > max_price
-          min_price = price if price < min_price
-        end
-      end
-      max_price, min_price = max_price.to_i, min_price.to_i
-      max_price, min_price = nil, nil if max_price.zero?
-      [max_price, min_price]
-    rescue
-      [nil, nil]
-    end
-  end
-
-  def self.parse_prices_full(data)
-    data = '<!DOCTYPE html><html>' + data + '</html>'
-    doc = Nokogiri::XML.parse(data)
-    prices = (doc / 'div.b-cinema-plan/div[@data]').map { |el| el[:data].split('|')[3].to_i rescue nil }
-    prices = prices.select(&:positive?).compact.uniq.sort # occupied places have 0 price, remove before proc.
-    [prices.last, prices.first]
-  rescue
-    [nil, nil]
-  end
-
   def self.parse_sessions_html(data, date, cinema_id = 0, movie_id = 0)
     doc = Nokogiri::XML.parse(data)
     results = []
@@ -156,15 +122,6 @@ class KassaParser
     }
   end
 
-  def self.parse_tickets_available?(data)
-    parsed = parse_json(data) rescue nil
-    if parsed.nil?
-      false
-    else
-      !(parsed['error'] == true || parsed['maxPlaceCount'].zero?)
-    end
-  end
-
   def self.parse_movie_dates(data)
     # https://m.kassa.rambler.ru/spb/movie/59237?date=2016.03.28&WidgetID=16857&geoPlaceID=3
     doc = Nokogiri::XML.parse(data)
@@ -189,6 +146,10 @@ class KassaParser
     get_first_regex_match_integer(link, %r{cinema\/.*\-(\d+)})
   end
 
+  def self.parse_date_time(datetime)
+    Time.parse(datetime)
+  end
+
   def self.parse_time(time, date)
     # 11:10 => given date at 11:10
     # for a different time zone: Time.parse(date.strftime("%Y-%m-%d") + " " + time + " +0400")
@@ -196,45 +157,29 @@ class KassaParser
   end
 
   def self.screening_exists?(data)
-    doc = Nokogiri::XML.parse(data) rescue nil
-    return false if doc.nil?
-    ((doc.at('title').inner_text rescue nil) =~ NOT_FOUND_SCREENING).nil?
+    entity = JSON.parse(data) rescue nil
+    entity && !entity['creation'].nil?
   end
 
-  def self.screening_has_subs?(data, skip_unavailable = true)
-    doc = Nokogiri::XML.parse(data) rescue nil
-    return false if doc.nil?
-    title = doc.at('title').inner_text rescue ''
-    (title.include? HAS_SUBS) || skip_unavailable
+  def self.screening_has_subs?(data)
+    entity = JSON.parse(data) rescue nil
+    ((entity || {})['formats'] || []).include? 'russiansubtitles'
   end
 
-  def self.screening_title(data)
-    doc = Nokogiri::XML.parse(data) rescue nil
-    return '' if doc.nil?
-    title = doc.at('title').inner_text rescue ''
-    title.split(TITLE_DELIMITER).first
+  def self.screening_movie_id(data)
+    entity = JSON.parse(data) rescue nil
+    entity['creation']['id'] rescue nil
   end
 
   def self.screening_date_time(data)
-    overnight = 'в ночь с'
-    months = %w[янв фев мар апр май июн июл авг сен окт ноя дек]
-    doc = Nokogiri::XML.parse(data) rescue nil
-    return nil if doc.nil?
-    date_text = doc.at('.order-info dd:nth-of-type(3)').inner_text rescue ''
-    tokens = date_text.split ' '
-    day = tokens[1]
-    month_name = tokens[2]
-    month = Time.now.month
-    months.each_with_index do |m, i|
-      next unless month_name.include? m rescue nil
-      month = i + 1
-    end
-    time = tokens[4]
-    year = Time.now.year
-    year += 1 if Time.now.month > month
-    date = Time.local(year, month, day, 0, 0, 0)
-    date += 1.day if date_text.include? overnight
-    parse_time(time, date)
+    entity = JSON.parse(data) rescue nil
+    parse_date_time(entity['startDateTime']) rescue nil
+  end
+
+  def self.parse_prices(data)
+    entity = JSON.parse(data) rescue nil
+    price = entity['minPrice'] rescue nil
+    [price, price]
   end
 
   private_class_method	:parse_time
@@ -244,6 +189,5 @@ class KassaParser
   public_class_method		:parse_prices
   public_class_method		:parse_sessions_html
   public_class_method		:screening_exists?
-  public_class_method		:parse_tickets_available?
   public_class_method		:parse_movie_dates
 end

@@ -7,6 +7,10 @@ class TestKassaParser < Minitest::Test
     @cls = KassaParser
   end
 
+  def test_parse_date_time
+    assert Time.new(2018, 2, 10, 20, 10), @cls.parse_date_time('2018-02-10T20:10:00')
+  end
+
   def test_get_movie_id
     assert_equal @cls.get_movie_id('https://m.kassa.rambler.ru/msk/movie/51945?geoplaceid=2&widgetid=16857'), 51_945
   end
@@ -34,9 +38,52 @@ class TestKassaParser < Minitest::Test
   end
 
   def test_screening_date_time
-    data = get_fixture('session_33983268.htm')
+    data = get_fixture('sessiondetails_34311975.json')
     result = @cls.screening_date_time(data)
+    assert_equal Time.new(2018, 2, 10, 20, 10), result
+  end
 
-    assert_equal result, Time.new(2018, 2, 2, 11, 25)
+  def test_screening_movie_id
+    data = get_fixture('sessiondetails_34311975.json')
+    result = @cls.screening_movie_id(data)
+    assert_equal 91_971, result
+  end
+
+  def test_screening_movie_id_empty
+    result = @cls.screening_movie_id('{}')
+    assert_nil result
+  end
+
+  def test_screening_has_subs
+    data = get_fixture('sessiondetails_34311975.json')
+    result = @cls.screening_has_subs?(data)
+    assert_equal true, result
+  end
+
+  def test_screening_has_subs_empty
+    result = @cls.screening_has_subs?('{}')
+    assert_equal false, result
+  end
+
+  def test_screening_exists
+    data = get_fixture('sessiondetails_34311975.json')
+    result = @cls.screening_exists?(data)
+    assert_equal true, result
+  end
+
+  def test_screening_exists_empty
+    result = @cls.screening_exists?('{}')
+    assert_equal false, result
+  end
+
+  def test_parser
+    data = get_fixture('sessiondetails_34311975.json')
+    result = @cls.parse_prices(data)
+    assert_equal [500, 500], result
+  end
+
+  def test_parser_empty
+    result = @cls.parse_prices('{}')
+    assert_equal [nil, nil], result
   end
 end
