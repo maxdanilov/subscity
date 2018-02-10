@@ -54,7 +54,7 @@ class KassaFetcher
     :read_timeout => READ_TIMEOUT
   }.freeze
 
-  SESSION_DETAILS_HEADERS = {
+  WAPI_HEADERS = {
     'Pragma' => 'no-cache',
     'User-Agent' => USER_AGENT,
     'Connection' => 'keep-alive',
@@ -119,8 +119,18 @@ class KassaFetcher
     "#{DOMAIN_DESKTOP}movie/#{movie_id}"
   end
 
+  def self.url_for_cinema_sessions(cinema_id, date)
+    # https://wapi.kassa.rambler.ru/places/311/schedule/2018-02-11
+    "#{WAPI_DOMAIN}places/#{cinema_id}/schedule/#{date.strftime('%Y-%m-%d')}"
+  end
+
+  def self.url_for_movie_sessions(movie_id, date, city_id)
+    # https://wapi.kassa.rambler.ru/creations/movie/91971/schedule/2018-02-11/city/3
+    "#{WAPI_DOMAIN}creations/movie/#{movie_id}/schedule/#{date.strftime('%Y-%m-%d')}/city/#{city_id}"
+  end
+
   def self.fetch_session(session_id)
-    fetch_data_html(url_for_session_details(session_id), SESSION_DETAILS_HEADERS)
+    fetch_data_html(url_for_session_details(session_id), WAPI_HEADERS)
   end
 
   def self.fetch_movies(start, length = PAGE_SIZE, place_id, place_name)
@@ -137,6 +147,14 @@ class KassaFetcher
 
   def self.fetch_sessions(movie_id, date = nil, place_id, place_name)
     fetch_data_html(url_for_sessions(movie_id, date, place_id, place_name))
+  end
+
+  def self.fetch_cinema_sessions(cinema_id, date)
+    fetch_data_html(url_for_cinema_sessions(cinema_id, date), WAPI_HEADERS)
+  end
+
+  def self.fetch_movie_sessions(movie_id, date, city_id)
+    fetch_data_html(url_for_movie_sessions(movie_id, date, city_id), WAPI_HEADERS)
   end
 
   def self.fetch_movie(movie_id)

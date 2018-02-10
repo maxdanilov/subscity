@@ -6,44 +6,44 @@ class KassaParser
   extend ParserBase
 
   HAS_SUBS = 'языке оригинала'.freeze
+  HAS_SUBS_TYPE = 'russiansubtitles'.freeze
   NOT_FOUND_SCREENING = /Сеанс не найден/
   TITLE_DELIMITER = ' на языке оригинала'.freeze
 
-  def self.parse_sessions_html(data, date, cinema_id = 0, movie_id = 0)
-    doc = Nokogiri::XML.parse(data)
+  def self.parse_cinema_sessions(data, cinema_id)
     results = []
-    begin
-      (doc / '.heading').each do |el|
-        # looking up and aside in the DOM to find the cinema info
-        session_cinema_id = get_cinema_id(el.at('a')[:href])
-        session_cinema_id = cinema_id.to_i if session_cinema_id.to_i.zero?
-        session_cinema = Cinema.where(cinema_id: session_cinema_id).first
+    return results unless data
+    entity = JSON.parse(data) rescue nil
+    return results if !entity || !entity['creations']
 
-        fetch_all = false
-        fetch_all = session_cinema.fetch_all unless session_cinema.nil?
+    entity['creations'].each do |movie|
+      (movie['sessions'] || []).each do |screening|
+        next unless (screening['formats'] || []).include? HAS_SUBS_TYPE
+        results << { session: screening['id'],
+                     time: parse_date_time(screening['startDateTime']),
+                     cinema: cinema_id,
+                     movie: movie['id'] }
+        # TODO: prices can be parsed as well
+      end
+    end
+    results
+  end
 
-        fetch_mode_movie = Movie.get_movie(movie_id).fetch_mode rescue FETCH_MODE[:movie][:subs]
-        fetch_all = true if fetch_mode_movie == FETCH_MODE[:movie][:all]
+  def self.parse_movie_sessions(data, movie_id)
+    results = []
+    return results unless data
+    entity = JSON.parse(data) rescue nil
+    return results if !entity || !entity['buckets']
 
-        next if (!el.parent.parent.search('.caption').inner_text.include? HAS_SUBS) && !fetch_all
-        # skip headlines of non-subs sessions
-        # but download all screenings for given cinemas
-        if fetch_all
-          links = el.parent.parent.search('.sked a.sked_item') rescue []
-        else
-          el.parent.parent.search('.caption').each do |s|
-            links = s.parent.search('a.sked_item') if s.inner_text.include? HAS_SUBS rescue []
-          end
-        end
-
-        # looking up and then down to find the sessions info
-        links.each do |a|
-          session_id = get_session_id(a[:href])
-          session_time = parse_time(a.inner_html, date)
-          # the night screenings are technically on the next day!
-          session_time += 1.day if session_time.hour.between? 0, 5
-          session_movie = get_movie_id(el.at('a')[:href]) rescue nil
-          results << { session: session_id, time: session_time, cinema: session_cinema_id, movie: session_movie }
+    entity['buckets'].each do |cinemas|
+      cinemas['places'].each do |cinema|
+        cinema['sessions'].each do |screening|
+          next unless (screening['formats'] || []).include? HAS_SUBS_TYPE
+          results << { session: screening['id'],
+                       time: parse_date_time(screening['startDateTime']),
+                       cinema: cinema['id'],
+                       movie: movie_id,
+                       price: screening['minPrice'] }
         end
       end
     end
@@ -163,7 +163,7 @@ class KassaParser
 
   def self.screening_has_subs?(data)
     entity = JSON.parse(data) rescue nil
-    ((entity || {})['formats'] || []).include? 'russiansubtitles'
+    ((entity || {})['formats'] || []).include? HAS_SUBS_TYPE
   end
 
   def self.screening_movie_id(data)
@@ -187,7 +187,6 @@ class KassaParser
   private_class_method	:get_session_id
 
   public_class_method		:parse_prices
-  public_class_method		:parse_sessions_html
   public_class_method		:screening_exists?
   public_class_method		:parse_movie_dates
 end

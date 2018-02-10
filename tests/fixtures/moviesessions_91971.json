@@ -1,0 +1,130 @@
+{
+    "filters": {
+        "formats": [
+            "twodimensional",
+            "russiansubtitles"
+        ],
+        "from": "2018-02-11T10:00:00",
+        "until": "2018-02-12T00:50:00"
+    },
+    "buckets": [
+        {
+            "topLeft": {
+                "lat": 59.92633933819814,
+                "lon": 30.320806357147163
+            },
+            "bottomRight": {
+                "lat": 59.92633933819814,
+                "lon": 30.320806357147163
+            },
+            "places": [
+                {
+                    "id": 567,
+                    "name": "Пик",
+                    "address": "Ефимова, 2, ТРЦ «Пик»",
+                    "metroStations": [
+                        {
+                            "name": "Сенная площадь",
+                            "colors": [
+                                "019ee0"
+                            ]
+                        },
+                        {
+                            "name": "Садовая",
+                            "colors": [
+                                "b61d8e"
+                            ]
+                        }
+                    ],
+                    "sessions": [
+                        {
+                            "id": 34201432,
+                            "formats": [
+                                "twodimensional"
+                            ],
+                            "minPrice": 170,
+                            "maxPrice": 170,
+                            "startDateTime": "2018-02-11T11:50:00",
+                            "isOrderingAllowed": true
+                        },
+                        {
+                            "id": 34201434,
+                            "formats": [
+                                "twodimensional"
+                            ],
+                            "minPrice": 250,
+                            "maxPrice": 250,
+                            "startDateTime": "2018-02-11T15:40:00",
+                            "isOrderingAllowed": true
+                        },
+                        {
+                            "id": 34201436,
+                            "formats": [
+                                "twodimensional",
+                                "russiansubtitles"
+                            ],
+                            "minPrice": 360,
+                            "maxPrice": 360,
+                            "startDateTime": "2018-02-11T19:30:00",
+                            "isOrderingAllowed": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "topLeft": {
+                "lat": 59.93624,
+                "lon": 30.342184
+            },
+            "bottomRight": {
+                "lat": 59.93624,
+                "lon": 30.342184
+            },
+            "places": [
+                {
+                    "id": 397,
+                    "name": "Родина",
+                    "address": "Караванная, 12",
+                    "metroStations": [
+                        {
+                            "name": "Невский проспект",
+                            "colors": [
+                                "019ee0"
+                            ]
+                        },
+                        {
+                            "name": "Гостиный Двор",
+                            "colors": [
+                                "029a55"
+                            ]
+                        }
+                    ],
+                    "sessions": [
+                        {
+                            "id": 34123839,
+                            "formats": [
+                                "twodimensional",
+                                "russiansubtitles"
+                            ],
+                            "minPrice": 250,
+                            "maxPrice": 250,
+                            "startDateTime": "2018-02-11T13:45:00",
+                            "isOrderingAllowed": true
+                        },
+                        {
+                            "id": 34123847,
+                            "formats": [
+                                "twodimensional"
+                            ],
+                            "minPrice": 300,
+                            "maxPrice": 300,
+                            "startDateTime": "2018-02-11T21:00:00",
+                            "isOrderingAllowed": true
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

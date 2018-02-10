@@ -78,9 +78,6 @@ task update_screenings: :environment do |task, _args|
   Rake::Task[:cleanup_screenings].reenable
   Rake::Task[:cleanup_screenings].invoke
 
-  Rake::Task[:update_screenings_prices].reenable
-  Rake::Task[:update_screenings_prices].invoke
-
   t = start_task(task)
   count_all = Movie.active.count
   Movie.active.shuffle.each_with_index do |m, index|
@@ -128,16 +125,16 @@ task :update_screenings_movie, [:id] => :environment do |task, args|
           next
         end
         puts "-> [#{index + 1} / #{dates.size}] Fetching screenings for #{date}".green
-        sessions = KassaFetcher.fetch_sessions(m.movie_id, date, city_id, city_name)
-        KassaParser.parse_sessions_html(sessions, date, 0, m.movie_id).each do |s|
-          c = Screening.new(movie_id: m.movie_id, cinema_id: s[:cinema], date_time: s[:time], screening_id: s[:session])
+        sessions = KassaFetcher.fetch_movie_sessions(m.movie_id, date, city_id)
+        KassaParser.parse_movie_sessions(sessions, m.movie_id).each do |s|
+          c = Screening.new(movie_id: m.movie_id, cinema_id: s[:cinema], date_time: s[:time],
+                            screening_id: s[:session], price_min: s[:price], price_max: s[:price])
           next unless c.valid?
           if !c.movie.nil? && c.movie.fetch_mode == FETCH_MODE[:movie][:subs] && !c.subs?
             puts "\tScreening not saved since it does not have subs and movie fetch mode requires them: ".red
             puts c
             next
           end
-          c.price_min, c.price_max = c.prices
           c.save
           updated += 1
           puts "\tScreening #{c.screening_id} was added to the base: ".yellow
@@ -276,9 +273,8 @@ task update_movies_from_cinemas: :environment do |task|
       puts "[#{index + 1} / #{total}] Processing cinema #{cinema.name} (#{city.name}) ...".magenta
       dates = KassaParser.parse_movie_dates(KassaFetcher.fetch_cinema(cinema.cinema_id, nil, city.city_id, city.domain))
       dates.each do |date|
-        screenings = KassaParser.parse_sessions_html(
-          KassaFetcher.fetch_cinema(cinema.cinema_id, date, city.city_id, city.domain), date, cinema.cinema_id
-        )
+        data = KassaFetcher.fetch_cinema_sessions(cinema.cinema_id, date)
+        screenings = KassaParser.parse_cinema_sessions(data, cinema.cinema_id)
         screenings.each { |s| movies += [s[:movie]] }
       end
       sleep rand(1..2)

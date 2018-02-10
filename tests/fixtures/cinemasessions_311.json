@@ -1,0 +1,303 @@
+{
+    "filters": {
+        "formats": [
+            "twodimensional",
+            "russiansubtitles"
+        ]
+    },
+    "minPrice": 200,
+    "maxPrice": 700,
+    "creations": [
+        {
+            "type": "Movie",
+            "id": 91971,
+            "name": "Три билборда на границе Эббинга, Миссури",
+            "thumbnail": "https://kassa.rambler.ru/s/StaticContent/P/Img/1801/17/180117100121928.jpg",
+            "ageRestriction": 18,
+            "genres": [
+                "Трагикомедия",
+                "Криминальный"
+            ],
+            "sessions": [
+                {
+                    "id": 34095349,
+                    "formats": [
+                        "twodimensional",
+                        "russiansubtitles"
+                    ],
+                    "minPrice": 700,
+                    "maxPrice": 700,
+                    "startDateTime": "2018-02-11T18:20:00",
+                    "isOrderingAllowed": true
+                }
+            ]
+        },
+        {
+            "type": "Movie",
+            "id": 91037,
+            "name": "Селфи",
+            "thumbnail": "https://kassa.rambler.ru/s/StaticContent/P/Img/1801/17/180117095915263.jpg",
+            "ageRestriction": 16,
+            "genres": [
+                "Триллер",
+                "Драма",
+                "2018 г."
+            ],
+            "sessions": [
+                {
+                    "id": 34095353,
+                    "formats": [
+                        "twodimensional"
+                    ],
+                    "minPrice": 200,
+                    "maxPrice": 200,
+                    "startDateTime": "2018-02-11T09:20:00",
+                    "isOrderingAllowed": true
+                },
+                {
+                    "id": 34095357,
+                    "formats": [
+                        "twodimensional"
+                    ],
+                    "minPrice": 450,
+                    "maxPrice": 450,
+                    "startDateTime": "2018-02-11T23:10:00",
+                    "isOrderingAllowed": true
+                }
+            ]
+        },
+        {
+            "type": "Movie",
+            "id": 91744,
+            "name": "Колесо чудес",
+            "thumbnail": "https://kassa.rambler.ru/s/StaticContent/P/Img/1801/17/180117095950264.jpg",
+            "ageRestriction": 16,
+            "genres": [
+                "Мелодрама"
+            ],
+            "sessions": [
+                {
+                    "id": 34095354,
+                    "formats": [
+                        "twodimensional",
+                        "russiansubtitles"
+                    ],
+                    "minPrice": 200,
+                    "maxPrice": 200,
+                    "startDateTime": "2018-02-11T11:40:00",
+                    "isOrderingAllowed": true
+                },
+                {
+                    "id": 34095347,
+                    "formats": [
+                        "twodimensional",
+                        "russiansubtitles"
+                    ],
+                    "minPrice": 350,
+                    "maxPrice": 350,
+                    "startDateTime": "2018-02-11T13:50:00",
+                    "isOrderingAllowed": true
+                },
+                {
+                    "id": 34095348,
+                    "formats": [
+                        "twodimensional",
+                        "russiansubtitles"
+                    ],
+                    "minPrice": 350,
+                    "maxPrice": 350,
+                    "startDateTime": "2018-02-11T16:10:00",
+                    "isOrderingAllowed": true
+                },
+                {
+                    "id": 34095356,
+                    "formats": [
+                        "twodimensional",
+                        "russiansubtitles"
+                    ],
+                    "minPrice": 700,
+                    "maxPrice": 700,
+                    "startDateTime": "2018-02-11T18:40:00",
+                    "isOrderingAllowed": true
+                },
+                {
+                    "id": 34095350,
+                    "formats": [
+                        "twodimensional",
+                        "russiansubtitles"
+                    ],
+                    "minPrice": 700,
+                    "maxPrice": 700,
+                    "startDateTime": "2018-02-11T20:40:00",
+                    "isOrderingAllowed": true
+                },
+                {
+                    "id": 34095358,
+                    "formats": [
+                        "twodimensional",
+                        "russiansubtitles"
+                    ],
+                    "minPrice": 300,
+                    "maxPrice": 300,
+                    "startDateTime": "2018-02-12T01:30:00",
+                    "isOrderingAllowed": true
+                }
+            ]
+        },
+        {
+            "type": "Movie",
+            "id": 94418,
+            "name": "Место встречи",
+            "thumbnail": "https://kassa.rambler.ru/s/StaticContent/P/Img/1802/07/180207185101145.jpg",
+            "ageRestriction": 16,
+            "genres": [
+                "Трагикомедия"
+            ],
+            "sessions": [
+                {
+                    "id": 34236996,
+                    "formats": [
+                        "twodimensional",
+                        "russiansubtitles"
+                    ],
+                    "minPrice": 200,
+                    "maxPrice": 200,
+                    "startDateTime": "2018-02-11T09:15:00",
+                    "isOrderingAllowed": true
+                }
+            ]
+        },
+        {
+            "type": "Movie",
+            "id": 93982,
+            "name": "Тоня против всех",
+            "thumbnail": "https://kassa.rambler.ru/s/StaticContent/P/Img/1801/17/180117101257691.jpg",
+            "ageRestriction": 18,
+            "genres": [
+                "Биография",
+                "Комедия",
+                "Драма",
+                "Спортивный"
+            ],
+            "sessions": [
+                {
+                    "id": 34095355,
+                    "formats": [
+                        "twodimensional",
+                        "russiansubtitles"
+                    ],
+                    "minPrice": 350,
+                    "maxPrice": 350,
+                    "startDateTime": "2018-02-11T14:00:00",
+                    "isOrderingAllowed": true
+                },
+                {
+                    "id": 34219148,
+                    "formats": [
+                        "twodimensional",
+                        "russiansubtitles"
+                    ],
+                    "minPrice": 700,
+                    "maxPrice": 700,
+                    "startDateTime": "2018-02-11T20:50:00",
+                    "isOrderingAllowed": true
+                }
+            ]
+        },
+        {
+            "type": "Movie",
+            "id": 89948,
+            "name": "Форма воды",
+            "thumbnail": "https://kassa.rambler.ru/s/StaticContent/P/Img/1712/24/171224104205465.jpg",
+            "ageRestriction": 18,
+            "genres": [
+                "Приключение",
+                "Фэнтези",
+                "Драма"
+            ],
+            "sessions": [
+                {
+                    "id": 34219146,
+                    "formats": [
+                        "twodimensional",
+                        "russiansubtitles"
+                    ],
+                    "minPrice": 450,
+                    "maxPrice": 450,
+                    "startDateTime": "2018-02-11T22:50:00",
+                    "isOrderingAllowed": true
+                }
+            ]
+        },
+        {
+            "type": "Movie",
+            "id": 94169,
+            "name": "Эйфория",
+            "thumbnail": "https://kassa.rambler.ru/s/StaticContent/P/Img/1801/17/180117101426844.jpg",
+            "ageRestriction": 16,
+            "genres": [
+                "Драма"
+            ],
+            "sessions": [
+                {
+                    "id": 34095351,
+                    "formats": [
+                        "twodimensional",
+                        "russiansubtitles"
+                    ],
+                    "minPrice": 300,
+                    "maxPrice": 300,
+                    "startDateTime": "2018-02-12T01:15:00",
+                    "isOrderingAllowed": true
+                }
+            ]
+        },
+        {
+            "type": "Movie",
+            "id": 94347,
+            "name": "12 мелодий любви",
+            "thumbnail": "https://kassa.rambler.ru/s/StaticContent/P/Img/1802/02/180202135355923.jpg",
+            "ageRestriction": 18,
+            "genres": [
+                "Комедия",
+                "Мелодрама"
+            ],
+            "sessions": [
+                {
+                    "id": 34219147,
+                    "formats": [
+                        "twodimensional",
+                        "russiansubtitles"
+                    ],
+                    "minPrice": 350,
+                    "maxPrice": 350,
+                    "startDateTime": "2018-02-11T16:20:00",
+                    "isOrderingAllowed": true
+                }
+            ]
+        },
+        {
+            "type": "Movie",
+            "id": 52121,
+            "name": "Приключения Паддингтона",
+            "thumbnail": "https://kassa.rambler.ru/s/StaticContent/P/Img/1607/27/160727114721845.jpg",
+            "ageRestriction": 6,
+            "genres": [
+                "Комедия",
+                "Семейный"
+            ],
+            "sessions": [
+                {
+                    "id": 34095346,
+                    "formats": [
+                        "twodimensional"
+                    ],
+                    "minPrice": 300,
+                    "maxPrice": 300,
+                    "startDateTime": "2018-02-11T11:30:00",
+                    "isOrderingAllowed": true
+                }
+            ]
+        }
+    ]
+}
