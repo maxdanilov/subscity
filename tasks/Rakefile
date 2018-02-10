@@ -137,6 +137,7 @@ task :update_screenings_movie, [:id] => :environment do |task, args|
             puts c
             next
           end
+          c.price_min, c.price_max = c.prices
           c.save
           updated += 1
           puts "\tScreening #{c.screening_id} was added to the base: ".yellow
