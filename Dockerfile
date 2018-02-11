@@ -1,6 +1,6 @@
 FROM mkenney/npm:node-8-alpine as asset-compiler
 WORKDIR /assets/
-RUN npm install -g uglify-js less less-plugin-clean-css
+RUN npm install -g uglify-js less@2.7.3 less-plugin-clean-css
 COPY public/less/* ./
 COPY public/javascripts/default.js ./
 RUN lessc --clean-css design.less design.css
