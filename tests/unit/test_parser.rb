@@ -23,12 +23,12 @@ class TestKassaParser < Minitest::Test
     assert_equal result[:title], 'Три билборда на границе Эббинга, Миссури'
     assert_equal result[:title_original], 'Three Billboards Outside Ebbing, Missouri'
     assert_equal result[:duration], 115
-    assert_equal result[:year], 2017
+    assert_equal result[:year], 2018
     assert_equal result[:poster], 'https://img02.rl0.ru/kassa/c144x214q80i/s1.kassa.rl0.ru/StaticContent/P/Img/1801/17/180117100121928.jpg'
-    assert_equal result[:country], 'США'
+    assert_equal result[:country], 'США, Великобритания'
     assert_equal result[:genres], 'трагикомедия, криминальный'
     assert_equal result[:age_restriction], 18
-    assert_equal result[:actors], 'Калеб Ландри Джонс, Вуди Харрельсон, Эбби Корниш, Сэм Рокуэлл'
+    assert_equal result[:actors], 'Фрэнсис МакДорманд, Калеб Ландри Джонс, Керри Кондон, Сэм Рокуэлл'
     assert_equal result[:director], 'Мартин МакДонах'
     assert_equal result[:description], 'Спустя несколько месяцев после убийства дочери Милдред Хейс ' \
     'преступники так и не найдены. Отчаявшаяся женщина решается на смелый шаг, арендуя на въезде в город ' \
