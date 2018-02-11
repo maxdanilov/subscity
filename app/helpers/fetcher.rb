@@ -42,18 +42,6 @@ class KassaFetcher
     :read_timeout => READ_TIMEOUT
   }.freeze
 
-  JSON_HEADERS_WIDGET = {
-    'Connection' => 'keep-alive',
-    'Accept' => '*/*',
-    'X-Requested-With' => 'XMLHttpRequest',
-    'User-Agent' => USER_AGENT,
-    'Referer' => WIDGET_DOMAIN,
-    'Host' => WIDGET_HOST,
-    'Accept-Encoding' => 'gzip,deflate,sdch',
-    'Accept-Language' => 'ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4,de;q=0.2,fr;q=0.2',
-    :read_timeout => READ_TIMEOUT
-  }.freeze
-
   WAPI_HEADERS = {
     'Pragma' => 'no-cache',
     'User-Agent' => USER_AGENT,
@@ -72,10 +60,6 @@ class KassaFetcher
 
   def self.fetch_data_html(url, headers = STANDARD_HEADERS)
     fetch_data(url, headers)
-  end
-
-  def self.fetch_data_html_no_headers(url)
-    fetch_data(url, {})
   end
 
   def self.url_for_cinemas(start, length = PAGE_SIZE, place_name)
@@ -97,15 +81,15 @@ class KassaFetcher
       "&WidgetID=#{WIDGET_ID}"
   end
 
+  def self.url_for_movie(movie_id)
+    # https://kassa.rambler.ru/movie/45849
+    "#{DOMAIN_DESKTOP}movie/#{movie_id}"
+  end
+
   def self.url_for_sessions(movie_id, date = nil, _, place_name)
     # https://m.kassa.rambler.ru/spb/movie/53046?date=2014.02.10&WidgetID=16857
     date = Time.now if date.nil?
     "#{DOMAIN}#{place_name}/movie/#{movie_id}?date=#{date.strftime('%Y.%m.%d')}&WidgetID=#{WIDGET_ID}"
-  end
-
-  def self.url_for_session_details(session_id)
-    # https://wapi.kassa.rambler.ru/sessions/34289567
-    "#{WAPI_DOMAIN}sessions/#{session_id}"
   end
 
   def self.url_for_session(session_id)
@@ -114,9 +98,9 @@ class KassaFetcher
     "#{WDOMAIN}/event/#{session_id}/#{APPLICATION_KEY}/#{origin}"
   end
 
-  def self.url_for_movie(movie_id)
-    # https://kassa.rambler.ru/movie/45849
-    "#{DOMAIN_DESKTOP}movie/#{movie_id}"
+  def self.url_for_session_details(session_id)
+    # https://wapi.kassa.rambler.ru/sessions/34289567
+    "#{WAPI_DOMAIN}sessions/#{session_id}"
   end
 
   def self.url_for_cinema_sessions(cinema_id, date)
@@ -137,6 +121,10 @@ class KassaFetcher
     fetch_data_json(url_for_movies(start, length, place_id, place_name))
   end
 
+  def self.fetch_movie(movie_id)
+    fetch_data_html(url_for_movie(movie_id), {})
+  end
+
   def self.fetch_cinemas(start, length = PAGE_SIZE, _place_id, place_name)
     fetch_data_json(url_for_cinemas(start, length, place_name))
   end
@@ -155,10 +143,6 @@ class KassaFetcher
 
   def self.fetch_movie_sessions(movie_id, date, city_id)
     fetch_data_html(url_for_movie_sessions(movie_id, date, city_id), WAPI_HEADERS)
-  end
-
-  def self.fetch_movie(movie_id)
-    fetch_data_html_no_headers(url_for_movie(movie_id))
   end
 
   private_class_method :url_for_sessions
