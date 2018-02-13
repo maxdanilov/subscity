@@ -98,6 +98,11 @@ class KassaFetcher
     "#{WDOMAIN}/event/#{session_id}/#{APPLICATION_KEY}/#{origin}"
   end
 
+  def self.url_for_session_ticket_details(session_id)
+    # https://wapi.kassa.rambler.ru/sessions/34289567/hallstate
+    "#{WAPI_DOMAIN}sessions/#{session_id}/hallstate"
+  end
+
   def self.url_for_session_details(session_id)
     # https://wapi.kassa.rambler.ru/sessions/34289567
     "#{WAPI_DOMAIN}sessions/#{session_id}"
@@ -111,6 +116,10 @@ class KassaFetcher
   def self.url_for_movie_sessions(movie_id, date, city_id)
     # https://wapi.kassa.rambler.ru/creations/movie/91971/schedule/2018-02-11/city/3
     "#{WAPI_DOMAIN}creations/movie/#{movie_id}/schedule/#{date.strftime('%Y-%m-%d')}/city/#{city_id}"
+  end
+
+  def self.fetch_session_tickets(session_id)
+    fetch_data_html(url_for_session_ticket_details(session_id), WAPI_HEADERS)
   end
 
   def self.fetch_session(session_id)

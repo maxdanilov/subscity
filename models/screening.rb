@@ -62,6 +62,10 @@ class Screening < ActiveRecord::Base
     @session_data ||= KassaFetcher.fetch_session(screening_id)
   end
 
+  def session_tickets_data
+    @session_tickets_data ||= KassaFetcher.fetch_session_tickets(screening_id)
+  end
+
   def exists?
     KassaParser.screening_exists?(session_data)
   end
@@ -87,7 +91,7 @@ class Screening < ActiveRecord::Base
   end
 
   def prices
-    KassaParser.parse_prices(session_data)
+    KassaParser.parse_prices(session_tickets_data)
   end
 
   def to_s

@@ -1,0 +1,427 @@
+{
+    "maxTicketsCount": 5,
+    "levels": [
+        {
+            "levelId": "98",
+            "rows": [
+                {
+                    "rowNumber": "9",
+                    "seats": [
+                        {
+                            "id": "27093",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27094",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27095",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27096",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27097",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27098",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27099",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27100",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27101",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27102",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27103",
+                            "seatTypeId": "2"
+                        }
+                    ]
+                },
+                {
+                    "rowNumber": "8",
+                    "seats": [
+                        {
+                            "id": "27105",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27106",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27107",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27108",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27109",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27110",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27111",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27112",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27113",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27114",
+                            "seatTypeId": "2"
+                        }
+                    ]
+                },
+                {
+                    "rowNumber": "7",
+                    "seats": [
+                        {
+                            "id": "27116",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27117",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27118",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27119",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27120",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27121",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27122",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27123",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27124",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27125",
+                            "seatTypeId": "2"
+                        }
+                    ]
+                },
+                {
+                    "rowNumber": "6",
+                    "seats": [
+                        {
+                            "id": "27127",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27128",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27129",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27130",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27133",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27134",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27135",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27136",
+                            "seatTypeId": "2"
+                        }
+                    ]
+                },
+                {
+                    "rowNumber": "5",
+                    "seats": [
+                        {
+                            "id": "27138",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27139",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27140",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27141",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27142",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27143",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27144",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27145",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27146",
+                            "seatTypeId": "2"
+                        },
+                        {
+                            "id": "27147",
+                            "seatTypeId": "2"
+                        }
+                    ]
+                },
+                {
+                    "rowNumber": "4",
+                    "seats": [
+                        {
+                            "id": "27149",
+                            "seatTypeId": "1"
+                        },
+                        {
+                            "id": "27150",
+                            "seatTypeId": "1"
+                        },
+                        {
+                            "id": "27151",
+                            "seatTypeId": "1"
+                        },
+                        {
+                            "id": "27152",
+                            "seatTypeId": "1"
+                        },
+                        {
+                            "id": "27153",
+                            "seatTypeId": "1"
+                        },
+                        {
+                            "id": "27154",
+                            "seatTypeId": "1"
+                        },
+                        {
+                            "id": "27155",
+                            "seatTypeId": "1"
+                        },
+                        {
+                            "id": "27156",
+                            "seatTypeId": "1"
+                        },
+                        {
+                            "id": "27157",
+                            "seatTypeId": "1"
+                        },
+                        {
+                            "id": "27158",
+                            "seatTypeId": "1"
+                        }
+                    ]
+                },
+                {
+                    "rowNumber": "3",
+                    "seats": [
+                        {
+                            "id": "27160",
+                            "seatTypeId": "1"
+                        },
+                        {
+                            "id": "27161",
+                            "seatTypeId": "1"
+                        },
+                        {
+                            "id": "27162",
+                            "seatTypeId": "1"
+                        },
+                        {
+                            "id": "27163",
+                            "seatTypeId": "1"
+                        },
+                        {
+                            "id": "27164",
+                            "seatTypeId": "1"
+                        },
+                        {
+                            "id": "27165",
+                            "seatTypeId": "1"
+                        },
+                        {
+                            "id": "27166",
+                            "seatTypeId": "1"
+                        },
+                        {
+                            "id": "27167",
+                            "seatTypeId": "1"
+                        },
+                        {
+                            "id": "27168",
+                            "seatTypeId": "1"
+                        },
+                        {
+                            "id": "27169",
+                            "seatTypeId": "1"
+                        }
+                    ]
+                },
+                {
+                    "rowNumber": "2",
+                    "seats": [
+                        {
+                            "id": "27171",
+                            "seatTypeId": "1"
+                        },
+                        {
+                            "id": "27172",
+                            "seatTypeId": "1"
+                        },
+                        {
+                            "id": "27173",
+                            "seatTypeId": "1"
+                        },
+                        {
+                            "id": "27174",
+                            "seatTypeId": "1"
+                        },
+                        {
+                            "id": "27175",
+                            "seatTypeId": "1"
+                        },
+                        {
+                            "id": "27176",
+                            "seatTypeId": "1"
+                        },
+                        {
+                            "id": "27177",
+                            "seatTypeId": "1"
+                        },
+                        {
+                            "id": "27178",
+                            "seatTypeId": "1"
+                        },
+                        {
+                            "id": "27179",
+                            "seatTypeId": "1"
+                        },
+                        {
+                            "id": "27180",
+                            "seatTypeId": "1"
+                        }
+                    ]
+                },
+                {
+                    "rowNumber": "1",
+                    "seats": [
+                        {
+                            "id": "27182",
+                            "seatTypeId": "1"
+                        },
+                        {
+                            "id": "27183",
+                            "seatTypeId": "1"
+                        },
+                        {
+                            "id": "27184",
+                            "seatTypeId": "1"
+                        },
+                        {
+                            "id": "27185",
+                            "seatTypeId": "1"
+                        },
+                        {
+                            "id": "27186",
+                            "seatTypeId": "1"
+                        },
+                        {
+                            "id": "27187",
+                            "seatTypeId": "1"
+                        },
+                        {
+                            "id": "27188",
+                            "seatTypeId": "1"
+                        },
+                        {
+                            "id": "27189",
+                            "seatTypeId": "1"
+                        },
+                        {
+                            "id": "27190",
+                            "seatTypeId": "1"
+                        },
+                        {
+                            "id": "27191",
+                            "seatTypeId": "1"
+                        }
+                    ]
+                }
+            ],
+            "seatTypes": {
+                "1": {
+                    "name": "Обычные",
+                    "price": 300,
+                    "placesCount": 40,
+                    "fee": 0,
+                    "kind": "Common"
+                },
+                "2": {
+                    "name": "VIP",
+                    "price": 350,
+                    "placesCount": 49,
+                    "fee": 0,
+                    "kind": "Vip"
+                }
+            }
+        }
+    ]
+}

@@ -76,13 +76,13 @@ class TestKassaParser < Minitest::Test
     assert_equal false, result
   end
 
-  def test_parser
-    data = get_fixture('sessiondetails_34311975.json')
+  def test_parse_prices
+    data = get_fixture('sessiontickets_34311975.json')
     result = @cls.parse_prices(data)
-    assert_equal [500, 500], result
+    assert_equal [300, 300], result
   end
 
-  def test_parser_empty
+  def test_parse_prices_empty
     result = @cls.parse_prices('{}')
     assert_equal [nil, nil], result
   end
