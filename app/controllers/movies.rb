@@ -100,6 +100,10 @@ Subscity::App.controllers :movies do
           r.sort.to_h
         end
 
+        sorting = movie_sorting(params[:sort])
+        json_data.sort_by!(&movie_sorting_block(sorting[:field]))
+        json_data.reverse! if sorting[:type] == '-'
+
         JSON.pretty_generate(json_data)
       end
     end

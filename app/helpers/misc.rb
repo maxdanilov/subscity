@@ -205,3 +205,29 @@ def social_urls(city)
   fb_url = "//fb.com/subscity.#{city&.domain || 'msk'}"
   { vk: vk_url, fb: fb_url }
 end
+
+def movie_sorting(query_string)
+  allowed_types = ['+', '-']
+  allowed_fields = %w[title imdb kinopoisk screenings next_screening id]
+
+  type = query_string[0] rescue allowed_types.first
+  field = query_string[1..-1] rescue allowed_fields.first
+  type = '+' unless allowed_types.include? type
+  field = 'title' unless allowed_fields.include? field
+  { type: type, field: field }
+end
+
+def movie_sorting_block(field)
+  case field
+  when 'title'
+    proc { |i| i[field]['russian'] || '' }
+  when 'kinopoisk', 'imdb'
+    proc { |i| i['rating'][field.to_sym][:rating] || 0 }
+  when 'next_screening'
+    proc { |i| i['screenings']['next'] }
+  when 'screenings'
+    proc { |i| i['screenings']['count'] }
+  else
+    proc { |i| i['id'] }
+  end
+end

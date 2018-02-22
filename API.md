@@ -14,6 +14,25 @@ All call results are cached for up to 15 minutes.
 * https://msk.subscity.ru/movies.json
 * https://spb.subscity.ru/movies.json
 
+### Sorting:
+* https://[city].subscity.ru/movies.json?sort=[type][field]
+
+Allowed `type` values:
+* `+` (ascending)
+* `-` (descending)
+
+Allowed `field` values:
+* `id`
+* `imdb` (IMDb rating)
+* `kinopoisk` (KinoPoisk rating)
+* `next_screening`
+* `screenings` (screenings count)
+* `title` (Russian title)
+
+Default sorting: `+title`
+
+Example: https://msk.subscity.ru/movies.json?sort=-kinopoisk
+
 ```JSON
 [
 	{

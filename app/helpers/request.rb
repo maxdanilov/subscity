@@ -11,7 +11,7 @@ module Sinatra
     end
 
     def cache_key
-      (subdomains.join('.') + path_info).tr('/', '_').tr('.', '_')
+      (subdomains.join('.') + path_info + params['sort'].to_s).tr('/', '_').tr('.', '_')
     end
 
     def subdomain
