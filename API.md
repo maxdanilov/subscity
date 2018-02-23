@@ -11,11 +11,8 @@ All call results are cached for up to 15 minutes.
 
 ## Movies List
 
-* https://msk.subscity.ru/movies.json
-* https://spb.subscity.ru/movies.json
-
-### Sorting:
-* https://[city].subscity.ru/movies.json?sort=[type][field]
+* https://msk.subscity.ru/movies.json?sort=[type][field]
+* https://spb.subscity.ru/movies.json?sort=[type][field]
 
 Allowed `type` values:
 * `+` (ascending)
