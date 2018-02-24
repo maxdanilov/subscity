@@ -1,10 +1,10 @@
 - text_buy_online ="Купить билет онлайн"
 - text_min_price = "Минимальная цена билета"
 
-a.btn.btn-default.navbar-btn.price-button.cell-screening-desktop href="#{KassaFetcher.url_for_session(screening.screening_id)}" target="_blank" title="#{text_buy_online}"
+a.btn.btn-default.navbar-btn.price-button.cell-screening-desktop href="#{screening.ticket_url}" target="_blank" title="#{text_buy_online}"
 	= show_time(screening.date_time)
 
-a.btn.btn-default.navbar-btn.price-button.cell-screening-mobile href="#{KassaFetcher.url_for_session(screening.screening_id)}" title="#{text_buy_online}"
+a.btn.btn-default.navbar-btn.price-button.cell-screening-mobile href="#{screening.ticket_url}" title="#{text_buy_online}"
 	= show_time(screening.date_time)
 
 - style=price_tag_style(screening.price_min)

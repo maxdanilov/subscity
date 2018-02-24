@@ -94,6 +94,10 @@ class Screening < ActiveRecord::Base
     KassaParser.parse_prices(session_tickets_data)
   end
 
+  def ticket_url
+    KassaFetcher.url_for_session(screening_id)
+  end
+
   def to_s
     "\tScreening: [#{screening_id}] #{id}\n" \
     "\tMovie: [#{movie_id}] #{movie.title}\n" \
