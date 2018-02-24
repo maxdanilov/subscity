@@ -1,15 +1,16 @@
-SubsCity JSON API
+SubsCity API
 ===================
 
-All call results are cached for up to 15 minutes.
+All results are cached for up to 15 minutes.
 
-* [Movies List](#movies-list)
-* [Movie Screenings List](#movie-screenings-list)
-* [Cinemas List](#cinemas-list)
-* [Cinema Screenings List](#cinema-screenings-list)
-* [Date Screenings List](#date-screenings-list)
+* [Movies](#movies)
+* [Cinemas](#cinemas)
+* [Screenings](#screenings)
+  * [For a movie](#for-a-movie)
+  * [For a cinema](#for-a-cinema)
+  * [For a date](#for-a-date)
 
-## Movies List
+## Movies
 
 * https://msk.subscity.ru/movies.json?sort=[type][field]
 * https://spb.subscity.ru/movies.json?sort=[type][field]
@@ -60,14 +61,14 @@ Example: https://msk.subscity.ru/movies.json?sort=-kinopoisk
     "poster": "https://msk.subscity.ru/images/posters/24070.jpg",
     "rating": {
       "imdb": {
-      "id": 3774114,
-      "rating": 7.4,
-      "votes": 9427
+        "id": 3774114,
+        "rating": 7.4,
+        "votes": 9427
       },
       "kinopoisk": {
-      "id": 843831,
-      "rating": 7.2,
-      "votes": 5464
+        "id": 843831,
+        "rating": 7.2,
+        "votes": 5464
       }
     },
     "screenings": {
@@ -90,30 +91,7 @@ Example: https://msk.subscity.ru/movies.json?sort=-kinopoisk
 ]
 ```
 
-## Movie Screenings List
-
-* https://msk.subscity.ru/movies/screenings/[movie_id].json
-* https://spb.subscity.ru/movies/screenings/[movie_id].json
-
-```JSON
-[
-  {
-    "cinema_id": 28,
-    "date_time": "2016-10-10T11:40:00+03:00",
-    "movie_id": 53456,
-    "price_max": 250,
-    "price_min": 200,
-    "screening_id": 24211338
-  },
-
-  ...
-
-]
-```
-
-**NB**: `screening_id` field is a Rambler.Kassa's screening ID.
-
-## Cinemas List
+## Cinemas
 
 * https://msk.subscity.ru/cinemas.json
 * https://spb.subscity.ru/cinemas.json
@@ -153,7 +131,34 @@ Example: https://msk.subscity.ru/movies.json?sort=-kinopoisk
 ]
 ```
 
-## Cinema Screenings List
+## Screenings
+
+### For a movie
+
+* https://msk.subscity.ru/movies/screenings/[movie_id].json
+* https://spb.subscity.ru/movies/screenings/[movie_id].json
+
+```JSON
+[
+  {
+    "cinema_id": 28,
+    "date_time": "2016-10-10T11:40:00+03:00",
+    "movie_id": 53456,
+    "price_max": 250,
+    "price_min": 200,
+    "screening_id": 24211338
+  },
+
+  ...
+
+]
+```
+
+Sorting: by `date_time` ascending.
+
+**NB**: `screening_id` field is a Rambler.Kassa's screening ID.
+
+### For a cinema
 
 * https://msk.subscity.ru/cinemas/screenings/[cinema_id].json
 * https://spb.subscity.ru/cinemas/screenings/[cinema_id].json
@@ -182,9 +187,11 @@ Example: https://msk.subscity.ru/movies.json?sort=-kinopoisk
 ]
 ```
 
+Sorting: by `date_time` ascending.
+
 **NB**: `screening_id` field is a Rambler.Kassa's screening ID.
 
-## Date Screenings List
+### For a day
 
 * https://msk.subscity.ru/dates/screenings/[YYYY]-[MM]-[DD].json
 * https://spb.subscity.ru/dates/screenings/[YYYY]-[MM]-[DD].json
@@ -204,6 +211,8 @@ Example: https://msk.subscity.ru/movies.json?sort=-kinopoisk
 
 ]
 ```
+
+Sorting: by `date_time` ascending.
 
 **NB**: `screening_id` field is a Rambler.Kassa's screening ID.
 
