@@ -25,6 +25,6 @@ Style/ParallelAssignment:
 Style/ClassAndModuleChildren:
   Enabled: false
 Metrics/BlockLength:
-  Max: 160
+  Max: 170
 AllCops:
   TargetRubyVersion: 2.3

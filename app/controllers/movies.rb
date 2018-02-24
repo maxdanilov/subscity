@@ -125,6 +125,7 @@ Subscity::App.controllers :movies do
 
       json_data = screenings.as_json(except: %w[created_at updated_at id movie_id]).map do |v|
         v['cinema_id'] = cinemas.find { |c| c.cinema_id == v['cinema_id'] }.id rescue nil
+        v['movie_id'] = movie.id
         v
       end
       JSON.pretty_generate(json_data)
