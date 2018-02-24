@@ -15,6 +15,11 @@ Subscity::App.controllers :cinemas do
         city = City.get_by_domain(request.subdomains.first)
         cinemas = city.sorted_cinemas
         json_data = cinemas.map { |c, m| c.render_json(m) }
+
+        sorting = cinema_sorting(params[:sort])
+        json_data.sort_by!(&cinema_sorting_block(sorting[:field]))
+        json_data.reverse! if sorting[:type] == '-'
+
         content_type :json, 'charset' => 'utf-8'
         return JSON.pretty_generate(json_data)
       end

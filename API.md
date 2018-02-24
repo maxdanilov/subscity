@@ -93,8 +93,18 @@ Example: https://msk.subscity.ru/movies.json?sort=-kinopoisk
 
 ## Cinemas
 
-* https://msk.subscity.ru/cinemas.json
-* https://spb.subscity.ru/cinemas.json
+* https://msk.subscity.ru/cinemas.json?sort=[type][field]
+* https://spb.subscity.ru/cinemas.json?sort=[type][field]
+
+Allowed `type` values:
+* `+` (ascending)
+* `-` (descending)
+
+Allowed `field` values:
+* `id`
+* `name`
+
+Default sorting: `+name`
 
 ```JSON
 [

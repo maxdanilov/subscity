@@ -206,15 +206,29 @@ def social_urls(city)
   { vk: vk_url, fb: fb_url }
 end
 
-def movie_sorting(query_string)
-  allowed_types = ['+', '-']
-  allowed_fields = %w[title imdb kinopoisk screenings next_screening id]
-
+def item_sorting(query_string, allowed_types, allowed_fields)
   type = query_string[0] rescue allowed_types.first
   field = query_string[1..-1] rescue allowed_fields.first
-  type = '+' unless allowed_types.include? type
-  field = 'title' unless allowed_fields.include? field
+  type = allowed_types.first unless allowed_types.include? type
+  field = allowed_fields.first unless allowed_fields.include? field
   { type: type, field: field }
+end
+
+def cinema_sorting(query_string)
+  item_sorting(query_string, ['+', '-'], %w[name id])
+end
+
+def movie_sorting(query_string)
+  item_sorting(query_string, ['+', '-'], %w[title imdb kinopoisk screenings next_screening id])
+end
+
+def cinema_sorting_block(field)
+  case field
+  when 'name'
+    proc { |i| i['name'] }
+  else
+    proc { |i| i['id'] }
+  end
 end
 
 def movie_sorting_block(field)
