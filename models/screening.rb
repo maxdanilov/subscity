@@ -94,8 +94,16 @@ class Screening < ActiveRecord::Base
     KassaParser.parse_prices(session_tickets_data)
   end
 
-  def ticket_url
+  def tickets_url
     KassaFetcher.url_for_session(screening_id)
+  end
+
+  def render_json(cinemas, movies)
+    json_data = as_json(only: %w[date_time price_min price_max])
+    json_data['cinema_id'] = cinemas.find { |c| c.cinema_id == cinema_id }.id rescue nil
+    json_data['movie_id'] = movies.find { |m| m.movie_id == movie_id }.id rescue nil
+    json_data['tickets_url'] = "#{full_domain_name}/screenings/tickets/#{id}"
+    json_data.sort.to_h
   end
 
   def to_s

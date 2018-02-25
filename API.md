@@ -156,7 +156,7 @@ Default sorting: `+name`
     "movie_id": 53456,
     "price_max": 250,
     "price_min": 200,
-    "screening_id": 24211338
+    "tickets_url": "https://subscity.ru/screenings/tickets/181529"
   },
 
   ...
@@ -165,8 +165,6 @@ Default sorting: `+name`
 ```
 
 Sorting: by `date_time` ascending.
-
-**NB**: `screening_id` field is a Rambler.Kassa's screening ID.
 
 ### For a cinema
 
@@ -181,7 +179,7 @@ Sorting: by `date_time` ascending.
     "movie_id": 25415,
     "price_max": 250,
     "price_min": 200,
-    "screening_id": 24211337
+    "tickets_url": "https://subscity.ru/screenings/tickets/181528"
   },
   {
     "cinema_id": 311,
@@ -189,7 +187,7 @@ Sorting: by `date_time` ascending.
     "movie_id": 24070,
     "price_max": null,
     "price_min": null,
-    "screening_id": 24211338
+    "tickets_url": "https://subscity.ru/screenings/tickets/181526"
   },
 
   ...
@@ -198,8 +196,6 @@ Sorting: by `date_time` ascending.
 ```
 
 Sorting: by `date_time` ascending.
-
-**NB**: `screening_id` field is a Rambler.Kassa's screening ID.
 
 ### For a day
 
@@ -214,7 +210,7 @@ Sorting: by `date_time` ascending.
     "movie_id": 24070,
     "price_max": 100,
     "price_min": 100,
-    "screening_id": 24077100
+    "tickets_url": "https://subscity.ru/screenings/tickets/181526"
   },
 
   ...
@@ -223,7 +219,5 @@ Sorting: by `date_time` ascending.
 ```
 
 Sorting: by `date_time` ascending.
-
-**NB**: `screening_id` field is a Rambler.Kassa's screening ID.
 
 **NB**: Screenings belong to a day if they start between 02:31 AM of this day and 02:30 AM of the following one.

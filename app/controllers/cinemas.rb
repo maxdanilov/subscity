@@ -58,12 +58,8 @@ Subscity::App.controllers :cinemas do
                      Screening.active.where(cinema_id: cinema.cinema_id).order(:date_time)
                    end
       movies = city.movies.to_a
-      data = screenings.as_json(except: %w[cinema_id created_at updated_at id]).map do |s|
-        s['cinema_id'] = cinema.id
-        s['movie_id'] = movies.find { |m| m.movie_id == s['movie_id'] }.id rescue nil
-        s
-      end
-      JSON.pretty_generate(data)
+      json_data = screenings.map { |s| s.render_json([cinema], movies) }
+      JSON.pretty_generate(json_data)
     end
   end
 
