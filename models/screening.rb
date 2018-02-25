@@ -99,7 +99,7 @@ class Screening < ActiveRecord::Base
   end
 
   def render_json(cinemas, movies)
-    json_data = as_json(only: %w[date_time price_min price_max])
+    json_data = as_json(only: %w[id date_time price_min price_max])
     json_data['cinema_id'] = cinemas.find { |c| c.cinema_id == cinema_id }.id rescue nil
     json_data['movie_id'] = movies.find { |m| m.movie_id == movie_id }.id rescue nil
     json_data['tickets_url'] = "#{full_domain_name}/screenings/tickets/#{id}"

@@ -153,6 +153,7 @@ Default sorting: `+name`
   {
     "cinema_id": 28,
     "date_time": "2016-10-10T11:40:00+03:00",
+    "id": 181529,
     "movie_id": 53456,
     "price_max": 250,
     "price_min": 200,
@@ -176,6 +177,7 @@ Sorting: by `date_time` ascending.
   {
     "cinema_id": 311,
     "date_time": "2016-10-10T10:00:00+03:00",
+    "id": 181528,
     "movie_id": 25415,
     "price_max": 250,
     "price_min": 200,
@@ -184,10 +186,11 @@ Sorting: by `date_time` ascending.
   {
     "cinema_id": 311,
     "date_time": "2016-10-10T11:40:00+03:00",
+    "id": 181536,
     "movie_id": 24070,
     "price_max": null,
     "price_min": null,
-    "tickets_url": "https://subscity.ru/screenings/tickets/181526"
+    "tickets_url": "https://subscity.ru/screenings/tickets/181536"
   },
 
   ...
@@ -207,6 +210,7 @@ Sorting: by `date_time` ascending.
   {
     "cinema_id": 23,
     "date_time": "2016-10-10T09:15:00+03:00",
+    "id": 181526,
     "movie_id": 24070,
     "price_max": 100,
     "price_min": 100,
