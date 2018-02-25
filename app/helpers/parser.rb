@@ -178,8 +178,9 @@ class KassaParser
 
   def self.parse_prices(data)
     entity = JSON.parse(data) rescue nil
-    price = entity['levels'][0]['seatTypes'].map { |_, v| v['price'] }.min rescue nil
-    [price, price]
+    min_price = entity['levels'][0]['seatTypes'].map { |_, v| v['price'] }.min rescue nil
+    max_price = entity['levels'][0]['seatTypes'].map { |_, v| v['price'] }.max rescue nil
+    [min_price, max_price]
   end
 
   private_class_method	:parse_time

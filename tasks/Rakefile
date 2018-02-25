@@ -394,8 +394,8 @@ task update_screenings_prices: :environment do |task|
   screenings.find_each do |s|
     counter += 1
     if s.exists?
-      max_price, min_price = s.prices
-      if !max_price.nil? && !min_price.nil?
+      min_price, max_price = s.prices
+      if !min_price.nil? && !max_price.nil?
         s.price_min, s.price_max = min_price, max_price
         s.save
         updated_count += 1
