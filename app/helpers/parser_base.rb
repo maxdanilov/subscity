@@ -16,6 +16,6 @@ module ParserBase
   end
 
   def parse_json(data)
-    JSON.parse(data) rescue {}
+    JSON.parse(data) rescue nil
   end
 end

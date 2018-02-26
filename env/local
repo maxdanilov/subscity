@@ -13,3 +13,5 @@ SC_DISABLE_CACHING=true
 
 MYSQL_ROOT_PASSWORD=password
 MYSQL_DATABASE=subscity
+
+API_BASE_URL=http://docker.for.mac.localhost:5000

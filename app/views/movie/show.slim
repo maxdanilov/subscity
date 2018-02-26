@@ -7,7 +7,7 @@
 - row_count += 1 unless movie.languages.to_s.empty?
 - row_count += 1 unless movie.director.to_s.empty?
 - row_count += 1 unless movie.cast.to_s.empty?
-- row_count += 1 if movie.description?
+- row_count += 1 if movie.description
 
 - if movie.poster_exists?
 	- poster_file = "#{movie.poster_relative_url}"
@@ -25,13 +25,13 @@ table.table.table-bordered.table-condensed.table-striped.movie-info.table-curved
 		td.text-center rowspan = "#{row_count}"
 			div style="height:3px;"
 			= image_tag poster_file, class: 'poster', alt: "постер \"#{movie.title}\"", title: "постер \"#{movie.title}\""
-			- unless screening_count == 0
+			- unless movie.screening_count == 0
 				div.label.label-bg.label-default.normal-font.label-screenings-count.hidden-xs
 					span.fa.fa-film
-					|  #{format_screenings_count(screening_count)}
+					|  #{format_screenings_count(movie.screening_count)}
 				div.label.label-bg.label-default.normal-font.label-cinemas-count.hidden-xs
 					span.fa.fa-map-marker
-					|  #{format_cinemas_count(cinemas_count)}
+					|  #{format_cinemas_count(movie.cinema_count)}
 				div.divider
 
 			- unless movie.imdb_id.nil? or ratings.nil?
@@ -45,7 +45,7 @@ table.table.table-bordered.table-condensed.table-striped.movie-info.table-curved
 			div
 				i.fa.fa-share-alt
 				|  Поделиться:
-			= partial 'partials/share', locals: {link: request.url_without_subdomain, title: "Фильм #{title} в кино на языке оригинала", description: movie.any_description.to_s, image: "//" + domain_name + "/images/" + poster_file}
+			= partial 'partials/share', locals: {link: request.url_without_subdomain, title: "Фильм #{title} в кино на языке оригинала", description: movie.description.to_s, image: "//" + domain_name + "/images/" + poster_file}
 
 		td.movie-title.col-xs-12.hidden-xs colspan = "1"
 			span.movie-title
@@ -97,15 +97,15 @@ table.table.table-bordered.table-condensed.table-striped.movie-info.table-curved
 				div
 					i.fa.fa-bullhorn.movie-icon
 					strong.hidden-xs  Режиссер:
-					|  #{movie.director.gsub("\r", "").split("\n").join(", ")}
+					|  #{movie.director}
 	- unless movie.cast.to_s.empty?
 		tr
 			td.col-xs-12 colspan = "2"
 				div
 					i.fa.fa-users.movie-icon
 					strong.hidden-xs  В ролях:
-					|  #{movie.cast.gsub("\r", "").split("\n").join(", ")}
-	- if movie.description?
+					|  #{movie.cast}
+	- if movie.description
 		tr
 			td.col-xs-12.movie-description.hidden-xs colspan = "2"
 				div.justified
