@@ -394,13 +394,13 @@ task update_screenings_prices: :environment do |task|
   screenings.find_each do |s|
     counter += 1
     if s.exists?
-      if !s.prices.all? nil
+      if !s.prices.all?(&:nil?)
         s.price_min, s.price_max = s.prices
         s.save
         updated_count += 1
 
         puts "\t[#{counter}/#{fetched_count}] Screening #{s.screening_id} was updated with prices " \
-          "[#{min_price}, #{max_price}]:".yellow
+          "#{s.prices}:".yellow
       else
         puts "\t[#{counter}/#{fetched_count}] Screening #{s.screening_id} was not updated with prices".red
       end
