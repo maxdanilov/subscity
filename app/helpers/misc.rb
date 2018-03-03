@@ -203,7 +203,8 @@ end
 def social_urls(city)
   vk_url = "//vk.com/subscity_#{city&.domain || 'msk'}"
   fb_url = "//fb.com/subscity.#{city&.domain || 'msk'}"
-  { vk: vk_url, fb: fb_url }
+  t_url = "//t.me/subscity_#{city&.domain || 'msk'}"
+  { vk: vk_url, fb: fb_url, t: t_url }
 end
 
 def item_sorting(query_string, allowed_types, allowed_fields)
