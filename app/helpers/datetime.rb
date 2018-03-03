@@ -1,7 +1,12 @@
 require 'date'
+require 'time'
 
 def parse_date(date)
   Date.parse(date).to_time rescue nil
+end
+
+def parse_date_time(date)
+  Time.parse(date) rescue nil
 end
 
 def time_range_on_day(time)

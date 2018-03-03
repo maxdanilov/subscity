@@ -31,9 +31,51 @@ class Api
     movie
   end
 
+  def self.parse_screening(json_data)
+    screening = OpenStruct.new
+    screening.date_time = parse_date_time(json_data['date_time'])
+    screening.day = date_for_screening(screening.date_time).to_date.to_s
+    screening.cinema_id = json_data['cinema_id']
+    screening.movie_id = json_data['movie_id']
+    screening.price_min = screening.price_max = json_data['price']&.to_i
+    screening
+  end
+
+  def self.parse_movie_screenings(json_data)
+    screenings = json_data&.map { |s| parse_screening(s) }
+    by_days = screenings.group_by(&:day)
+    by_days_and_cinemas = by_days.map { |k, v| { k => v.group_by(&:cinema_id) } }
+    by_days_and_cinemas.reduce({}, :merge).sort.to_h # hash, grouped by days and then by cinemas
+  end
+
+  def self.parse_cinema(json_data, language = 'ru')
+    cinema = OpenStruct.new
+    cinema.name = json_data['name'][language]
+    cinema.id = json_data['id']
+    cinema.metro = json_data['location']['metro'][language]&.join(', ')
+    cinema.formatted_url = "#{cinema.id} #{Translit.convert(cinema.name, :english)}".to_url
+    cinema
+  end
+
+  def self.parse_cinemas(json_data, language = 'ru')
+    json_data&.map { |c| parse_cinema(c, language) }
+  end
+
+  def self.get_movie_screenings(city, id)
+    url = "#{base_url}/#{city}/screenings/movie/#{id}"
+    data = fetch_data(url)
+    parse_movie_screenings(parse_json(data))
+  end
+
   def self.get_movie(city, id)
     url = "#{base_url}/#{city}/movies/#{id}"
     data = fetch_data(url)
     parse_movie(parse_json(data))
+  end
+
+  def self.get_cinemas(city)
+    url = "#{base_url}/#{city}/cinemas"
+    data = fetch_data(url)
+    parse_cinemas(parse_json(data))
   end
 end

@@ -131,12 +131,13 @@ table.table.table-bordered.table-condensed.table-striped.movie-info.table-curved
 
 	= partial 'partials/filters'
 
-	- screenings.each do |day, cinemas|
+	- screenings.each do |day, cinema_ids|
 		/time datetime = "#{day}"
 		h3.header-day.text-center
 			= link_to_date(day)
 		table.table.table-bordered.table-condensed.table-curved.table-striped.table-no-inside-borders
-			- cinemas.each do |cinema, screenings|
+			- cinema_ids.each do |cinema_id, screenings|
+				- cinema = cinemas.detect { |c| c.id == cinema_id }
 				tr.row-entity
 					td.col-sm-4.col-xs-11
 						div.cinema-name

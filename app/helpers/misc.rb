@@ -183,7 +183,7 @@ def format_simple_url(movie)
 end
 
 def link_to_cinema(cinema)
-  link_to(cinema.name, url(:cinemas, :index, cinema.format_url), class: 'underdashed')
+  link_to(cinema.name, url(:cinemas, :index, cinema.formatted_url), class: 'underdashed')
 end
 
 def link_to_movie(movie, text = nil)
