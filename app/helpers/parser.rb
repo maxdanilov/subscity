@@ -183,11 +183,11 @@ class KassaParser
     [min_price, max_price]
   end
 
-  private_class_method	:parse_time
-  private_class_method	:get_cinema_id
-  private_class_method	:get_session_id
+  private_class_method :parse_time
+  private_class_method :get_cinema_id
+  private_class_method :get_session_id
 
-  public_class_method		:parse_prices
-  public_class_method		:screening_exists?
-  public_class_method		:parse_movie_dates
+  public_class_method :parse_prices
+  public_class_method :screening_exists?
+  public_class_method :parse_movie_dates
 end

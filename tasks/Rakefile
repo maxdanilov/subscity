@@ -51,9 +51,9 @@ def start_task(task)
   Timer.new.start
 end
 
-def stop_task(task, t)
-  t.stop
-  puts "[<-][#{Time.now}] Task #{task.name} took #{t.get} seconds to run".cyan
+def stop_task(task, timer)
+  timer.stop
+  puts "[<-][#{Time.now}] Task #{task.name} took #{timer.get} seconds to run".cyan
   puts '-' * 80
   puts
 end

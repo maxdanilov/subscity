@@ -166,20 +166,20 @@ def format_date_url(date)
   date.strftime('%Y-%m-%d')
 end
 
-def format_movie_url(m)
-  if m.title_original.to_s.empty?
-    "#{m.id} #{Translit.convert(m.title, :english)}".to_url
+def format_movie_url(movie)
+  if movie.title_original.to_s.empty?
+    "#{movie.id} #{Translit.convert(movie.title, :english)}".to_url
   else
-    "#{m.id} #{Translit.convert(m.title_original, :english)}".to_url
+    "#{movie.id} #{Translit.convert(movie.title_original, :english)}".to_url
   end
 end
 
-def format_cinema_url(m)
-  "#{m.id} #{Translit.convert(m.name, :english)}".to_url
+def format_cinema_url(movie)
+  "#{movie.id} #{Translit.convert(movie.name, :english)}".to_url
 end
 
-def format_simple_url(m)
-  m.id.to_s
+def format_simple_url(movie)
+  movie.id.to_s
 end
 
 def link_to_cinema(cinema)

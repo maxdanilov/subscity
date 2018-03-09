@@ -3,7 +3,7 @@ require 'net/http'
 require 'uri'
 
 module FetcherBase
-  def	fetch_data(url, headers)
+  def fetch_data(url, headers)
     res = open(url, headers)
     data = res.read
     # since we can have a gzipped response:

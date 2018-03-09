@@ -53,9 +53,9 @@ class Movie < ActiveRecord::Base
     !Movie.where("movie_id = #{movie_id}").empty?
   end
 
-  def self.are_equal?(a, b)
-    prepare_title = ->(t) { t.mb_chars.downcase.to_s.gsub('(16+)', '').gsub('(18+)', '').strip }
-    prepare_title.call(a.title) == prepare_title.call(b.title)
+  def self.are_equal?(first, second)
+    prepare_title = ->(title) { title.mb_chars.downcase.to_s.gsub('(16+)', '').gsub('(18+)', '').strip }
+    prepare_title.call(first.title) == prepare_title.call(second.title)
   end
 
   def self.get_movie(id)

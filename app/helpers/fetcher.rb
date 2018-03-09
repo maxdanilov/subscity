@@ -86,7 +86,7 @@ class KassaFetcher
     "#{DOMAIN_DESKTOP}movie/#{movie_id}"
   end
 
-  def self.url_for_sessions(movie_id, date = nil, _, place_name)
+  def self.url_for_sessions(movie_id, date = nil, _place_id, place_name)
     # https://m.kassa.rambler.ru/spb/movie/53046?date=2014.02.10&WidgetID=16857
     date = Time.now if date.nil?
     "#{DOMAIN}#{place_name}/movie/#{movie_id}?date=#{date.strftime('%Y.%m.%d')}&WidgetID=#{WIDGET_ID}"

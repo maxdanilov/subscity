@@ -10,7 +10,7 @@ class Kinopoisk
       open("https://rating.kinopoisk.ru/#{id}.xml").read
     end
   rescue
-    return nil
+    nil
   end
 
   def self.get_imdb_rating(imdb_id)
@@ -57,20 +57,20 @@ class Kinopoisk
       imdb: { rating: imdb_rating, votes: imdb_votes } }
   end
 
-  def self.update_ratings(c)
-    puts "\tUpdating rating #{c.kinopoisk_id}..."
-    result = Kinopoisk.get_ratings(c.kinopoisk_id, c.imdb_id) rescue nil
+  def self.update_ratings(movie)
+    puts "\tUpdating rating #{movie.kinopoisk_id}..."
+    result = Kinopoisk.get_ratings(movie.kinopoisk_id, movie.imdb_id) rescue nil
 
     if result.nil?
-      puts "\t\t An error occured for #{c.kinopoisk_id}..."
+      puts "\t\t An error occured for #{movie.kinopoisk_id}..."
     else
       r = nil
-      if Rating.exists?(movie_id: c.movie_id)
+      if Rating.exists?(movie_id: movie.movie_id)
         puts "\t\t Updating a record..."
-        r = Rating.where(movie_id: c.movie_id).first
+        r = Rating.where(movie_id: movie.movie_id).first
       else
         puts "\t\t Creating a record..."
-        r = Rating.new(movie_id: c.movie_id)
+        r = Rating.new(movie_id: movie.movie_id)
       end
 
       unless result[:kinopoisk][:rating].nil?
@@ -88,7 +88,7 @@ class Kinopoisk
     end
   end
 
-  def self.poster_url(c)
-    c.kinopoisk_id.nil? ? '' : "http://st.kp.yandex.net/images/film_iphone/iphone360_#{c.kinopoisk_id}.jpg"
+  def self.poster_url(movie)
+    movie.kinopoisk_id.nil? ? '' : "http://st.kp.yandex.net/images/film_iphone/iphone360_#{c.kinopoisk_id}.jpg"
   end
 end
