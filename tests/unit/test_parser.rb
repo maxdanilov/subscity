@@ -66,14 +66,29 @@ class TestKassaParser < Minitest::Test
   end
 
   def test_screening_exists
-    data = get_fixture('sessiondetails_34311975.json')
+    data = get_fixture('sessiontickets_34311975.json')
     result = @cls.screening_exists?(data)
     assert_equal true, result
   end
 
   def test_screening_exists_empty
     result = @cls.screening_exists?('{}')
+    assert_equal true, result
+  end
+
+  def test_screening_exists_not_parseable
+    result = @cls.screening_exists?('this is not a json')
     assert_equal false, result
+  end
+
+  def test_screening_exists_unspecified_error
+    result = @cls.screening_exists?('{"code":"UnspecifiedError"}')
+    assert_equal false, result
+  end
+
+  def test_screening_exists_no_tickets
+    result = @cls.screening_exists?('{"code":"ReservationDenied"}')
+    assert_equal true, result
   end
 
   def test_parse_prices

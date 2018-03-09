@@ -9,8 +9,8 @@ module FetcherBase
     # since we can have a gzipped response:
     data = Zlib::GzipReader.new(StringIO.new(data)).read if res.content_encoding == ['gzip']
     data
-  rescue
-    nil
+  rescue => e
+    e.io.readlines.join
   end
 
   def fetch_data_post(url, params, headers = nil)

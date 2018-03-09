@@ -158,7 +158,7 @@ class KassaParser
 
   def self.screening_exists?(data)
     entity = JSON.parse(data) rescue nil
-    entity && !entity['creation'].nil?
+    !entity.nil? && entity['code'] != 'UnspecifiedError'
   end
 
   def self.screening_has_subs?(data)

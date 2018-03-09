@@ -67,7 +67,7 @@ class Screening < ActiveRecord::Base
   end
 
   def exists?
-    KassaParser.screening_exists?(session_data)
+    KassaParser.screening_exists?(session_tickets_data)
   end
 
   def actual_title
