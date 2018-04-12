@@ -101,14 +101,8 @@ html
 													= link_to "#{show_date(today + x.day)}", url(:dates, :index, format_date_url(today + x.days))
 							li.big-font
 								div.big-font.share-top
-									table
-										tr
-											td.big-font.share-top
-												span.fa.fa-share-alt.navbar-icon
-												span.share-text-top
-													| Поделиться:
-											td
-												= partial 'partials/share', :locals => { :link => "#{'//' + request.host}" }
+									a href='https://play.google.com/store/apps/details?id=com.markus.subscity&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'
+										img height='64px' alt='Доступно в Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/ru_badge_web_generic.png'
 
 						ul.nav.navbar-nav.navbar-right
 							li.big-font.hidden-xs.rss-icon
