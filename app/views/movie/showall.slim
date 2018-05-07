@@ -20,4 +20,4 @@ h1.text-center.capitalize.like-navbar
 	span.movie-plates id="movie-plates"
 		- movies.each do |movie|
 			- rating = ratings.detect { |r| r.movie_id == movie.movie_id}
-			= partial 'partials/movie_plate', locals: { movie: movie, ratings: rating, next_screenings: next_screenings, screening_counts: screening_counts }
+			= partial 'partials/movie_plate', locals: { movie: movie, ratings: rating, next_screenings: next_screenings, screening_counts: screening_counts, new_movies: new_movies }
