@@ -14,7 +14,7 @@ class Kinopoisk
   end
 
   def self.get_imdb_rating(imdb_id)
-    url = "http://www.imdb.com/title/tt#{imdb_id.to_s.rjust(8, '0')}/"
+    url = "https://www.imdb.com/title/tt#{imdb_id.to_s.rjust(8, '0')}/"
     error = false
     rating, votes = nil
     begin
