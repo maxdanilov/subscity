@@ -24,8 +24,7 @@ table.table.table-condensed.table-curved.table-striped.table-bordered
 			td
 				div
 					span.fa.fa-map-marker.fa-lg.cinema-icon style="color:rgba( 0, 0, 0, 0);"
-					| &nbsp;
-					| м.
+					| &nbsp;м.&nbsp;
 					= cinema.metro
 	- unless cinema.url.to_s.empty?
 		tr
@@ -49,7 +48,7 @@ table.table.table-condensed.table-curved.table-striped.table-bordered
 			 td
 			 	div
 			 		span.fa.fa-ticket.fa-lg.cinema-icon
-			 		|  Билеты:
+			 		|  Билеты:&nbsp;
 			 		= format_price_range(price_min, price_max)
 			 		|
 			 		span.fa.fa-rub.price-rub-sign
