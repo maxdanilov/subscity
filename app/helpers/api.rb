@@ -13,6 +13,8 @@ class Api
   end
 
   def self.parse_movie(json_data, language = 'ru')
+    return nil if json_data.empty?
+
     movie = OpenStruct.new
     movie.title = json_data['title'][language]
     movie.title_original = json_data['title']['en']
@@ -69,12 +71,14 @@ class Api
 
   def self.get_movie(city, id)
     url = "#{base_url}/#{city}/movies/#{id}"
+    puts "Fetching data from #{url}"
     data = fetch_data(url)
     parse_movie(parse_json(data))
   end
 
   def self.get_cinemas(city)
     url = "#{base_url}/#{city}/cinemas"
+    puts "Fetching data from #{url}"
     data = fetch_data(url)
     parse_cinemas(parse_json(data))
   end
