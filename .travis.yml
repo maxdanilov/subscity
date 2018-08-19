@@ -30,8 +30,8 @@ script:
   - docker-compose up -d
   - until nc -z 127.0.0.1 3306; do sleep 3; echo "Waiting for DB to come up..."; done
   - docker exec -it subscity-app /bin/bash -c "cd /subscity && ./test"
-  - docker exec -it subscity-app /bin/bash -c "cd /subscity && rake ar:schema:load && padrino run db/seed_cities.rb"
-  - docker exec -it subscity-app /bin/bash -c "cd /subscity/tasks && rake clear_cache"
+  - docker exec -it subscity-app /bin/bash -c "cd /subscity && bundle exec rake ar:schema:load && padrino run db/seed_cities.rb"
+  - docker exec -it subscity-app /bin/bash -c "cd /subscity/tasks && bundle exec rake clear_cache"
 
   - curl -sI 'http://local.host:3000' | grep -q 'https://msk.local.host/'
   - curl -sL 'http://msk.local.host:3000' | grep -q 'vk.com/subscity_msk'
