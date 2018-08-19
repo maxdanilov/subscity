@@ -82,4 +82,10 @@ class Api
     data = fetch_data(url)
     parse_cinemas(parse_json(data))
   end
+
+  def self.authenticate(city = 'msk')
+    url = "#{base_url}/#{city}/secret"
+    data = fetch_data(url, "Authorization" => "YYYYmFja2VuZCw4MjMzODZlMC1hNjEyLTQyMWMtYjUxNS0xZDA3ZTkyZGQ5Yzk=")
+    parse_json(data)['result'] != 'not allowed'
+  end
 end

@@ -23,8 +23,13 @@ Subscity::App.controllers :movies2 do
         end
       end
     when :txt
-      auth_allow_for_role :admin
-      render 'movie/show.text', locals: { city: city, movie: movie, ratings: ratings }
+      data = Api.authenticate()
+      puts data
+      # auth_allow_for_role :admin
+      id = params[:id].to_i
+      city = Api.get_city(request.subdomains.first)
+      movie = Api.get_movie(city.domain, id)
+      render 'movie/show.text', locals: { city: city, movie: movie, ratings: nil }
     else
       render 'errors/404', layout: :layout
     end
