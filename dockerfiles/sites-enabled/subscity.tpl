@@ -39,9 +39,13 @@ server {
 
     root    /usr/share/nginx/html/subscity/;
 
-    error_page  502 /maintenance.html;
+    error_page 502 /maintenance.html;
     location = /maintenance.html {
         internal;
+    }
+
+    location = /policy/android {
+        rewrite /(.*) https://vittt2008.github.io/subscity/privacy_policy;
     }
 
     location /robots.txt {
