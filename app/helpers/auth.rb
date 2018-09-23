@@ -33,6 +33,7 @@ end
 
 def admin?
   return true if role? :admin
+
   false
 end
 
@@ -49,6 +50,7 @@ end
 
 def role?(role = :any)
   return false unless authenticated?
+
   role == :any || role.nil? || role == current_role.to_sym
 end
 

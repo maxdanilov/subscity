@@ -13,12 +13,14 @@ class KassaParser
   def self.parse_cinema_sessions(data, cinema_id)
     results = []
     return results unless data
+
     entity = JSON.parse(data) rescue nil
     return results if !entity || !entity['creations']
 
     entity['creations'].each do |movie|
       (movie['sessions'] || []).each do |screening|
         next unless (screening['formats'] || []).include? HAS_SUBS_TYPE
+
         results << { session: screening['id'],
                      time: parse_date_time(screening['startDateTime']),
                      cinema: cinema_id,
@@ -32,6 +34,7 @@ class KassaParser
   def self.parse_movie_sessions(data, movie_id)
     results = []
     return results unless data
+
     entity = JSON.parse(data) rescue nil
     return results if !entity || !entity['buckets']
 
@@ -39,6 +42,7 @@ class KassaParser
       cinemas['places'].each do |cinema|
         cinema['sessions'].each do |screening|
           next unless (screening['formats'] || []).include? HAS_SUBS_TYPE
+
           results << { session: screening['id'],
                        time: parse_date_time(screening['startDateTime']),
                        cinema: cinema['id'],

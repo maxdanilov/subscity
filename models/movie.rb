@@ -26,6 +26,7 @@ class Movie < ActiveRecord::Base
 
   def valid_genre?
     return true if genres.nil?
+
     non_valid_genres = %w[опера балет фильмы-спектакли оперетты фильм-спектакль]
     !(non_valid_genres.any? { |w| genres.include? w })
   end
@@ -37,11 +38,13 @@ class Movie < ActiveRecord::Base
   def russian?
     return true if %w[Россия СССР].include? country
     return true if %w[Russian русский].include? languages
+
     false
   end
 
   def old?
     return true if year.to_i != 0 && year.to_i < 1980
+
     false
   end
 
@@ -127,21 +130,25 @@ class Movie < ActiveRecord::Base
 
   def trailer_original
     return nil if trailer.nil?
+
     trailer.split('*')[0]
   end
 
   def trailer_russian
     return nil if trailer.nil?
+
     trailer.split('*')[1]
   end
 
   def poster_url(timestamped = true)
     return nil unless poster_exists?
+
     "#{full_domain_name('msk')}#{poster_relative_url(timestamped)}"
   end
 
   def poster_relative_url(timestamped = true)
     return nil unless poster_exists?
+
     postfix = timestamped ? "?#{timestamp_poster}" : ''
     "/images/posters/#{id}.jpg#{postfix}"
   end
@@ -160,8 +167,10 @@ class Movie < ActiveRecord::Base
 
   def thumbnail_poster
     return unless poster_exists?
+
     img = Magick::Image.read(poster_filename)[0] rescue nil
     return if img.nil?
+
     max_width = 288
     ratio = img.rows * 1.0 / img.columns
     img = img.thumbnail(max_width, max_width * ratio)
@@ -171,6 +180,7 @@ class Movie < ActiveRecord::Base
   def download_poster(url, force_rewrite = false)
     return if url.to_s.empty?
     return unless !poster_exists? || force_rewrite
+
     open(url) do |f|
       File.open(poster_filename, 'wb') do |file|
         file.puts f.read

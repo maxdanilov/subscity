@@ -26,6 +26,7 @@ Subscity::App.controllers :movies do
         params.each do |k, v|
           next if k == 'id'
           next unless m.has_attribute? k
+
           v.gsub!(/\D/, '') if Movie.columns_hash[k].type == :integer
           v = nil if v.empty? && (%i[text string].include? Movie.columns_hash[k].type)
           m.update_attribute(k, v)
@@ -60,6 +61,7 @@ Subscity::App.controllers :movies do
         screenings_all.each do |s|
           movie = movies.find { |m| m.movie_id == s.movie_id }
           next if movie.nil?
+
           screening_counts[movie] += 1
           next_screenings[movie] = s unless next_screenings.key? movie
         end
@@ -89,6 +91,7 @@ Subscity::App.controllers :movies do
         screenings_all.each do |s|
           movie = movies.find { |m| m.movie_id == s.movie_id } rescue nil
           next if movie.nil?
+
           screening_counts[movie] += 1
           next_screenings[movie] = s unless next_screenings.key? movie
         end

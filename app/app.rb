@@ -48,6 +48,7 @@ module Subscity
         screenings_all.each do |s|
           movie = movies.find { |m| m.movie_id == s.movie_id }
           next if movie.nil?
+
           screening_counts[movie] += 1
           next_screenings[movie] = s unless next_screenings.key? movie
         end

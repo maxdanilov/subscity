@@ -20,6 +20,7 @@ Subscity::App.controllers :dates do
     cache(request.cache_key, expires: CACHE_TTL_API) do
       date = parse_date(params[:date])
       return '[]' unless date
+
       city = City.get_by_domain(request.subdomains.first)
       screenings = Screening.active_all.on_date(date).in_city(city.city_id).order(:date_time)
       movies = city.movies.to_a

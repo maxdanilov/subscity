@@ -130,6 +130,7 @@ task :update_screenings_movie, [:id] => :environment do |task, args|
           c = Screening.new(movie_id: m.movie_id, cinema_id: s[:cinema], date_time: s[:time],
                             screening_id: s[:session], price_min: s[:price], price_max: s[:price])
           next unless c.valid?
+
           if !c.movie.nil? && c.movie.fetch_mode == FETCH_MODE[:movie][:subs] && !c.subs?
             puts "\tScreening not saved since it does not have subs and movie fetch mode requires them: ".red
             puts c
@@ -155,6 +156,7 @@ task cleanup_movies: :environment do |task|
   count = 0
   Movie.where('kinopoisk_id IS NULL AND imdb_id IS NULL AND description IS NULL').each do |m|
     next if m.screenings.count.positive?
+
     puts "removing [#{m.id}] #{m.title} (poster: #{m.poster_exists?})"
     File.delete(m.poster_filename) if m.poster_exists?
     m.destroy
@@ -251,6 +253,7 @@ task update_movies: :environment do |task|
       page_count += 1
 
       break if items_count >= total_count
+
       sleep rand(1..1.5)
     end
   end
@@ -354,6 +357,7 @@ task update_cinemas: :environment do |task|
       page_count += 1
 
       break if items_count >= total_count
+
       sleep rand(1.0..2.0)
     end
   end
@@ -371,6 +375,7 @@ task update_movie_ratings: :environment do |task|
 
   movies.each_with_index do |m, index|
     next if m.kinopoisk_id.nil? && m.imdb_id.nil?
+
     puts "\t[#{index + 1}/#{movies.count}] Updating rating for [#{m.movie_id}][#{m.title}]...".yellow
 
     Kinopoisk.update_ratings(m)
@@ -531,6 +536,7 @@ task download_posters_all: :environment do |task|
   Movie.all.each do |m|
     next if m.poster.nil?
     next if m.poster_exists?
+
     puts "#{m.title} #{m.poster}"
     m.download_poster(m.poster)
   end
@@ -544,6 +550,7 @@ task download_posters: :environment do |task|
     c.movies.to_a.each do |m|
       next if m.poster.nil?
       next if m.poster_exists?
+
       puts "#{m.title} #{m.poster}"
       m.download_poster(m.poster)
     end

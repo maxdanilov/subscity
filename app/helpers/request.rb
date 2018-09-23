@@ -6,6 +6,7 @@ module Sinatra
       @env['rack.env.subdomains'] ||= lambda {
         # check if the current host is an IP address, if so return an empty array
         return [] if host.nil? || /\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/.match(host)
+
         host.split('.')[0...(1 - tld_len - 2)] # pull everything except the TLD
       }.call
     end
@@ -24,6 +25,7 @@ module Sinatra
 
     def subdomain_valid?
       return false if subdomains.size != 1
+
       subdomain_exits?(subdomains.first)
     end
 

@@ -31,6 +31,7 @@ def show_date(date, with_day_of_week = true, capital = false)
   date = date.to_time
   months = %w[января февраля марта апреля мая июня июля августа сентября октября ноября декабря]
   return date.day.to_s + ' ' + months[date.month - 1] if with_day_of_week == false
+
   val = weekdays[date.wday - 1] + ', ' + date.day.to_s + ' ' + months[date.month - 1]
   val = val.mb_chars.capitalize.to_s if capital
   val

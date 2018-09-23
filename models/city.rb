@@ -22,6 +22,7 @@ class City < ActiveRecord::Base
       cinema = @cinemas_all.find { |c| c.cinema_id == s.cinema_id }
       movie = @movies_all.find { |c| c.movie_id == s.movie_id }
       next if cinema.nil? || movie.nil? || cinema.city_id != city_id
+
       @r[cinema] ||= {}
       @r[cinema][movie] ||= 0
       @r[cinema][movie] += 1
