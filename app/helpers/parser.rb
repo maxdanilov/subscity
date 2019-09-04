@@ -7,7 +7,7 @@ class KassaParser
 
   HAS_SUBS = 'языке оригинала'.freeze
   HAS_SUBS_TYPE = 'russiansubtitles'.freeze
-  NOT_FOUND_SCREENING = /Сеанс не найден/
+  NOT_FOUND_SCREENING = /Сеанс не найден/.freeze
   TITLE_DELIMITER = ' на языке оригинала'.freeze
 
   def self.parse_cinema_sessions(data, cinema_id)

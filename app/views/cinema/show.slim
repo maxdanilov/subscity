@@ -19,21 +19,21 @@ table.table.table-condensed.table-curved.table-striped.table-bordered
 						a.underdashed href="http://maps.google.com/?q=#{cinema.city.name}, кинотеатр #{cinema.name}" target="_blank"
 							| карта
 						| ]
-	- unless cinema.metro.to_s.empty?
+	- unless cinema.metro.to_s.strip.empty?
 		tr
 			td
 				div
 					span.fa.fa-map-marker.fa-lg.cinema-icon style="color:rgba( 0, 0, 0, 0);"
 					| &nbsp;м.&nbsp;
 					= cinema.metro
-	- unless cinema.url.to_s.empty?
+	- unless cinema.url.to_s.strip.empty?
 		tr
 			td
 				div
 					span.fa.fa-link.fa-lg.cinema-icon
 					| &nbsp;
 					= link_to cinema.url.gsub("http://", "").split("/").first.to_s, cinema.url, :class => :underdashed
-	- unless cinema.phone.to_s.empty?
+	- unless cinema.phone.to_s.strip.empty?
 		tr
 			 td
 			 	div
