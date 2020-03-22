@@ -24,7 +24,7 @@ task :environment do
   ROOT_PATH = '../'.freeze
   DIRS = [ROOT_PATH + 'app/helpers', ROOT_PATH + 'models'].freeze
   DIRS.each do |dir|
-    Dir[File.join(File.dirname(__FILE__), dir, '*.rb')].each { |file| require file rescue nil }
+    Dir[File.join(File.dirname(__FILE__), dir, '*.rb')].sort.each { |file| require file rescue nil }
   end
 
   require ROOT_PATH + 'app/settings' rescue nil

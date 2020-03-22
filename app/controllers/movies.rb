@@ -163,7 +163,6 @@ Subscity::App.controllers :movies do
           }
         end
       when :txt
-        auth_allow_for_role :admin
         city = City.get_by_domain(request.subdomains.first)
         movie = Movie.find(params[:id]) rescue nil
         ratings = Rating.where(movie_id: movie.movie_id).first rescue nil
