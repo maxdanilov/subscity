@@ -82,8 +82,8 @@ class KassaFetcher
   end
 
   def self.url_for_movie(movie_id)
-    # https://kassa.rambler.ru/movie/45849
-    "#{DOMAIN_DESKTOP}movie/#{movie_id}"
+    # https://kassa.rambler.ru/msk/movie/45849
+    "#{DOMAIN_DESKTOP}msk/movie/#{movie_id}"
   end
 
   def self.url_for_sessions(movie_id, date = nil, _place_id, place_name)
