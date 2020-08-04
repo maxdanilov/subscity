@@ -21,7 +21,7 @@ env:
 before_script:
   - sudo service mysql stop
   - sudo rm -rf /var/lib/mysql
-  - gem install rubocop
+  - gem install rubocop -v 0.80.1
 
 script:
   - rubocop
