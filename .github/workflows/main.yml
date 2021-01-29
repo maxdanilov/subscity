@@ -53,7 +53,7 @@ jobs:
         run: |
           docker pull ${{ env.IMAGE_BASE }} || echo "couldn't pull docker cache for master"
           docker pull ${{ env.IMAGE }} || echo "couldn't pull docker cache for branch"
-          docker tag ${{ env.IMAGE }} subscity || "couldn't retag"
+          docker tag ${{ env.IMAGE }} subscity || echo "couldn't retag"
 
       - name: Build
         run: |
