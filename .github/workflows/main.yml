@@ -58,6 +58,7 @@ jobs:
       - name: Build
         run: |
           ./scripts/build.sh --cache-from ${{ env.IMAGE }}
+          docker tag subscity ${{ env.IMAGE }} || echo "couldn't retag"
 
       - name: Cleanup pre-existing MySQL data dir
         run: |
