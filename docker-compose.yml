@@ -38,8 +38,8 @@ services:
     volumes:
       - /var/lib/mysql:/var/lib/mysql
   subscity:
-    build:
-      context: .
+    # build:
+    #   context: .
     image: "${IMAGE:-subscity}"
     container_name: subscity-app
     restart: always

@@ -6,3 +6,4 @@ env/prod*
 public/google*html
 dockerfiles/certs/production
 dockerfiles/certs/production/
+.idea/*
