@@ -1,7 +1,7 @@
 SubsCity
 ========
 
-[![Build Status](https://travis-ci.org/maxdanilov/subscity.svg?branch=master)](https://travis-ci.org/maxdanilov/subscity)
+![Build Status](https://github.com/maxdanilov/subscity/workflows/Build,%20Test%20and%20Push%20Image/badge.svg)
 
 Self-updating online schedule of subtitled screenings in Russian cinemas.
 
