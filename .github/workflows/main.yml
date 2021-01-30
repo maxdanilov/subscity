@@ -97,8 +97,6 @@ jobs:
 
       - name: Check redirects (via nginx)
         run: |
-          docker ps
-          docker logs subscity-nginx
           curl -skIL 'http://local.host' | grep -q 'https://msk.local.host/'
           curl -sI 'http://msk.local.host/aaa?b=1' | grep -q 'https://msk.local.host/aaa?b=1'
 
