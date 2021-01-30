@@ -31,4 +31,4 @@ Security/Open:
 Naming/MemoizedInstanceVariableName:
   Enabled: false
 AllCops:
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 2.7

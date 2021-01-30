@@ -7,7 +7,7 @@ COPY public/javascripts/default.js ./
 RUN lessc --clean-css design.less design.css
 RUN uglifyjs default.js --compress --mangle --output default.min.js
 
-FROM ruby:2.3-slim-jessie AS base
+FROM ruby:2.7-slim-jessie AS base
 RUN apt-get update && apt-get install -y libmysqlclient-dev libmagickwand-dev imagemagick build-essential \
     libsqlite3-dev cron nano git wget mysql-client mutt
 
