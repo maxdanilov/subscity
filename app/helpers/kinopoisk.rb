@@ -20,9 +20,11 @@ class Kinopoisk
     begin
       # for some reason, open's :read_timeout won't work:
       Timeout.timeout(5) do
-        doc = Nokogiri::XML.parse(open(url))
-        rating = doc.at('div.imdbRating > div.ratingValue > strong > span').inner_text.to_f rescue nil
-        votes = doc.at('div.imdbRating > a > span').inner_text.gsub(/[^0-9]/, '').to_i rescue nil
+        doc = URI.parse(url).read
+        regex = /aggregateRating":.+ratingCount":(\d+).+ratingValue":(.+?)}/
+        votes, rating = doc.match(regex).captures
+        votes = votes.to_i rescue nil
+        rating = rating.to_f rescue nil
       end
     rescue
       rating, votes = nil
