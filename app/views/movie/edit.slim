@@ -139,7 +139,7 @@ form method="post"
 			tr.movie-edit
 				td.col-xs-3.text-right
 					- if movie.imdb_id.to_i != 0
-						= link_to "http://www.imdb.com/title/tt#{movie.imdb_id.to_s.rjust(8, "0")}/", :class => "underdashed", :target => "_blank"
+						= link_to "http://www.imdb.com/title/tt#{movie.imdb_id.to_s.rjust(7, "0")}/", :class => "underdashed", :target => "_blank"
 							| IMDb
 					- else
 						| IMDb

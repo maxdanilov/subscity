@@ -4,7 +4,7 @@ table style="display: inline-table;" class = ("table-curved rating " + ("mobile-
 	tr
 		td.rating-site colspan="2" style="border:none !important;"
 			- if type == :imdb
-				- url = "http://www.imdb.com/title/tt#{movie.imdb_id.to_s.rjust(8, "0")}/"
+				- url = "http://www.imdb.com/title/tt#{movie.imdb_id.to_s.rjust(7, "0")}/"
 				- title = "IMDb"
 			- elsif type == :kinopoisk
 				- url = "http://www.kinopoisk.ru/film/#{movie.kinopoisk_id}/"
